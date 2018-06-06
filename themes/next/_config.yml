@@ -141,7 +141,7 @@ links:
   # Title: http://example.com/
   Callmesoul: http://callmesoul.cn
   JsTips: https://www.jstips.co/
-  Personal: http://dir.mydearest.cn/motion/
+  Personal Site: http://dir.mydearest.cn/motion/
   
 # Sidebar Avatar
 # in theme directory(source/images): /images/avatar.jpg
@@ -174,8 +174,8 @@ sidebar:
   #  - always  expand for all pages automatically
   #  - hide    expand only when click on the sidebar toggle icon.
   #  - remove  Totally remove sidebar including sidebar toggle.
-  display: post
-  # display: always
+  # display: post
+  display: always
   # display: hide
   # display: remove
 
@@ -206,7 +206,7 @@ save_scroll: false
 # Automatically excerpt description in homepage as preamble text.
 excerpt_description: true
 
-# Automatically Excerpt. Not recommend.
+# Automatically Excerpt. Not recommend. use ...
 # Please use <!-- more --> in the post to control excerpt accurately.
 auto_excerpt:
   enable: false

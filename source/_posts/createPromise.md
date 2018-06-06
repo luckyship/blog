@@ -118,7 +118,6 @@ function Promise(fn) {
   fn(resolve);
 }
 ```
-
 一个简单的实例写好了，然后，来用一下，看看 👀 结果如何
 
 ```javascript
@@ -129,9 +128,8 @@ const p = new Promise(function(resolve){
 p.then(function(value){
   console.log(value);
 });
+
 ```
-
-
 {% note info %}
 
 执行结果是：`callback is not a function`

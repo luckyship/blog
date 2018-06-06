@@ -76,6 +76,9 @@
 :active {
     cursor: url("http://p33v4b0bc.bkt.clouddn.com/miku2.png"),auto!important
 }
+a:hover {
+    cursor: url("http://p33v4b0bc.bkt.clouddn.com/miku2.png"),auto!important
+}
 </style>
 </head>
 
@@ -206,6 +209,17 @@ document.addEventListener('visibilitychange', function () {
         }, 2000);
     }
 });
+
+// 存活时间
+var aliveList=document.getElementsByClassName("alive")
+setInterval(function() { 
+var time = new Date(); 
+// 程序计时的月从0开始取值后+1 
+//根据自己博客的创建时间更改数值 
+var t = "博客存活了"+Math.floor((+new Date - 1527868800000) / (1000 * 60 * 60 * 24)) + "天 " + time.getHours() + "小时" 
++ time.getMinutes() + "分" + time.getSeconds() + "秒"; 
+aliveList[0].innerHTML = t; 
+}, 1000); 
 </script>
   <script> $(function(){ $('#loader').css('display','none');});</script>
 <style>

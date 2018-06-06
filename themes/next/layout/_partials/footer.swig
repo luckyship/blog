@@ -7,6 +7,9 @@
   </span>
   <span class="author" itemprop="copyrightHolder">{{ config.author }}</span>
 </div>
+<div>
+ <span class="alive"></span>
+ </div>
 <div class="powered-by">
   <i class="fa fa-users fa-fw"></i>
   <span id="busuanzi_container_site_uv">
