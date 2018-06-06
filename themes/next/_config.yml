@@ -35,6 +35,9 @@ canonical: true
 # Change headers hierarchy on site-subtitle (will be main site description) and on all post/pages titles for better SEO-optimization.
 seo: true
 
+# 签名
+signature: 不去做的话永远也做不到。
+
 # If true, will add site-subtitle to index page, added in main hexo config.
 # subtitle: Subtitle
 index_with_subtitle: false
@@ -138,6 +141,7 @@ links:
   # Title: http://example.com/
   Callmesoul: http://callmesoul.cn
   JsTips: https://www.jstips.co/
+  Personal: http://dir.mydearest.cn/motion/
   
 # Sidebar Avatar
 # in theme directory(source/images): /images/avatar.jpg
