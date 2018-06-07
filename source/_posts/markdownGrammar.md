@@ -9,6 +9,9 @@ categories: 工具
 top: 104
 photos:
 ---
+
+{% fi http://p33v4b0bc.bkt.clouddn.com/markdown.png, Markdown, Markdown %}
+
 # 标题1
 ## 标题2
 *斜体*

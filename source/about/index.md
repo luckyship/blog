@@ -1,7 +1,7 @@
 ---
 title: 关于
 type: "about"
-date: 2018-03-25 00:57:32
+date: 2018-06-07 00:57:32
 comments: true
 ---
 
@@ -16,5 +16,5 @@ comments: true
 
 有时候会神经错乱地乱写东西，如果能帮到大家那是最好的，如果没有什么帮助请见谅。<Br/>
 
-欢迎各位小伙伴与我互换友链，详情请戳 上面的 [链接](http://mydearest.cn/links/)页面。
+欢迎各位小伙伴与我互换友链，详情请戳 上面的 [链接](http://mydearest.cn/links/) 页面。
 </div>
