@@ -146,7 +146,7 @@ links:
 # Sidebar Avatar
 # in theme directory(source/images): /images/avatar.jpg
 # in site  directory(source/uploads): /uploads/avatar.jpg
-avatar: https://static.mydearest.cn/img/avatar.jpg
+avatar: https://static.mydearest.cn/blog/images/avatar.jpg
 
 # Table Of Contents in the Sidebar
 toc:
