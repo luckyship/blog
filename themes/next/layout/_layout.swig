@@ -37,7 +37,7 @@
   <link href="//cdn.jsdelivr.net/gh/moezx/cdn@v2.52/css/lib.css" rel="stylesheet" type="text/css">
   <link href="/live2dw/css/perTips.css" rel="stylesheet" type="text/css">
   #}
-<link href="https://cdn.lishaoy.net/css/all-9097fb9015.css" rel="stylesheet" type="text/css">
+<link href="https://static.mydearest.cn/css/all-9097fb9016.css" rel="stylesheet" type="text/css">
 <style>
 // scrollbar滚动条样式优化
 
@@ -220,6 +220,11 @@ var t = "博客存活了"+Math.floor((+new Date - 1527868800000) / (1000 * 60 * 
 + time.getMinutes() + "分" + time.getSeconds() + "秒"; 
 aliveList[0].innerHTML = t; 
 }, 1000); 
+// 统计页面加载时间
+window.onload = function () {
+  var loadTime = window.performance.timing.domContentLoadedEventEnd-window.performance.timing.navigationStart; 
+  console.log('Page load time is '+ loadTime);
+}
 </script>
   <script> $(function(){ $('#loader').css('display','none');});</script>
 <style>
