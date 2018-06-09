@@ -11,7 +11,7 @@ photos:
 ---
 
 {% fi http://p33v4b0bc.bkt.clouddn.com/reactInterview.jpeg , reactInterview, React%}
-
+---
 <!-- more -->
 
 ## React面试问题

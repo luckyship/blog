@@ -16,10 +16,11 @@ photos:
 前端近年的兴起，有大部分是因为 `NodeJS` 的诞生，而 `NodeJS` 是个适用于 **异步IO** 密集型的语言，一些基于 `NodeJS` 的框架，比喻 *KOA2、Adonis* 就有大量的 `async` 和 `await` 语法，`async`的函数的返回值就是 `Promise` 对象，我们可以用 `async` 和 `await` 语法，写出优雅的异步代码，来替换难看且难维护的回调函数。
 
 ## Promise 概念
-
+`Promise`是一种对异步操作的封装，主流的规范是Promise/A+。
+`Promise`可以使得异步代码层次清晰，便于理解，且更加容易维护。
 `Promise`构造函数接受一个函数作为参数，该函数的两个参数分别是resolve和reject。它们是两个函数，由 JavaScript 引擎提供，不用自己部署。
 生成实例时回执信作为参数的函数；<Br/> 
-`resolve`函数的作用是，将Promise对象的状态从“未完成”变为“成功”（即从 pending 变为 resolved），在异步操作成功时调用，并将异步操作的结果，作为参数传递出去；
+`resolve`函数的作用是，将Promise对象的状态从“未完成”变为“成功”（即从 pending 变为 fulfilled），在异步操作成功时调用，并将异步操作的结果，作为参数传递出去；
 `reject`函数的作用是，将Promise对象的状态从“未完成”变为“失败”（即从 pending 变为 rejected），在异步操作失败时调用，并将异步操作报出的错误，作为参数传递出去。
 
 ---
@@ -104,7 +105,7 @@ promise.then(function(value) {
 
 ```javascript
 function Promise(fn) {
-  var callback = null;
+  let callback = null;
   //实现 then 方法 , 先一步一步来，实现传一个参数 -- resolve
   this.then = function(cb) {
     callback = cb;
@@ -136,17 +137,17 @@ p.then(function(value){
 
 {% endnote %}
 
-### 修改 callback 为异步
+### 改进1：延时resolve，修改 callback 为异步
 
 **这里就遇到一个问题： **  
 
-** 发现 `resolve()` 在 `then()` 之前调用，在 `resolve()` 被调用的时候， `callback` 还是 `null` ，我们的代码是同步的，而不是异步的。</br> 如是，想办法解决掉这个问题，就是利用 `setTimeout` , 把 `callback` 加入异步队列** 
+** 目前的Promise有一个bug，假如fn中所包含的是同步代码，则resolve会立即执行，`callback` 还是 `null` ，我们的代码是同步的，而不是异步的。</br> 如是，想办法解决掉这个问题，就是利用 `setTimeout` , 把 `callback` 加入异步队列** 
 
 代码如下 👇
 
 ```javascript
 function Promise(fn) {
-  var callback = null;
+  let callback = null;
   //实现 then 方法 , 先一步一步来，实现传一个参数 -- resolve
   this.then = function(cb) {
     callback = cb;
@@ -157,30 +158,139 @@ function Promise(fn) {
     // 用 setTimeout 把 callback 加入到异步队列，这样就会，先执行 then() 方法
     setTimeout(function(){
       callback(value);
-    },1)
+    },0)
   }
   //执行 function 参数
   fn(resolve);
 }
 ```
 
-然后，再来用一下,看看 👀 结果如何
+### 改进2：注册多个回调函数，并实现then的链式调用
 
 ```javascript
-const p = new Promise(function(resolve){
-  resolve(66);
-});
+function Promise(fn) {
+  let value = null
+  let callbackList = [];
+  this.then = function(cb) {
+    callbackList.push(cb);
+    // 实现链式调用
+    return this
+  };
 
-p.then(function(value){
-  console.log(value);
-});
+  function resolve(newValue) {
+    value = newValue
+    setTimeout(function(){
+       // 遍历callbackList数组依次执行
+       callbackList.forEach((callback)=>{
+         callback(value)
+       })
+    },0)
+  }
+  fn(resolve);
+}
+```
+### 改进3：引入状态
+
+```javascript
+function Promise(fn) {
+  let state='pending'
+  let value = null
+  let callbackList = [];
+  this.then = function(cb) {
+    if(state=='pending'){
+      // pending加入队列
+      callbackList.push(cb);
+      return this
+    }
+    if(state=='fulfilled'){
+      // fulfilled立即执行
+      cb(value)
+      return this
+    }
+  };
+
+  function resolve(newValue) {
+    value = newValue
+    setTimeout(function(){
+       callbackList.forEach((callback)=>{
+         callback(value)
+       })
+    },0)
+  }
+  fn(resolve);
+}
 ```
 
-{% note info %}
-
-执行结果是：`66`
-
-{% endnote %}
+**手动实现一个Promise：**
+```javascript
+class Promise(){
+  construtor(fn){
+       // 执行队列
+       this._wathcList=[]
+       // 成功
+       this._success_res=null
+       // 失败
+       this._error_res=null
+       this._status="success"
+       fn((...args))=>{
+          // 保存成功数据
+          this._success_res=args
+          this._status='success'
+          // 若为异步则回头执行then成功方法
+          this._watchList.forEach(element => {
+              element.fn1(...args);
+          });
+       },(...args)=>{
+          // 保存失败数据
+          this._error_res=args
+          this._status='error'
+          // 若为异步则回头执行then成功方法
+          this._watchList.forEach(element => {
+              element.fn2(...args);
+          });
+       }
+  }
+  // then 函数
+  then(fn1, fn2) {
+      if (this._status === "success") {
+          fn1(...this._success_res);
+      } else if (this._status === "error") {
+          fn2(...this._error_res);
+      } else {
+          this._watchList.push({
+              fn1,
+              fn2
+          })
+      }
+  }
+}
+```
+**实现Promise.all**
+```javascript
+Promise1.all = function(arr) {
+    // 存放结果集
+    let result = [];
+    return Promise1(function(resolve, reject) {
+        let i = 0;
+        // 进行迭代执行
+        function next() {
+            arr[i].then(function(res) {
+                // 存放每个方法的返回值
+                result.push(res);
+                i++;
+                // 若全部执行完
+                if (i === result.length) {
+                    // 执行then回调
+                    resolve(result);
+                } else {
+                    // 继续迭代
+                    next();
+                }
+            }, reject)
+        }
+    })
+}
+```
 
 ## Promise使用注意点
 1. 一般来说，调用`resolve`或`reject`以后，`Promise`的使命就完成了，后继操作应该放到`then`方法里面，而不应该直接写在`resolve`或`reject`的后面。所以，最好在它们前面加上`return`语句，这样就不会有意外。
