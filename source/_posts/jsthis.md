@@ -9,11 +9,11 @@ categories: JS
 
 ## this 的指向
 
-`this` 是 js 中定义的关键字，它自动定义于每一个函数域内。在实际应用中，`this`的指向大致可以分为以下四种情况。
+`this` 是 js 中定义的关键字， 它的指向并不是在函数定义的时候确定的，而是在调用的时候确定的。换句话说，函数的调用方式决定了 this 指向。在实际应用中，`this`的指向大致可以分为以下四种情况。
 
 ---
 <!-- more -->
-### 作为普通函数调用
+### 作为普通函数调用(直接调用)：函数名()
 当函数作为一个普通函数被调用，`this`指向全局对象。在浏览器里，全局对象就是 window。
 ```javascript
 window.name = 'cosyer';
@@ -22,7 +22,7 @@ function getName(){
 }
 getName();                   // cosyer
 ```
-可以看出，此时`this`指向了全局对象 window。
+可以看出，此时`this`指向了全局对象 window。(NodeJS的全部对象是global)
 在ECMAScript5的严格模式下，这种情况`this`已经被规定不会指向全局对象了，而是undefined。
 ```javascript
 'use strict';
@@ -83,7 +83,7 @@ console.log(obj.name);      // chenyu
 ```
 如果该函数不用`new`调用，当作普通函数执行，那么`this`依然指向全局对象。
 
-### call() 或 apply() 调用
+### call() 或 apply() 调用 Function.prototype.bind()将当前函数绑定到指定对象绑定返回新函数之后再进行调用
 通过调用函数的 call() 或 apply() 方法可动态的改变`this`的指向。
 ```javascript
 var obj1 = {
@@ -100,13 +100,51 @@ obj1.getName();             // cosyer
 obj1.getName.call(obj2);    // chenyu
 obj1.getName.apply(obj2);   // chenyu
 ```
+**简单的实现bind方法**
+```javascript
+const obj = {};
+
+function test() {
+    console.log(this === obj);
+}
+
+// 自定义的函数，模拟 bind() 对 this 的影响
+function myBind(func, target) {
+    return function() {
+        return func.apply(target, arguments); // 第一个参数为函数运行的this指向
+    };
+}
+
+const testObj = myBind(test, obj);
+test();     // false
+testObj();  // true
+```
+从上面的示例可以看到，首先，通过闭包，保持了 target，即绑定的对象；然后在调用函数的时候，对原函数使用了 apply 方法来指定函数的 this。
+
+不过使用 apply 和 call 的时候仍然需要注意，如果目录函数本身是一个绑定了 this 对象的函数，那 apply 和 call 不会像预期那样执行
+```javascript
+const obj = {};
+
+function test() {
+    console.log(this === obj);
+}
+
+// 绑定到一个新对象，而不是 obj
+const testObj = test.bind({});
+test.apply(obj);    // true
+
+// 期望 this 是 obj，即输出 true
+// 但是因为 testObj 绑定了不是 obj 的对象，所以会输出 false
+testObj.apply(obj); // false
+```
+
 ## 箭头函数 
 {% note info %}
 箭头函数的引入有两个方面的作用：一是更简短的函数书写，二是对`this`的词法解析。
 在箭头函数出现之前，每个新定义的函数都有其自己的`this`值（例如，构造函数的`this`指向了一个新的对象；严格模式下的函数的`this`值为 undefined；如果函数是作为对象的方法被调用的，则其`this`指向了那个调用它的对象）。在面向对象风格的编程中，这会带来很多困扰。
 {% endnote %}
 
-### ES6 的箭头函数 ()=>，指向与一般function定义的函数不同，比较容易绕晕，箭头函数`this`的定义：箭头函数中的`this`是在定义函数的时候绑定，而不是在执行函数的时候绑定。本质来说箭头函数没有自己的`this`，它的`this`是派生而来的。箭头函数会捕获其所在上下文的`this`值，作为自己的`this`值，即指向所在上下文的执行环境(当前定义时的对象)。
+### ES6 的箭头函数 ()=>，指向与一般function定义的函数不同，比较容易绕晕，箭头函数`this`的定义：箭头函数中的`this`是在定义函数的时候绑定，而不是在执行函数的时候绑定。本质来说箭头函数没有自己的`this`，它的`this`是派生而来的。箭头函数会捕获其所在上下文的`this`值，作为自己的`this`值，即指向所在上下文的执行环境(直接外层函数)。
 
 ### 基础语法
 ```javascript
@@ -152,40 +190,3 @@ var foo = new Foo(); // TypeError: Foo is not a constructor
 ```
 ### 箭头函数无法使用yield
 yield 关键字通常不能在箭头函数中使用（除非是嵌套在允许使用的函数内）。因此，箭头函数不能用作生成器。
-
-
-let index = 0;
-let arr = [];
-while (index < 50000) {
-    arr.push(index);
-    index++;
-}
-
-console.time('one');
-for (let i = 0; i < arr.length; i++) {
-
-}
-console.timeEnd('one');
-
-console.time('two');
-for (let i = 0, len = arr.length; i < len; i++) {
-
-}
-console.timeEnd('two');
-
-console.time('three');
-for (let i = 0, item; item = arr[i++];) {
-
-}
-console.timeEnd('three');
-
-console.time('four');
-for (let i of arr) {
-
-}
-console.timeEnd('four');
-console.time('five');
-for (let i in arr) {
-
-}
-console.timeEnd('five');
