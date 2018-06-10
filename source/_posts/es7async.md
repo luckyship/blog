@@ -13,6 +13,7 @@ photos:
 
 Async/Await是一种允许我们像构建没有回调函数的普通函数一样构建Promise的新语法。以往的异步方法无外乎回调函数和`Promise`。但是Async/Await建立于[Promise](https://mydearest.cn/createPromise.html)之上。
 
+---
 <!-- more -->
 
 ## Async/Await语法

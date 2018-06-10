@@ -2,7 +2,7 @@
 title: 从 for 循环入手优化性能
 date: 2018-06-08 20:32:57
 tags:
-  - for
+  - for循环
   - 性能优化
 categories: JS
 ---

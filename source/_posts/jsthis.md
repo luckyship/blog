@@ -2,7 +2,7 @@
 title: JavaScript 中 this 的详解
 date: 2018-06-08 16:58:32
 tags:
-  - this
+  - this指向
   - es6
 categories: JS
 ---
