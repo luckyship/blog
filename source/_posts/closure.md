@@ -14,12 +14,66 @@ photos:
 JavaScript中的函数运行在它们被定义的作用域里，而不是它们被执行的作用域里。
 {% endcenterquote %} 
 
+在JS中函数作为普通对象进行传递
+--- 
+<!-- more -->
 ## 什么是闭包?
 简单来说，闭包是指可以访问另一个函数作用域变量的函数，一般是定义在外层函数中的内层函数。
+
 ## 为什么需要闭包？
-局部变量无法共享和长久的保存，而全局变量可能造成变量污染，所以我们希望有一种机制既可以长久的保存变量又不会造成全局污染。
+使用闭包主要是为了设计私有的变量和方法。闭包的优点可以避免全局变量的污染，缺点是会常驻内存，增大内存的使用
+量，使用不当会造成内存泄漏。
+
 ## 特点
-占用更多内存不容易被释放何时使用？变量既想反复使用，又想避免全局污染如何使用？
 1. 定义外层函数，封装被保护的局部变量。 
 2. 定义内层函数，执行对外部函数变量的操作。 
 3. 外层函数返回内层函数的对象，并且外层函数被调用，结果保存在一个全局的变量中。
+
+## 特性
+1. 函数嵌套函数。
+2. 函数内部可以引用外部的参数和变量。
+3. 参数和变量不会被垃圾回收机制回收。
+
+## 实例
+```javascript
+var add = (function () {
+    var counter = 0;
+    return function () {return counter += 1;}
+})();
+add();
+add();
+add();
+// add()调用过后应当销毁其变量，但其内层函数被返回了，并且还保留着对变量的引用，所以没有销毁还保留在内存当中。
+```
+
+```javascript
+var arr=['one','two','three']
+for(var i =0;i<arr.length;i++){
+setTimeout(function(){
+  console.log(arr[i])
+},i*1000)
+}
+// 打印3次3 执行setTimeout时for循环已经结束此时的i的值为3
+```
+
+```javascript
+var arr=['one','two','three']
+for(var i =0;i<arr.length;i++){
+// 匿名闭包
+(function(index){
+  setTimeout(function(){
+  console.log(arr[index])
+},index*1000)
+})(i)
+}
+```
+
+避免使用过多的闭包，可以用let关键词，每个闭包都绑定了块作用域的变量，这意味着不再需要额外的闭包。
+```javascript
+var arr=['one','two','three']
+for(let i =0;i<arr.length;i++){
+setTimeout(function(){
+  console.log(arr[i])
+},i*1000)
+}
+```
