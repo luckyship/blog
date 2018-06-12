@@ -191,4 +191,4 @@ var foo = new Foo(); // TypeError: Foo is not a constructor
 ### 箭头函数无法使用yield
 yield 关键字通常不能在箭头函数中使用（除非是嵌套在允许使用的函数内）。因此，箭头函数不能用作生成器。
 
-### 箭头函数或者组件上绑定事件的时候this.xxx.bind(this)，这样会生成新函数，推荐constructor里bind()
+### 箭头函数或者组件上绑定事件的时候this.xxx.bind(this)，这样会生成新函数，推荐constructor里bind() garbage collection(垃圾回收机制)

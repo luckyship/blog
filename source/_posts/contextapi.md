@@ -13,6 +13,9 @@ photos:
 
 React 16.3带来了正式版的context API。让我们来看看有哪些改变，在那些地方可以取代redux吧！
 
+--- 
+<!-- more -->
+
 我当前依赖的版本
 ```javascript
 "dependencies": {
