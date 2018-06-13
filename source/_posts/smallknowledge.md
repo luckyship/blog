@@ -35,11 +35,13 @@ element.scrollIntoViewIfNeeded(false);
 ## JS取整
 ```javascript
 ~~2.5 // 2 按位取反 -2^31~2^31-1 -2147483648~2147483647
-0|3.123;//3 或运算
-0|4.3423 ;//4
+0|3.123;// 3 或运算
+4.3|0; // 4
+4.3<<0; // 4
 ```
 
 与Math.floor()的对比
+
 |区别|Math.floor|~~|
 |:---|:---:|---:|
 |NaN|NaN|0|
@@ -50,13 +52,15 @@ element.scrollIntoViewIfNeeded(false);
 |1.2|1.2|1.2|
 |-1.2|-1|-1|
 
-1. ~ 的结果是 int32 的有符号整数，所以肯定不可能是 NaN 和无穷，因此 1、4、5 两者不同。
+1. 位运算：~ 的结果是 int32 的有符号整数，所以肯定不可能是 NaN 和无穷，因此 1、4、5 两者不同。x|0  x<<0
 
 3. Math.floor 向 +∞ 取整。
 
 3. parseInt(string, radix);
 
 parseInt() 函数解析一个字符串参数，并返回一个指定基数的整数 (数学系统的基础)。
+
+parseInt 解析字符串 '-0' 会得到 -0。如果参数是数字 -0，会得到 0。
 
 ```javascript
 parseInt(0.0000000003) // 3
@@ -75,4 +79,54 @@ Object.is(+0,-0) // false
 NaN !== NaN // true
 NaN === NaN // false 
 Object.is(NaN,NaN) // true
+```
+
+## try-catch跳出forEach循环
+forEach遍历不能保证遍历的顺序，以及不能break;一般for循环的性能是forEach的20倍
+```javascript 
+try {
+    [1, 2, 3].forEach(v => {
+        if (v === 2) {
+            throw new Error('my err')
+        }
+    })
+} catch (e) {
+    if (e.message === 'my err') {
+        console.log('breaked') 
+    } else {
+        throw e
+    }
+}
+```
+用some也可以做到
+[1,2,3].some((item)=>{
+  return item === 2 // 如果item等于2就跳出循环
+})
+
+## fetch模拟post进行api测试
+```javascript
+fetch(apiUrl, {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({q: 1})
+}).then(async res => console.log(await res.json()))
+```
+
+## 实现var a = add(2)(3)(4)
+js中console.log一个对象时，会对这个对象进行toString()操作，还有些情况会对对象进行valueOf()操作
+vauleOf优先于toString()被调用
+```javascript
+function add(num){
+    var _add = function(args){
+        num+=args;
+        return arguments.callee; //  return add(num+args);
+    }
+    _add.toString = _add.valueOf = function(){
+        return num;
+    }
+    return _add;
+}
+add(2)(3)(4);// function 9
 ```
