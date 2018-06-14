@@ -9,8 +9,6 @@ categories: 知识
 top: 107
 photos:
 ---
----
-<!-- more -->
 
 ## void 
 void其实是javascript中的一个函数，接受一个参数，返回值永远是undefined
@@ -22,6 +20,10 @@ void (new Date())
 // all will return undefined  
 context == void 666
 ```
+
+---
+<!-- more -->
+
 ## Element.scrollIntoViewIfNeeded
  Element.scrollIntoViewIfNeeded（）方法用来将不在浏览器窗口的可见区域内的元素滚动到浏览器窗口的可见区域。 如果该元素已经在浏览器窗口的可见区域内，则不会发生滚动。
  ```javascript
@@ -129,4 +131,187 @@ function add(num){
     return _add;
 }
 add(2)(3)(4);// function 9
+```
+
+## Date相关
+
+### Date构造函数
+```javascript
+Date.now() === new Date().getTime()
+Date.parse("2018-06-13") === new Date("2018-06-13").getTime()
+// 浏览器之间解析时间不同 safari 解析横杠 - 会出错所以尽量用斜杠 /
+```
+### 当前时间
+```javascript
+let year=new Date().getFullYear();
+let month=new Date().getMonth()+1; // 月份索引从0开始
+let day=new Date().getDate(); // getDay()用于获取星期
+let hour=new Date().getHours();
+let minute=new Date().getMinutes();
+let second=new Date().getSeconds();
+console.log(`${year}-${month}-${day} ${hour}:${minute}:${second}`) // 2018-6-13 21:20:48
+// 不足2位数补0
+console.log([year, month, day].map((item)=>{
+        item = item.toString();
+    return item[1] ? item : "0" + item;
+}).join("-") +" " +[hour, minute, second].map((item)=>{
+        item = item.toString();
+    return item[1] ? item : "0" + item;
+}).join(":"))  // 2018-06-13 21:20:48
+```
+### Date计时
+以博客存活时间为例
+```javascript
+var time = new Date(); 
+var t = "博客存活了"+Math.floor((+new Date - 1527868800000) / (1000 * 60 * 60 * 24)) + "天" + time.getHours() + "小时" 
++ time.getMinutes() + "分" + time.getSeconds() + "秒"; 
+// 博客存活了11天 21小时28分51秒 1527868800000当时的时间转的时间戳
+```
+
+### Date原型扩展方法
+```javascript
+Date.prototype.format = function (format) {
+			var o = {
+					"M+": this.getMonth() + 1,
+					"d+": this.getDate(),
+					"h+": this.getHours(),
+					"m+": this.getMinutes(),
+					"s+": this.getSeconds(),
+					"q+": Math.floor((this.getMonth() + 3) / 3),
+					"S": this.getMilliseconds()
+			};
+			if (/(y+)/.test(format)) {
+					format = format.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+			}
+			for (var k in o) {
+					if (new RegExp("(" + k + ")").test(format)) {
+							format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? o[k] : ("00" + o[k]).substr(("" + o[k]).length));
+					}
+			}
+			return format;
+	};
+
+	Date.prototype.addDays = function (d) {
+			this.setDate(this.getDate() + d);
+	};
+
+	Date.prototype.addWeeks = function (w) {
+			this.addDays(w * 7);
+	};
+
+	Date.prototype.addMonths = function (m) {
+			var d = this.getDate();
+			this.setMonth(this.getMonth() + m);
+			//if (this.getDate() < d)
+			//  this.setDate(0);
+	};
+```
+
+## 页面加载时间
+```javascript
+window.onload = function () {
+  var loadTime = window.performance.timing.domContentLoadedEventEnd-window.performance.timing.navigationStart; 
+  console.log('Page load time is '+ loadTime);
+}
+```
+onload和onready的区别：
+1. 执行时间
+
+　　window.onload必须等到页面内包括图片的所有元素加载完毕后才能执行。 
+
+　　$(document).ready()是DOM结构绘制完毕后就执行，不必等到加载完毕。
+
+2. 编写个数不同
+
+　　window.onload不能同时编写多个，如果有多个window.onload方法，只会执行一个。
+
+　　$(document).ready()可以同时编写多个，并且都可以得到执行。
+
+3. 简化写法
+
+　　window.onload没有简化写法。
+
+　　$(document).ready(function(){})可以简写成$(function(){});
+
+## 常用标签
+```javascript
+<meta charset="utf-8">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+// seo三连
+<meta name="author" name="cosyer">
+<meta name="keywords" name="cosyer">
+<meta name="description" name="cosyer">
+<link rel="stylesheet" href="">
+<script src=""></script>
+```
+
+## 获取url参数
+```javascript
+let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)")
+let r = window.location.search.substr(1).match(reg)
+if (r != null) return decodeURIComponent(r[2]) // encodeURIComponent()
+return null
+```
+
+## String原型方法扩展
+```javascript
+// 连字符转驼峰
+String.prototype.hyphenToHump = function () {
+		return this.replace(/-(\w)/g, function () {
+				return arguments[1].toUpperCase()
+		})
+}
+
+// 驼峰转连字符
+String.prototype.humpToHyphen = function () {
+		return this.replace(/([A-Z])/g, "-$1").toLowerCase()
+}
+```
+
+## 拦截控制台、右键和F12
+```javascript
+	document.onkeydown = function () {
+			var e = window.event || arguments[0];
+			//屏蔽F12
+			if (e.keyCode == 123) {
+					return false;
+					//屏蔽Ctrl+Shift+I
+			} else if ((e.ctrlKey) && (e.shiftKey) && (e.keyCode == 73)) {
+					return false;
+					//屏蔽Shift+F10
+			} else if ((e.shiftKey) && (e.keyCode == 121)) {
+					return false;
+			}
+	};
+	//屏蔽右键单击
+	document.oncontextmenu = function () {
+			return false;
+	};
+```
+
+## 崩溃欺骗
+```javascript
+var OriginTitle = document.title;
+var titleTime;
+document.addEventListener('visibilitychange', function () {
+    if (document.hidden) {
+        $('[rel="icon"]').attr('href', "/img/TEP.ico");
+        document.title = '╭(°A°`)╮ 页面崩溃啦 ~';
+        clearTimeout(titleTime);
+    }
+    else {
+        $('[rel="icon"]').attr('href', "/favicon.ico");
+        document.title = '(ฅ>ω<*ฅ) 噫又好了~' + OriginTitle;
+        titleTime = setTimeout(function () {
+            document.title = OriginTitle;
+        }, 2000);
+    }
+});
+```
+
+## a标签
+```javascript
+	<a href={'mailto:'+props.email}></a>
 ```

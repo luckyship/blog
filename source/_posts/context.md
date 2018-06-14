@@ -10,9 +10,6 @@ top: 107
 photos:
 ---
 
---- 
-<!-- more -->
-
 ## 变量/函数提升
 
 ```javascript
@@ -39,6 +36,10 @@ foo(); // foo2
 JavaScript 引擎并非一行一行地分析和执行程序，而是一段一段地分析执行。插槽slot
 可执行代码的类型：全局代码、函数代码、eval代码。
 JavaScript 引擎创建了执行上下文栈（Execution context stack，ECS）来管理执行上下文
+
+--- 
+<!-- more -->
+
 为了模拟执行上下文栈的行为，让我们定义执行上下文栈是一个数组：
 
 ```javascript
