@@ -143,12 +143,13 @@ Date.parse("2018-06-13") === new Date("2018-06-13").getTime()
 ```
 ### 当前时间
 ```javascript
-let year=new Date().getFullYear();
-let month=new Date().getMonth()+1; // 月份索引从0开始
-let day=new Date().getDate(); // getDay()用于获取星期
-let hour=new Date().getHours();
-let minute=new Date().getMinutes();
-let second=new Date().getSeconds();
+let d = new Date()
+let year=d.getFullYear();
+let month=d.getMonth()+1; // 月份索引从0开始
+let day=d.getDate(); // getDay()用于获取星期
+let hour=d.getHours();
+let minute=d.getMinutes();
+let second=d.getSeconds();
 console.log(`${year}-${month}-${day} ${hour}:${minute}:${second}`) // 2018-6-13 21:20:48
 // 不足2位数补0
 console.log([year, month, day].map((item)=>{
@@ -313,5 +314,33 @@ document.addEventListener('visibilitychange', function () {
 
 ## a标签
 ```javascript
+    // 邮件
 	<a href={'mailto:'+props.email}></a>
+	// 下载只有 Firefox 和 Chrome 支持 download 属性。
+	<a href="/images/myw3schoolimage.jpg" download="w3logo"></a>
+    // QQ
+	<a href="tencent://message/?uin=535509852&Site=-&Menu=yes" target="_blank">QQ:535509852</a>
 ```
+
+## 两数组去重合并
+```javascript
+function filter(a,b){
+	for(let m in a){ 
+	let isExist=false;
+	for(let n in b ){
+	if(b[n]==a[m]){
+	isExist=true;
+	break;
+	}
+	}
+if(!isExist){
+	b.push(a[m]);
+}
+	}
+	return b;
+}
+// filter([1,2,3,4],[2,3])
+// [2, 3, 1, 4]
+```
+
+## css选择器
