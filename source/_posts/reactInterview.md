@@ -17,37 +17,6 @@ photos:
 ## React面试问题
 下面是一个常用的关于 React 的面试问题列表：
 
-* [React 的工作原理](#react-%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86)?
-* [使用 React 有何优点](#%E4%BD%BF%E7%94%A8-react-%E6%9C%89%E4%BD%95%E4%BC%98%E7%82%B9)？
-* [展示组件(Presentational component)和容器组件(Container component)之间有何不同](#%E5%B1%95%E7%A4%BA%E7%BB%84%E4%BB%B6presentational-component%E5%92%8C%E5%AE%B9%E5%99%A8%E7%BB%84%E4%BB%B6container-component%E4%B9%8B%E9%97%B4%E6%9C%89%E4%BD%95%E4%B8%8D%E5%90%8C)？
-* [类组件(Class component)和函数式组件(Functional component)之间有何不同](#%E7%B1%BB%E7%BB%84%E4%BB%B6class-component%E5%92%8C%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BB%84%E4%BB%B6functional-component%E4%B9%8B%E9%97%B4%E6%9C%89%E4%BD%95%E4%B8%8D%E5%90%8C)？
-* [(组件的)状态(state)和属性(props)之间有何不同](#%E7%BB%84%E4%BB%B6%E7%9A%84%E7%8A%B6%E6%80%81state%E5%92%8C%E5%B1%9E%E6%80%A7props%E4%B9%8B%E9%97%B4%E6%9C%89%E4%BD%95%E4%B8%8D%E5%90%8C)？
-* [指出(组件)生命周期方法的不同](#%E6%8C%87%E5%87%BA%E7%BB%84%E4%BB%B6%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E6%96%B9%E6%B3%95%E7%9A%84%E4%B8%8D%E5%90%8C)？
-* [应该在 React 组件的何处发起 Ajax 请求](#%E5%BA%94%E8%AF%A5%E5%9C%A8-react-%E7%BB%84%E4%BB%B6%E7%9A%84%E4%BD%95%E5%A4%84%E5%8F%91%E8%B5%B7-ajax-%E8%AF%B7%E6%B1%82)？
-* [何为受控组件(controlled component)](#%E4%BD%95%E4%B8%BA%E5%8F%97%E6%8E%A7%E7%BB%84%E4%BB%B6controlled-component)？
-* [在 React 中，refs 的作用是什么](#%E5%9C%A8-react-%E4%B8%ADrefs-%E7%9A%84%E4%BD%9C%E7%94%A8%E6%98%AF%E4%BB%80%E4%B9%88)？
-* [何为高阶组件(higher order component)](#%E4%BD%95%E4%B8%BA%E9%AB%98%E9%98%B6%E7%BB%84%E4%BB%B6higher-order-component)？
-* [使用箭头函数(arrow functions)的优点是什么](#%E4%BD%BF%E7%94%A8%E7%AE%AD%E5%A4%B4%E5%87%BD%E6%95%B0arrow-functions%E7%9A%84%E4%BC%98%E7%82%B9%E6%98%AF%E4%BB%80%E4%B9%88)？
-* [为什么建议传递给 setState 的参数是一个 callback 而不是一个对象](#%E4%B8%BA%E4%BB%80%E4%B9%88%E5%BB%BA%E8%AE%AE%E4%BC%A0%E9%80%92%E7%BB%99-setstate-%E7%9A%84%E5%8F%82%E6%95%B0%E6%98%AF%E4%B8%80%E4%B8%AA-callback-%E8%80%8C%E4%B8%8D%E6%98%AF%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1)？
-* [除了在构造函数中绑定 `this`，还有其它方式吗](#%E9%99%A4%E4%BA%86%E5%9C%A8%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E4%B8%AD%E7%BB%91%E5%AE%9A-this%E8%BF%98%E6%9C%89%E5%85%B6%E5%AE%83%E6%96%B9%E5%BC%8F%E5%90%97)？
-* [怎么阻止组件的渲染](#%E6%80%8E%E4%B9%88%E9%98%BB%E6%AD%A2%E7%BB%84%E4%BB%B6%E7%9A%84%E6%B8%B2%E6%9F%93)？
-* [当渲染一个列表时，何为 key？设置 key 的目的是什么](#%E5%BD%93%E6%B8%B2%E6%9F%93%E4%B8%80%E4%B8%AA%E5%88%97%E8%A1%A8%E6%97%B6%E4%BD%95%E4%B8%BA-key%E8%AE%BE%E7%BD%AE-key-%E7%9A%84%E7%9B%AE%E7%9A%84%E6%98%AF%E4%BB%80%E4%B9%88)？
-* [(在构造函数中)调用 super(props) 的目的是什么](#%E5%9C%A8%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E4%B8%AD%E8%B0%83%E7%94%A8-superprops-%E7%9A%84%E7%9B%AE%E7%9A%84%E6%98%AF%E4%BB%80%E4%B9%88)？
-* [何为 JSX](#%E4%BD%95%E4%B8%BA-jsx)？
-* [怎么用 React.createElement 重写下面的代码](#%E6%80%8E%E4%B9%88%E7%94%A8%20React.createElement%20%E9%87%8D%E5%86%99%E4%B8%8B%E9%9D%A2%E7%9A%84%E4%BB%A3%E7%A0%81)？
-* [何为 `Children`](#%E4%BD%95%E4%B8%BA-children)？
-* [在 React 中，何为 state](#%E5%9C%A8-react-%E4%B8%AD%E4%BD%95%E4%B8%BA-state)？
-* [你为何排斥 create-react-app](#%E4%BD%A0%E4%B8%BA%E4%BD%95%E6%8E%92%E6%96%A5-create-react-app)？
-* [何为 redux](#%E4%BD%95%E4%B8%BA-redux)？
-* [在 Redux 中，何为 store](#%E5%9C%A8-redux-%E4%B8%AD%E4%BD%95%E4%B8%BA-store)？
-* [何为 action](#%E4%BD%95%E4%B8%BA-action)？
-* [何为 reducer](#%E4%BD%95%E4%B8%BA-reducer)？
-* [Redux Thunk 的作用是什么](#redux-thunk-%E7%9A%84%E4%BD%9C%E7%94%A8%E6%98%AF%E4%BB%80%E4%B9%88)？
-* [何为纯函数(pure function)](#%E4%BD%95%E4%B8%BA%E7%BA%AF%E5%87%BD%E6%95%B0pure-function)？
-* [你喜欢 React 的哪些方面](#%E4%BD%A0%E5%96%9C%E6%AC%A2-react-%E7%9A%84%E5%93%AA%E4%BA%9B%E6%96%B9%E9%9D%A2)？
-* [你不喜欢 React 的哪些方面](#%E4%BD%A0%E4%B8%8D%E5%96%9C%E6%AC%A2-react-%E7%9A%84%E5%93%AA%E4%BA%9B%E6%96%B9%E9%9D%A2)？
-* [示例项目](#%E7%A4%BA%E4%BE%8B%E9%A1%B9%E7%9B%AE)
-
 #### React 的工作原理
 React 会创建一个虚拟 DOM(virtual DOM)。当一个组件中的状态改变时，React 首先会通过 "diff" 算法来标记虚拟 DOM 中的改变，第二步是调节(reconciliation)，会用 diff 的结果来更新 DOM。
 
@@ -181,18 +150,21 @@ Redux thunk 是一个允许你编写返回一个函数而不是一个 action 的
 #### 何为纯函数(pure function)
 一个纯函数是一个不依赖于且不改变其作用域之外的变量状态的函数，这也意味着一个纯函数对于同样的参数总是返回同样的结果。
 
-#### 你喜欢 React 的哪些方面
-...
+#### redux有哪些中间件，作用？
+中间件提供第三方插件的模式，自定义拦截 action -> reducer 的过程。变为 action -> middlewares -> reducer 。这种机制可以让我们改变数据流，实现如异步 action ，action 过滤，日志输出，异常报告等功能。
 
-#### 你不喜欢 React 的哪些方面
-...
+redux-logger：提供日志输出
+
+redux-thunk：处理异步操作
+
+redux-promise：处理异步操作，actionCreator的返回值是promise
 
 #### 示例项目
 * [React Spotify](https://github.com/Pau1fitz/react-spotify)
 * [React Soundcloud](https://github.com/andrewngu/sound-redux)
 
 #### 虚拟dom 普通的js对象
-插入新组件有了key可以帮助react找到映射
+虚拟dom相当于在js和真实dom中间加了一个缓存，利用dom diff算法避免了没有必要的dom操作，从而提高性能。具体实现步骤如下：用 JavaScript 对象结构表示 DOM 树的结构；然后用这个树构建一个真正的 DOM 树，插到文档当中当状态变更的时候，重新构造一棵新的对象树。然后用新的树和旧的树进行比较，记录两棵树差异把2所记录的差异应用到步骤1所构建的真正的DOM树上，视图就更新了。插入新组件有了key可以帮助react找到映射。
 
 #### 事件委托
-每个setState重新渲染整个子树。 如果要压缩性能，请尽可能调用 setState，并使用shouldComponentUpdate 来防止重新渲染大型子树。
+每个setState重新渲染整个子树标记为dirty。 如果要压缩性能，请尽可能调用 setState，并使用shouldComponentUpdate 来防止重新渲染大型子树。把树形结构按照层级分解，只比较同级元素。给列表结构的每个单元添加唯一的key属性，方便比较。pureComponent+immutable
