@@ -1,0 +1,408 @@
+---
+title: JavaScript整理总结
+date: 2018-06-21 19:37:27
+tags:
+  - 整理
+categories: JS
+---
+
+JS的相关知识点比较繁杂，特此开篇整理一波，方便回顾总结查阅。
+
+--- 
+<!--more -->
+
+## 概念
+JavaScript 是一门跨平台、面向对象、基于原型的轻量级动态脚本语言。
+
+与java的对比：
+
+|JavaScript|Java|
+|:---|:---|
+|面向对象。不区分对象类型。通过原型机制继承，任何对象的属性和方法均可以被动态添加。|基于类系统。分为类和实例，通过类层级的定义实现继承。不能动态增加对象或类的属性或方法。|
+|变量类型不需要提前声明(动态类型)。|变量类型必须提前声明(静态类型)。|
+|不能直接自动写入硬盘。|可以直接自动写入硬盘。|
+
+## 变量声明
+### var(存在变量提升)
+声明一个变量，可赋一个初始化值。
+
+### let(let 同一变量在同一作用域不能同时声明)
+声明一个块作用域的局部变量，可赋一个初始化值。
+
+### const(const 声明时必须赋初始值,也不可以在脚本运行时重新声明)
+声明一个块作用域的只读的命名常量。
+const声明创建一个值的只读引用。但这并不意味着它所持有的值是不可变的，只是变量标识符不能重新分配。
+如const a=[1,2,3] a[1]=4; const b={} b.name="1" 数组元素和对象属性不受保护。
+
+## 变量的作用域
+在所有函数之外声明的变量，叫做全局变量，因为它可被当前文档中的任何其他代码所访问。在函数内部声明的变量，叫做局部变量，因为它只能在该函数内部访问。全区变量是全局对象的属性，在浏览器中可以用window.xx或xx来访问。
+```javascript
+if(true){
+    var a=5
+}
+console.log(a) // 5 使用let声明块级则是undefined
+```
+## 变量提升
+JavaScript 变量的另一特别之处是，你可以引用稍后声明的变量而不会引发异常。这一概念称为变量声明提升(hoisting)；
+var ok ; let 和 const 则不会存在变量提升
+
+```javascript
+1.
+console.log(x === undefined); // true
+var x = 3;
+
+2.
+var myvar = "my value";
+
+(function() {
+  console.log(myvar); // undefined
+  var myvar = "local value";
+})();
+
+1.1 也可写作
+var x;
+console.log(x === undefined); // true
+x = 3;
+
+2.1
+var myvar = "my value";
+ 
+(function() {
+  var myvar;
+  console.log(myvar); // undefined
+  myvar = "local value";
+})();
+```
+
+## 函数提升
+声明函数的两种方式：
+```javascript
+function foo(){} // 函数声明 存在函数提升且大于变量提升
+var foo=function (){} // 函数表达式 var foo=function foo1(){} 函数名可写
+```
+此时的3种递归调用自身的方式 
+- foo()
+- foo1()
+- arguments.callee() 
+
+现在已经不推荐使用arguments.callee()；
+原因：访问 arguments 是个很昂贵的操作，因为它是个很大的对象，每次递归调用时都需要重新创建。影响现代浏览器的性能，还会影响闭包。
+
+## 数据类型 7种
+### 原始类型
+- Boolean
+- null
+- undefined
+- String 
+- Number 标识范围 -2^53~2^53-1 数字均为双精度浮点类型
+- Symbol(它的实例是唯一且不可改变)
+### 对象Object
+只有null和undefined无法拥有方法
+```javascript
+typeof null === 'object' // true
+null instanceof Object // false 
+null instanceof null // error
+```
+
+## 字面量
+字面量是由语法表达式定义的常量
+
+- 数组字面量(Array literals) []
+- 布尔字面量(Boolean literals) true/false
+- 浮点数字面量(Floating-point literals) 3.14
+- 整数(Intergers) 5 
+- 对象字面量(Object literals) {}
+- RegExp literals 一个正则表达式是字符被斜线（译注：正斜杠“/”）围成的表达式 /a+b/ 
+- 字符串字面量(String literals) "1212" '1212'
+JavaScript会自动将字符串字面值转换为一个临时字符串对象，调用该方法，然后废弃掉那个临时的字符串对象。你也能用对字符串字面值使用类似
+
+```javascript
+String.length的属性：
+console.log("John's cat".length)
+```
+
+```javascript
+var obj={
+  say:funciton(){
+
+  },
+  // 简写
+  say(){
+
+  }
+}
+```
+十进制整数字面量由一串数字序列组成，且没有前缀0。
+八进制的整数以 0（或0O、0o）开头，只能包括数字0-7。
+十六进制整数以0x（或0X）开头，可以包含数字（0-9）和字母 a~f 或 A~F。
+二进制整数以0b（或0B）开头，只能包含数字0和1。
+
+## 模板字符串
+```javascript
+var name = "Bob", time = "today";
+`Hello ${name}, how are you ${time}?`
+```
+
+## 布尔环境的假值
+* false
+* undefined
+* null
+* 0
+* NaN
+* 空字符串（""）
+
+## try-catch 
+如果finally块返回一个值，该值会是整个try-catch-finally流程的返回值，不管在try和catch块中语句返回了什么：
+```javascript
+function f() {
+  try {
+    console.log(0);
+    throw "bogus";
+  } catch(e) {
+    console.log(1);
+    return true; // this return statement is suspended
+                 // until finally block has completed
+    console.log(2); // not reachable
+  } finally {
+    console.log(3);
+    return false; // overwrites the previous "return"
+    console.log(4); // not reachable
+  }
+  // "return false" is executed now  
+  console.log(5); // not reachable
+}
+f(); // console 0, 1, 3; returns false
+```
+
+## for of 和 for in循环
+```javascript
+let arr = [3, 5, 7];
+arr.foo = "hello";
+
+for (let i in arr) {
+   console.log(i); // logs "0", "1", "2", "foo"
+}
+
+// 所有可枚举的属性名
+for (let i of arr) {
+   console.log(i); // logs "3", "5", "7" // 注意这里没有 hello
+}
+```
+
+## 嵌套函数和闭包
+一个闭包是一个可以自己拥有独立的环境与变量的的表达式。
+- 内部函数包含外部函数的作用域。
+- 内部函数只可以在外部函数中访问。
+- 内部函数可以访问外部函数的参数和变量，但是外部函数却不能使用它的参数和变量。
+
+## 多层嵌套函数
+函数可以被多层嵌套。例如，函数A可以包含函数B，函数B可以再包含函数C。B和C都形成了闭包，所以B可以访问A，C可以访问B和A。因此，闭包可以包含多个作用域；他们递归式的包含了所有包含它的函数作用域。这个称之为作用域链。
+```javascript
+function A(x) {
+  function B(y) {
+    function C(z) {
+      console.log(x + y + z);
+    }
+    C(3);
+  }
+  B(2);
+}
+A(1); // logs 6 (1 + 2 + 3)
+```
+
+在这个例子里面，C可以访问B的y和A的x。这是因为：
+
+1. B形成了一个包含A的闭包，B可以访问A的参数和变量
+2. C形成了一个包含B的闭包
+3. B包含A，所以C也包含A，C可以访问B和A的参数和变量。换言之，C用这个顺序链接了B和A的作用域
+
+反过来却不是这样。A不能访问C，因为A看不到B中的参数和变量，C是B中的一个变量，所以C是B私有的。
+
+## 作用域链
+当同一个闭包作用域下两个参数或者变量同名时，就会产生命名冲突。更近的作用域有更高的优先权，所以最近的优先级最高，最远的优先级最低。这就是作用域链。链的第一个元素就是最里面的作用域，最后一个元素便是最外层的作用域。
+```javascript
+function outside() {
+  var x = 5;
+  function inside(x) {
+    return x * 2;
+  }
+  return inside;
+}
+
+outside()(10); // returns 20 instead of 10
+```
+命名冲突发生在return x上，inside的参数x和outside变量x发生了冲突。这里的作用链域是{inside, outside, 全局对象}。因此inside的x具有最高优先权，返回了20（inside的x）而不是10（outside的x）。
+
+## 闭包
+JavaScript 允许函数嵌套，并且内部函数可以访问定义在外部函数中的所有变量和函数，以及外部函数能访问的所有变量和函数。但是，外部函数却不能够访问定义在内部函数中的变量和函数。这给内部函数的变量提供了一定的安全性。此外，由于内部函数可以访问外部函数的作用域，因此当内部函数生存周期大于外部函数时，外部函数中定义的变量和函数将的生存周期比内部函数执行时间长。当内部函数以某一种方式被任何一个外部函数作用域访问时，一个闭包就产生了。
+```javascript
+var pet = function(name) {          //外部函数定义了一个变量"name"
+  var getName = function() {            
+    //内部函数可以访问 外部函数定义的"name"
+    return name; 
+  }
+  //返回这个内部函数，从而将其暴露在外部函数作用域
+  return getName;               
+};
+myPet = pet("Vivie");
+    
+myPet();                            // 返回结果 "Vivie"
+```
+
+## arguments 对象
+函数的实际参数会被保存在一个类似数组的arguments对象中。
+```javascript
+arguments[i] // 访问
+```
+arguments变量只是 ”类数组对象“，并不是一个数组。称其为类数组对象是说它有一个索引编号和length属性。尽管如此，它并不拥有全部的Array对象的操作方法。
+
+## 函数参数(默认参数、剩余参数(rest))
+剩余参数语法允许将不确定数量的参数表示为数组
+
+```javascript
+function multiply(a, b = 1,...[1,2,3]) {
+  return a*b;
+}
+```
+
+## 箭头函数
+箭头函数总是匿名的
+引入箭头函数的原因
+1. 更简洁的语法
+2. 捕捉闭包上下文的this值
+```javascript
+function Person(){
+  this.age = 0;
+
+  setInterval(() => {
+    this.age++; // |this| properly refers to the person object
+  }, 1000);
+}
+
+var p = new Person();
+```
+
+## 扩展语句
+适用于对象，数组
+```javascript
+function f(x, y, z) { }
+var args = [0, 1, 2];
+f(...args);
+```
+## 临时对象
+你可以在String字面值上使用String对象的任何方法—JavaScript自动把String字面值转换为一个临时的String对象, 然后调用其相应方法,最后丢弃销毁此临时对象.在String字面值上也可以使用String.length属性.
+```javascript
+var s1 = "2 + 2"; // Creates a string literal value
+var s2 = new String("2 + 2"); // Creates a String object
+eval(s1); // Returns the number 4
+eval(s2); // Returns the string "2 + 2"
+```
+
+## 数组方法
+
+### concat() 连接两个数组并返回一个新的数组。
+```javascript
+var myArray = new Array("1", "2", "3");
+myArray = myArray.concat("a", "b", "c"); 
+// myArray is now ["1", "2", "3", "a", "b", "c"]
+```
+
+###  join() 将数组的所有元素连接成一个字符串。
+```javascript
+var myArray = new Array("Wind", "Rain", "Fire");
+var list = myArray.join(" - "); // list is "Wind - Rain - Fire"
+```
+
+### push() 在数组末尾添加一个或多个元素，并返回数组操作后的长度。
+```javascript
+var myArray = new Array("1", "2");
+myArray.push("3"); // myArray is now ["1", "2", "3"]
+```
+
+### pop() 从数组移出最后一个元素，并返回该元素。
+```javascript
+var myArray = new Array("1", "2", "3");
+var last = myArray.pop(); 
+// myArray is now ["1", "2"], last = "3"
+```
+
+### shift() 从数组移出第一个元素，并返回该元素。
+```javascript
+var myArray = new Array ("1", "2", "3");
+var first = myArray.shift(); 
+// myArray is now ["2", "3"], first is "1"
+```
+
+### unshift()在数组开头添加一个或多个元素，并返回数组的新长度。
+```javascript
+var myArray = new Array ("1", "2", "3");
+myArray.unshift("4", "5"); 
+// myArray becomes ["4", "5", "1", "2", "3"]
+```
+
+### slice(开始索引，结束索引) 从数组提取一个片段，并作为一个新数组返回。 
+```javascript
+var myArray = new Array ("a", "b", "c", "d", "e");
+myArray = myArray.slice(1, 4); // until index 3, returning [ "b", "c", "d"]
+```
+
+### splice(index, count_to_remove, addElement1, addElement2, ...)从数组移出一些元素，（可选）并替换它们。
+```javascript
+var myArray = new Array ("1", "2", "3", "4", "5");
+myArray.splice(1, 3, "a", "b", "c", "d"); 
+// myArray is now ["1", "a", "b", "c", "d", "5"]
+```
+
+### reverse() 颠倒数组元素的顺序：第一个变成最后一个，最后一个变成第一个。
+```javascript
+var myArray = new Array ("1", "2", "3");
+myArray.reverse(); 
+// transposes the array so that myArray = [ "3", "2", "1" ]
+```
+
+### sort() 给数组元素排序。
+```javascript
+var arr=[2,1,3]
+arr.sort() // [1,2,3]
+```
+sort() 也可以带一个回调函数来决定怎么比较数组元素。这个回调函数比较两个值，并返回3个值中的一个：
+- 如果 a 小于 b ，返回 -1(或任何负数) 降序
+- 如果 a 大于 b ，返回 1 (或任何正数) 升序
+- 如果 a 和 b 相等，返回 0。
+
+### indexOf(searchElement[, fromIndex]) 在数组中搜索searchElement 并返回第一个匹配的索引。
+```javascript
+var a = ['a', 'b', 'a', 'b', 'a'];
+console.log(a.indexOf('b')); // logs 1
+// Now try again, starting from after the last match
+console.log(a.indexOf('b', 2)); // logs 3
+console.log(a.indexOf('z')); // logs -1, because 'z' was not found
+```
+
+### lastIndexOf(searchElement[, fromIndex]) 和 indexOf 差不多，但这是从结尾开始，并且是反向搜索。
+
+### forEach() 循环数组 不定的顺序 不能用break,return false跳出循环遍历  
+
+### map() 循环数组返回新数组
+```javascript
+var a1 = ['a', 'b', 'c'];
+var a2 = a1.map(function(item) { return item.toUpperCase(); });
+console.log(a2); // logs A,B,C
+```
+
+### filter() 循环数组返回符合条件的元素
+```javascript
+var a1 = ['a', 10, 'b', 20, 'c', 30];
+var a2 = a1.filter(function(item) { return typeof item == 'number'; });
+console.log(a2); // logs 10,20,30
+```
+### every() 循环数组 如果全部元素满足条件则返回true 否则返回false
+
+### some() 循环数组 只要有一项满足条件则返回true 全部不满足返回false
+
+### reduce() 迭代 使用回调函数 callback(firstValue, secondValue) 把数组列表计算成一个单一值 reduceRight() 从右边开始
+```javascript
+var a = [10, 20, 30];
+var total = a.reduce(function(first, second) { return first + second; }, 0);
+console.log(total) // Prints 60
+```

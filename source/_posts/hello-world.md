@@ -2,7 +2,7 @@
 title: Hello World - 热爱编程的普通人，顺便以此为生。
 date: 2018-04-01 01:34:09
 tags:
-  - 杂谈
+  - 吐槽
 categories: 杂谈
 ---
 
