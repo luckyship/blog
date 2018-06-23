@@ -406,3 +406,205 @@ var a = [10, 20, 30];
 var total = a.reduce(function(first, second) { return first + second; }, 0);
 console.log(total) // Prints 60
 ```
+
+## Map简单的键值对集合
+```javascript
+var sayings = new Map();
+sayings.set('dog', 'woof');
+sayings.set('cat', 'meow');
+sayings.set('elephant', 'toot');
+sayings.size; // 3
+sayings.get('fox'); // undefined
+sayings.has('bird'); // false
+sayings.delete('dog');
+sayings.has('dog'); // false
+
+for (var [key, value] of sayings) {
+  console.log(key + ' goes ' + value);
+}
+// "cat goes meow"
+// "elephant goes toot"
+
+sayings.clear();
+sayings.size; // 0
+```
+new Map() 参数可以是一个数组或者其他 iterable 对象，其元素或为键值对，或为两个元素的数组。 每个键值对都会添加到新的 Map。null 会被当做 undefined。
+
+**Object和Map的比较**
+1. 一般地，objects会被用于将字符串类型映射到数值。Object允许设置键值对、根据键获取值、删除键、检测某个键是否存在。而Map具有更多的优势。
+2. Object的键均为Strings类型，在Map里键可以是任意类型。
+3. 必须手动计算Object的尺寸，但是可以很容易地获取使用Map的尺寸。
+4. Map的遍历遵循元素的插入顺序。
+5. Object有原型，所以映射中有一些缺省的键。（可以理解为map = Object.create(null)）。
+
+如果键在运行时才能知道，或者所有的键类型相同，所有的值类型相同，那就使用Map。
+如果需要将原始值存储为键，则使用Map，因为Object将每个键视为字符串，不管它是一个数字值、布尔值还是任何其他原始值。
+如果需要对个别元素进行操作，使用Object。
+
+## Set集合
+```javascript
+var mySet = new Set();
+mySet.add(1);
+mySet.add("some text");
+mySet.add("foo");
+
+mySet.has(1); // true
+mySet.delete("foo");
+mySet.size; // 2
+
+for (let item of mySet) console.log(item);
+// 1
+// "some text"
+
+mySet2 = new Set([1,2,2,4]);
+Array.from(mySet);  // [1,2,3] 常用来去重
+```
+
+**Array和Set的比较**
+1. 数组中用于判断元素是否存在的indexOf 函数效率低下。
+2. Set对象允许根据值删除元素，而数组中必须使用基于下标的 splice 方法。
+3. 数组的indexOf方法无法找到NaN值。
+4. Set对象存储不重复的值，所以不需要手动处理包含重复值的情况。
+5. 数组是特殊的对象,对象是关联数组 字符串是特殊的数组
+6. 方括弧取值为动态判定[]，数字非有效的js标识符   
+
+## setter和getter
+```javascript
+var o = {
+  a: 7,
+  get b() { 
+    return this.a + 1;
+  },
+  set c(x) {
+    this.a = x / 2
+  }
+};
+
+console.log(o.a); // 7
+console.log(o.b); // 8
+o.c = 50;
+console.log(o.a); // 25
+-----------------------
+var o = {
+  a: 7,
+  b:function(){ 
+    return this.a + 1;
+  }
+};
+
+console.log(o.b()); // 8
+```
+
+## 访问所有可枚举对象属性
+1. for in
+2. Object.keys() 不包括原型的数组
+3. Object.getOwnPropertyNames()
+
+## Symbol(原始数据类型) 不可枚举的 符号类型
+```javascript
+var  myPrivateMethod  = Symbol(); // 不能使用new Symbol()创建，它是一个不完整的类
+this[myPrivateMethod] = function() {...};
+```
+for in 和 Object.getOwnPropertyNames()访问不到，只能通过myPrivateMethod或者Object.getOwnPropertySymbols()来访问
+```javascript
+Symbol("foo") !== Symbol("foo")
+const foo = Symbol()
+const bar = Symbol()
+typeof foo === "symbol"
+typeof bar === "symbol"
+let obj = {}
+obj[foo] = "foo"
+obj[bar] = "bar"
+JSON.stringify(obj) // {}
+Object.keys(obj) // []
+Object.getOwnPropertyNames(obj) // []
+Object.getOwnPropertySymbols(obj) // [ foo, bar ]
+```
+
+## Proxy 代理
+`let p= new Proxy(target,handler)`
+- target
+用Proxy包装的目标对象（可以是任何类型的对象，包括原生数组，函数，甚至另一个代理）。
+
+- handler
+一个对象，其属性是当执行一个操作时定义代理的行为的函数。
+```javascript
+// 设置缺省值
+let handler = {
+    get: function(target, name){
+        return name in target ? target[name] : 37;
+    }
+};
+
+let p = new Proxy({}, handler);
+
+p.a = 1;
+p.b = undefined;
+
+console.log(p.a, p.b);    // 1, undefined
+
+console.log('c' in p, p.c);    // false, 37
+
+// 转发代理
+let target = {};
+let p = new Proxy(target, {});
+
+p.a = 37;   // 操作转发到目标
+
+console.log(target.a);    // 37. 操作已经被正确地转发
+
+// demo
+let book  = {"name":"《ES6基础系列》","price":56 };
+let proxy = new Proxy(book,{
+    get:function(target,property){
+        if(property === "name"){
+            return "《入门到懵逼》";
+        }else{
+            return target[property];
+        }
+    },
+    set:function(target,property,value){
+        if(property === 'price'){
+            target[property] = 56;
+        }
+    }
+})
+```
+
+## 生成器 generator 
+function* 来修饰GeneratorFunction函数
+```javascript
+function* idMaker() {
+  var index = 0;
+  while(true)
+    yield index++;
+}
+
+var gen = idMaker();
+
+console.log(gen.next().value); // 0
+console.log(gen.next().value); // 1
+console.log(gen.next().value); // 2
+// ...
+```
+
+对象实现迭代行为
+```javascript
+var myIterable = {};
+myIterable[Symbol.iterator] = function* () {
+    yield 1;
+    yield 2;
+    yield 3;
+};
+
+for (let value of myIterable) { 
+    console.log(value); 
+}
+// 1
+// 2
+// 3
+
+or
+
+[...myIterable]; // [1, 2, 3]
+```
