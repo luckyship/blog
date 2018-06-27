@@ -203,6 +203,19 @@ f===>Function.prototype===>Object.prototype===>null
 1.创建空对象，并且this变量引用该对象同时继承该函数的原型
 2.属性和方法加入到this引用的对象中
 3.新创建的对象用this引用，并且隐式地返回this
+```javascript
+function Base(){
+  this.id = "base";
+}
+var obj = new Base();
+```
+**new干了什么？** 
+
+1.var obj = {};
+
+2.obj.\_\_proto\_\_ = Base.protptype;
+
+3.Base.call(obj);
 
 - es5使用Object.create()来创建对象 new {}
 使用Object.create()是将对象继承到__proto__属性上，

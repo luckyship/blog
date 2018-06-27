@@ -97,6 +97,8 @@ var foo=function (){} // 函数表达式 var foo=function foo1(){} 函数名可�
 - Number 标识范围 -2^53~2^53-1 数字均为双精度浮点类型
 - Symbol(它的实例是唯一且不可改变)
 ### 对象Object
+对象被定义为“无序属性的集合，其属性可以包含基本值，对象或者函数”。
+
 只有null和undefined无法拥有方法
 ```javascript
 typeof null === 'object' // true
@@ -496,8 +498,8 @@ console.log(o.b()); // 8
 ```
 
 ## 访问所有可枚举对象属性
-1. for in
-2. Object.keys() 不包括原型的数组
+1. for in 无序
+2. Object.keys() 不包括原型的属性名数组
 3. Object.getOwnPropertyNames()
 
 ## Symbol(原始数据类型) 不可枚举的 符号类型
