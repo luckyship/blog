@@ -217,7 +217,7 @@ var obj = new Base();
 
 3.Base.call(obj);
 
-- es5使用Object.create()来创建对象 new {}
+- es5使用Object.create()来创建对象 new Object() 字面量写法{}
 使用Object.create()是将对象继承到__proto__属性上，
 Object.create(null)没有继承任何原型方法，也就是说它的原型链没有上一层。
 - es6使用class关键字
