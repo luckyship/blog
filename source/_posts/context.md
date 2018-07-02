@@ -41,7 +41,7 @@ var getName = function () { alert (4);};
 function getName() { alert (6);}
 getName(); // 4
 ```
-函数表达式执行的优先级==!
+函数表达式执行的优先级==!主要原因是函数声明都被提前了，所以函数表达式在最后会覆盖。
 
 JavaScript 引擎并非一行一行地分析和执行程序，而是一段一段地分析执行。插槽slot
 可执行代码的类型：全局代码、函数代码、eval代码。

@@ -14,6 +14,8 @@ photos:
  JS 是按照`代码块`进行 编译、执行 的。
 {% endcenterquote %}
 
+---
+<!-- more -->
 ## script标签区分代码块
 ```javascript
 <script>
