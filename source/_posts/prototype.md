@@ -199,6 +199,31 @@ a===>Array.prototype===>Object.prototype===>null
 f===>Function.prototype===>Object.prototype===>null
 ```
 
+### 原型对象的添加属性
+```javascript
+function Persion(){}
+Persion.prototype.sayName=function(){
+  console.log('darling')
+}
+// Persion.prototype={
+//   sayName:function(){
+//     console.log('darling')
+//   } 
+// }
+let persion =new Persion()
+persion.sayName() // darling
+
+function Persion(){}
+let persion=new Persion()
+// 这里重写了原型对象，实例对象和最初的原型对象断开了联系
+Persion.prototype={
+  sayName:function(){
+    console.log('darling')
+  } 
+}
+persion.sayName() // error
+```
+
 ### new 操作符具体干了什么
 1.创建空对象，并且this变量引用该对象同时继承该函数的原型
 2.属性和方法加入到this引用的对象中

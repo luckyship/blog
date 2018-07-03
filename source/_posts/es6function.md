@@ -64,3 +64,98 @@ function abc(){
 }
 abc() // 'abc'
 ```
+
+## 函数的静态变量和函数
+```javascript
+function Box(){}
+
+Box.num = 12;  //静态变量
+Box.fn = function(){};  //静态函数
+
+console.log(Box.num);  //12
+console.log(Box.fn);  //function(){}
+console.log(typeof Box.fn);  //function
+
+var t = new Box();
+console.log(t.num);  //undefined
+console.log(t.fn);  //undefined
+console.log(typeof t.fn);//undefined
+```
+
+静态变量和静态函数是Box对象的属性和方法，不属于实例。
+
+## 函数的实例函数和变量
+```javascript
+function Box(){
+  this.a = [];  //实例变量
+  this.fn = function(){};  //实例方法
+}
+
+console.log(Box.a);  //undefined
+console.log(Box.fn);  //undefined
+console.log(typeof Box.fn);  //undefined
+
+var t = new Box();
+var t2 = new Box();
+
+console.log(t.a);  //[]
+console.log(t2.a);  //[]
+t.a.push(1);   // t.a [1]
+console.log(t2.a);  //[]
+
+console.log(typeof t.fn);
+```
+每个实例都有一套实例属性和实例方法，互不影响。
+
+原型上的属性和方法，是实例共用的。
+
+## 函数传参
+
+### 基本类型 (基本类型的变量复制)
+```javascript
+var count = 10;
+function num(num1){
+   num1 = 1;
+   return num1;
+}
+var result = num(count);
+console.log(result);//1
+console.log(count);//10，并未变成1
+```
+### 引用类型
+```javascript
+var person  = {
+    name : "Tom"
+};
+function obj(peo){
+    peo.name = "Jerry";
+    return peo;
+}
+var result = obj(person);
+console.log(result.name);// Jerry
+console.log(person.name);// Jerry
+```
+
+```javascript
+var person = {
+    name : "Tom"
+}; 
+function obj(peo){
+    peo = {
+       name : "Jerry"
+    };
+    return peo;
+}
+var result = obj(person);
+console.log(result.name);// Jerry
+console.log(person.name);// Tom
+```
+person传递给函数中的peo，但在函数内部peo又指向了一个新对象，所以result.name是新对象的值，person还是指向原对象，所以并没有改变。
+
+ECMAScript中所有函数的参数都是按值传递的。 ——《JS高程》
+
+我们可以把ECMAScript函数的参数想象成局部变量，在向参数传递基本类型的值时，被传递的值被复制给一个局部变量。
+
+在向函数传递引用类型时，会把这个值在内存中的地址复制给一个局部变量，因此这个局部变量的变化会反映在函数的外部。
+
+即使在函数内部修改了参数的值，但原始的引用仍然保持未变。
