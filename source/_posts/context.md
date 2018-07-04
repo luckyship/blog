@@ -131,7 +131,7 @@ ECStack.pop();
 // 通过this引用
 this === window  // true
 this.window === window // true
-this instanceof Object // 是通过Object构造函数实例出来的对象
+this instanceof Object // true 是通过Object构造函数实例出来的对象
 Math.random() 
 this.Math.random() // 预定义了一些函数和属性
 

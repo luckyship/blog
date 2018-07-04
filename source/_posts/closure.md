@@ -60,7 +60,7 @@ setTimeout(function(){
 ```javascript
 var arr=['one','two','three']
 for(var i =0;i<arr.length;i++){
-// 匿名闭包
+// 匿名闭包 封闭每个变量
 (function(index){
   setTimeout(function(){
   console.log(arr[index])
