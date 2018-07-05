@@ -169,7 +169,7 @@ params => ({foo: bar})
 (param1 = defaultValue1, param2, …, paramN = defaultValueN) => { statements }
 
 // 支持参数列表中的解构赋值
-var f = ([a, b] = [1, 2], = ) => a + b + c;
+var f = ([a, b] = [1, 2], c=3 ) => a + b + c;
 f(); // 6
 ```
 
