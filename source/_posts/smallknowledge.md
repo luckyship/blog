@@ -135,11 +135,12 @@ function add(num){
 add(2)(3)(4);// function 9
 ```
 
-## Date相关
+## Date相关 
 
 ### Date构造函数
 ```javascript
-Date.now() === new Date().getTime()
+3种表示时间戳
+Date.now() === new Date().getTime() === +new Date()
 Date.parse("2018-06-13") === new Date("2018-06-13").getTime()
 // 浏览器之间解析时间不同 safari 解析横杠 - 会出错所以尽量用斜杠 /
 ```
