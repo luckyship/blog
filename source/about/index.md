@@ -6,7 +6,7 @@ comments: true
 ---
 
 {% centerquote %} 
-95后，不谈恋爱，不结婚，自我淘汰的劣等人。
+95后，不谈恋爱，不结婚，自我淘汰的劣等人。--前面是我乱说的。
 {% endcenterquote %} 
 
 <div class="text-center">

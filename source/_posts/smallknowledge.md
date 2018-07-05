@@ -386,3 +386,23 @@ var bar = foo.bind( null, "p1" );
 var baz = new bar( "p2" );
 baz.val; // p1p2
 ```
+
+## 回到顶部
+```javascript
+function goback() {
+// 1.回到顶部
+// scrollTo(0, 0); // 滚动条滚动 x y 
+// 2.渐渐回到顶部 距离顶部高度
+//var iScrollTop = document.body.scrollTop; //360,Chrome,
+//var iScrollTop = document.documentElement.scrollTop;  //IE8,火狐
+var iScrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+var timer = setInterval(function () {  //定时器
+	scrollTo(0, iScrollTop -= 100);
+	console.log(iScrollTop);
+	if (iScrollTop <= 0) {
+		clearInterval(timer);  //清除定时器
+	}
+}, 100);
+return false;
+}
+```
