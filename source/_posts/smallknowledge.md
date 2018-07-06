@@ -139,8 +139,16 @@ add(2)(3)(4);// function 9
 
 ### Date构造函数
 ```javascript
-3种表示时间戳
-Date.now() === new Date().getTime() === +new Date()
+4种表示时间戳的方式
+1. Date.now()
+2. new Date().getTime()
+3. +new Date() / +new Date +相当于.valueOf();
+4. new Date().valueOf()
+5. new Date*1 / new Date()*1 
+
+解释：JavaScript中可以在某个元素前使用'+'号，这个操作是将该元素转换秤Number类型，如果转换失败，那么将得到 NaN。
+所以 +new Date 将会调用 Date.prototype 上的 valueOf 方法，而根据MDN，Date.prototype.value 方法等同于 Date.prototype.getTime()
+
 Date.parse("2018-06-13") === new Date("2018-06-13").getTime()
 // 浏览器之间解析时间不同 safari 解析横杠 - 会出错所以尽量用斜杠 /
 ```

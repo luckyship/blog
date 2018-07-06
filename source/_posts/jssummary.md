@@ -470,7 +470,7 @@ Array.from(mySet);  // [1,2,3] 常用来去重
 5. 数组是特殊的对象,对象是关联数组 字符串是特殊的数组
 6. 方括弧取值为动态判定[]，数字非有效的js标识符   
 
-## setter和getter
+## setter和getter (get set修饰function)
 ```javascript
 var o = {
   a: 7,
@@ -483,8 +483,8 @@ var o = {
 };
 
 console.log(o.a); // 7
-console.log(o.b); // 8
-o.c = 50;
+console.log(o.b); // 8 取b值时调用
+o.c = 50;         // 给c设置值调用
 console.log(o.a); // 25
 -----------------------
 var o = {

@@ -18,7 +18,7 @@ photos:
 下面是一个常用的关于 React 的面试问题列表：
 
 #### React 的工作原理
-React 会创建一个虚拟 DOM(virtual DOM)。当一个组件中的状态改变时，React 首先会通过 "diff" 算法来标记虚拟 DOM 中的改变，第二步是调节(reconciliation)，会用 diff 的结果来更新 DOM。
+React 会创建一个虚拟 DOM(virtual DOM)。当一个组件中的状态改变时，React 首先会通过 "diff" 算法来标记虚拟 DOM 中的改变，第二步是调节(reconciliation)，会用`diff`的结果来更新真实DOM。虚拟DOM作为一种缓存机制优化了UI渲染减少昂贵的DOM变化的数量。
 
 #### 使用 React 有何优点
 * 只需查看 `render` 函数就会很容易知道一个组件是如何被渲染的
