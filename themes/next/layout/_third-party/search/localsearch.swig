@@ -72,7 +72,7 @@
               keywords.push(searchText);
             }
             var resultItems = [];
-            if (searchText.length > 0) {
+            if (searchText.length > 0&&datas.length>0) {
               // perform local searching
               datas.forEach(function(data) {
                 var isMatch = false;
@@ -80,8 +80,8 @@
                 var searchTextCount = 0;
                 var title = data.title.trim();
                 var titleInLowerCase = title.toLowerCase();
-                var content = data.content.trim().replace(/<[^>]+>/g,"");
-                var contentInLowerCase = content.toLowerCase();
+                var content =  data.content&&data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content&&content.toLowerCase();
                 var articleUrl = decodeURIComponent(data.url);
                 var indexOfTitle = [];
                 var indexOfContent = [];
@@ -95,10 +95,10 @@
                       }
                       var startPosition = 0, position = [], index = [];
                       if (!caseSensitive) {
-                        text = text.toLowerCase();
-                        word = word.toLowerCase();
+                        text = text&&text.toLowerCase();
+                        word = word&&word.toLowerCase();
                       }
-                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                      while ((position = text&&text.indexOf(word, startPosition)) > -1) {
                         index.push({position: position, word: word});
                         startPosition = position + wordLen;
                       }
