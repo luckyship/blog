@@ -391,7 +391,7 @@ JSON.strinify() // 解析成JSON字符串
 - 异步(async)：不按顺序执行，可以跳过执行下面的代码。
 
 37. ajax的缺点？
-- 不支持浏览器的back按钮
+- 不支持浏览器的back按钮(事件由浏览器内核控制)
 - ajax暴露了与服务器的交互
 - 对搜索引擎的支持较弱
 - 破坏了程序的异常机制
@@ -444,3 +444,84 @@ IE只支持事件冒泡。
 
 
 好处：比较合适动态元素的绑定，新添加的子元素也会有监听函数，也可以有事件触发机制。
+
+45. 垂直居中
+- margin:auto法 relative -> absolute -> marin:0 auto
+- margin负值法 relative -> absolute -> top:50% left:50% marin-top:height的一半 margin-left:width的一半或者transform：translateX(-50%)和transform：translateY(-50%)
+- table-cell未脱离文档流 设置父元素的display:table-cell,并且vertical-align:middle，这样子元素可以实现垂直居中。
+- flex布局
+
+46. visibility=hidden, opacity=0，display:none
+- opacity=0，该元素隐藏起来了，但不会改变页面布局，并且，如果该元素已经绑定一些事件，如click事件，那么点击该区域，也能触发点击事件的
+- visibility=hidden，该元素隐藏起来了，但不会改变页面布局，但是不会触发该元素已经绑定的事件。
+- display=none，把元素隐藏起来，并且会改变页面布局，可以理解成在页面中把该元素删除掉一样。
+
+47. 块元素和行内元素
+- 块元素：独占一行，并且有自动填满父元素，可以设置margin和padding以及高度和宽度。
+- 行元素：不会独占一行，width和height会失效，并且在垂直方向的padding和margin会失效。    
+
+48. 深拷贝
+- 深拷贝的方法 1-2适用于一般的对象和数组 4-5适用于数组 3通用
+let obj = {
+    a: 1,
+    arr: [1, 2]
+};
+let obj2 = deepCopy(obj);
+obj2.a = 2
+console.log(obj) // { a:1, arr: [1,2] };
+2.es6
+Object.assign()方法(深复制只有一层，之后为浅复制（除非再次使用Object.assign嵌套方式赋值）)
+let obj = {
+    a: 1,
+    arr: [1, 2]
+};
+let obj1 = Object.assign({}, obj);
+obj1.a = 2
+//不变
+console.log(obj) // { a:1, arr: [1,2] };
+3.immutable
+4.arr1=arr.slice(0) slice() 返回新数组
+5.arr1=arr.concat()
+var deepCopy= function(source) { 
+    var result={};
+    for (var key in source) {
+        result[key] = typeof source[key]==='object'? deepCoypy(source[key]): source[key];
+     } 
+   return result; 
+}
+
+49. 判断一个变量是否是数组
+```javascript
+var a = []; 
+// 1.基于instanceof 
+a instanceof Array; 
+// 2.基于constructor 
+a.constructor === Array; 
+// 3.基于Object.prototype.isPrototypeOf 
+Array.prototype.isPrototypeOf(a); 
+// 4.基于getPrototypeOf 
+Object.getPrototypeOf(a) === Array.prototype; 
+// 5.基于Object.prototype.toString 
+Object.prototype.toString.apply(a) === '[object Array]';
+// 6.Array.isArray
+Array.isArray([]); // true
+```
+以上，除了Object.prototype.toString外，其它方法都不能正确判断变量的类型。
+
+49. 优化
+- 按需加载路由
+- 代码拆分
+- 第三方库提取vendor
+
+- 压缩文件图片，合并文件 减少http请求
+- 网络图、字体图标
+- 上cnd
+
+50. 行内、块级、空元素 
+- 行内元素：a、b、span、img、input、strong、select、label、em、button、textarea
+- 块级元素：div、ul、li、dl、dt、dd、p、h1-h6、blockquote
+- 空元素：即没有内容的HTML元素，例如：br、meta、hr、link、input、img
+
+51. px、em、rem的区别
+px和em都是长度单位,px的只是固定的,em的值是相对的继承父类元素的字体大小。浏览器的默认字体高位16px。1em=16px;
+rem单位基于html元素的字体大小

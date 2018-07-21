@@ -167,4 +167,4 @@ redux-promise：处理异步操作，actionCreator的返回值是promise
 虚拟dom相当于在js和真实dom中间加了一个缓存，利用dom diff算法避免了没有必要的dom操作，从而提高性能。具体实现步骤如下：用 JavaScript 对象结构表示 DOM 树的结构；然后用这个树构建一个真正的 DOM 树，插到文档当中当状态变更的时候，重新构造一棵新的对象树。然后用新的树和旧的树进行比较，记录两棵树差异把2所记录的差异应用到步骤1所构建的真正的DOM树上，视图就更新了。插入新组件有了key可以帮助react找到映射。
 
 #### 事件委托
-每个setState重新渲染整个子树标记为dirty。 如果要压缩性能，请尽可能调用 setState，并使用shouldComponentUpdate 来防止重新渲染大型子树。把树形结构按照层级分解，只比较同级元素。给列表结构的每个单元添加唯一的key属性，方便比较。pureComponent+immutable
+每个setState重新渲染整个子树标记为dirty。 如果要压缩性能，请尽可能调用 setState，并使用shouldComponentUpdate 来防止重新渲染大型子树。把树形结构按照层级分解，只比较同级元素。给列表结构的每个单元添加唯一的key属性，方便比较。pureComponent+immutable 替换成preact
