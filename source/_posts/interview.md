@@ -524,4 +524,10 @@ Array.isArray([]); // true
 
 51. px、em、rem的区别
 px和em都是长度单位,px的只是固定的,em的值是相对的继承父类元素的字体大小。浏览器的默认字体高位16px。1em=16px;
-rem单位基于html元素的字体大小
+rem单位基于html元素的字体大小。
+
+52. 路由权限管理
+- route render方法里进行判断 redirect or return null
+- 组件内部判断
+- 高阶组件
+- dva监听url subscription
