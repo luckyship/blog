@@ -531,3 +531,6 @@ rem单位基于html元素的字体大小。
 - 组件内部判断
 - 高阶组件
 - dva监听url subscription
+
+53. node中的事件循环是什么样子的?
+- event loop其实就是一个事件队列，先加入先执行，执行完一次队列，再次循环遍历看有没有新事件加入队列．执行中的叫IO events, setImmediate是在当前队列立即执行,setTimout/setInterval是把执行定时到下一个队列，process.nextTick是在当前执行完，下次遍历前执行．所以总体顺序是: IO events >> setImmediate >> setTimeout/setInterval >> process.nextTick
