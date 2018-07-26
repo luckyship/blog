@@ -256,7 +256,7 @@ jquery主要是兼容性好，可以跑在各种pc，移动上，好处是兼容
 19. ajax和jsonp的区别？
 - 相同点：都是请求一个url
 - 不同点：ajax的核心是通过XMLHttpRequest获取内容
-- jsonp的核心则是动态添加<script>标签来调用服务器提供的js脚本。
+- jsonp的核心则是动态添加`<script>`标签来调用服务器提供的js脚本。
 
 20. 常见的http协议状态码？
 
