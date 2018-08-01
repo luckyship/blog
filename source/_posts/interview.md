@@ -539,3 +539,32 @@ rem单位基于html元素的字体大小。
 - 直接赋值空数组
 - splice(0,数组length)清空
 - 设置数组length=0
+
+55. 判断数组中出现次数最多的元素
+```javascript
+function f(arr){
+    var temp=[];//对象数组
+    var i;
+    temp[0]={value:arr[0],index:1};//保存数组元素出现的次数和值
+    arr.sort();
+    for(i=1;i<arr.length;i++){
+        if(arr[i]==arr[i-1]){
+            temp[temp.length-1].index++;
+        }else{//不相同则新增一个对象元素
+            temp.push({index:1,value:arr[i]});
+        }
+    }
+    temp.sort(function(a,b){//按照出现次数从大到小排列
+        return a.index<b.index;
+    })
+    var max=temp[0].index;
+    var maxV=temp[0].value;
+    var second=temp[1].index;
+    var secondV=temp[1].value;
+
+    return {max,maxV,second,secondV};
+}
+var arr=[2,2,3,4,5,100,100,,3,1,4,4,100,100];
+var {max,maxV,second,secondV}=f(arr);
+console.log(max,maxV,second,secondV);
+```
