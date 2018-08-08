@@ -414,3 +414,45 @@ var timer = setInterval(function () {  //定时器
 return false;
 }
 ```
+
+## 手机号处理中间4位替换成*
+
+### 方法1 substr方法
+```javascript
+let phone="18883269663"
+let phone1=phone.substr(0,3)+"****"+phone.substr(7)
+```
+
+### 方法2 正则匹配分组
+```javascript
+let tel = "13122223333";
+
+let reg = /^(\d{3})\d{4}(\d{4})$/;
+
+tel = tel.replace(reg, "$1****$2");
+```
+
+## 转换树形结构数据
+```javascript
+let arr=[{"departmentId":"2807369902638080","departmentName":"四合院大数据有限公司","departmentDesc":"四合院大数据有限公司是非常好的公司","createTime":null,"hasChild":false,"parentId":null},{"departmentId":"2805950137730048","departmentName":"产品策划部","departmentDesc":null,"createTime":null,"hasChild":true,"parentId":null},{"departmentId":"2805949110338560","departmentName":"研发中心","departmentDesc":null,"createTime":null,"hasChild":true,"parentId":null}];
+
+function fn(data, p_id) {
+  var result = [],
+    temp;
+  for (var i = 0; i < data.length; i++) {
+    if (data[i].parentId == p_id) {
+      var obj = data[i];
+      obj.label = data[i].departmentName;
+      temp = fn(data, data[i].departmentId);
+      if (temp.length > 0) {
+        obj.children = temp;
+      }
+      result.push(obj);
+    }
+  }
+  return result;
+}
+
+let treeData=fn(treeData,null) // 传入原始数据/parentId
+适用于ant design和element等树形结构数据
+```
