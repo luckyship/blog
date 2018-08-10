@@ -104,6 +104,16 @@ var foo=function (){} // 函数表达式 var foo=function foo1(){} 函数名可�
 typeof null === 'object' // true
 null instanceof Object // false 
 null instanceof null // error
+
+[]+[] // ""
+[]+{} // "[object Object]"
+{}+[] // 0
+
+!+[]+[]+![] // "truefalse"
+
+Math.max() // -Infinity
+Math.min() // Infinity
+
 ```
 
 ## 字面量
