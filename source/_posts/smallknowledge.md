@@ -454,5 +454,12 @@ function fn(data, p_id) {
 }
 
 let treeData=fn(treeData,null) // 传入原始数据/parentId
-适用于ant design和element等树形结构数据
+适用于ant design和element-ui等树形结构数据
+```
+
+## 浏览器返回上一页
+```javascript
+<a href="#" onclick="javascript:history.back(-1);">返回到上一页</a>
+
+<a href="#" onClick="javaScript:history.go(-1)">返回上一页</a>
 ```
