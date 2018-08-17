@@ -25,6 +25,9 @@ getQueryString("typeId") // "2"
 
 ```
 
+---
+<!-- more -->
+
 2. split拆分
 ```javascript
 function getQueryString() {

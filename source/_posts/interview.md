@@ -541,6 +541,7 @@ rem单位基于html元素的字体大小。
 - 设置数组length=0
 
 55. 判断数组中出现次数最多的元素
+1. 临时对象数组，原数组sort排序，判断前后位是否相等。临时对象数组排序
 ```javascript
 function f(arr){
     var temp=[];//对象数组
@@ -566,5 +567,44 @@ function f(arr){
 }
 var arr=[2,2,3,4,5,100,100,,3,1,4,4,100,100];
 var {max,maxV,second,secondV}=f(arr);
-console.log(max,maxV,second,secondV);
+console.log(max,maxV,second,secondV); // 4 100 3 4
+```
+2. 临时对象 判断属性名存不存在 2次遍历
+```javascript
+var arr = [1,1,2,2,2,2,2,3,3,3,4,4];
+    var obj = {};
+    for(var i = 0; i<arr.length; i++){
+        if(!obj[arr[i]]){
+            obj[arr[i]] = 1;
+        }else {
+            obj[arr[i]]++;
+        }
+    }
+    /*
+        此时的obj对象包含了所有元素出现次数的信息
+        然后再遍历obj对象就可以查询出出现次数最多/最少的元素了
+    */
+    var maxNum = 0;
+    var minNum = obj[arr[0]];  //先随意给最少的变量赋值（但保证是数组中的元素出现的次数）
+    var maxEleArr = [],minEleArr = [];
+    //第一次遍历找出出现次数最多和最少的值
+    for(var key in obj){
+        if(obj[key] > maxNum){
+            maxNum = obj[key];
+        }
+        if(obj[key] < maxNum){
+            minNum = obj[key];
+        }
+    }
+    //第二次遍历找出所有出现次数最多和最少的元素
+    for(var key in obj){
+        if(obj[key] == maxNum){
+            maxEleArr.push(key);
+        }
+        if(obj[key] == minNum){
+            minEleArr.push(key);
+        }
+    }
+    console.log(maxEleArr + ":" + maxNum );  // 2:5
+    console.log(minEleArr + ":" + minNum );  // 1,4:2
 ```
