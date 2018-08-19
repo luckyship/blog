@@ -450,6 +450,7 @@ IE只支持事件冒泡。
 - margin负值法 relative -> absolute -> top:50% left:50% marin-top:height的一半 margin-left:width的一半或者transform：translateX(-50%)和transform：translateY(-50%)
 - table-cell未脱离文档流 设置父元素的display:table-cell,并且vertical-align:middle，这样子元素可以实现垂直居中。
 - flex布局
+- text-align:center 块级元素
 
 46. visibility=hidden, opacity=0，display:none
 - opacity=0，该元素隐藏起来了，但不会改变页面布局，并且，如果该元素已经绑定一些事件，如click事件，那么点击该区域，也能触发点击事件的
