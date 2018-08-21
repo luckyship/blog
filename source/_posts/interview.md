@@ -516,7 +516,7 @@ Array.isArray([]); // true
 
 - 压缩文件图片，合并文件 减少http请求
 - 网络图、字体图标
-- 上cnd
+- 上cdn
 
 50. 行内、块级、空元素 
 - 行内元素：a、b、span、img、input、strong、select、label、em、button、textarea
