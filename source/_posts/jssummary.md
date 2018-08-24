@@ -125,6 +125,7 @@ Math.min() // Infinity
 - 整数(Intergers) 5 
 - 对象字面量(Object literals) {}
 - RegExp literals 一个正则表达式是字符被斜线（译注：正斜杠“/”）围成的表达式 /a+b/ 
+RegExp.test() RegExp.exec() string.match() 
 - 字符串字面量(String literals) "1212" '1212'
 JavaScript会自动将字符串字面值转换为一个临时字符串对象，调用该方法，然后废弃掉那个临时的字符串对象。你也能用对字符串字面值使用类似
 
@@ -402,6 +403,8 @@ var a2 = a1.map(function(item) { return item.toUpperCase(); });
 console.log(a2); // logs A,B,C
 ```
 
+### find() 找到满足条件的第一个元素
+
 ### filter() 循环数组返回符合条件的元素
 ```javascript
 var a1 = ['a', 10, 'b', 20, 'c', 30];
@@ -469,7 +472,7 @@ for (let item of mySet) console.log(item);
 // "some text"
 
 mySet2 = new Set([1,2,2,4]);
-Array.from(mySet);  // [1,2,3] 常用来去重
+Array.from(mySet2);  // [1,2,3] 常用来去重
 ```
 
 **Array和Set的比较**
@@ -519,11 +522,11 @@ this[myPrivateMethod] = function() {...};
 ```
 for in 和 Object.getOwnPropertyNames()访问不到，只能通过myPrivateMethod或者Object.getOwnPropertySymbols()来访问
 ```javascript
-Symbol("foo") !== Symbol("foo")
+Symbol("foo") !== Symbol("foo") // true
 const foo = Symbol()
 const bar = Symbol()
-typeof foo === "symbol"
-typeof bar === "symbol"
+typeof foo === "symbol" // true
+typeof bar === "symbol" // true
 let obj = {}
 obj[foo] = "foo"
 obj[bar] = "bar"

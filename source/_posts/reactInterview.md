@@ -180,7 +180,18 @@ React 只会匹配相同 class 的 component（这里面的class指的是组件�
 
 选择性子树渲染。开发人员可以重写shouldComponentUpdate提高diff的性能。
 
+diff的只是html tag，并没有diff数据。
+
 #### setState的理解
 - setState 只在合成事件和钩子函数中是“异步”的，在原生事件和setTimeout 中都是同步的。
 - setState 的“异步”并不是说内部由异步代码实现，其实本身执行的过程和代码都是同步的，只是合成事件和钩子函数的调用顺序在更新之前，导致在合成事件和钩子函数中没法立马拿到更新后的值，形成了所谓的“异步”，当然可以通过第二个参数 setState(partialState, callback) 中的callback拿到更新后的结果。
 - setState 的批量更新优化也是建立在“异步”（合成事件、钩子函数）之上的，在原生事件和setTimeout 中不会批量更新，在“异步”中如果对同一个值进行多次setState，setState的批量更新策略会对其进行覆盖，取最后一次的执行，如果是同时setState多个不同的值，在更新时会对其进行合并批量更新。
+
+#### 替换的属性
+
+- class/className for/htmlFor
+
+#### 插入html文本
+```javascript
+dangerouslySetInnerHTML={{__html: content}}
+```

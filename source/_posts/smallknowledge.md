@@ -463,3 +463,22 @@ let treeData=fn(treeData,null) // 传入原始数据/parentId
 
 <a href="#" onClick="javaScript:history.go(-1)">返回上一页</a>
 ```
+
+## 去重数组里对象相同值得key
+```javascript
+const key = 'id'
+const arr = [{ id: 1 }, { id: 1 }, { id: 2 }, { id: 3 }]
+const filted = arr.reduce((finalList, obj) => {
+  if (!finalList.find(T => T[key] === obj[key])) {
+    finalList.push(obj)
+  }
+  return finalList
+}, [])
+// [{ id: 1 }, { id: 2 }, { id: 3 }]
+
+let map =new Map()
+for (let item of arr){
+map.set(item[key],item)
+}
+[...map.values()]
+```

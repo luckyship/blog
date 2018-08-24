@@ -21,7 +21,7 @@ a.includes(undefined) // true
 - startsWith()：返回布尔值，表示参数字符串是否在原字符串的头部。
 - endsWith()：返回布尔值，表示参数字符串是否在原字符串的尾部。
 str | index
-- repeat()：返回一个新字符串，表示将原字符串重复n次。参数如果是小数，会被取整(不四舍五入)。参数是负数或者Infinity，会报错。0/Nan返回空字符串,参数是字符串，则会先转换成数字。
+- repeat()：返回一个新字符串，表示将原字符串重复n次。参数如果是小数，会被取整(不四舍五入)。参数是负数或者Infinity，会报错。0/Nan返回空字符串,参数是字符串，则会先转换成数字，不传则为空字符串。
 - padStart()：头部补全。
 - padEnd()：尾部补全
 ~~~
@@ -255,7 +255,7 @@ jquery主要是兼容性好，可以跑在各种pc，移动上，好处是兼容
 
 19. ajax和jsonp的区别？
 - 相同点：都是请求一个url
-- 不同点：ajax的核心是通过XMLHttpRequest获取内容
+- 不同点：ajax的核心是通过XMLHttpRequest获取内容，jsonp只能get请求
 - jsonp的核心则是动态添加`<script>`标签来调用服务器提供的js脚本。
 
 20. 常见的http协议状态码？
@@ -328,6 +328,9 @@ jquery主要是兼容性好，可以跑在各种pc，移动上，好处是兼容
 
 - 少用location.reload()：使用location.reload() 会刷新页面，刷新页面时页面所有资源 (css，js，img等) 会重新请求服务器。建议使用location.href="当前页url" 代替location.reload() ，使用location.href 浏览器会读取本地缓存资源。
 
+-图片懒加载 
+
+
 28. commonjs?requirejs?AMD|CMD|UMD?
 - CommonJS就是为JS的表现来制定规范，NodeJS是这种规范的实现，webpack 也是以CommonJS的形式来书写。因为js没有模块的功能，所以CommonJS应运而生。但它不能在浏览器中运行。 CommonJS定义的模块分为:{模块引用(require)} {模块定义(exports)} {模块标识(module)} 
 
@@ -361,7 +364,7 @@ CommonJS模块以服务器第一原则发展，选择同步加载，它的模块
 特点：基于原型链，既是父类的实例，也是子类的实例
 缺点：无法实现多继承
 
-构造继承、实例继承和拷贝继承...
+构造继承、组合继承、实例继承和拷贝继承...
 ```
 
 31. eval是做什么的？
@@ -401,7 +404,7 @@ JSON.strinify() // 解析成JSON字符串
 - 协议不同
 - 端口不同
 - 域名不同
-- 常用解决方案：jsonp、iframe、window.name、window.postMessage、服务器设置代理页面/header配置cors
+- 常用解决方案：jsonp、iframe、window.name、window.postMessage、服务器设置代理页面/响应header配置cors
 
 39. 解决异步回调地狱有哪些方案？
 promise、generator、async/await
@@ -439,9 +442,7 @@ IE只支持事件冒泡。
 45. 什么是事件委托？
 简介：事件委托指的是，不在事件的发生地（直接dom）上设置监听函数，而是在其父元素上设置监听函数，通过事件冒泡，父元素可以监听到子元素上事件的触发，通过判断事件发生元素DOM的类型，来做出不同的响应。
 
-
 举例：最经典的就是ul和li标签的事件监听，比如我们在添加事件时候，采用事件委托机制，不会在li标签上直接添加，而是在ul父元素上添加。
-
 
 好处：比较合适动态元素的绑定，新添加的子元素也会有监听函数，也可以有事件触发机制。
 
@@ -459,7 +460,7 @@ IE只支持事件冒泡。
 
 47. 块元素和行内元素
 - 块元素：独占一行，并且有自动填满父元素，可以设置margin和padding以及高度和宽度。
-- 行元素：不会独占一行，width和height会失效，并且在垂直方向的padding和margin会失效。    
+- 行元素：不会独占一行，width和height会失效，并且在垂直方向的padding和margin会失效。  
 
 48. 深拷贝
 - 深拷贝的方法 1-2适用于一般的对象和数组 4-5适用于数组 3通用
@@ -510,8 +511,8 @@ Array.isArray([]); // true
 以上，除了Object.prototype.toString外，其它方法都不能正确判断变量的类型。
 
 49. 优化
-- 按需加载路由
-- 代码拆分
+- 按需加载（懒加载）路由
+- 业务代码拆分
 - 第三方库提取vendor
 
 - 压缩文件图片，合并文件 减少http请求
