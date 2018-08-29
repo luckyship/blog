@@ -382,7 +382,7 @@ JSON.strinify() // 解析成JSON字符串
 ```
 
 34. js延时加载的方式？
-- defer和async
+- defer(仅ie支持)和async
 - 动态创建DOM
 - 按需异步加载JS
 
@@ -404,7 +404,7 @@ JSON.strinify() // 解析成JSON字符串
 - 协议不同
 - 端口不同
 - 域名不同
-- 常用解决方案：jsonp、iframe、window.name、window.postMessage、服务器设置代理页面/响应header配置cors
+- 常用解决方案：jsonp、iframe、window.name、document.domain、window.postMessage、服务器设置代理页面/响应header配置cors
 
 39. 解决异步回调地狱有哪些方案？
 promise、generator、async/await
@@ -610,3 +610,5 @@ var arr = [1,1,2,2,2,2,2,3,3,3,4,4];
     console.log(maxEleArr + ":" + maxNum );  // 2:5
     console.log(minEleArr + ":" + minNum );  // 1,4:2
 ```
+
+56. 清除浮动

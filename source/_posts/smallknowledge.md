@@ -12,8 +12,10 @@ photos:
 
 ## void 
 void其实是javascript中的一个函数，接受一个参数，返回值永远是undefined
+void expression
 ```javascript
 void 0  
+void() // 报错
 void (0)  
 void "hello"  
 void (new Date())  
@@ -481,4 +483,23 @@ for (let item of arr){
 map.set(item[key],item)
 }
 [...map.values()]
+```
+
+## 变量声明
+```javascript
+(function() {
+      var a = b = 5; // var a=b;b=5 严格模式会报错
+  })();   
+console.log(b); // 5
+console.log(a); // Uncaught ReferenceError: a is not defined
+
+var a=[]; a[0]=1; a[1]=2; a[2]=3; a[5]=4; 
+a.length // 6
+while不改变作用域链
+[]?true:false // true
+[]==false?true:false // true
+2==true //false
+2==false // false
+
++new Array(017) // NaN
 ```
