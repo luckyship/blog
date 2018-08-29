@@ -502,6 +502,7 @@ while不改变作用域链
 2==false // false
 
 +new Array(017) // NaN
+```
 
 ## with语句
 with语句的作用是将代码的作用域设置到一个特定的对象中。
