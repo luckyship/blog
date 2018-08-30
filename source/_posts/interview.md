@@ -382,7 +382,7 @@ JSON.strinify() // 解析成JSON字符串
 ```
 
 34. js延时加载的方式？
-- defer和async
+- defer(仅ie支持)和async
 - 动态创建DOM
 - 按需异步加载JS
 
@@ -610,3 +610,16 @@ var arr = [1,1,2,2,2,2,2,3,3,3,4,4];
     console.log(maxEleArr + ":" + maxNum );  // 2:5
     console.log(minEleArr + ":" + minNum );  // 1,4:2
 ```
+
+3. reduce简写
+```javascript
+var arr = 'abcdaabc';
+
+var info = arr
+    .split('')
+    .reduce((p, k) => (p[k]++ || (p[k] = 1), p), {});
+
+console.log(info); //{ a: 3, b: 2, c: 2, d: 1 }
+```
+
+56. 清除浮动

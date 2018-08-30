@@ -309,6 +309,7 @@ var s1 = "2 + 2"; // Creates a string literal value
 var s2 = new String("2 + 2"); // Creates a String object
 eval(s1); // Returns the number 4
 eval(s2); // Returns the string "2 + 2"
+Number(null) // 0
 ```
 
 ## 数组方法

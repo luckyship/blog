@@ -291,6 +291,41 @@ Promise1.all = function(arr) {
     })
 }
 ```
+### 嵌套使用
+Promise可以嵌套使用，这样可以是多个任务有条不紊地进行，假设p1是一个Promise对象而p2、p3都是能够产生Promise对象的方法(如果直接new那么Promise将会被直接执行)，那么你可以这样写，使得他们按照顺序执行，并且可以一次性处理他们产生的错误。
+
+```javascript
+let p1 = new Promise((resolve, reject) => {
+    console.log('p1');
+    setTimeout(() => {
+        resolve('p2');
+    }, 1000)
+});
+
+let p2 = (result) => new Promise((resolve, reject) => {
+    console.log(result);
+    setTimeout(() => {
+        resolve('p3');
+    }, 2000);
+});
+
+let p3 = (result) => new Promise((resolve, reject) => {
+    console.log(result);
+    setTimeout(() => {
+        resolve('over');
+    }, 3000);
+});
+
+p1
+    .then(p2)
+    .then(p3)
+    .then((result) => {
+        console.log(result);
+    })
+    .catch((error) => {
+        console.log(error);
+    });
+```
 
 ## Promise使用注意点
 1. 一般来说，调用`resolve`或`reject`以后，`Promise`的使命就完成了，后继操作应该放到`then`方法里面，而不应该直接写在`resolve`或`reject`的后面。所以，最好在它们前面加上`return`语句，这样就不会有意外。
