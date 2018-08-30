@@ -536,3 +536,9 @@ var x = {
 var x_ = x;
 console.log(x_.name+'的小名是'+x_nick_name);
 ```
+
+## boolean类型在进行比较时会类型转换成number
+```javascript
+11==true // 11==1 false
+1==true  // 1==1 true
+```

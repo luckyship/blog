@@ -31,12 +31,15 @@ photos:
 let promise = new Promise(function(resolve, reject) {
   console.log('Promise'); // 新建后立即执行
   resolve();
+  console.log(111)
+  return 0
 });
 promise.then(function() {
   console.log('resolved.'); // 同步任务执行完成后才会执行
 });
 console.log('Hi!');
 // Promise
+// 111
 // Hi!
 // resolved
 ```

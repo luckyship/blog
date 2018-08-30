@@ -251,4 +251,4 @@ Object.create(null)没有继承任何原型方法，也就是说它的原型链�
 
 - 访问原型链会损耗性能,不存在的属性会遍历原型链直到最后一层
 
-- hasOwnProperty 是 JavaScript 中唯一处理属性并且不会遍历原型链的方法。
+- hasOwnProperty 是 JavaScript 中唯一处理属性并且不会遍历原型链的方法。通常在for in循环中使用。
