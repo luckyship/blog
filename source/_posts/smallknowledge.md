@@ -542,3 +542,121 @@ console.log(x_.name+'的小名是'+x_nick_name);
 11==true // 11==1 false
 1==true  // 1==1 true
 ```
+
+## RGB到十六进制
+使用按位左移运算符（<<）和toString（16），然后padStart（6，“0”）将给定的RGB参数转换为十六进制字符串以获得6位十六进制值。
+```javascript
+const rgbToHex = (r, g, b) => ((r << 16) + (g << 8) + b).toString(16).padStart(6, ‘0’);
+
+// rgbToHex(255, 165, 1) -> ‘ffa501’
+```
+
+## 滚动到顶部
+使用document.documentElement.scrollTop或document.body.scrollTop获取到顶部的距离。
+```javascript
+const scrollToTop = _ => {
+
+const c = document.documentElement.scrollTop || document.body.scrollTop;
+
+if (c > 0) {
+
+​ window.requestAnimationFrame(scrollToTop);
+
+​ window.scrollTo(0, c - c / 8);
+
+}
+
+};
+
+// scrollToTop()
+```
+
+## 求和
+```javascript
+const sum = arr => arr.reduce((acc, val) => acc + val, 0);
+
+// sum([1,2,3,4]) -> 10 累加器
+// 平均数 sum([1,2,3,4])/4
+```
+
+## 大写每个单词的首字母
+使用replace（）匹配每个单词的第一个字符，并使用toUpperCase（）来将其大写。
+```javascript
+const capitalizeEveryWord = str => str.replace(/[a-z]/g, char => char.toUpperCase());
+
+// capitalizeEveryWord(‘hello world!’) -> ‘Hello World!’
+```
+
+## 计算数组中某值出现的次数
+每次遇到数组中的特定值时，使用reduce（）来递增计数器。
+```javascript
+const countOccurrences = (arr, value) => arr.reduce((a, v) => v === value ? a + 1 : a + 0, 0);
+
+// countOccurrences([1,1,2,1,2,3], 1) -> 3
+```
+
+## 数组间的区别
+从b创建一个Set，然后在a上使用Array.filter（），只保留b中不包含的值。
+```javascript
+const difference = (a, b) => { const s = new Set(b); return a.filter(x => !s.has(x)); };
+
+// difference([1,2,3], [1,2]) -> [3]
+```
+
+## 阶乘
+使用递归。如果n小于或等于1，则返回1。否则返回n和n - 1的阶乘的乘积。
+```javascript
+const factorial = n => n <= 1 ? 1 : n * factorial(n - 1);
+
+// factorial(6) -> 720
+```
+
+## 获取滚动位置
+如果已定义，请使用pageXOffset和pageYOffset，否则使用scrollLeft和scrollTop，可以省略el来使用window的默认值。
+```javascript
+const getScrollPos = (el = window) =>
+
+({x: (el.pageXOffset !== undefined) ? el.pageXOffset : el.scrollLeft,
+
+​ y: (el.pageYOffset !== undefined) ? el.pageYOffset : el.scrollTop});
+
+// getScrollPos() -> {x: 0, y: 200}
+```
+
+## 最大公约数
+```javascript
+const gcd = (x, y) => !y ? x : gcd(y, x % y);
+
+// gcd (8, 36) -> 4
+```
+
+## UUID生成器
+使用crypto API生成符合RFC4122版本4的UUID。
+```javascript
+const uuid = _ =>
+
+([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
+
+​ (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+
+);
+
+// uuid() -> ‘7982fcfe-5721-4632-bede-6000885be57d’
+```
+
+## 检查变量是否声明
+如果读取一个不存在的键，会返回undefined，而不是报错。可以利用这一点，来检查一个全局变量是否被声明。
+后二种写法有漏洞，如果a属性是一个空字符串（或其他对应的布尔值为false的情况），则无法起到检查变量是否声明的作用。
+最好的方法是使用in
+```javascript
+// 假设变量x未定义
+
+// 写法一：报错
+if (x) { return 1; }
+
+// 写法二：不正确
+if (window.x) { return 1; }
+
+// 写法三：正确
+if ('x' in window) { return 1; }
+```
