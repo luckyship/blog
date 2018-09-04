@@ -660,3 +660,38 @@ if (window.x) { return 1; }
 // 写法三：正确
 if ('x' in window) { return 1; }
 ```
+
+## 使用对象结构代替 switch…case
+switch…case不使用大括号，不利于代码形式的统一。此外，这种结构类似于goto语句，容易造成程序流程的混乱，使得代码结构混乱不堪，不符合面向对象编程的原则。
+```javascript
+// 反模式
+function doAction(action) {
+    switch (action) {
+        case 'hack':
+            // ...
+            break;
+        case 'slash':
+            // ...
+            break;
+        default:
+            throw new Error('Invalid action.');
+    }
+}
+// 好模式
+function doAction(action) {
+    var actions = {
+        hack: function () {
+            // ...
+        },
+        slash: function () {
+            // ...
+        },
+    };
+
+    if (typeof actions[action] !== 'function') {
+        throw new Error('Invalid action.');
+    }
+
+    return actions[action]();
+}
+```
