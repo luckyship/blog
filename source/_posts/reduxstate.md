@@ -4,7 +4,11 @@ date: 2018-06-21 19:37:18
 tags:
   - redux
   - react
+copyright: true
+comments: true
 categories: JS
+top: 106
+photos:
 ---
 
 ## Redux三大概念
