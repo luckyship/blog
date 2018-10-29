@@ -189,6 +189,42 @@ person.constructor === Person.prototype.constructor;
 - 几乎所有 JavaScript 中的对象都是位于原型链顶端的Object的实例。
 
 ```javascript
+class Cat {
+    say() {
+        console.log("meow ~");
+    }
+}
+
+// 等价于
+function Cat() {}
+Object.defineProperty(Cat.prototype, "say", {
+    value: function() { console.log("meow ~"); },
+    enumerable: false,
+    configurable: true,
+    writable: true
+});
+
+// es6 class是没有静态属性的 只有静态方法
+var cat = new Cat();
+cat.say(); // meow~
+Cat.say(); // error 加上static修饰正确  
+
+// 注解
+function isAnimal(target) {
+    target.isAnimal = true;
+  	return target;
+}
+@isAnimal
+class Cat {
+    ...
+}
+// 等价于
+Cat=isAnimal(function Cat(){})
+
+console.log(Cat.isAnimal);    // true
+```
+
+```javascript
 var p = Object.create(o);
 // p是一个继承自 o 的对象
 对象的原型链

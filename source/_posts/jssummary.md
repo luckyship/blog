@@ -200,6 +200,15 @@ for (let i in arr) {
 for (let i of arr) {
    console.log(i); // logs "3", "5", "7" // 注意这里没有 hello
 }
+
+// for in 的循环顺序 => 遍历首先数字的可以接着按照创建顺序遍历
+var a = {1:1,name:'cosyer',2:2}
+for (let i in a) {
+  if(a.hasOwnProperty(i)){
+      console.log(i)
+  }
+}
+// 1 2 name
 ```
 
 ## 嵌套函数和闭包
@@ -474,6 +483,9 @@ for (let item of mySet) console.log(item);
 
 mySet2 = new Set([1,2,2,4]);
 Array.from(mySet2);  // [1,2,3] 常用来去重
+
+// argument对象（类数组）转成数组
+// Array.from({0:111,1:222,2:333,length:3}) [111,222,333]
 ```
 
 **Array和Set的比较**
@@ -521,7 +533,9 @@ console.log(o.b()); // 8
 var  myPrivateMethod  = Symbol(); // 不能使用new Symbol()创建，它是一个不完整的类
 this[myPrivateMethod] = function() {...};
 ```
+
 for in 和 Object.getOwnPropertyNames()访问不到，只能通过myPrivateMethod或者Object.getOwnPropertySymbols()来访问
+
 ```javascript
 Symbol("foo") !== Symbol("foo") // true
 const foo = Symbol()
@@ -544,6 +558,7 @@ Object.getOwnPropertySymbols(obj) // [ foo, bar ]
 
 - handler
 一个对象，其属性是当执行一个操作时定义代理的行为的函数。
+
 ```javascript
 // 设置缺省值
 let handler = {
@@ -589,6 +604,7 @@ let proxy = new Proxy(book,{
 
 ## 生成器 generator 
 function* 来修饰GeneratorFunction函数
+
 ```javascript
 function* idMaker() {
   var index = 0;
@@ -605,6 +621,7 @@ console.log(gen.next().value); // 2
 ```
 
 对象实现迭代行为
+
 ```javascript
 var myIterable = {};
 myIterable[Symbol.iterator] = function* () {

@@ -56,9 +56,9 @@ element.scrollIntoViewIfNeeded(false);
 |1.2|1.2|1.2|
 |-1.2|-1|-1|
 
-1. 位运算：~ 的结果是 int32 的有符号整数，所以肯定不可能是 NaN 和无穷，因此 1、4、5 两者不同。x|0  x<<0
+1. 位运算：~ 的结果是 int32 的有符号整数，所以肯定不可能是 NaN 和无穷 x|0 x^0 x<<0 x>>0
 
-3. Math.floor 向 +∞ 取整。
+2. Math.floor向下取整 Math.ceil向上取整 Math.trunc返回整数部分 实现：if(value>0){return Math.floor(value)}else{return Mathg.ceil(value)}
 
 3. parseInt(string, radix);
 
@@ -70,6 +70,19 @@ parseInt 解析字符串 '-0' 会得到 -0。如果参数是数字 -0，会得�
 parseInt(0.0000000003) // 3
 
 parseInt('2017-07-04') // 2017
+```
+
+## JS浮点数运算(原因浮点数无法用二进制准确表示)
+```javascript
+0.1+0.2 // 0.30000000000000004
+1. parseFloat().toFixed(10) 
+2. *100/100 
+```
+## Object.toString()
+```javascript
+var a = {name:'cosyer'}
+a.toString() // [object Object] [typeof a instanceof a]
+// 除了Object其他对象需要用call返回真正的类型信息
 ```
 ## 全等判断
 javascript 中 +0 完全等于 -0，那么怎么分区两者呢？
