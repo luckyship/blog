@@ -45,6 +45,10 @@ try {
 }
 ```
 
+--- 
+
+<!-- more -->
+
 ### 标记区域的范围
 ```javascript
 [].forEach.call($$("*"),function(a){
