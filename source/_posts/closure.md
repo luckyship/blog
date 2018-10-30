@@ -79,3 +79,13 @@ setTimeout(function(){
 },i*1000)
 }
 ```
+
+```javascript
+// setTimeout(code, milliseconds, param1, param2, ...)
+// setTimeout(function, milliseconds, param1, param2, ...)
+var i = 0
+while (i++ < 3) {
+  setTimeout(console.log, 0, i)
+}
+// 1 2 3 这个也是闭包
+```

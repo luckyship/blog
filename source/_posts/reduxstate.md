@@ -18,11 +18,17 @@ photos:
 
 > reducer 只是一个接收 state 和 action，并返回新的 state 的函数
 
+Store — 数据存储中心，同时连接着Actions和Views（React Components）。
+
+1. Store需要负责接收Views传来的Action
+2. 然后，根据Action.type和Action.payload对Store里的数据进行修改
+3. 最后，Store还需要通知Views，数据有改变，Views便去获取最新的Store数据，通过setState进行重新渲染组件（re-render）。
+
 ### 三大原则
 
 1. 单一数据源
 
-整个应用的 state 被储存在一棵 object tree 中，并且这个 object tree 只存在于唯一一个 store 中。和根级的reducer,拆成多个reduce而不是多个store。
+整个应用的 state 被储存在一棵 object tree 中，并且这个 object tree 只存在于唯一一个 store 中。和根级的reducer,拆成多个reducer而不是多个store。
 
 2. State 是只读的
 
@@ -30,7 +36,7 @@ photos:
 
 3. 使用纯函数来执行修改
 
-为了描述 action 如何改变 state tree ，你需要编写 reducers。期望转呗要修改state了,传递数据.payload规范。
+为了描述 action 如何改变 state tree ，你需要编写 reducers。传递数据 payload规范。
 
 当 state 变化时需要返回全新的对象，而不是修改传入的参数。
 
@@ -55,11 +61,40 @@ store.dispatch({ type: 'DECREMENT' });
 ~~~ 
 
 不要再reducer里做以下操作保持纯净
+
 > 修改传入参数；
 
 > 执行有副作用的操作，如 API 请求和路由跳转；
 
 > 调用非纯函数，如 Date.now() 或 Math.random()。
+
+通过reducer修改数据带来的好处
+1. 数据拆解 => 通过定义多个reducerr对数据进行拆解访问或者修改，最终再通过combineReducers函数将零散的数据拼装回去。
+```javascript
+import { combineReducers } from 'redux';
+
+// 叶子reducer
+function aReducer(state = 1, action) {/*...*/}
+function cReducer(state = true, action) {/*...*/}
+function eReducer(state = [2, 3], action) {/*...*/}
+
+const dReducer = combineReducers({
+  e: eReducer
+});
+
+const bReducer = combineReducers({
+  c: cReducer,
+  d: dReducer
+});
+
+// 根reducer
+const rootReducer = combineReducers({
+  a: aReducer,
+  b: bReducer
+});
+```
+2. 数据不可变
+组件的生命周期函数shouldComponentUpdate进行判断是否有必要进行对该组件进行更新（即，是否执行该组件render方法以及进行diff计算）？
 
 #### 维持应用的 state；
 1. 提供 getState() 方法获取 state；
@@ -74,8 +109,24 @@ store.dispatch({ type: 'DECREMENT' });
 
 store.dispatch方法会触发 Reducer 的自动执行。为此，Store 需要知道 Reducer 函数，做法就是在生成 Store 的时候，将 Reducer 传入createStore方法
 
+##　中间件
+中间件提供的是位于 action 被发起之后，到达 reducer 之前的扩展点。
+
+```javascript
+import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+import createLogger from 'redux-logger';
+import rootReducer from '../reducers';
+
+// store扩展
+const enhancer = applyMiddleware(
+  thunk,
+  createLogger()
+);
+
+const store = createStore(rootReducer, initialState, enhancer);
+```
+
 使用 复杂性 数据交互 结构复杂繁琐 大型
 - "如果你不知道是否需要 Redux，那就是不需要它。"
 - "只有遇到 React 实在解决不了的问题，你才需要 Redux。"
-
-
