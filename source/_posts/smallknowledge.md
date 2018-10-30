@@ -557,11 +557,11 @@ console.log(x_.name+'的小名是'+x_nick_name);
 ```
 
 ## RGB到十六进制
-使用按位左移运算符（<<）和toString（16），然后padStart（6，“0”）将给定的RGB参数转换为十六进制字符串以获得6位十六进制值。
+使用按位左移运算符(<<)和toString(16)，然后padStart(6，'0')将给定的RGB参数转换为十六进制字符串以获得6位十六进制值。
 ```javascript
-const rgbToHex = (r, g, b) => ((r << 16) + (g << 8) + b).toString(16).padStart(6, ‘0’);
-
-// rgbToHex(255, 165, 1) -> ‘ffa501’
+const rgbToHex = (r, g, b) => ((r << 16) + (g << 8) + b).toString(16).padStart(6, '0');
+// ((1<<24) + (rgb.r<<16) + (rgb.g<<8) + rgb.b).toString(16).substr(1);
+// rgbToHex(255, 165, 1) -> 'ffa501'
 ```
 
 ## 滚动到顶部
