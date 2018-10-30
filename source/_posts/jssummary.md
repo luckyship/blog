@@ -641,3 +641,20 @@ or
 
 [...myIterable]; // [1, 2, 3]
 ```
+
+## 3行实现Promise
+```javascript
+function Promise (fn) {
+    this.then = cb => this.cb = cb
+    this.resolve = data => this.cb(data)
+    fn(this.resolve)
+}
+// 使用
+new Promise((resolve) => {
+    setTimeout(() => {
+        resolve("延时执行")
+    }, 1000)
+}).then((data) => {
+    console.log(data)
+})
+```

@@ -94,22 +94,21 @@ const rootReducer = combineReducers({
 });
 ```
 2. 数据不可变
-组件的生命周期函数shouldComponentUpdate进行判断是否有必要进行对该组件进行更新（即，是否执行该组件render方法以及进行diff计算）？
+组件的生命周期函数shouldComponentUpdate进行判断是否有必要进行对该组件进行更新（即，是否执行该组件render方法以及进行diff计算）
 
-#### 维持应用的 state；
-1. 提供 getState() 方法获取 state；
+#### 维持应用的 state
 
-2. 提供 dispatch(action) 方法更新 state；发送通知
+> 提供 getState() 方法获取 state；
 
-3. 通过 subscribe(listener) 注册监听器;
+> 提供 dispatch(action) 方法更新 state；发送通知；
 
-4. 通过 unsubscribe() 返回的函数注销监听器。
+> 通过 subscribe(listener) 注册监听器;
 
-纯函数是这样一种函数，即相同的输入，永远会得到相同的输出
+> 通过 unsubscribe() 返回的函数注销监听器。
 
-store.dispatch方法会触发 Reducer 的自动执行。为此，Store 需要知道 Reducer 函数，做法就是在生成 Store 的时候，将 Reducer 传入createStore方法
+纯函数是这样一种函数，即相同的输入，永远会得到相同的输出。
+store.dispatch方法会触发 Reducer 的自动执行。为此，Store 需要知道 Reducer 函数，做法就是在生成 Store 的时候，将 Reducer 传入createStore方法。
 
-##　中间件
 中间件提供的是位于 action 被发起之后，到达 reducer 之前的扩展点。
 
 ```javascript
@@ -127,6 +126,30 @@ const enhancer = applyMiddleware(
 const store = createStore(rootReducer, initialState, enhancer);
 ```
 
-使用 复杂性 数据交互 结构复杂繁琐 大型
+## react-redux
+Redux 本身和React没有关系，只是数据处理中心，是React-Redux让它们联系在一起。
+
+React-Redux提供两个方法：connect和Provider。
+
+### connect
+connect连接React组件和Redux store。connect实际上是一个高阶函数，返回一个新的已与 Redux store 连接的组件类。
+
+```javascript
+const VisibleTodoList = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TodoList)
+```
+
+TodoList是 UI 组件，VisibleTodoList就是由 react-redux 通过connect方法自动生成的容器组件。
+
+mapStateToProps：从Redux状态树中提取需要的部分作为props传递给当前的组件。
+mapDispatchToProps：将需要绑定的响应事件（action）作为props传递到组件上。
+
+### Provide
+Provider实现store的全局访问，将store传给每个组件。
+原理：使用React的context，context可以实现跨组件之间的传递。
+
+## 使用 复杂性 数据交互 结构复杂繁琐 大型
 - "如果你不知道是否需要 Redux，那就是不需要它。"
 - "只有遇到 React 实在解决不了的问题，你才需要 Redux。"
