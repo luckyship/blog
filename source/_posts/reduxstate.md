@@ -4,8 +4,152 @@ date: 2018-06-21 19:37:18
 tags:
   - redux
   - react
+copyright: true
+comments: true
 categories: JS
+top: 106
+photos:
 ---
 
-要有内容不然搜索会挂
+## Redux三大概念
+> Redux 是JavaScript状态容器，提供可预测化的状态管理
 
+> action 普通的JS对象描述发生什么
+
+> reducer 只是一个接收 state 和 action，并返回新的 state 的函数
+
+Store — 数据存储中心，同时连接着Actions和Views（React Components）。
+
+1. Store需要负责接收Views传来的Action
+2. 然后，根据Action.type和Action.payload对Store里的数据进行修改
+3. 最后，Store还需要通知Views，数据有改变，Views便去获取最新的Store数据，通过setState进行重新渲染组件（re-render）。
+
+### 三大原则
+
+1. 单一数据源
+
+整个应用的 state 被储存在一棵 object tree 中，并且这个 object tree 只存在于唯一一个 store 中。和根级的reducer,拆成多个reducer而不是多个store。
+
+2. State 是只读的
+
+唯一改变 state 的方法就是触发 action，action 是一个用于描述已发生事件的普通对象。
+
+3. 使用纯函数来执行修改
+
+为了描述 action 如何改变 state tree ，你需要编写 reducers。传递数据 payload规范。
+
+当 state 变化时需要返回全新的对象，而不是修改传入的参数。
+
+### api
+~~~javascript
+// API 是 { subscribe, dispatch, getState }。
+let store = createStore(counter);
+
+// 可以手动订阅更新，也可以事件绑定到视图层。
+store.subscribe(() =>
+  console.log(store.getState())
+);
+
+// 改变内部 state 唯一方法是 dispatch 一个 action。
+// action 可以被序列化，用日记记录和储存下来，后期还可以以回放的方式执行
+store.dispatch({ type: 'INCREMENT' });
+// 1
+store.dispatch({ type: 'INCREMENT' });
+// 2
+store.dispatch({ type: 'DECREMENT' });
+// 1
+~~~ 
+
+不要再reducer里做以下操作保持纯净
+
+> 修改传入参数；
+
+> 执行有副作用的操作，如 API 请求和路由跳转；
+
+> 调用非纯函数，如 Date.now() 或 Math.random()。
+
+通过reducer修改数据带来的好处
+1. 数据拆解 => 通过定义多个reducerr对数据进行拆解访问或者修改，最终再通过combineReducers函数将零散的数据拼装回去。
+```javascript
+import { combineReducers } from 'redux';
+
+// 叶子reducer
+function aReducer(state = 1, action) {/*...*/}
+function cReducer(state = true, action) {/*...*/}
+function eReducer(state = [2, 3], action) {/*...*/}
+
+const dReducer = combineReducers({
+  e: eReducer
+});
+
+const bReducer = combineReducers({
+  c: cReducer,
+  d: dReducer
+});
+
+// 根reducer
+const rootReducer = combineReducers({
+  a: aReducer,
+  b: bReducer
+});
+```
+2. 数据不可变
+组件的生命周期函数shouldComponentUpdate进行判断是否有必要进行对该组件进行更新（即，是否执行该组件render方法以及进行diff计算）
+
+#### 维持应用的 state
+
+> 提供 getState() 方法获取 state；
+
+> 提供 dispatch(action) 方法更新 state；发送通知；
+
+> 通过 subscribe(listener) 注册监听器;
+
+> 通过 unsubscribe() 返回的函数注销监听器。
+
+纯函数是这样一种函数，即相同的输入，永远会得到相同的输出。
+store.dispatch方法会触发 Reducer 的自动执行。为此，Store 需要知道 Reducer 函数，做法就是在生成 Store 的时候，将 Reducer 传入createStore方法。
+
+中间件提供的是位于 action 被发起之后，到达 reducer 之前的扩展点。
+
+```javascript
+import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+import createLogger from 'redux-logger';
+import rootReducer from '../reducers';
+
+// store扩展
+const enhancer = applyMiddleware(
+  thunk,
+  createLogger()
+);
+
+const store = createStore(rootReducer, initialState, enhancer);
+```
+
+## react-redux
+Redux 本身和React没有关系，只是数据处理中心，是React-Redux让它们联系在一起。
+
+React-Redux提供两个方法：connect和Provider。
+
+### connect
+connect连接React组件和Redux store。connect实际上是一个高阶函数，返回一个新的已与 Redux store 连接的组件类。
+
+```javascript
+const VisibleTodoList = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TodoList)
+```
+
+TodoList是 UI 组件，VisibleTodoList就是由 react-redux 通过connect方法自动生成的容器组件。
+
+mapStateToProps：从Redux状态树中提取需要的部分作为props传递给当前的组件。
+mapDispatchToProps：将需要绑定的响应事件（action）作为props传递到组件上。
+
+### Provide
+Provider实现store的全局访问，将store传给每个组件。
+原理：使用React的context，context可以实现跨组件之间的传递。
+
+## 使用 复杂性 数据交互 结构复杂繁琐 大型
+- "如果你不知道是否需要 Redux，那就是不需要它。"
+- "只有遇到 React 实在解决不了的问题，你才需要 Redux。"

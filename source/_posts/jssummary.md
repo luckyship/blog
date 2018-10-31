@@ -200,6 +200,15 @@ for (let i in arr) {
 for (let i of arr) {
    console.log(i); // logs "3", "5", "7" // 注意这里没有 hello
 }
+
+// for in 的循环顺序 => 遍历首先数字的可以接着按照创建顺序遍历
+var a = {1:1,name:'cosyer',2:2}
+for (let i in a) {
+  if(a.hasOwnProperty(i)){
+      console.log(i)
+  }
+}
+// 1 2 name
 ```
 
 ## 嵌套函数和闭包
@@ -359,6 +368,11 @@ myArray.unshift("4", "5");
 var myArray = new Array ("a", "b", "c", "d", "e");
 myArray = myArray.slice(1, 4); // until index 3, returning [ "b", "c", "d"]
 ```
+slice 方法可以用来将一个类数组（Array-like）对象/集合转换成一个新数组。只需将该方法绑定到这个对象上。 一个函数中的 arguments 就是一个类数组对象的例子。
+
+```javascript
+Array.prototype.slice.call({0:1,1:3,length:2});
+```
 
 ### splice(index, count_to_remove, addElement1, addElement2, ...)从数组移出一些元素，（可选）并替换它们。
 ```javascript
@@ -474,6 +488,9 @@ for (let item of mySet) console.log(item);
 
 mySet2 = new Set([1,2,2,4]);
 Array.from(mySet2);  // [1,2,3] 常用来去重
+
+// argument对象（类数组）转成数组
+// Array.from({0:111,1:222,2:333,length:3}) [111,222,333]
 ```
 
 **Array和Set的比较**
@@ -521,7 +538,9 @@ console.log(o.b()); // 8
 var  myPrivateMethod  = Symbol(); // 不能使用new Symbol()创建，它是一个不完整的类
 this[myPrivateMethod] = function() {...};
 ```
+
 for in 和 Object.getOwnPropertyNames()访问不到，只能通过myPrivateMethod或者Object.getOwnPropertySymbols()来访问
+
 ```javascript
 Symbol("foo") !== Symbol("foo") // true
 const foo = Symbol()
@@ -544,6 +563,7 @@ Object.getOwnPropertySymbols(obj) // [ foo, bar ]
 
 - handler
 一个对象，其属性是当执行一个操作时定义代理的行为的函数。
+
 ```javascript
 // 设置缺省值
 let handler = {
@@ -589,6 +609,7 @@ let proxy = new Proxy(book,{
 
 ## 生成器 generator 
 function* 来修饰GeneratorFunction函数
+
 ```javascript
 function* idMaker() {
   var index = 0;
@@ -605,6 +626,7 @@ console.log(gen.next().value); // 2
 ```
 
 对象实现迭代行为
+
 ```javascript
 var myIterable = {};
 myIterable[Symbol.iterator] = function* () {
@@ -623,4 +645,21 @@ for (let value of myIterable) {
 or
 
 [...myIterable]; // [1, 2, 3]
+```
+
+## 3行实现Promise
+```javascript
+function Promise (fn) {
+    this.then = cb => this.cb = cb
+    this.resolve = data => this.cb(data)
+    fn(this.resolve)
+}
+// 使用
+new Promise((resolve) => {
+    setTimeout(() => {
+        resolve("延时执行")
+    }, 1000)
+}).then((data) => {
+    console.log(data)
+})
 ```

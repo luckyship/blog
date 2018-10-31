@@ -56,9 +56,9 @@ element.scrollIntoViewIfNeeded(false);
 |1.2|1.2|1.2|
 |-1.2|-1|-1|
 
-1. 位运算：~ 的结果是 int32 的有符号整数，所以肯定不可能是 NaN 和无穷，因此 1、4、5 两者不同。x|0  x<<0
+1. 位运算：~ 的结果是 int32 的有符号整数，所以肯定不可能是 NaN 和无穷 x|0 x^0 x<<0 x>>0
 
-3. Math.floor 向 +∞ 取整。
+2. Math.floor向下取整 Math.ceil向上取整 Math.trunc返回整数部分 实现：if(value>0){return Math.floor(value)}else{return Mathg.ceil(value)}
 
 3. parseInt(string, radix);
 
@@ -70,6 +70,19 @@ parseInt 解析字符串 '-0' 会得到 -0。如果参数是数字 -0，会得�
 parseInt(0.0000000003) // 3
 
 parseInt('2017-07-04') // 2017
+```
+
+## JS浮点数运算(原因浮点数无法用二进制准确表示)
+```javascript
+0.1+0.2 // 0.30000000000000004
+1. parseFloat().toFixed(10) 
+2. *100/100 
+```
+## Object.toString()
+```javascript
+var a = {name:'cosyer'}
+a.toString() // [object Object] [typeof a instanceof a]
+// 除了Object其他对象需要用call返回真正的类型信息
 ```
 ## 全等判断
 javascript 中 +0 完全等于 -0，那么怎么分区两者呢？
@@ -524,6 +537,7 @@ with(x){
 ```
 
 相当于
+
 ```javascript
 var x = {
   name : "古朋",
@@ -538,21 +552,24 @@ console.log(x_.name+'的小名是'+x_nick_name);
 ```
 
 ## boolean类型在进行比较时会类型转换成number
+
 ```javascript
 11==true // 11==1 false
 1==true  // 1==1 true
 ```
 
 ## RGB到十六进制
-使用按位左移运算符（<<）和toString（16），然后padStart（6，“0”）将给定的RGB参数转换为十六进制字符串以获得6位十六进制值。
-```javascript
-const rgbToHex = (r, g, b) => ((r << 16) + (g << 8) + b).toString(16).padStart(6, ‘0’);
+使用按位左移运算符(<<)和toString(16)，然后padStart(6，'0')将给定的RGB参数转换为十六进制字符串以获得6位十六进制值。
 
-// rgbToHex(255, 165, 1) -> ‘ffa501’
+```javascript
+const rgbToHex = (r, g, b) => ((r << 16) + (g << 8) + b).toString(16).padStart(6, '0');
+// ((1<<24) + (rgb.r<<16) + (rgb.g<<8) + rgb.b).toString(16).substr(1);
+// rgbToHex(255, 165, 1) -> 'ffa501'
 ```
 
 ## 滚动到顶部
 使用document.documentElement.scrollTop或document.body.scrollTop获取到顶部的距离。
+
 ```javascript
 const scrollToTop = _ => {
 
@@ -581,6 +598,7 @@ const sum = arr => arr.reduce((acc, val) => acc + val, 0);
 
 ## 大写每个单词的首字母
 使用replace（）匹配每个单词的第一个字符，并使用toUpperCase（）来将其大写。
+
 ```javascript
 const capitalizeEveryWord = str => str.replace(/[a-z]/g, char => char.toUpperCase());
 
@@ -589,6 +607,7 @@ const capitalizeEveryWord = str => str.replace(/[a-z]/g, char => char.toUpperCas
 
 ## 计算数组中某值出现的次数
 每次遇到数组中的特定值时，使用reduce（）来递增计数器。
+
 ```javascript
 const countOccurrences = (arr, value) => arr.reduce((a, v) => v === value ? a + 1 : a + 0, 0);
 
@@ -605,6 +624,7 @@ const difference = (a, b) => { const s = new Set(b); return a.filter(x => !s.has
 
 ## 阶乘
 使用递归。如果n小于或等于1，则返回1。否则返回n和n - 1的阶乘的乘积。
+
 ```javascript
 const factorial = n => n <= 1 ? 1 : n * factorial(n - 1);
 
@@ -613,6 +633,7 @@ const factorial = n => n <= 1 ? 1 : n * factorial(n - 1);
 
 ## 获取滚动位置
 如果已定义，请使用pageXOffset和pageYOffset，否则使用scrollLeft和scrollTop，可以省略el来使用window的默认值。
+
 ```javascript
 const getScrollPos = (el = window) =>
 
@@ -632,6 +653,7 @@ const gcd = (x, y) => !y ? x : gcd(y, x % y);
 
 ## UUID生成器
 使用crypto API生成符合RFC4122版本4的UUID。
+
 ```javascript
 const uuid = _ =>
 
@@ -648,6 +670,7 @@ const uuid = _ =>
 如果读取一个不存在的键，会返回undefined，而不是报错。可以利用这一点，来检查一个全局变量是否被声明。
 后二种写法有漏洞，如果a属性是一个空字符串（或其他对应的布尔值为false的情况），则无法起到检查变量是否声明的作用。
 最好的方法是使用in
+
 ```javascript
 // 假设变量x未定义
 
@@ -663,6 +686,7 @@ if ('x' in window) { return 1; }
 
 ## 使用对象结构代替 switch…case
 switch…case不使用大括号，不利于代码形式的统一。此外，这种结构类似于goto语句，容易造成程序流程的混乱，使得代码结构混乱不堪，不符合面向对象编程的原则。
+
 ```javascript
 // 反模式
 function doAction(action) {
@@ -694,4 +718,14 @@ function doAction(action) {
 
     return actions[action]();
 }
+```
+
+## 隐藏console打印在哪一行的信息
+```javaScript
+setTimeout(console.log.bind(console, 'Hello world'), 2000)
+```
+
+## 手机震动
+```javaScript
+window.navigator.vibrate(200); // vibrate for 200ms
 ```

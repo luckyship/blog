@@ -189,6 +189,42 @@ person.constructor === Person.prototype.constructor;
 - 几乎所有 JavaScript 中的对象都是位于原型链顶端的Object的实例。
 
 ```javascript
+class Cat {
+    say() {
+        console.log("meow ~");
+    }
+}
+
+// 等价于
+function Cat() {}
+Object.defineProperty(Cat.prototype, "say", {
+    value: function() { console.log("meow ~"); },
+    enumerable: false,
+    configurable: true,
+    writable: true
+});
+
+// es6 class是没有静态属性的 只有静态方法
+var cat = new Cat();
+cat.say(); // meow~
+Cat.say(); // error 加上static修饰正确  
+
+// 注解
+function isAnimal(target) {
+    target.isAnimal = true;
+  	return target;
+}
+@isAnimal
+class Cat {
+    ...
+}
+// 等价于
+Cat=isAnimal(function Cat(){})
+
+console.log(Cat.isAnimal);    // true
+```
+
+```javascript
 var p = Object.create(o);
 // p是一个继承自 o 的对象
 对象的原型链
@@ -228,6 +264,11 @@ persion.sayName() // error
 1.创建空对象，并且this变量引用该对象同时继承该函数的原型
 2.属性和方法加入到this引用的对象中
 3.新创建的对象用this引用，并且隐式地返回this
+
+1.创建一个新对象(prototype 指向构造函数的prototype)
+2.把作用域（this）指给这个对象
+3.执行构造函数的代码
+4.返回这个对象
 ```javascript
 function Base(){
   this.id = "base";
