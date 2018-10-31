@@ -235,3 +235,5 @@ console.log(instance1.name)  //cosyer
 instance1.sayName(); //cosyer
 instance1.sayAge(); //23
 ```
+
+`Happy Halloween!`
