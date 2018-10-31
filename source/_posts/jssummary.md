@@ -368,6 +368,11 @@ myArray.unshift("4", "5");
 var myArray = new Array ("a", "b", "c", "d", "e");
 myArray = myArray.slice(1, 4); // until index 3, returning [ "b", "c", "d"]
 ```
+slice 方法可以用来将一个类数组（Array-like）对象/集合转换成一个新数组。只需将该方法绑定到这个对象上。 一个函数中的 arguments 就是一个类数组对象的例子。
+
+```javascript
+Array.prototype.slice.call({0:1,1:3,length:2});
+```
 
 ### splice(index, count_to_remove, addElement1, addElement2, ...)从数组移出一些元素，（可选）并替换它们。
 ```javascript
