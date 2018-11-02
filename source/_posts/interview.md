@@ -526,7 +526,7 @@ Array.isArray([]); // true
 
 51. px、em、rem的区别
 px和em都是长度单位,px的只是固定的,em的值是相对的继承父类元素的字体大小。浏览器的默认字体高位16px。1em=16px;
-rem单位基于html元素的字体大小。
+rem单位基于html根元素的字体大小。
 
 52. 路由权限管理
 - route render方法里进行判断 redirect or return null
@@ -544,6 +544,7 @@ rem单位基于html元素的字体大小。
 
 55. 判断数组中出现次数最多的元素
 1. 临时对象数组，原数组sort排序，判断前后位是否相等。临时对象数组排序
+
 ```javascript
 function f(arr){
     var temp=[];//对象数组
@@ -571,6 +572,7 @@ var arr=[2,2,3,4,5,100,100,,3,1,4,4,100,100];
 var {max,maxV,second,secondV}=f(arr);
 console.log(max,maxV,second,secondV); // 4 100 3 4
 ```
+
 2. 临时对象 判断属性名存不存在 2次遍历
 ```javascript
 var arr = [1,1,2,2,2,2,2,3,3,3,4,4];
@@ -623,3 +625,31 @@ console.log(info); //{ a: 3, b: 2, c: 2, d: 1 }
 ```
 
 56. 清除浮动
+
+57. margin-top和padding-left根据height还是width？
+width
+
+58. vue的非父子组件传递
+1. vuex 2. 在同一个vue实例上调用$emit和$on
+
+59. 原生js实现拖拽
+
+60. 实现函数监听函数发布订阅模式 on emit off 方法 类似 iflux
+```javascript
+function event() {
+  this.elem = document.createElement('div')
+}
+event.prototype.on = function (name, fn) {
+  this.e = new Event(name)
+  this.elem.addEventListener(name, fn.call(this, this.e, this.e.type))
+}
+event.prototype.emit = function(name) {
+  this.elem.dispatchEvent(this.e) // 这里接受的参数必须是Event类型的，不然报错
+}
+event.prototype.off = function (name, fn) {
+  this.e = null
+}
+var ee = new event()
+ee.on('foo', function(){console.log(110)})
+ee.emit('foo') // 110
+```

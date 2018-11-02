@@ -13,6 +13,7 @@ photos:
 ## void 
 void其实是javascript中的一个函数，接受一个参数，返回值永远是undefined
 void expression
+
 ```javascript
 void 0  
 void() // 报错
@@ -136,6 +137,7 @@ fetch(apiUrl, {
 ## 实现var a = add(2)(3)(4)
 js中console.log一个对象时，会对这个对象进行toString()操作，还有些情况会对对象进行valueOf()操作
 vauleOf优先于toString()被调用
+
 ```javascript
 function add(num){
     var _add = function(args){
@@ -188,6 +190,7 @@ console.log([year, month, day].map((item)=>{
 ```
 ### Date计时
 以博客存活时间为例
+
 ```javascript
 var time = new Date(); 
 var t = "博客存活了"+Math.floor((+new Date - 1527868800000) / (1000 * 60 * 60 * 24)) + "天" + time.getHours() + "小时" 
@@ -476,7 +479,7 @@ let treeData=fn(treeData,null) // 传入原始数据/parentId
 ```javascript
 <a href="#" onclick="javascript:history.back(-1);">返回到上一页</a>
 
-<a href="#" onClick="javaScript:history.go(-1)">返回上一页</a>
+<a href="#" onClick="javascript:history.go(-1)">返回上一页</a>
 ```
 
 ## 去重数组里对象相同值得key
@@ -721,11 +724,36 @@ function doAction(action) {
 ```
 
 ## 隐藏console打印在哪一行的信息
-```javaScript
+```javascript
+function
 setTimeout(console.log.bind(console, 'Hello world'), 2000)
 ```
 
 ## 手机震动
-```javaScript
+```javascript
 window.navigator.vibrate(200); // vibrate for 200ms
 ```
+
+## [1,2,11]用sort方法进行排序
+```javascript
+[1,2,11].sort() // [1,11,2] sort方法默认根据unicode进行排序
+
+[1,undefined,null].sort() // [1, null, undefined]
+
+[1,2,11].sort((a,b)=>a>b)  // [1,2,11]
+
+// bind是函数柯里化得一种实现
+```
+
+## [1,2,3].map(parseInt)
+```javascript
+[1,2,3].map(parseInt) // [1,NaN,NaN] 这里第二个参数是map的index，3对应下标2，3没有二进制的。
+
+parseInt("11",2);		//返回 3 (2+1)
+```
+parseInt第二个参数	
+> 可选。表示要解析的数字的基数。该值介于 2 ~ 36 之间。
+
+> 如果省略该参数或其值为 0，则数字将以 10 为基础来解析。如果它以 “0x” 或 “0X” 开头，将以 16 为基数。
+
+> 如果该参数小于 2 或者大于 36，则 parseInt() 将返回 NaN。
