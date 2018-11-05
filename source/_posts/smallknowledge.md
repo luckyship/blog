@@ -396,7 +396,7 @@ for (let i = 0; i < arr.length - 1; i++) {
 }
 4. 数组sort
 arr.sort((a,b)=>{
-	return a<b // 降序
+	return b-a // 降序
 })
 5. 数组reduce
 arr.reduce((a,b)=>{
@@ -740,7 +740,7 @@ window.navigator.vibrate(200); // vibrate for 200ms
 
 [1,undefined,null].sort() // [1, null, undefined]
 
-[1,2,11].sort((a,b)=>a>b)  // [1,2,11]
+[1,2,11].sort((a,b)=>a-b)  // [1,2,11]
 
 // bind是函数柯里化得一种实现
 ```

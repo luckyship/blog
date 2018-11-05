@@ -559,7 +559,7 @@ function f(arr){
         }
     }
     temp.sort(function(a,b){//按照出现次数从大到小排列
-        return a.index<b.index;
+        return b.index-a.index;
     })
     var max=temp[0].index;
     var maxV=temp[0].value;
