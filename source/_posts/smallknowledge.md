@@ -757,3 +757,55 @@ parseInt第二个参数
 > 如果省略该参数或其值为 0，则数字将以 10 为基础来解析。如果它以 “0x” 或 “0X” 开头，将以 16 为基数。
 
 > 如果该参数小于 2 或者大于 36，则 parseInt() 将返回 NaN。
+
+## 图片上传
+1. 传统的form表单上传
+```javascript
+<form action="" method="POST" enctype="multipart/form-data">
+    <input type="file" name="img">
+</form>
+```
+
+2. 隐藏iframe模拟Ajax上传
+```javascript
+<iframe  name="ajaxUpload" style="display:none"></iframe>
+<form action="url" method="post" enctype="multipart/form-data" target="ajaxUpload">
+    <input type="file" name="img">
+</form>
+```
+
+3. h5 ajax上传
+```javascript
+// 使用已有的form表单，来实例化FormData对象
+var form = document.getElementById('form');
+var formData = new FormData(form);
+
+// 可以使用append来添加更多的信息
+var img = document.getElementById('img').files[0];
+var formData = new FormData();
+formData.append('img',img);
+
+// 利用XHR上传图片
+var xhr = new XMLHttpRequest();
+xhr.open('POST',url);
+xhr.onreadystatechange = function(){};
+xhr.send(formData);
+
+// 获取上传的进度
+xhr.upload.ongress = function(evt){
+    console.log(evt);
+    var loaded = evt.loaded; //已经上传的大小
+    var total = evt.total;//附件总大小
+    var per = Math.floor(100 * loaded / total );//已经上传的百分比
+}
+```
+
+4. 检验图片信息
+```javascript
+<input type="file" id="img" name="img"/>
+
+// 获取file对象
+var img = document.getElementById('img');
+var files = img.files;
+var file = files[0];
+```
