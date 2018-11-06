@@ -785,6 +785,31 @@ var img = document.getElementById('img').files[0];
 var formData = new FormData();
 formData.append('img',img);
 
+// 获取 
+// formData.get('img') formData.getAll('img') [img]
+
+// 设置修改
+// formData.set('img',1) // 已存在则修改，不存在则新增
+
+// 判断是否存在
+// formData.has('img')
+
+// 删除
+// formData.delete('img')
+
+// 返回迭代器
+// formData.entries()
+// formData.append("k1", "v1");
+// formData.append("k1", "v2");
+// formData.append("k2", "v1");
+
+// var i = formData.entries();
+
+// i.next(); // {done:false, value:["k1", "v1"]}
+// i.next(); // {done:fase, value:["k1", "v2"]}
+// i.next(); // {done:fase, value:["k2", "v1"]}
+// i.next(); // {done:true, value:undefined}
+
 // 利用XHR上传图片
 var xhr = new XMLHttpRequest();
 xhr.open('POST',url);
@@ -809,3 +834,5 @@ var img = document.getElementById('img');
 var files = img.files;
 var file = files[0];
 ```
+
+## include store m 
