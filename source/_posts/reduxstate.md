@@ -40,6 +40,9 @@ Store — 数据存储中心，同时连接着Actions和Views（React Components
 
 当 state 变化时需要返回全新的对象，而不是修改传入的参数。
 
+--- 
+<!-- more -->
+
 ### api
 ~~~javascript
 // API 是 { subscribe, dispatch, getState }。
