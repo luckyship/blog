@@ -834,5 +834,3 @@ var img = document.getElementById('img');
 var files = img.files;
 var file = files[0];
 ```
-
-## include store m 
