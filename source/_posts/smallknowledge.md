@@ -834,3 +834,65 @@ var img = document.getElementById('img');
 var files = img.files;
 var file = files[0];
 ```
+
+## 实现JSONP
+```javascript
+// 对象存储
+const JSONP = (url, jsonpObj) => {
+  let cbName = "cb" + JSONP.count++
+  let cbQuery = "JSONP." + cbName
+  let paramsToQuery = obj => {
+    let query = '?'
+    for (let k in obj) {
+      if (obj.hasOwnProperty(k)) {
+        query += `${k}=${obj[k]}&`
+      }      
+    }
+    return query
+  }
+  JSONP[cbName] = data => {
+    try {
+      jsonpObj.callback(data)
+    } finally {
+      delete JSONP[cbName]
+      document.body.removeChild(script)
+    }   
+  }
+  let queryStr = paramsToQuery(jsonpObj.data) + 'callback=' + cbQuery
+  let script = document.createElement('script')
+  script.src = url + encodeURIComponent(queryStr)
+  document.body.appendChild(script)
+}
+JSONP.count = 0
+
+// 数组存储
+var JSONP = (url, descriptor) => {
+  var script = document.createElement('script')
+  var body = document.getElementsByTagName('body')[0]
+
+  var parseParam = (paramObj) => {
+    var paramStr = '?',
+        prop = ''
+    for (prop in paramObj) {
+      if(paramObj.hasOwnProperty(prop)) {
+        paramStr += (`${prop}=${encodeURIComponent(paramObj[prop])}&`)
+      }
+    }
+
+    return paramStr
+  }
+
+  var params = parseParam(descriptor.data)
+  var callback = (data) => {
+    descriptor.callback(data)
+    body.removeChild(script)
+    delete JSONP.cbs[index]
+  }
+  var index = JSONP.cbs.push(callback) - 1
+
+  script.src = url + params + 'callback=' + encodeURIComponent(`JSONP.cbs[${index}]`)
+  body.appendChild(script)
+}
+
+JSONP.cbs = []
+```
