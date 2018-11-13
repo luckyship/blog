@@ -202,6 +202,13 @@ for (let i of arr) {
 }
 
 // for in 的循环顺序 => 遍历首先数字的可以接着按照创建顺序遍历
+// 排序规则同样适用于下列API：
+// Object.entries
+// Object.values
+// Object.keys
+// Object.getOwnPropertyNames
+// Reflect.ownKeys
+
 var a = {1:1,name:'cosyer',2:2}
 for (let i in a) {
   if(a.hasOwnProperty(i)){
