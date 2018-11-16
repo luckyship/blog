@@ -896,3 +896,14 @@ var JSONP = (url, descriptor) => {
 
 JSONP.cbs = []
 ```
+
+## chrome浏览器拦截多次window.open
+```javascript
+ // 遍历打开页面 chrome浏览器会拦截只允许一次的请求 这里模拟点击
+[1,2,3].forEach(()=>{
+        var aDom = document.createElement('a');
+        aDom.href = 'https://nodejs.org/dist/v10.13.0/node-v10.13.0-x64.msi';
+        aDom.target = '_blank';
+        aDom.click();
+});
+```
