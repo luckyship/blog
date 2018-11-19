@@ -21,14 +21,14 @@ void (0)
 void "hello"  
 void (new Date())  
 // all will return undefined  
-context == void 666
+context === void 666
 ```
 
 ---
 <!-- more -->
 
 ## Element.scrollIntoViewIfNeeded
- Element.scrollIntoViewIfNeeded（）方法用来将不在浏览器窗口的可见区域内的元素滚动到浏览器窗口的可见区域。 如果该元素已经在浏览器窗口的可见区域内，则不会发生滚动。
+Element.scrollIntoViewIfNeeded()方法用来将不在浏览器窗口的可见区域内的元素滚动到浏览器窗口的可见区域。 如果该元素已经在浏览器窗口的可见区域内，则不会发生滚动。
  ```javascript
 element.scrollIntoViewIfNeeded(); // 等同于element.scrollIntoViewIfNeeded(true) 
 element.scrollIntoViewIfNeeded(true); 
@@ -38,6 +38,7 @@ element.scrollIntoViewIfNeeded(false);
 - 当元素已经在可视区域时，调用 Element.scrollIntoViewIfNeeded()，无论设置什么参数，均不发生滚动。
 
 ## JS取整
+
 ```javascript
 ~~2.5 // 2 按位取反 -2^31~2^31-1 -2147483648~2147483647
 0|3.123;// 3 或运算
@@ -74,11 +75,13 @@ parseInt('2017-07-04') // 2017
 ```
 
 ## JS浮点数运算(原因浮点数无法用二进制准确表示)
+
 ```javascript
 0.1+0.2 // 0.30000000000000004
 1. parseFloat().toFixed(10) 
 2. *100/100 
 ```
+
 ## Object.toString()
 ```javascript
 var a = {name:'cosyer'}
@@ -87,12 +90,14 @@ a.toString() // [object Object] [typeof a instanceof a]
 ```
 ## 全等判断
 javascript 中 +0 完全等于 -0，那么怎么分区两者呢？
+
 ```javascript
 1/0 === 1/-0 // false 
 +0 === -0 // true
 Object.is(+0,-0) // false
 ```
 区分NaN
+
 ```javascript
 NaN !== NaN // true
 NaN === NaN // false 
@@ -101,6 +106,7 @@ Object.is(NaN,NaN) // true
 
 ## try-catch跳出forEach循环
 forEach遍历不能保证遍历的顺序，以及不能break;一般for循环的性能是forEach的20倍
+
 ```javascript 
 try {
     [1, 2, 3].forEach(v => {
@@ -143,6 +149,8 @@ function add(num){
     var _add = function(args){
         num+=args;
         return arguments.callee; //  return add(num+args);
+        // 现在已经不推荐使用arguments.callee()；
+        // 原因：访问 arguments 是个很昂贵的操作，因为它是个很大的对象，每次递归调用时都需要重新创建。影响现代浏览器的性能，还会影响闭包。
     }
     _add.toString = _add.valueOf = function(){
         return num;
@@ -150,6 +158,66 @@ function add(num){
     return _add;
 }
 add(2)(3)(4);// function 9
+```
+
+## 阶乘
+```javascript
+function factorial(num){    
+   if (num <=1) {         
+      return 1;     
+   } else {         
+   return num * factorial(num-1)     
+   } 
+} 
+// 定义阶乘函数一般都要用到递归算法；如上面的代码所示，在函数有名字，而且名字以后也不会变的情况下，这样定义没有问题。 
+// 但问题是这个函数的执行与函数名 factorial 紧紧耦合在了一起。为了消除这种紧密耦合的现象，可以像下面这样使用 arguments.callee
+// arguments 的主要用途是保存函数参数， 但这个对象还有一个名叫 callee 的属性，返回正被执行的 Function 对象，
+// 也就是所指定的 Function 对象的正文，这有利于匿名函数的递归或者保证函数的封装性。 
+
+function factorial(num){    
+   if (num <=1) {         
+      return 1;     
+   } else {         
+   return num * arguments.callee(num-1);
+   } 
+}
+
+var trueFactorial = factorial;
+factorial = function() {
+    return 0;
+}                
+alert(trueFactorial(5));// 120 如果没有使用arguments.callee，将返回0
+```
+
+## arguments.callee的替换方案
+```javascript
+function show(n) {
+    var arr = [];
+    return (function () {
+        arr.unshift(n);
+        n--;
+        if (n != 0) {
+            arguments.callee();
+        }
+        return arr;
+    })()
+}
+show(5)//[1,2,3,4,5]
+
+// 给内部函数一个名字（当函数被调用时，它的arguments.callee对象就会指向自身，也就是一个对自己的引用。）
+function show(n) {
+    var arr = [];
+    return (function fn() {
+        arr.unshift(n);
+        n--;
+        if (n != 0) {
+            fn();
+        }
+        return arr;
+
+    })()
+}
+show(5)//[1,2,3,4,5]
 ```
 
 ## Date相关 
