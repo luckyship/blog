@@ -263,7 +263,7 @@ console.log([year, month, day].map((item)=>{
 var time = new Date(); 
 var t = "博客存活了"+Math.floor((+new Date - 1527868800000) / (1000 * 60 * 60 * 24)) + "天" + time.getHours() + "小时" 
 + time.getMinutes() + "分" + time.getSeconds() + "秒"; 
-// 博客存活了11天 21小时28分51秒 1527868800000当时的时间转的时间戳
+// 博客存活了11天 21小时28分51秒 1527868800000当时的时间转的时间戳 new Date(1527868800000).toLocaleString() "2018/6/2 上午12:00:00"
 ```
 
 ### Date原型扩展方法
@@ -313,6 +313,7 @@ window.onload = function () {
 }
 ```
 onload和onready的区别：
+
 1. 执行时间
 
 　　window.onload必须等到页面内包括图片的所有元素加载完毕后才能执行。 
@@ -418,27 +419,6 @@ document.addEventListener('visibilitychange', function () {
 	<a href="/images/myw3schoolimage.jpg" download="w3logo"></a>
     // QQ
 	<a href="tencent://message/?uin=535509852&Site=-&Menu=yes" target="_blank">QQ:535509852</a>
-```
-
-## 两数组去重合并
-```javascript
-function filter(a,b){
-	for(let m in a){ 
-	let isExist=false;
-	for(let n in b ){
-	if(b[n]==a[m]){
-	isExist=true;
-	break;
-	}
-	}
-if(!isExist){
-	b.push(a[m]);
-}
-	}
-	return b;
-}
-// filter([1,2,3,4],[2,3])
-// [2, 3, 1, 4]
 ```
 
 ##  `<script>`元素放在 HTML 文件底部
@@ -548,6 +528,9 @@ let treeData=fn(treeData,null) // 传入原始数据/parentId
 <a href="#" onclick="javascript:history.back(-1);">返回到上一页</a>
 
 <a href="#" onClick="javascript:history.go(-1)">返回上一页</a>
+
+// window.open(url,"_blank")
+// window.location.href=url
 ```
 
 ## 去重数组里对象相同值得key
@@ -656,7 +639,7 @@ if (c > 0) {
 
 };
 
-// scrollToTop()
+scrollToTop()
 ```
 
 ## 求和
@@ -668,16 +651,24 @@ const sum = arr => arr.reduce((acc, val) => acc + val, 0);
 ```
 
 ## 大写每个单词的首字母
-使用replace（）匹配每个单词的第一个字符，并使用toUpperCase（）来将其大写。
+使用replace()匹配每个单词的第一个字符，并使用toUpperCase()来将其大写。
 
 ```javascript
 const capitalizeEveryWord = str => str.replace(/[a-z]/g, char => char.toUpperCase());
 
-// capitalizeEveryWord(‘hello world!’) -> ‘Hello World!’
+// capitalizeEveryWord('hello world!') -> 'HELLO WORLD!'
+
+function titleCase(s) {  
+    return s.toLowerCase().replace(/\b([\w|']+)\b/g, function(word) {  
+        //return word.slice(0, 1).toUpperCase() + word.slice(1);  
+        return word.replace(word.charAt(0), word.charAt(0).toUpperCase());  
+    });  
+}
+// titleCase('hello world!') -> 'Hello World!'
 ```
 
 ## 计算数组中某值出现的次数
-每次遇到数组中的特定值时，使用reduce（）来递增计数器。
+每次遇到数组中的特定值时，使用reduce()来递增计数器。
 
 ```javascript
 const countOccurrences = (arr, value) => arr.reduce((a, v) => v === value ? a + 1 : a + 0, 0);
@@ -686,7 +677,8 @@ const countOccurrences = (arr, value) => arr.reduce((a, v) => v === value ? a + 
 ```
 
 ## 数组间的区别
-从b创建一个Set，然后在a上使用Array.filter（），只保留b中不包含的值。
+从b创建一个Set，然后在a上使用Array.filter()，只保留b中不包含的值。
+
 ```javascript
 const difference = (a, b) => { const s = new Set(b); return a.filter(x => !s.has(x)); };
 
@@ -793,7 +785,6 @@ function doAction(action) {
 
 ## 隐藏console打印在哪一行的信息
 ```javascript
-function
 setTimeout(console.log.bind(console, 'Hello world'), 2000)
 ```
 
