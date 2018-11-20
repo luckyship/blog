@@ -14,7 +14,7 @@ photos:
 
 {% note info %}
 
-{% endnote% }
+{% endnote %}
 
 {% centerquote %} 
 
