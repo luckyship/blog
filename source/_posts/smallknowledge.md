@@ -140,7 +140,7 @@ fetch(apiUrl, {
 }).then(async res => console.log(await res.json()))
 ```
 
-## 实现var a = add(2)(3)(4)
+## 实现var a = add(2)(3)(4) 函数柯里化
 js中console.log一个对象时，会对这个对象进行toString()操作，还有些情况会对对象进行valueOf()操作
 vauleOf优先于toString()被调用
 

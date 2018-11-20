@@ -98,21 +98,22 @@ getName(); // 4 函数声明都被提升了，表达式会覆盖掉
 ### 练习题
 ```javascript
 function Foo() {
+    // 全局变量
     getName = function () { alert (1); };
     return this;
 }
 Foo.getName = function () { alert (2);};
 Foo.prototype.getName = function () { alert (3);};
 var getName = function () { alert (4);};
-function getName() { alert (5);}
+function getName() { alert (5);} // 函数提升 JavaScript永远不会有函数重载
  
 //请写出以下输出结果：
 Foo.getName(); // 2
 getName();  // 4
-Foo().getName(); // 1
+Foo().getName(); // 1 覆盖了函数表达式
 getName(); // 1
-new Foo.getName(); // 2
-new Foo().getName(); // 3
+new Foo.getName(); // 2 new (Foo.getName)()
+new Foo().getName(); // 3 (new Foo()).getName();
 ```
 
 ## ES6之前，JS没有变量作用域。只有 函数作用域 和 全局作用域。

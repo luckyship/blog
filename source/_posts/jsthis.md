@@ -15,6 +15,7 @@ categories: JS
 <!-- more -->
 ### 作为普通函数调用(直接调用)：函数名()
 当函数作为一个普通函数被调用，`this`指向全局对象。在浏览器里，全局对象就是 window。
+
 ```javascript
 window.name = 'cosyer';
 function getName(){
@@ -24,6 +25,7 @@ getName();                   // cosyer
 ```
 可以看出，此时`this`指向了全局对象 window。(NodeJS的全部对象是global)
 在ECMAScript5的严格模式下，这种情况`this`已经被规定不会指向全局对象了，而是undefined。
+
 ```javascript
 'use strict';
 function fun(){
@@ -33,6 +35,7 @@ fun();                      // undefined
 ```
 ### 作为对象的方法调用
 当函数作为一个对象里的方法被调用，`this`指向该对象
+
 ```javascript
 var obj = {
     name : 'cosyer',
@@ -44,6 +47,7 @@ var obj = {
 obj.getName();              // cosyer
 ```
 如果把对象的方法赋值给一个变量，再调用这个变量：
+
 ```javascript
 var obj = {
     fun1 : function(){
@@ -54,6 +58,7 @@ var fun2 = obj.fun1;
 fun2();                     // window
 ```
 此时调用 fun2 方法 输出了 window 对象，说明此时`this`指向了全局对象。给 fun2 赋值，其实是相当于：
+
 ```javascript
 var fun2 = function(){
     console.log(this);
@@ -63,6 +68,7 @@ var fun2 = function(){
 
 ### 作为构造函数调用
 js中没有类，但是可以从构造器中创建对象，并提供了`new`运算符来进行调用该构造器。构造器的外表跟普通函数一样，大部分的函数都可以当做构造器使用。当构造函数被调用时，`this`指向了该构造函数实例化出来的对象。
+
 ```javascript
 var Person = function(){
     this.name = 'cosyer';
@@ -71,6 +77,7 @@ var obj = new Person();
 console.log(obj.name);      // cosyer
 ```
 如果构造函数显式的返回一个对象，那么`this`则会指向该对象。
+
 ```javascript
 var Person = function(){
     this.name = 'cosyer';
@@ -85,6 +92,7 @@ console.log(obj.name);      // chenyu
 
 ### call() 或 apply() 调用 Function.prototype.bind()将当前函数绑定到指定对象绑定返回新函数之后再进行调用
 通过调用函数的 call() 或 apply() 方法可动态的改变`this`的指向。
+
 ```javascript
 var obj1 = {
     name : 'cosyer',
@@ -101,6 +109,7 @@ obj1.getName.call(obj2);    // chenyu
 obj1.getName.apply(obj2);   // chenyu
 ```
 **简单的实现bind方法**
+
 ```javascript
 const obj = {};
 
@@ -122,6 +131,7 @@ testObj();  // true
 从上面的示例可以看到，首先，通过闭包，保持了 target，即绑定的对象；然后在调用函数的时候，对原函数使用了 apply 方法来指定函数的 this。
 
 不过使用 apply 和 call 的时候仍然需要注意，如果目录函数本身是一个绑定了 this 对象的函数，那 apply 和 call 不会像预期那样执行
+
 ```javascript
 const obj = {};
 
@@ -137,6 +147,33 @@ test.apply(obj);    // true
 // 但是因为 testObj 绑定了不是 obj 的对象，所以会输出 false
 testObj.apply(obj); // false
 ```
+
+## 一道this练习题
+```javascript
+var length = 10;
+function fn() {
+    console.log(this.length)
+};
+var obj = {
+    length: 5, 
+    method: function (fn) {
+        fn();
+        arguments[0](); // this被绑定到arguments上，而arguments确实存在一个length属性，并且值为2
+        fn.call(obj, 12);
+    }
+};
+obj.method(fn, 1);
+// 10 2 5
+```
+
+1. 默认绑定
+2. 隐式绑定
+3. 显示绑定
+4. new绑定
+> 默认绑定就是什么都匹配不到的情况下，非严格模式this绑定到全局对象window或者global,严格模式绑定到undefined;
+> 隐式绑定就是函数作为对象的属性，通过对象属性的方式调用，这个时候this绑定到对象;
+> 显示绑定就是通过apply和call调用的方式;
+> new绑定就是通过new操作符时将this绑定到当前新创建的对象中，它们的匹配有限是是从小到大的。
 
 ## 箭头函数 
 {% note info %}
