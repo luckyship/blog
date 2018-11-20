@@ -364,6 +364,26 @@ String.prototype.hyphenToHump = function () {
 		})
 }
 
+// 连字符转驼峰 简单版本
+// 假设分隔符有_和-两种
+function camel(str) {
+  let cut = ['_', '-'];
+  let ar = str.split('');
+  let l = ar.length;
+  let flag = false;
+  for(let i = 0;i < l;i++) {
+    let cur = ar[i];
+    if(cut.indexOf(cur) !== -1) {
+      ar[i] = '';
+      flag = true;
+    } else if(flag) {
+      ar[i] = ar[i].toUpperCase();
+      flag = false;
+    }
+  }
+  return ar.join('');
+}
+
 // 驼峰转连字符
 String.prototype.humpToHyphen = function () {
 		return this.replace(/([A-Z])/g, "-$1").toLowerCase()
@@ -569,6 +589,9 @@ while不改变作用域链
 2==false // false
 
 +new Array(017) // NaN
+
+new Array(1,2,3) // [1,2,3]
+new Array(1) // [empty]
 ```
 
 ## with语句
@@ -613,7 +636,7 @@ console.log(x_.name+'的小名是'+x_nick_name);
 ```
 
 ## RGB到十六进制
-使用按位左移运算符(<<)和toString(16)，然后padStart(6，'0')将给定的RGB参数转换为十六进制字符串以获得6位十六进制值。
+使用按位左移运算符(<<)和toString(16)，然后padStart(6,'0')将给定的RGB参数转换为十六进制字符串以获得6位十六进制值。
 
 ```javascript
 const rgbToHex = (r, g, b) => ((r << 16) + (g << 8) + b).toString(16).padStart(6, '0');
@@ -639,7 +662,7 @@ if (c > 0) {
 
 };
 
-scrollToTop()
+// scrollToTop()
 ```
 
 ## 求和
@@ -655,7 +678,6 @@ const sum = arr => arr.reduce((acc, val) => acc + val, 0);
 
 ```javascript
 const capitalizeEveryWord = str => str.replace(/[a-z]/g, char => char.toUpperCase());
-
 // capitalizeEveryWord('hello world!') -> 'HELLO WORLD!'
 
 function titleCase(s) {  
@@ -712,6 +734,8 @@ const getScrollPos = (el = window) =>
 const gcd = (x, y) => !y ? x : gcd(y, x % y);
 
 // gcd (8, 36) -> 4
+1e3 // 1000
+1E3 // 1000
 ```
 
 ## UUID生成器
@@ -726,12 +750,12 @@ const uuid = _ =>
 
 );
 
-// uuid() -> ‘7982fcfe-5721-4632-bede-6000885be57d’
+// uuid() -> '7982fcfe-5721-4632-bede-6000885be57d'
 ```
 
 ## 检查变量是否声明
 如果读取一个不存在的键，会返回undefined，而不是报错。可以利用这一点，来检查一个全局变量是否被声明。
-后二种写法有漏洞，如果a属性是一个空字符串（或其他对应的布尔值为false的情况），则无法起到检查变量是否声明的作用。
+前二种写法有漏洞，如果a属性是一个空字符串（或其他对应的布尔值为false的情况），则无法起到检查变量是否声明的作用。
 最好的方法是使用in
 
 ```javascript
@@ -827,6 +851,8 @@ parseInt第二个参数
 
 2. 隐藏iframe模拟Ajax上传
 ```javascript
+// form的enctype属性为编码方式，常用有两种：application/x-www-form-urlencoded和multipart/form-data，默认为application/x-www-form-urlencoded。
+// multipart/form-data是上传二进制数据;它告诉我们传输的数据要用到多媒体传输协议
 <iframe  name="ajaxUpload" style="display:none"></iframe>
 <form action="url" method="post" enctype="multipart/form-data" target="ajaxUpload">
     <input type="file" name="img">
@@ -876,7 +902,7 @@ xhr.onreadystatechange = function(){};
 xhr.send(formData);
 
 // 获取上传的进度
-xhr.upload.ongress = function(evt){
+xhr.upload.onprogress = function(evt){
     console.log(evt);
     var loaded = evt.loaded; //已经上传的大小
     var total = evt.total;//附件总大小
