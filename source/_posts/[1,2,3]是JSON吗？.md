@@ -1,10 +1,10 @@
 ---
-title: "[1,2,3]"是JSON吗？
+title: \[1,2,3\]是JSON吗？
 tags:
   - 知识
 copyright: true
 comments: true
-date: 2018-11-21 17:39:14
+date: 2018-11-21 11:17:20
 categories: 知识
 photos:
 top: 120
