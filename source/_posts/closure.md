@@ -71,6 +71,7 @@ for(var i =0;i<arr.length;i++){
 ```
 
 避免使用过多的闭包，可以用let关键词，每个闭包都绑定了块作用域的变量，这意味着不再需要额外的闭包。
+
 ```javascript
 var arr=['one','two','three']
 for(let i =0;i<arr.length;i++){

@@ -40,6 +40,7 @@ console.log(iterator.next().value) // 3
 生成器可以让我们的代码进行等待。就不用嵌套的回调函数。使用generator可以确保当异步调用在我们的generator函数运行一下行代码之前完成时暂停函数的执行。
 
 那么问题来了，咱们也不能手动一直调用next()方法，你需要一个能够调用生成器并启动迭代器的方法。就像这样子的：
+
 ```javascript
 function run(taskDef){
   // 创建迭代器，让它在别处可用
@@ -67,6 +68,7 @@ function run(taskDef){
 es6引入了 async 函数，使得异步操作变得更加方便。
 
 async 函数是什么？一句话，它就是 Generator 函数的语法糖。
+
 ```javascript
 function timeout(ms){
   return new Promise((resolve)=>{

@@ -73,6 +73,7 @@ store.dispatch({ type: 'DECREMENT' });
 
 通过reducer修改数据带来的好处
 1. 数据拆解 => 通过定义多个reducerr对数据进行拆解访问或者修改，最终再通过combineReducers函数将零散的数据拼装回去。
+
 ```javascript
 import { combineReducers } from 'redux';
 

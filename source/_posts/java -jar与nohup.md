@@ -83,6 +83,7 @@ nohup问题:
 - 远程控制和实时的接口API ( Nodejs 模块,允许和PM2进程管理器交互 )
 
 使用：
+
 ```javascript
 npm install -g pm2
 pm2 start app.js -o out.log -e err.log

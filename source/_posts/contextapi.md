@@ -17,6 +17,7 @@ React 16.3带来了正式版的context API。让我们来看看有哪些改变�
 <!-- more -->
 
 我当前依赖的版本
+
 ```javascript
 "dependencies": {
     "react": "^16.4.0",
@@ -36,6 +37,7 @@ const {Provider,Consumer} = ThemeContext
 
 ## Provider 组件 
 **Provider组件用于将context数据传给该组件树下的所有组件 value属性是context的内容。**
+
 ```javascript
 class App extends React.Component {
   render() {
@@ -50,6 +52,7 @@ class App extends React.Component {
 ```
 ## Consumer 组件
 **Consumer消费Provider传递的数据**
+
 ```javascript
 // 函数式
 const Comp1 = () => (

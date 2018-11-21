@@ -35,6 +35,7 @@ function foo(){
 foo() // value 1 如果是动态作用域则是2
 ```
 我们再来看两道题：
+
 ```javascript
 var scope = "global scope";
 function checkscope(){
@@ -46,6 +47,7 @@ function checkscope(){
 }
 checkscope();
 ```
+
 ```javascript
 var scope = "global scope";
 function checkscope(){

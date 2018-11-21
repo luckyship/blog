@@ -13,6 +13,7 @@ categories: JS
 <!-- more -->
 
 从最简单的遍历数组说起。
+
 ```javascript
 // 定义一个数组arr（假设是从后台返回的数据）
 let i = 0;
@@ -24,6 +25,7 @@ while (i < 50) {
 ```
 
 如果我们想从数组 arr 中取出数据，就必须要进行遍历，普遍的做法是：
+
 ```javascript
 for (let i = 0; i < arr.length; i++) {
     // arr[i]
@@ -33,6 +35,7 @@ for (let i = 0; i < arr.length; i++) {
 但其实这样的写法遍历是最慢的，他要经过两次迭代，第一次是 i 的迭代，每次都要判断 i 是否小于 arr.length，第二次是 arr 的迭代，每次循环 arr 都会调用底层的迭代器，对长度进行计算，这样循环的效率非常低，时间空间复杂度为 O[n^2]。
 
 下面进行优化，看看两者到底有什么区别：
+
 ```javascript
 for (let i = 0, len = arr.length; i < len; i++) {
     // arr[i]
@@ -42,6 +45,7 @@ for (let i = 0, len = arr.length; i < len; i++) {
 区别就是，整个循环当中，我们预存了 len 来保存数组的长度，这样不需要每次循环都调用底层迭代器，调用一次即可，这样的时间空间复杂度为 O[n+1]。
 
 但是这并不是最完美的，因为会多了一次迭代操作，那么该如何进行优化呢？
+
 ```javascript
 for (let i = 0, item; item = arr[i++];) {
     // item
@@ -50,6 +54,7 @@ for (let i = 0, item; item = arr[i++];) {
 这次迭代的时间空间复杂度为 O[n] ，完美做到了每次一迭代没有通过长度进行判断，而是直接通过下标进行取值的方式映射到了循环体内部。
 
 最后用5万条数据进行测试各种方式的循环时间：
+
 ```javascript
 // 定义一个数组arr（假设是从后台返回的数据）
 let index = 0;
@@ -96,4 +101,3 @@ console.timeEnd('five');
 // five: 11.144ms
 ```
 在数据量大的情况下，第三种循环方式效果显而易见。
-

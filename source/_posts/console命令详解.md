@@ -24,6 +24,7 @@ console.warn('警告');
 
 ### 占位符
 ​ console上述的集中度支持printf的占位符格式，支持的占位符有：字符（%s）、整数（%d或%i）、浮点数（%f）和对象（%o）
+
 ```javascript
 console.log("%d年%d月%d日",2016,11,11);
 ```
@@ -58,6 +59,7 @@ console.dirxml(info);
 
 ### 判断变量是否为真
 ​console.assert()用来判断一个表达式或变量是否为真。如果结果为否，则在控制台输出一条相应信息，并且抛出一个异常。
+
 ```javascript
 console.assert(1 == 1); 
 console.assert(1 == 2); // Assertion failed: console.assert
@@ -78,6 +80,7 @@ function add1(a,b){return add(a,b);}
 
 ### 计时功能
 console.time()和console.timeEnd()，用来显示代码的运行时间。
+
 ```javascript
 console.time("控制台计时器一");
 for(var i=0;i<10000;i++){

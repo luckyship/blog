@@ -11,6 +11,7 @@ top: 113
 ---
 
 一个基本的.babelrc配置:
+
 ```javascript
 {
   "presets": [
@@ -29,6 +30,7 @@ top: 113
 presets 是babel的一个预设，使用的时候需要安装对应的插件，对应babel-preset-xxx，例如下面的配置，需要npm install babel-preset-env
 
 > 每年每个 preset 只编译当年批准的内容。 而 babel-preset-env 相当于 es2015 ，es2016 ，es2017 及最新版本。
+
 ```javascript
 {
   "presets": ["env"]
@@ -53,6 +55,7 @@ presets，是plugins的预设，起到方便设置的作用。如果不采用pre
 
 ### 自定义预设和插件
 3种方式设置都ok
+
 ```javascript
 "plugins": ["babel-plugin-myPlugin"]
 "plugins": ["myPlugin"]

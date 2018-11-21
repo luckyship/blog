@@ -53,6 +53,7 @@ $heading: (
 
 ### 插值
 插值使用 #{}
+
 ```javascript
 // Variables
 $mySelector: banner;
@@ -67,6 +68,7 @@ $mySelector: banner;
 
 ### 跳出嵌套
 @at-root (without: rule| all | media)
+
 ```javascript
 // 跳出普通的嵌套
 .demo {
@@ -99,6 +101,7 @@ $mySelector: banner;
 混合器中不仅可以包含属性，也可以包含 css 规则，包含选择器和选择器中的属性，也可以使用 & 上下文。
 
 为便于书写，@mixin 可以用 = 表示，而 @include 可以用 + 表示
+
 ```javascript
 // 无参数
 @mixin block {
@@ -144,6 +147,7 @@ $mySelector: banner;
 
 #### @Content
 @content 它可以使 @mixin 接受一整块样式，接受的样式从 @content 开始。
+
 ```javascript
 @mixin max-screen($res) {
     @media only screen and ( max-width: $res ) {
@@ -159,6 +163,7 @@ $mySelector: banner;
 ## 继承
 选择器继承可以让选择器继承另一个选择器的所有样式，并联合声明。使用选择器的继承，要使用关键词 @extend，后面紧跟需要继承的选择器。
 继承可以继承默认的元素属性，比如让一个div继承a，那么这 div 看起来就好像 a 一样。
+
 ```javascript
 // 继承现有的标签，或类
 h1{
@@ -172,6 +177,7 @@ h1{
 
 ## 占位选择器%
 可以定义占位选择器 %，如果不调用则不会有任何多余的 css 代码。
+
 ```javascript
 %block {
     display: block;
@@ -205,6 +211,7 @@ div {
 
 ## @if判断
 @if 可一个条件单独使用，也可以和 @else 结合多条件使用
+
 ```javascript
 $big: false;
 p {
@@ -219,6 +226,7 @@ p {
 
 ## 三目判断
 语法为：if($condition, $if_true, $if_false) 。三个参数分别表示：条件，条件为真的值，条件为假的值。
+
 ```javascript
 $min: 20;
 p {
@@ -229,6 +237,7 @@ p {
 ## for循环
 for 循环有两种形式，分别为：@for $var from [start] through [end] 和 @for $var from [start] to [end]。
 关键字through表示包括end这个数，而to则不包括end这个数。
+
 ```javascript
 @for $i from 1 through 3 {
     .item-#{$i} { width: 2em * $i; }
@@ -237,6 +246,7 @@ for 循环有两种形式，分别为：@for $var from [start] through [end] 和
 
 ## @each 循环
 语法为：@each $var in [list or map]
+
 ```javascript
 $headings: (h1: 2em, h2: 1.5em, h3: 1.2em);
 @each $header, $size in $headings {

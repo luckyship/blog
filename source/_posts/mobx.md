@@ -38,7 +38,7 @@ setter： 不能用来直接改变计算属性的值，但是它们可以用来�
 - reactions
 Reactions 和计算值很像，但它不是产生一个新的值，而是会产生一些副作用，比如打印到控制台、网络请求、递增地更新 React 组件树以修补DOM、等等。 简而言之，reactions 在 响应式编程和命令式编程之间建立沟通的桥梁。
 
-~~~
+~~~javascript
 // component
 import {inject, observer} from "mobx-react";
 
@@ -71,7 +71,7 @@ const homeStore =new HomeStore()
 export {homeStore}
 ~~~
 
-~~~
+~~~javascript
 switch
 router render={(props)=><Item {...props}/>}
 router component={Index}

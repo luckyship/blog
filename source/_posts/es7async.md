@@ -59,6 +59,7 @@ f()
 ```
 
 如果我们不使用try-catch，然后async函数f()的调用产生的promise变成reject状态的话，我们可以添加.catch去处理它：
+
 ```javascript
 async function f() {
     let response = await fetch('http://no-such-url')
@@ -71,7 +72,6 @@ f().catch(alert) // TypeError: failed to fetch
 async/await能够与Promise.all友好的协作，当我们需要等待多个promise时，我们可以将他们包装在Promise.all中然后使用await：
 
 ```javascript
-
 // 直到数组全部返回结果
 let results = await Promise.all([
    fetch(url1),

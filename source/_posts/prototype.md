@@ -269,6 +269,7 @@ persion.sayName() // error
 2.把作用域（this）指给这个对象
 3.执行构造函数的代码
 4.返回这个对象
+
 ```javascript
 function Base(){
   this.id = "base";

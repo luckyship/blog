@@ -44,7 +44,8 @@ console.log('Hi!');
 // resolved
 ```
 接下来我们就用`Promise`结合ajax来使用
-```
+
+```javascript
 const getJSON = function(url) {
   const promise = new Promise(function(resolve, reject){
     const handler = function() {
@@ -225,6 +226,7 @@ function Promise(fn) {
 ```
 
 **手动实现一个Promise：**
+
 ```javascript
 class Promise(){
   construtor(fn){
@@ -269,6 +271,7 @@ class Promise(){
 }
 ```
 **实现Promise.all**
+
 ```javascript
 Promise1.all = function(arr) {
     // 存放结果集

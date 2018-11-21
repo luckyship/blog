@@ -36,6 +36,7 @@ const声明创建一个值的只读引用。但这并不意味着它所持有的
 
 ## 变量的作用域
 在所有函数之外声明的变量，叫做全局变量，因为它可被当前文档中的任何其他代码所访问。在函数内部声明的变量，叫做局部变量，因为它只能在该函数内部访问。全区变量是全局对象的属性，在浏览器中可以用window.xx或xx来访问。
+
 ```javascript
 if(true){
     var a=5
@@ -76,6 +77,7 @@ var myvar = "my value";
 
 ## 函数提升
 声明函数的两种方式：
+
 ```javascript
 function foo(){} // 函数声明 存在函数提升且大于变量提升
 var foo=function (){} // 函数表达式 var foo=function foo1(){} 函数名可写
@@ -100,6 +102,9 @@ var foo=function (){} // 函数表达式 var foo=function foo1(){} 函数名可�
 对象被定义为“无序属性的集合，其属性可以包含基本值，对象或者函数”。
 
 只有null和undefined无法拥有方法
+
+Function Array Number Boolean String Date Math RegExp类
+
 ```javascript
 typeof null === 'object' // true
 null instanceof Object // false 
@@ -166,6 +171,7 @@ var name = "Bob", time = "today";
 
 ## try-catch 
 如果finally块返回一个值，该值会是整个try-catch-finally流程的返回值，不管在try和catch块中语句返回了什么：
+
 ```javascript
 function f() {
   try {
@@ -226,6 +232,7 @@ for (let i in a) {
 
 ## 多层嵌套函数
 函数可以被多层嵌套。例如，函数A可以包含函数B，函数B可以再包含函数C。B和C都形成了闭包，所以B可以访问A，C可以访问B和A。因此，闭包可以包含多个作用域；他们递归式的包含了所有包含它的函数作用域。这个称之为作用域链。
+
 ```javascript
 function A(x) {
   function B(y) {
@@ -249,6 +256,7 @@ A(1); // logs 6 (1 + 2 + 3)
 
 ## 作用域链
 当同一个闭包作用域下两个参数或者变量同名时，就会产生命名冲突。更近的作用域有更高的优先权，所以最近的优先级最高，最远的优先级最低。这就是作用域链。链的第一个元素就是最里面的作用域，最后一个元素便是最外层的作用域。
+
 ```javascript
 function outside() {
   var x = 5;
@@ -264,6 +272,7 @@ outside()(10); // returns 20 instead of 10
 
 ## 闭包
 JavaScript 允许函数嵌套，并且内部函数可以访问定义在外部函数中的所有变量和函数，以及外部函数能访问的所有变量和函数。但是，外部函数却不能够访问定义在内部函数中的变量和函数。这给内部函数的变量提供了一定的安全性。此外，由于内部函数可以访问外部函数的作用域，因此当内部函数生存周期大于外部函数时，外部函数中定义的变量和函数将的生存周期比内部函数执行时间长。当内部函数以某一种方式被任何一个外部函数作用域访问时，一个闭包就产生了。
+
 ```javascript
 var pet = function(name) {          //外部函数定义了一个变量"name"
   var getName = function() {            
@@ -280,6 +289,7 @@ myPet();                            // 返回结果 "Vivie"
 
 ## arguments 对象
 函数的实际参数会被保存在一个类似数组的arguments对象中。
+
 ```javascript
 arguments[i] // 访问
 ```
@@ -297,6 +307,7 @@ function multiply(a, b = 1,...[1,2,3]) {
 ## 箭头函数
 箭头函数总是匿名的
 引入箭头函数的原因
+
 1. 更简洁的语法
 2. 捕捉闭包上下文的this值
 ```javascript
@@ -320,6 +331,7 @@ f(...args);
 ```
 ## 临时对象
 你可以在String字面值上使用String对象的任何方法—JavaScript自动把String字面值转换为一个临时的String对象, 然后调用其相应方法,最后丢弃销毁此临时对象.在String字面值上也可以使用String.length属性.
+
 ```javascript
 var s1 = "2 + 2"; // Creates a string literal value
 var s2 = new String("2 + 2"); // Creates a String object
@@ -468,6 +480,7 @@ sayings.size; // 0
 new Map() 参数可以是一个数组或者其他 iterable 对象，其元素或为键值对，或为两个元素的数组。 每个键值对都会添加到新的 Map。null 会被当做 undefined。
 
 **Object和Map的比较**
+
 1. 一般地，objects会被用于将字符串类型映射到数值。Object允许设置键值对、根据键获取值、删除键、检测某个键是否存在。而Map具有更多的优势。
 2. Object的键均为Strings类型，在Map里键可以是任意类型。
 3. 必须手动计算Object的尺寸，但是可以很容易地获取使用Map的尺寸。
@@ -501,6 +514,7 @@ Array.from(mySet2);  // [1,2,3] 常用来去重
 ```
 
 **Array和Set的比较**
+
 1. 数组中用于判断元素是否存在的indexOf 函数效率低下。
 2. Set对象允许根据值删除元素，而数组中必须使用基于下标的 splice 方法。
 3. 数组的indexOf方法无法找到NaN值。
@@ -650,7 +664,6 @@ for (let value of myIterable) {
 // 3
 
 or
-
 [...myIterable]; // [1, 2, 3]
 ```
 
