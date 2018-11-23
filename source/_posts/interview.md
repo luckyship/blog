@@ -464,6 +464,8 @@ IE只支持事件冒泡。
 
 48. 深拷贝
 - 深拷贝的方法 1-2适用于一般的对象和数组 4-5适用于数组 3通用
+
+```javascript
 let obj = {
     a: 1,
     arr: [1, 2]
@@ -491,6 +493,7 @@ var deepCopy= function(source) {
      } 
    return result; 
 }
+```
 
 49. 判断一个变量是否是数组
 ```javascript
