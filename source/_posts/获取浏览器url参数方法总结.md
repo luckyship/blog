@@ -22,7 +22,6 @@ function getQueryString(name) {
     return null;
 }
 getQueryString("typeId") // "2"
-
 ```
 
 ---
