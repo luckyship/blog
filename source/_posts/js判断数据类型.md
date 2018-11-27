@@ -17,6 +17,12 @@ top: 115
 
 > 在判断除Object类型的对象时比较方便。
 
+```javascript
+var fn = new Function ('a', 'b', 'return a + b')
+
+typeof fn // function
+```
+
 ## instanceof 
 > instanceof适用于检测对象，它是基于原型链运作的。
 
