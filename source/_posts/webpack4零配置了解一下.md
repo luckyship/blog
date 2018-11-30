@@ -34,8 +34,10 @@ npm i webpack-cli --save-dev
 "scripts":{
     "build":"webpack"
 }
-
 ```
+---
+<!-- more -->
+
 - 如果直接开始运行`npm run build`会因为缺少指定的默认目录的文件导致抛出错误
 - 添加入口文件 
 ```javascript
