@@ -728,3 +728,41 @@ new Promise((resolve) => {
     console.log(data)
 })
 ```
+
+## 现一个函数，将一个字符串中的空格替换成“%20”
+```javascript
+function convertSpace2percent20(str){
+  return str.replace(/\s+?/g,"%20"); //开启非贪婪模式
+}
+
+convertSpace2percent20("hellow world")
+// "hellow%20world"
+```
+
+## var obj = { 1: "Hello", 2: "World" }打印Hello World
+```javascript
+var obj = {
+    1: "Hello",
+    2: "World"
+};
+
+var str = '';
+
+// 方法1
+for (var i = 1; i < 3; i++) {
+	str += obj[i] + " "; //注意不能使用obj.i
+}
+
+// 方法2
+for (var key of Object.keys(obj)) {
+	str += obj[key] + " ";
+}
+
+// 方法3
+for (let i in obj) {
+  str += obj[i] + " "; 
+}
+
+// 方法4
+Object.values(obj).join(" ")
+```

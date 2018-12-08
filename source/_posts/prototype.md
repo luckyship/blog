@@ -10,6 +10,10 @@ top: 107
 photos:
 ---
 
+{% centerquote %} 
+ 原型对象的用途是为每个实例对象存储共享的方法和属性，它仅仅是一个普通对象而已，仅有一份。
+{% endcenterquote %}
+
 ## 构造函数创建对象
 
 我们先使用构造函数创建一个对象：
@@ -252,6 +256,7 @@ persion.sayName() // darling
 function Persion(){}
 let persion=new Persion()
 // 这里重写了原型对象，实例对象和最初的原型对象断开了联系
+// persion的proto指向一个空对象
 Persion.prototype={
   sayName:function(){
     console.log('darling')

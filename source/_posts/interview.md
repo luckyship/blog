@@ -134,6 +134,63 @@ var client=null
 
     场景：一般用于框架、插件等场景，设计私有变量和方法，封闭私有作用域。
 
+### 立即执行函数表达式(IIFE)
+#### 使用匿名函数表达式
+```javascript
+var a = 2;
+(function IIFE(){
+	var a = 3;
+	console.log(a);//3
+})();
+console.log(a);//2
+```
+#### 当作函数调用并传递参数进去
+```javascript
+var a = 2;
+(function IIFE(global){
+	var a = 3;
+	console.log(a);//3
+	console.log(global.a);//2
+})(window);
+console.log(a);//2
+```
+#### 解决undefined标识符默认值被错误覆盖
+```javascript
+undefined = true;
+(function IIFE(){
+	var a ;
+	if(a === undefined){
+		console.log('Undefined is safe here!');
+	}
+})();
+```
+#### 倒置代码运行顺序
+```javascript
+var a = 2;
+(function IIFE(def){
+	def(window);
+})(function def(global){
+	var a = 3;
+	console.log(a);//3
+	console.log(global.a);//2
+});
+```
+
+```javascript
+var i = 1;
+var IFun = (function(){
+	var i = 1;
+	console.log(i);
+	return function(){
+		i++;
+		console.log(i);
+}
+})();
+IFun();
+IFun();
+最终输出的结果为1，2，3，很多会下意识的觉得结果会有4个值，但是运用了return 返回值以及自执行函数将函数返回给IFun变量，使得在第一次操作过程后，将返回函数直接赋给IFun。
+```
+
 8. 回调函数？（传递地址，由非实现方调用）  
 回调函数就是一个通过函数指针调用的函数。如果你把函数的指针（地址）作为参数传递给另一个函数，当这个指针被用来调用其所指向的函数时，我们就说这是回调函数。回调函数不是由该函数的实现方直接调用，而是在特定的事件或条件发生时由另外的一方调用的，用于对该事件或条件进行响应。
 
@@ -404,7 +461,24 @@ JSON.strinify() // 解析成JSON字符串
 - 协议不同
 - 端口不同
 - 域名不同
-- 常用解决方案：jsonp、iframe、window.name、window.postMessage、document.domain、服务器设置代理页面/响应header配置cors access-control-allow-origin
+- 常用解决方案：
+1. jsonp
+> <script src="http://example.com/data.php?callback=do"></script>
+2. iframe
+3. window.name
+在一个窗口中，窗口载入的所有页面共享一个window.name，每个页面都对window.name具有读写权限，可以在window.name中设置想要的数据。
+4. window.postMessage
+```javascript
+iframe.contentWindow.postMessage(msg);
+window.onmessage = function (e) {
+    e = e || event;
+    alert(e.data);
+}
+```
+5. document.domain
+将两个页面的document.domain设置成相同域名即可，js中设置，形如：
+document.domain = "";
+6. 服务器设置代理页面/响应header配置cors access-control-allow-origin
 
 39. 解决异步回调地狱有哪些方案？
 promise、generator、async/await
@@ -419,6 +493,14 @@ promise、generator、async/await
 - mouseover：当鼠标移入元素或其子元素都会触发事件，所以有一个重复触发，冒泡的过程。对应的移除事件是mouseout
 
 - mouseenter：当鼠标移除元素本身（不包含元素的子元素）会触发事件，也就是不会冒泡，对应的移除事件是mouseleave
+
+- onmousedown 当元素上按下鼠标按钮时出发
+- onmousemove 当鼠标指针移动到元素上移动触发
+- onmouseover 当鼠标指针移动元素上时触发
+- onmouseout 当鼠标指针移出指定的对象时发生。
+- onmouseup 当在元素上释放鼠标按钮时触发
+- onmouseenter 事件在鼠标指针移动到元素上时触发。(不冒泡)
+- onmouseleave 事件在鼠标移除元素时触发。(不冒泡)
 
 42. 改变函数内部this指针的指向函数（bind，apply，call的区别）？
 - 通过apply和call改变函数的this指向，他们两个函数的第一个参数都是一样的表示要改变指向的那个对象，第二个参数，apply是数组，而call则是arg1,arg2...这种形式。
@@ -628,6 +710,24 @@ console.log(info); //{ a: 3, b: 2, c: 2, d: 1 }
 ```
 
 56. 清除浮动
+> 浮动会引起高度塌陷和文字环绕。
+- 使用空标签清除浮动clear: both （增加了无意义的标签）
+- 使用overflow: auto/hidden （使用zoom: 1兼容IE）
+- 使用after伪元素清除浮动（用于非IE浏览器）
+
+```css
+.clear {
+    overflow: auto;
+    zoom: 1;
+}
+
+.clear::after {
+    display: block;
+    content: '清除浮动',
+    height: 0;
+    clear: both;
+}
+```
 
 57. margin-top和padding-left根据height还是width？
 width
@@ -656,3 +756,9 @@ var ee = new event()
 ee.on('foo', function(){console.log(110)})
 ee.emit('foo') // 110
 ```
+
+61. 左边固定，右边自适应布局
+1. float
+2. flex布局
+3. 通过position 父级relative
+
