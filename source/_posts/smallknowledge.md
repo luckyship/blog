@@ -994,3 +994,60 @@ JSONP.cbs = []
         aDom.click();
 });
 ```
+
+## mixed
+```javascript
+1 << 31 // 1* 2^31 
+2 >> 1  // 2/2^1
+// ---------------
+document.getElementById("#app")
+document.querySelector("#app") // 第一个元素
+document.querySelectorAll("#app") // 符合的所有元素
+p.example // class 
+a[target] // 属性
+h1,h2 // 多个选择器按照文档中的位置设置
+document.querySelector("body").contentEditable = true //设置内容是否可编辑 子元素继承父元素
+isContentEditable // 查看是否可编辑
+<div oncontextmenu="myFunction()" contextmenu="mymenu"/> // 右击菜单事件
+html 
+obj.oncontextmenu= function(){}
+obj.addEventListener("contextmenu",function(){})
+onabort // 用于img加载终止 alt title onerror发生错误
+onhashchange // 路由锚点变化
+onfocusin // 支持冒泡的onfocus
+oninput // input onchange失去焦点触发
+onreset // form表单被重置触发 input type="reset"
+onsearch // input type search 搜索事件
+onsubmnit // form 提交 action
+onscroll // 元素滚动时触发
+oncopy // 在元素上拷贝脚本
+oncut // 剪切
+onpaste // 粘贴
+onafterprint // body 页面打印后触发 window.print() 对应onbeforeprint
+oncanplay // 准备开始播放 设置或者返回
+document.getElementsByTagName() // 返回标签集合
+document.getElementsByClassName() // 返回类名集合
+obj.removeEventListener()
+removeChild()
+removeAttribute()
+```
+
+## 高度
+```javascript
+window.scrollY // 225
+window.pageYOffset // 225
+window.document.body.scrollTop // 0
+window.document.documentElement.scrollTop // 225
+// 特殊字符:~ ! @ # % ^ * - _ = + ?
+```
+
+## 自适应单位
+1. vw：1vw等于视口宽度的1%。
+
+2. vh：1vh等于视口高度的1%。
+
+3. vmin：选取vw和vh中最小的那个。
+
+4. vmax：选取vw和vh中最大的那个
+
+CSS百分比是相对于包含它的最近的父元素的高度和宽度
