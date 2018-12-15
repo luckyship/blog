@@ -37,7 +37,7 @@
   <link href="//cdn.jsdelivr.net/gh/moezx/cdn@v2.52/css/lib.css" rel="stylesheet" type="text/css">
   <link href="/live2dw/css/perTips.css" rel="stylesheet" type="text/css">
   #}
-<link href="http://cdn.mydearest.cn/blog/css/all-9097fb9016.css" rel="stylesheet" type="text/css">
+<link href="https://mydearest.cn/css/all-9097fb9016.css" rel="stylesheet" type="text/css">
 <style>
 // scrollbar滚动条样式优化
 
