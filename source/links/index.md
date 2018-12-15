@@ -119,7 +119,7 @@ copyright: true
             <li>名称：cosyer's blog</li>
             <li>地址：https://mydearest.cn</li>
             <li>描述：生无可恋的程序猿 👨🏻‍💻 </li>
-            <li>图片：https://static.mydearest.cn/blog/images/avatar.jpg</li>
+            <li>图片：https://mydearest.cn/images/avatar.jpg</li>
         </ul>
     </div>
     <hr>
