@@ -10,7 +10,7 @@ categories: JS
 photos:
 ---
 
-{% fi http://p33v4b0bc.bkt.clouddn.com/reactInterview.jpeg , reactInterview, React%}
+{% fi http://cdn.mydearest.cn/blog/images/reactInterview.jpeg , reactInterview, React%}
 ---
 <!-- more -->
 

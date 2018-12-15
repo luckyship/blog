@@ -58,6 +58,7 @@ element.scrollIntoViewIfNeeded(false);
 |1.2|1.2|1.2|
 |-1.2|-1|-1|
 
+```javascript
 1. 位运算：~ 的结果是 int32 的有符号整数，所以肯定不可能是 NaN 和无穷 x|0 x^0 x<<0 x>>0
 
 2. Math.floor向下取整 Math.ceil向上取整 Math.trunc返回整数部分 实现：if(value>0){return Math.floor(value)}else{return Mathg.ceil(value)}
@@ -67,6 +68,7 @@ element.scrollIntoViewIfNeeded(false);
 parseInt() 函数解析一个字符串参数，并返回一个指定基数的整数 (数学系统的基础)。
 
 parseInt 解析字符串 '-0' 会得到 -0。如果参数是数字 -0，会得到 0。
+```
 
 ```javascript
 parseInt(0.0000000003) // 3

@@ -37,7 +37,7 @@
   <link href="//cdn.jsdelivr.net/gh/moezx/cdn@v2.52/css/lib.css" rel="stylesheet" type="text/css">
   <link href="/live2dw/css/perTips.css" rel="stylesheet" type="text/css">
   #}
-<link href="https://static.mydearest.cn/blog/css/all-9097fb9016.css" rel="stylesheet" type="text/css">
+<link href="http://cdn.mydearest.cn/blog/css/all-9097fb9016.css" rel="stylesheet" type="text/css">
 <style>
 // scrollbar滚动条样式优化
 
@@ -71,13 +71,13 @@
 }
 
 * {
-    cursor: url("http://p33v4b0bc.bkt.clouddn.com/miku1.png"),auto!important
+    cursor: url("http://cdn.mydearest.cn/blog/images/miku1.png"),auto!important
 }
 :active {
-    cursor: url("http://p33v4b0bc.bkt.clouddn.com/miku2.png"),auto!important
+    cursor: url("http://cdn.mydearest.cn/blog/images/miku2.png"),auto!important
 }
 a:hover {
-    cursor: url("http://p33v4b0bc.bkt.clouddn.com/miku2.png"),auto!important
+    cursor: url("http://cdn.mydearest.cn/blog/images/miku2.png"),auto!important
 }
 </style>
 </head>

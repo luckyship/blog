@@ -9,7 +9,7 @@ categories: 工具
 photos:
 ---
 
-{% fi http://p33v4b0bc.bkt.clouddn.com/shadowsocks.jpg, Shadowsocks, Shadowsocks %}
+{% fi http://cdn.mydearest.cn/blog/images/shadowsocks.jpg, Shadowsocks, Shadowsocks %}
 ---
 <!-- more -->
 
@@ -27,7 +27,7 @@ Vultr服务器按小时计费,最低0.004美元/h,算起来2.5美元/月，且de
 
 最低价格的服务器是512M的内存，每个月500G的流量，只能说99%的情况下完全够用了！
 
-![introduce](http://p33v4b0bc.bkt.clouddn.com/vultr.png)
+![introduce](http://cdn.mydearest.cn/blog/images/vultr.png)
 
 ## 买好中意的地区节点服务器之后，windows系统可以用Xshell ssh连接到服务器，并执行以下搭建ss脚本命令
 
@@ -44,9 +44,9 @@ chmod +x shadowsocks.sh
 
 接着按照提示输入密码，端口和加密方式，如下图：
 
-![ss1](http://p33v4b0bc.bkt.clouddn.com/ss1.png)
+![ss1](http://cdn.mydearest.cn/blog/images/ss1.png)
 
-![ss2](http://p33v4b0bc.bkt.clouddn.com/ss1.png)
+![ss2](http://cdn.mydearest.cn/blog/images/ss1.png)
 
 然后可以去听首歌~，成功安装之后有你配置的信息显示，记住这些信息。
 

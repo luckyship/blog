@@ -10,7 +10,7 @@ top: 104
 photos:
 ---
 
-{% fi http://p33v4b0bc.bkt.clouddn.com/markdown.png, Markdown, Markdown %}
+{% fi http://cdn.mydearest.cn/blog/images/markdown.png, Markdown, Markdown %}
 
 {% note info %}
 

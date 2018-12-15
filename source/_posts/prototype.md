@@ -54,7 +54,7 @@ console.log(person2.name); // cosyer
 那什么是原型呢？你可以这样理解：每一个 JavaScript 对象(null 除外)在创建的时候就会与之关联另一个对象，这个对象就是我们所说的原型，每一个对象都会从原型"继承"属性。
 
 让我们用一张图表示构造函数和实例原型之间的关系：
-![prototype](http://p33v4b0bc.bkt.clouddn.com/prototype1.png)
+![prototype](http://cdn.mydearest.cn/blog/images/prototype1.png)
 
 在这张图中我们用 Object.prototype 表示实例原型。
 
@@ -71,7 +71,7 @@ console.log(person.__proto__ === Person.prototype); // true
 ```
 
 于是我们更新下关系图：
-![prototype](http://p33v4b0bc.bkt.clouddn.com/prototype2.png)
+![prototype](http://cdn.mydearest.cn/blog/images/prototype2.png)
 
 既然实例对象和构造函数都可以指向原型，那么原型是否有属性指向构造函数或者实例呢？
 
@@ -87,7 +87,7 @@ console.log(Person === Person.prototype.constructor); // true
 ```
 
 所以再更新下关系图：
-![prototype](http://p33v4b0bc.bkt.clouddn.com/prototype3.png)
+![prototype](http://cdn.mydearest.cn/blog/images/prototype3.png)
 综上我们可以得出：
 
 ```javascript
@@ -138,7 +138,7 @@ console.log(obj.name); // cosyer
 ```
 
 其实原型对象就是通过 Object 构造函数生成的，结合之前所讲，实例的 **proto** 指向构造函数的 prototype ，所以我们再更新下关系图：
-![prototype](http://p33v4b0bc.bkt.clouddn.com/prototype4.png)
+![prototype](http://cdn.mydearest.cn/blog/images/prototype4.png)
 
 ## 原型链
 
@@ -161,7 +161,7 @@ null 表示“没有对象”，即该处不应该有值。
 所以查找属性的时候查到 Object.prototype 就可以停止查找了。
 
 最后一张关系图也可以更新为：
-![prototype](http://p33v4b0bc.bkt.clouddn.com/prototype5.png)
+![prototype](http://cdn.mydearest.cn/blog/images/prototype5.png)
 
 图中由相互关联的原型组成的链状结构就是原型链，也就是蓝色的这条线。
 
