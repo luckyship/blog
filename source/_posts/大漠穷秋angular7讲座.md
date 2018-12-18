@@ -33,6 +33,9 @@ ng2-admin
 ```javascript
 npm install -g @angular/cli
 ```
+--- 
+<!--more-->
+
 我的看法(好用程度)
 stylus>less>sass
 
