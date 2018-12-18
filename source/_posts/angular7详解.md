@@ -12,17 +12,17 @@ photos:
 
 ## 开始准备
 1. 安装nodejs
-```javascript
+```
 npm -v
 ```
 
 2. 安装@angular/cli
-```javascript
+```
 npm i -g @angular/cli
 ```
 
 3. CLI命令建立项目
-```javascript
+```
 ng new ng7demo
 ```
 选择是否加入路由模块以及哪种css预处理器
@@ -46,7 +46,7 @@ ng serve --open // 自动打开浏览器 http://localhost:4200/
 
 ## 语法
 ### 生成组件
-```javascript
+```
 // 标签app-article 如果不想要或者自定义前缀可在angular.json里修改prefix属性
 ng g c article
 // 可添加目录
@@ -54,7 +54,7 @@ ng g s ./serveices/eventBus
 // 
 ```
 ### 组件引用
-```javascript
+```
 // 标签方式引用
 <app-article></app-article>
 // 属性方式引用
@@ -63,7 +63,7 @@ ng g s ./serveices/eventBus
 <div class="app-article"></div>
 ```
 
-```javascript
+```
 // @Component装饰器标识这是一个组件
 @Component({
   //selector: 'app-article',
@@ -74,24 +74,24 @@ ng g s ./serveices/eventBus
 })
 ```
 
-### 插值表达式{{}}
+### 插值表达式
 将业务逻辑中的数据通过插值表达式显示在模板文件，即html页面上，或者将html页面上的事件传输到业务逻辑。
 
-```javascript
+```
 <p>标题是{{title}}</p>
 ```
 ### 属性绑定
-```javascript
+```
 <img [src]="imgSrc" />
 <input value="value"
 ```
 
 ### 插值运算 加减乘除/字符串拼接/三元/方法调用
-```javascript
+```
 {{5+3}},{{5-3}},{{5*3}},{{5/3}},{{ "a" + "b"}},{{true?1:0}}
 ```
 ### 事件绑定
-```javascript
+```
 <button (click)="showModal('click')"><button>
 // 传递事件参数
 <input type="text" (keyup) = "updateContent($event)"/>
@@ -103,17 +103,17 @@ ng g s ./serveices/eventBus
 
 ### 模板指令
 #### 判断指令
-```javascript
+```
 <img *ngIf="imgShow;else #p1"/>
 <p #p1></p>
 ```
 #### 样式指令
-```javascript
+```
 <p [ngClass]="{bg:true}">这段内容应用的是类样式。</p>
 <p [ngStyle]="{backgroundColor:pink}">本段内容样式是内联样式。</p>
 ```
 #### 循环指令
-```javascript
+```
 <ul>
     <li *ngFor="let race of raceList; let i = index">
     {{ race.name }}-{{ i + 1 }}
@@ -122,11 +122,11 @@ ng g s ./serveices/eventBus
 ```
 
 ### 管道符
-```javascript
+```
 {{currentTime | date: "yyyy-MM-dd HH:mm:ss" }}
 ```
 ### 父子组件通信
-```javascript
+```
 // 输入
 <child title="我的子组件"></child>
 @Input
@@ -141,7 +141,7 @@ this.follow.emit("子组件传来的数据");
 
 ### 服务总线
 1. 注册服务
-```javascript
+```
 ng g s ./services/eventBus
 import { Injectable } from "@angular/core";
 import { Observable, Subject } from "rxjs";
@@ -168,13 +168,13 @@ this.eventBusService.eventBus.subscribe(arg => {
 ```
 
 ### 标签变量引用
-```javascript
+```
 <child title="我的子组件" #child (follow)="getFollow($event)"></child>
 <button (click)="child.sayHello()">子组件说话</button>
 ```
 
 ### 组件注册
-```javascript
+```
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -202,7 +202,7 @@ export class AppModule { }
 ```
 
 ### 路由导航
-```javascript
+```
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ChildComponent } from "./child/child.component";
@@ -224,14 +224,14 @@ const routes: Routes = [{
 export class AppRoutingModule { }
 ``` 
 
-```html
+```
 <!--RouterOutlet 相当于一个占位符,在Angular中根据路由状态动态插入视图。-->
 <a [routerLink]="['/']">child</a><br/>
 <a [routerLink]="['/brother']">brother</a>
 <router-outlet></router-outlet>
 ```
 ### http服务
-```javascript
+```
 // app.module.ts
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
@@ -243,7 +243,7 @@ this.httpClient.request(UserService.METHOD_POST, url, options).subscribe((data)=
 ``` 
 
 ## ng7的新特性
-```javascript
+```
 // angular.json
 "budgets": [
     {
