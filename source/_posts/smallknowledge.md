@@ -1053,3 +1053,40 @@ window.document.documentElement.scrollTop // 225
 4. vmax：选取vw和vh中最大的那个
 
 CSS百分比是相对于包含它的最近的父元素的高度和宽度
+
+## dom解绑事件
+
+1. attachEvent是IE有的方法，它不遵循W3C标准，而其他的主流浏览器如FF等遵循W3C标准的浏览器都使用addEventListener，所以实际开发中需分开处理。
+
+2. 多次绑定后执行的顺序是不一样的，attachEvent是后绑定先执行，addEventListener是先绑定先执行。
+
+### 为元素解绑事件
+注意:用什么方式绑定事件,就应该用对应的方式解绑事件
+* 1. 解绑事件
+* 对象.on事件名字=事件处理函数--->绑定事件
+* 对象.on事件名字=null;
+
+```javascript
+$("btn").onclick=function () {
+console.log("我是绑定事件");
+};
+$("btn").onclick=null;
+};
+```
+
+* 2. 解绑事件
+* 对象.addEventListener("没有on的事件类型",命名函数,false);---绑定事件 
+* 对象.removeEventListener("没有on的事件类型",函数名字,false);
+
+```javascript
+$("btn").addEventListener("click",f1,false);
+$("btn").removeEventListener("click",f1,false);
+```
+
+* 3. 解绑事件(IE)
+* 对象.attachEvent("on事件类型",命名函数);---绑定事件
+* 对象.detachEvent("on事件类型",函数名字);
+```javascript
+$("btn").attachEvent("onclick",f2);
+$("btn").detachEvent("onclick",f1);
+```

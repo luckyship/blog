@@ -225,6 +225,37 @@ else
 - do...while - 首先执行一次代码块，然后在指定的条件成立时重复这个循环
 - for - 循环执行代码块指定的次数
 - foreach - 根据数组中每个元素来循环代码块
+#### forEach等函数的第二个参数的用法
+forEach函数用得平时用得比较多，但是从来没想到forEach函数还有第二个参数。
+
+简单点来说，就是我们可以直接使用第二个参数来指定函数里的this的值，而不需要使用箭头函数或者在外面定义var that = this;等操作。
+
+```javascript
+var obj = {
+    name: "小明",
+    say: function() {
+        console.log(this.name); // "小明"
+    },
+    think: function() {
+        var arr = [1];
+        arr.forEach(function(item) {
+            console.log(this); // window
+        })
+        console.log('---------')
+        arr.forEach(function(item) {
+            console.log(this); // obj
+        }, this)
+    }
+}
+
+obj.say();
+obj.think();
+
+[3,2,4,1].sort((a,b)=>{
+    return a > b ? 1 : -1; // return a-b
+})
+```
+
 ```php
 <?php
 $x=array("one","two","three");
