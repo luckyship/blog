@@ -1090,3 +1090,52 @@ $("btn").removeEventListener("click",f1,false);
 $("btn").attachEvent("onclick",f2);
 $("btn").detachEvent("onclick",f1);
 ```
+
+## 位运算符
+位运算符一般使用的很少，当他与数字一起使用的时候，比如~N => -(N+1),这个式子仅当 N == -1 的时候结果为0。
+
+我们可以在indexof(..)函数前面加一个~来进行布尔检查，检查一个项是否存在于Array或者string中。
+```javascript
+let userName = 'break jerry'
+
+if(~userName.indexOf("break")) {
+    console.log('access denied');
+}else {
+    console.log('access granted');
+}
+```
+
+## 关闭当前页面
+- window.close()
+- window.open("about:blank","_self").close();
+
+## 字节节省写法
+```javascript
+//取整
+parseInt(a,10); 
+Math.floor(a); 
+~~a; //节省之后的写法
+a|0; //节省之后的写法 
+a<<0
+
+//四舍五入
+Math.round(a); 
+a+.5|0; //节省之后的写法
+
+//内置值未定义
+undefined; 
+void 0; //节省之后的写法(快)
+0[0]; //节省之后的写法(略慢)
+
+//内置值 无穷
+Infinity;
+
+
+1/0;//节省之后的写法
+
+//布尔值短写法
+true; 
+!0; //节省之后的写法
+false; 
+!1; //节省之后的写法
+```
