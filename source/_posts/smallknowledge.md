@@ -1139,3 +1139,90 @@ true;
 false; 
 !1; //节省之后的写法
 ```
+
+## 简单计算页面FPS
+整体思路是一秒有一千毫秒，先记录当前时间作为最后一次记录fps的时间，通过 requestAnimationFrame 回调不断给累加fsp计数器，
+并且判断上次记录fps的时间是否达到1000毫秒以上，如果满足条件，就将fps累加器的值作为当前fps显示，并且重置fps累加器。
+
+```javascript
+var showFPS = (function () {
+    // noinspection JSUnresolvedVariable, SpellCheckingInspection
+    // 函数式
+    var requestAnimationFrame =
+        window.requestAnimationFrame || //Chromium  
+        window.webkitRequestAnimationFrame || //Webkit 
+        window.mozRequestAnimationFrame || //Mozilla Geko 
+        window.oRequestAnimationFrame || //Opera Presto 
+        window.msRequestAnimationFrame || //IE Trident? 
+        function (callback) { //Fallback function 
+            window.setTimeout(callback, 1000 / 60);
+        };
+    
+    var dialog;
+    var container;
+
+    var fps = 0;
+    var lastTime = Date.now(); // 时间戳
+    // 遍历修改style
+    function setStyle(el, styles) {
+        for (var key in styles) {
+            el.style[key] = styles[key];
+    }
+    }
+
+function init() {
+        dialog = document.createElement('dialog');
+        // 初始化赋值样式
+        setStyle(dialog, {
+            display: 'block',
+            border: 'none',
+            backgroundColor: 'rgba(0, 0, 0, 0.6)',
+            margin: 0,
+            padding: '4px',
+            position: 'fixed',
+            top: 0,
+            right: 'auto,',
+            bottom: 'auto',
+            left: 0,
+            color: '#fff',
+            fontSize: '12px',
+            textAlign: 'center',
+            borderRadius: '0 0 4px 0'
+        });
+        // container成了dom元素
+        container.appendChild(dialog);
+    }
+
+    function calcFPS() {
+        offset = Date.now() - lastTime;
+        fps += 1;
+    // 1s内的计数器
+    if (offset >= 1000) {
+            lastTime += offset; // Date.now();
+            displayFPS(fps);
+            fps = 0;
+        }
+
+        requestAnimationFrame(calcFPS);
+    };
+
+    function displayFPS(fps) {
+        var fpsStr = fps + ' FPS';
+
+        if (!dialog) {
+            init();
+        }
+
+    if (fpsStr !== dialog.textContent) {
+        // 重绘 
+        dialog.textContent = fpsStr;
+        }
+}
+
+return function (parent) {
+    container = parent;
+        calcFPS();
+    };
+})();
+showFPS(document.body);
+```
