@@ -1226,3 +1226,57 @@ return function (parent) {
 })();
 showFPS(document.body);
 ```
+
+## 你不知道的new.target
+new 是构造函数生成实例的命令, ES6为 new 命令引入了 new.target属性。这个属性用于确定构造函数是怎么调用的。
+用法：在构造函数中, 如果一个构造函数不是通过 new操作符调用的, new.target会返回 undefined。
+
+使用场景：
+### es5写法
+> 如果一个构造函数不通过 new 命令生成实例, 就报错提醒。
+```javascript
+function Shape(options) {
+    if (this instanceof Shape) {
+        this.options = options
+    } else {
+        // 要么手动给它创建一个实例并返回
+        // return new Shape(options)
+        
+        // 要么提醒
+        throw new Error('Shape 构造函数必须使用 new 操作符')
+    }
+}
+```
+
+###  es6写法
+> 子类继承父类, 那么父类构造函数中的 new.target 是子类构造函数的名称。
+```javascript
+class Zoo {
+    constructor() {
+        if (new.target === Zoo) throw new Error('Zoo构造函数只能用于子类继承')
+    }
+}
+
+const zoo = new Zoo()   // 报错
+
+class Dog extends Zoo {
+    constructor() {
+        super()
+    } 
+}
+
+const dog = new Dog()  // 不报错
+```
+
+## 文件扩展名
+```javascript
+var filePath = '21312321.mp3'
+filePath.substring(filePath.lastIndexOf(".")+1,filePath.length) //'mp3'
+```
+
+## blur和click冲突
+> 场景：平时做表单验证的时候一般都有个input框和删除按钮，然后习惯性在失去焦点的时候> 去验证输入的内容是否正确，做验证，发请求等等。
+> 这个时候，那个点击删除按钮往往也就触发了input的失去焦点事件
+1. 给失去焦点的时间加上延迟时间，让blur时间在click事件后执行，这个方法固然能够解决问题，但是本人并不是很推荐，因为影响性能，不到最后不用这个方法；
+2. event.relatedTarget.id事件属性返回与事件的目标节点相关的节点。（非IE）
+3. mousedown事件替代处理click事件
