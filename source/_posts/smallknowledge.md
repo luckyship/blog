@@ -1280,3 +1280,63 @@ filePath.substring(filePath.lastIndexOf(".")+1,filePath.length) //'mp3'
 1. 给失去焦点的时间加上延迟时间，让blur时间在click事件后执行，这个方法固然能够解决问题，但是本人并不是很推荐，因为影响性能，不到最后不用这个方法；
 2. event.relatedTarget.id事件属性返回与事件的目标节点相关的节点。（非IE）
 3. mousedown事件替代处理click事件
+
+## object标签
+object标签不在dom文档流里面，浏览器在解析的时候先把object放置在最上层，然后依次解析dom文档，放在下层。
+
+如果这样引用多媒体文件推荐还是不使用object，只有iframe的层级在它之上处理起来很麻烦。
+
+## escape、encodeURI、encodeURIComponent区别
+1. escape是对字符串进行编码，对URL使用不需要 encodeURI encodeURIComponent
+2. encodeURI方法不会对下列字符编码 ASCII字母、数字、!@#$&*()=:/,;?+'
+3. encodeURIComponent方法不会对下列字符编码 ASCII字母、数字、!*()'
+所以encodeURIComponent比encodeURI编码的范围更大。
+实际例子来说，encodeURIComponent会把 http:// 编码成 http%3A%2F%2F 而encodeURI却不会。
+当编码url时需要使用encodeURI，当需要编码参数时使用encodeURIComponent
+
+## 链式调用
+```javascript
+1.方法体内返回对象实例自身(this)
+
+var Obj = {
+    a: 1,
+    func: function(){
+        this.a += 1;
+        return this
+    }
+}
+Obj.func().func();
+console.log(Obj.a);    //3
+2.对象传入后每次调用返回函数自身
+    function show(str) {
+        console.log(str);
+        return show;
+    }
+    show(123)(456)(789);
+
+// 控制台打印结果
+// 123
+// 456
+// 789
+```
+
+## setTimeout 为不可执行的字符串时会造成内存泄露
+```javascript
+setTimeout("fn()",100)
+function fn(){
+console.log(11111111)
+}
+```
+
+## JSON.parse和JSON.stringify其他参数
+```javascript
+var obj ={name:'cosyer',age:15}
+var newobj = JSON.stringify(obj)
+
+JSON.parse(newobj,(key,value)=>{
+console.log(1111111111111,key,value);
+});
+// name cosyer 
+// age 15 
+// "" {}
+```

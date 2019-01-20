@@ -210,3 +210,13 @@ function factorial(n, total) {
 }
 factorial(5, 1) //120
 ```
+
+## 函数声明覆盖
+```javascript
+function foo(){
+console.log("foo");
+}
+
+var foo = 1;
+// 1 如果foo不赋值 则打印函数
+```
