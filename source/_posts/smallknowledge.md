@@ -1339,4 +1339,57 @@ console.log(1111111111111,key,value);
 // name cosyer 
 // age 15 
 // "" {}
+
+// 3个参数
+// JSON.stringify(jsonObj,repalce,space)
+// replace可以是数组或者回调函数
+const testJSON = {
+   name: 'test',
+   cities: {
+      shanghai: 1,
+   },
+};
+
+JSON.stringify(testJSON, ['name']);
+
+// "{"name": 'test'}"
+
+JSON.stringify(testJSON, ['name', 'cities']);
+ 
+//  "{"name": 'test', "cities": {}}"
+
+JSON.stringify(testJSON, ['name', 'cities', 'shanghai']);
+
+// "{"name": 'test', "cities": {"shanghai": 1}}"
+
+JSON.stringify(testJSON, (key, value) => {
+    // 遍历对象
+    if (key === 'cities') {
+       return  'cities';
+    } 
+    return value; // 确认value???
+});
+
+// "{"name": 'test', "cities": 'cities'}"
+
+JSON.stringify(testJSON, undefined, '...');
+
+// "{
+//    ..."name": 'test',
+//    ..."city": 'shanghai',
+//   }"
+
+JSON.stringify(testJSON, undefined, 7);
+
+// "{
+//          "name": 'test',
+//          "city": 'shanghai',   // 缩进7个空格
+// }"
+```
+
+## 随机数
+```javascript
+// [0,1) 左闭右开 min-max 
+Math.floor(min+Math.random()*(max-min+1))
+// toString() this is object方法 toString() valueOf
 ```

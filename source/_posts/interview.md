@@ -762,3 +762,115 @@ ee.emit('foo') // 110
 2. flex布局
 3. 通过position 父级relative
 
+62. mysql 字符转换
+```sql
+-- date转字符串
+select date_format(now(), '%Y-%m-%d'); 
+--  date转时间戳
+select unix_timestamp(now())
+--  字符串转时间
+select str_to_date("2019-01-15",'%Y-%m-%d %H')
+-- 20190115
+-- 时间戳转时间
+select from_unixtime(1451997924)
+-- 时间戳转字符串
+select from_unixtime(1451997924,"%Y-%m-%d %H")
+```
+
+63. empty()和html("")
+推荐使用empty html不会清除子组件的事件
+
+64. react、vue多个class
+## react
+方法一：ES6 模板字符串 ``
+
+className={title ${index === this.state.active ? 'active' : ''}}
+　　
+
+方法二：join("")
+
+className={["title", index === this.state.active?"active":null].join(' ')}
+
+方法三：classnames
+
+## vue
+方法一：
+:class="[box,shadow]"
+方法二：
+:class="{box:show1,shadow:show2}"
+
+65. vue组件通信
+```javascript
+// 父传子
+// 父组件
+<note-address :data="msg"></note-address> 
+
+// 子组件
+
+<div>{{ data.partment }}</div>
+
+export default {
+  //props:['data']
+  props: {
+    data: Object
+  }
+}
+// 子传父
+// 父组件
+<note-address @new="addNote"></note-address> 
+
+// 子组件
+<button type="small" class="confirm" @click="add">设为教案</button>
+
+methods: {
+ add () {
+  this.$emit('new', false)
+ }
+}
+// 兄弟相传
+// 1.创建 公共bus.js
+
+//bus.js
+import Vue from 'vue'
+export default new Vue()
+
+// 2.父组件注册两个子组件
+components:{
+    firstChild,
+    secondChild
+}
+
+// 3.firstChild组件
+
+<input type="button" value="点击触发" @click="elementByValue">
+
+<script>
+// 引入公共的bus，来做为中间传达的工具
+  import Bus from './bus.js'
+  export default {
+      methods: {
+      elementByValue: function () {
+        Bus.$emit('val', '兄弟，收到了吗？')
+      }
+    }
+  }
+</script>
+
+// 4.secondChild组件
+
+<span>{{msg}}</span>
+
+<script>
+  import Bus from './bus.js'
+  export default {
+      mounted(){
+            let self = this;
+            Bus.$on('val', function (msg) {
+                console.log(msg)
+                self.msg = msg
+            })
+      }
+    }
+  }
+</script>
+```
