@@ -1393,3 +1393,305 @@ JSON.stringify(testJSON, undefined, 7);
 Math.floor(min+Math.random()*(max-min+1))
 // toString() this is object方法 toString() valueOf
 ```
+
+## chrome浏览器跳转调试
+问题描述：在chrome里调试接口的时候发现页面跳转之后会看不到之前的接口返回，即使你将Perserve log 勾上，能看到跳转之前的接口，但是看不到返回的内容
+
+问题解决：查了一些资料，chrome之所以这么做（看不到跳转之前的接口返回）是为了节省内存开销，但是这个给调试带来了困难，然后我参照stackoverflow的解决方案， 在控制台执行 window.onunload = function() { debugger; } 为了在页面unload之前进入debug，但是尝试了还是看不到跳转之前接口返回的内容，最后的解决方案是用firefix调试，在火狐里在调试中的网络中勾选持续日志可以看到跳转之前的接口，且可以看到接口返回内容。
+
+**参考资料** 
+* [Chrome dev tools fails to show response ](https://stackoverflow.com/questions/38924798/chrome-dev-tools-fails-to-show-response-even-the-content-returned-has-header-con)
+* [Chrome 开发者工具里看不到完整的 HTTP request 回应？](https://ephrain.net/chrome-chrome-%E9%96%8B%E7%99%BC%E8%80%85%E5%B7%A5%E5%85%B7%E8%A3%A1%E7%9C%8B%E4%B8%8D%E5%88%B0%E5%AE%8C%E6%95%B4%E7%9A%84-http-request-%E5%9B%9E%E6%87%89%EF%BC%9F/)
+
+## 时间
+**UTC**：世界协调时间，是经过平均太阳时(以格林威治时间GMT为准)、地轴运动修
+
+正后的新时标以及以秒为单位的国际原子时所综合精算而成的时间。UTC比GMT更
+
+加精准，其误差值必须保持在0.9秒以内。若大于0.9秒，则由位于巴黎的国际地
+
+球自转事务中央局发布闰秒，使UTC与地球自转周期一致，所以基本上UTC的本质
+
+强调的是比GMT更为精确的世界时间标准。
+
+**GMT**：格林尼治是位于英国南郊的原格林尼治天文台所在地，也是地理经度的起
+
+始点。这里所设定的时间就叫格林尼治时间，也是世界时间参考点，全世界都根
+
+据时区的不同以格林尼治的时间作为标准来设定时间。
+
+**夏令时**：因为夏天白天时间比较长，太阳会比较早出现，某些地区就将当地的时
+
+间提早一段时间（例如一小时），以达到利用阳光节约能源的目的。 通常秋季
+
+时，此地区会将当地时间推后一段时间（例如一小时），回复正常时间。
+
+UTC和本地时间的关系：本地时间=UTC+时区+夏令时偏移量。
+
+## uuid生成
+```javascript
+function uuid(len, radix) {
+    var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
+    var uuid = [], i;
+    var radix_new = radix || chars.length;
+
+    if (len) {
+        // Compact form
+        for (i = 0; i < len; i++) {
+            uuid[i] = chars[0 | Math.random() * radix_new];
+        }
+    } else {
+        // rfc4122, version 4 form
+        var r;
+
+        // rfc4122 requires these characters
+        uuid[8] = uuid[13] = uuid[18] = uuid[23] = '-';
+        uuid[14] = '4';
+
+        // Fill in random data. At i==19 set the high bits of clock sequence as
+        // per rfc4122, sec. 4.1.5
+        for (i = 0; i < 36; i++) {
+            if (!uuid[i]) {
+                r = 0 | Math.random() * 16;
+                uuid[i] = chars[(i === 19) ? (r & 0x3) | 0x8 : r];
+            }
+        }
+    }
+    return uuid.join('');
+};
+```
+
+## jq原生对照
+```javascript
+1、元素获取
+/*******************原生js**************************/
+var ele = document.getElementById('idName');
+var eleArr = document.getElementsByClassName('className');
+var eleArr = document.getElementsByTagName('div');
+var ele = document.querySelector('#idName');//('.className')//('tagName'); //取第一个满足条件的元素
+var eleArr = document.querySelectorAll('.className');//('tagName');
+/*******************jQuery**************************/
+var ele = $('#idName');
+var ele = $('.className:eq(0)'); //取第一个元素
+var eleArr = $('tagName');
+2、class选择器操作
+/*******************原生js**************************/
+//className 属性
+ele.className = 'newClassName';
+//classList操作
+ele.classList.contains('className'); //是否含有该类
+ele.classList.add('newClassName1,newClassName2...'); //添加类
+ele.classList.remove('oldClassName1,newClassName2...'); //删除类
+ele.classList.toggle('className'); //如果元素中有该className，则删除并返回false，否则添加并返回true
+
+/*******************jQuery**************************/
+ele.hasClass(className);
+ele.addClass('newClassName1,newClassName2...');
+ele.removeClass('newClassName1,newClassName2...'); // 元素本身remove()
+ele.toggleClass('className');
+3、元素节点操作
+/*******************原生js**************************/
+//创建节点
+    var newNode = ele.createElement('<div>创建</div>');
+//插入节点
+    ele.appendChild(newNode); //在ele的子节点的末尾插入newNode
+    ele.insertBefore(newNode,targetNode); //在ele的子节点targetNode前面插入newNode
+//删除节点
+    ele.removeChild(ele.childNodes[i]); //删除ele第i+1个子节点
+//替换节点
+    ele.replaceChild(newNode, oldNode); //替换ele中的子节点
+//克隆节点
+    var copyNode = ele.cloneNode(deep); //deep为true时，深拷贝（包括其子孙节点），为false时只复制本身节点
+
+/*******************jQuery**************************/
+//创建节点
+    var newNode = $('<div>创建</div>');
+//插入节点
+    //在元素子节点末尾插入
+    ele.append(newNode); //在ele的子节点的末尾插入newNode
+    newNode.appendTo(ele); //在ele的子节点的末尾插入newNode
+    //在元素子节点前端插入
+    ele.prepend(newNode); //在ele的子节点的前端插入newNode
+    newNode.prependTo(ele); //在ele的子节点的前端插入newNode
+
+    //在元素后面添加
+    ele.after(newNode);
+    newNode.insertAfter(ele);
+    //在元素前面添加
+    ele.before(newNode);
+    newNode.insertBefore(ele);
+
+//删除节点
+    ele.remove(); //移除ele及其所有文本、子孙节点、数据和事件
+    ele.detach(); //移除ele及其所有文本、子孙节点，但是保留数据和事件
+    ele.empty(); //清除ele所有的内容和子孙元素，但是ele节点本身和其属性事件等还在
+
+//替换节点
+    ele.replaceWith(newNode); //替换ele为新的内容(可以是html元素，dom元素，jQuery元素)
+    newNode.replaceAll(ele); //替换ele为新的html元素
+//克隆节点
+    ele.clone(deep); //deep为true时，深拷贝（包括其事件处理函数），为false时只复制本身，默认false
+4、元素节点遍历
+/*******************原生js**************************/
+// 子节点
+var eleArr = ele.childNodes; // 所有子节点
+var eleArr = ele.children; //所有子节点数组，用得较多
+
+var firstEle = ele.firstChild; //第一个子节点 低版本浏览器firstElementChild
+var lastEle = ele.lastChild; //最后一个子节点 低版本浏览器lastElementChild
+// 父节点
+var parentEle = ele.parentNode;
+// 兄弟节点
+var nextEle = ele.nextSibling; //下一个节点
+var previousEle = ele.previousSibling; //上一个节点
+
+/*******************jQuery**************************/
+// 子节点
+var eleArr = ele.children(); //所有子节点数组
+
+var firstEle = ele.first(); //第一个子节点
+var lastEle = ele.last(); //最后一个子节点
+// 父节点
+var parentEle = ele.parent(); //直接父元素
+var parentEleArr = ele.parents(); //所有祖先元素
+var parentEle = ele.offsetParent(); // 第一个有定位的父元素
+var parentEleArr = ele.parentsUntil(stop, filter); // 满足条件之间的父节点
+
+// 兄弟节点
+var nextEle = ele.next(); //下一个节点
+var nextEleArr = ele.nextAll(); //ele后面所有同级节点
+var previousEle = ele.prev(); //上一个节点
+var previousEle = ele.prevAll(); //ele之前所有同级节点
+var siblingsArr = ele.siblings(); //所有同级元素节点
+5、属性操作
+/*******************原生js**************************/
+// 属性数组
+var attrArr = ele.attributes;
+// 判断属性
+var bool = ele.hasAttribute('attrName'); //是否有指定属性
+var bool = ele.hasAttributes(); //是否有属性
+// 获取属性值
+var attrValue = ele.getAttribute('attrName');
+// 设置属性值
+ele.setAttribute('attrName','attrValue');
+// 删除属性
+ele.removeAttribute('attrName');
+/*******************jQuery**************************/
+//在设置disabled、selected、checked等这些Boolean类型自带属性时，我们需要用prop()方法；
+// 其他字符串类型自带属性时，我们使用attr()方法即可;DOM节点可见的自定义属性我们也使用attr()方法。
+// 获取属性值
+var attrValue = ele.attr('attrName');
+var propValue = ele.prop('propName');//
+// 设置属性值
+ele.attr('attrName','attrValue'); //自定义的一些属性
+ele.prop('propName','propValue'); //disabled等一些属性，HTML元素的固有属性
+// 删除属性
+ele.removeAttr('attrName');
+6、事件
+/*******************原生js**************************/
+//事件绑定及解绑
+ele.addEventListener('click',func,false);
+ele.removeEventListener('click',func,false);
+ele.onclick = func;
+ele.onclick = null;
+ele.attachEvent('onclick',func); //ie8以下
+ele.detachEvent('onclick',func); //ie8以下
+/*******************jQuery**************************/
+/*多种事件绑定和解绑方法*/
+/**方法1
+ * 1、直接绑定事件方法mouseenter()...等等
+ * 2、这样的方式，下面两个事件不会被层叠，都会执行
+ * 3、只能一个一个绑定
+ */
+$("div:eq(0)").click(function () {
+    alert(1);
+});
+$("div:eq(0)").click(function () {
+    alert(2);
+});
+
+/**方法2
+ * 1、bind("event1 event2 ... eventx",fn)
+ * 2、同时绑定多个事件触发条件，执行同一个函数
+ */
+$("div:eq(1)").bind("click mouseenter",function () {
+    alert("bind绑定法");
+});
+//解绑
+$("div:eq(1)").unbind("click"); //解绑指定的
+//$("div:eq(1)").unbind();  //解绑所有的
+
+/**方法3
+ * 1、delegate("selector","event1 event2 ... eventx",fn)
+ * 2、可以绑定父盒子里的子盒子触发事件，执行函数
+ */
+$("div:eq(2)").delegate("button","click mouseleave",function () {
+    alert("delegate绑定法");
+});
+//解绑
+$("div:eq(2)").undelegate();
+/**方法4
+ * 重点使用！！！
+ * 1、on("event1 event2 ... eventx","selector",data,fn)
+ * 2、可以绑定父盒子里的后代盒子触发事件，执行函数
+ * 3、参数data由event.data带入函数中
+ */
+
+$("div:eq(3)").on("click mouseleave","button",{"name":"mjm","age":24},function (event) {
+    alert("on绑定法"+event.data.name);
+
+});
+//解绑
+$("div:eq(3)").off();
+```
+
+## 实现复制tiny
+```javascript
+// 复制连接地址
+window.copyLink = function (str) {
+    if (window.clipboardData) {
+        // 兼容ie11以下浏览器
+        window.clipboardData.setData('Text', str);
+    } else {
+        var $input = document.createElement('input');
+        var body = document.querySelector("body")
+        $input.value=str;
+        body.appendChild($input);
+        $input.select();
+        document.execCommand('copy');
+        $input.remove();
+    }
+};
+```
+
+## scrollbar滚动条样式优化
+```css
+::-webkit-scrollbar-corner {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-button {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
+::-webkit-scrollbar-thumb {
+  width: 7px;
+  background-color: #b4babf;
+  border-radius: 7px;
+}
+
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
+  width: 15px;
+}
+
+::-webkit-scrollbar:hover {
+  background-color: transparent;
+}
+```
