@@ -555,6 +555,16 @@ let treeData=fn(treeData,null) // 传入原始数据/parentId
 
 // window.open(url,"_blank")
 // window.location.href=url
+// window.location.replace(url)
+```
+
+## 浏览器前进后退
+```javascript
+history.forward();//前进
+history.back();//后退+刷新
+history.back(-1)//后退,直接返回当前页的上一页，数据全部消息，是个新页面
+history.go(1);//前进
+history.go(-1);//后退也是返回当前页的上一页，不过表单里的数据全部还在
 ```
 
 ## 去重数组里对象相同值得key
@@ -1392,6 +1402,8 @@ JSON.stringify(testJSON, undefined, 7);
 // [0,1) 左闭右开 min-max 
 Math.floor(min+Math.random()*(max-min+1))
 // toString() this is object方法 toString() valueOf
+// 随机颜色
+item.style.backgroundColor = '#' + Math.random().toString(16).slice(2, 8);
 ```
 
 ## chrome浏览器跳转调试
@@ -1698,3 +1710,38 @@ window.copyLink = function (str) {
 
 ##  内网ip段
 内网段10.0.0.0—10.255.255.255，172.16.0.0—172.31.255.255，192.168.0.0—192.168.255.255
+
+## 获取当前鼠标坐标
+```javascript
+var getCoordInDocumentExample = function () {
+  var coords = document.getElementById("colorPanel");
+  coords.onmousemove = function (e) {
+    var pointer = getCoordInDocument(e);
+    var coord = document.getElementById("colorText");
+    coord.innerHTML = "X,Y=(" + pointer.x + ", " + pointer.y + ")";
+  }
+}
+
+var getCoordInDocument = function (e) {
+  e = e || window.event;
+  var x = e.pageX || (e.clientX +
+    (document.documentElement.scrollLeft ||
+      document.body.scrollLeft));
+  var y = e.pageY || (e.clientY +
+    (document.documentElement.scrollTop ||
+      document.body.scrollTop));
+  return {
+    'x': x,
+    'y': y
+  };
+}
+
+window.onload = function () {
+  getCoordInDocumentExample();
+};
+```
+
+## 类数组对象转数组
+```javascript
+var arr = [].slice.call(arguments, 0),
+```
