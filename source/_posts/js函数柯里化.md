@@ -137,6 +137,29 @@ function add(num){
 }
 ```
 
+### 为了减少函数传参，同时将一些固定参数私有化
+```javascript
+function curry(func) {
+  var l = func.length;
+  return function curried() {
+    var args = [].slice.call(arguments);
+    if (args.length < 1) {
+      return function () {
+        var argtsInner = [].slice.call(arguments);
+        return curried.apply(this, arrs.concat(argtsInner))
+      }
+    } else {
+      return func.apply(this, args)
+    }
+  }
+}
+var f = function (a, b, c) {
+  return console.log([a, b, c])
+}
+var curried = curry(f);
+curried(1)(2)(3)
+```
+
 ### 函数柯里化的优点
 1. 延迟计算 
 可以传递需要的参数，等到何时想要结果，再一并计算。

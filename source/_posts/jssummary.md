@@ -802,3 +802,49 @@ obj.think();
     return a > b ? 1 : -1; // return a-b
 })
 ```
+
+## 数组扁平化(将多维数组展开为一维数组)
+```javascript
+//  es6
+const flattenES6 = (arr) => {
+  let result = [];
+  arr.forEach((item, i, arr) => {
+    if (Array.isArray(item)) {
+      result = result.concat(flatten(item));
+    } else {
+      result.push(arr[i])
+    }
+  })
+  return result;
+};
+console.log(flattenES6([1, [2, [3, [4]], 5]]))
+
+// es5
+function flattenES5(arr) {
+  var result = [];
+  for (var i = 0, len = arr.length; i < len; i++) {
+    if (Array.isArray(arr[i])) {
+      result = result.concat(flatten(arr[i]))
+    } else {
+      result.push(arr[i])
+    }
+  }
+  return result;
+}
+console.log(flattenES5([1, [2, [3, [4]], 5]]))
+
+[1, [2, [3, [4]], 5]] // 1,2,3,4,5
+
+// toString方法
+// es6
+const flattenES6 = (arr) => arr.toString().split(',').map((item) => +item);
+console.log(flattenES6([1, [2, [3, [4]], 5]]))
+
+// es5
+function flattenES5(arr) {
+  return arr.toString().split(',').map(function (item) {
+    return +item;
+  });
+}
+console.log(flattenES5([1, [2, [3, [4]], 5]]))
+```
