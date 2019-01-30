@@ -810,7 +810,7 @@ const flattenES6 = (arr) => {
   let result = [];
   arr.forEach((item, i, arr) => {
     if (Array.isArray(item)) {
-      result = result.concat(flatten(item));
+      result = result.concat(flattenES6(item));
     } else {
       result.push(arr[i])
     }
@@ -824,7 +824,7 @@ function flattenES5(arr) {
   var result = [];
   for (var i = 0, len = arr.length; i < len; i++) {
     if (Array.isArray(arr[i])) {
-      result = result.concat(flatten(arr[i]))
+      result = result.concat(flattenES5(arr[i]))
     } else {
       result.push(arr[i])
     }
