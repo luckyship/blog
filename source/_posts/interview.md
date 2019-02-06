@@ -63,7 +63,7 @@ eg: var a; var c = 1; a = 1; function a() { return true; } console.log(a);
 typeof返回的类型都是字符串形式，可以判断function的类型；在判断除Object类型的对象时比较方便。
 判断已知对象类型的方法： instanceof，后面一定要是对象类型，并且大小写不能错，该方法适合一些条件选择或分支。
 ```javascript
-typeof null // object null instanceof object // error
+typeof null // object null instanceof Object // false
 ```
 
 3. 异步编程？

@@ -499,6 +499,9 @@ console.log(a2); // logs 10,20,30
 var a = [10, 20, 30];
 var total = a.reduce(function(first, second) { return first + second; }, 0);
 console.log(total) // Prints 60
+
+[3,2,1].reduce(Math.pow) // 9
+[].reduce(Math.pow) // error
 ```
 
 ### 填充fill/splice
