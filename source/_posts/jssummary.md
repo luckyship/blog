@@ -501,6 +501,36 @@ var total = a.reduce(function(first, second) { return first + second; }, 0);
 console.log(total) // Prints 60
 ```
 
+### 填充fill/splice
+```javascript
+var fruits = ["Banana", "Orange", "Apple", "Mango"];
+fruits.fill("cosyer", 2, 4); // 开始和结束索引
+fruits.splice(2,2,'cosyer','cosyer'); // splice方法需要手动添加多个
+// ["Banana", "Orange", "cosyer", "cosyer"]
+```
+
+### copyWithin
+```javascript
+var fruits = ["Banana", "Orange", "Apple", "Mango"];
+fruits.copyWithin(2, 0); // Banana,Orange,Banana,Orange
+// copyWithin(target, start, end);
+```
+
+### entries 一个数组的迭代对象，该对象包含数组的键值对
+```javascript
+var a = ['a','b','c']
+var iterator = a.entries()
+console.log(iterator) // Array Iterator{}
+console.log(iterator.next().value) // [0,'a']
+for(let a of iterator){
+    console.log(a)
+}
+//[0,'a']
+//[1,'b']
+//[2,'c']
+// keys返回键() values()返回值
+```
+
 ## Map简单的键值对集合
 ```javascript
 var sayings = new Map();
@@ -847,4 +877,177 @@ function flattenES5(arr) {
   });
 }
 console.log(flattenES5([1, [2, [3, [4]], 5]]))
+```
+
+## 自定义错误类型
+```javascript
+// ES6
+class CustomError extends Error {
+  constructor(message) {
+    super(message)
+    this.name = 'CustomError'
+  }
+}
+
+// ES5
+function CustomError(message) {
+  this.name = 'CustomError'
+  this.message = message
+  Error.captureStackTrace(this, CustomError)
+}
+
+CustomError.prototype = new Error()
+CustomError.prototype.constructor = CustomError
+
+// img标签来埋点处理错误日志
+function logError(msg) {
+  const img = new Image()
+  img.src = `/log?${encodeURIComponent(msg)}`
+}
+```
+
+## 命令式编程和声明式编程
+- 纯粹性：纯函数不改变除当前作用域以外的值;
+- 数据不可变性: Immutable
+
+```javascript
+// 反面示例
+let a = 0
+const add = (b) => a = a + b // 两次 add(1) 结果不一致
+
+// 正确示例
+const add = (a, b) => a + b
+```
+
+- 函数柯里化 将多个入参的函数转化成1个入参的函数
+```javascript
+const add = a => b => c => a + b + c
+add(1)(2)(3)
+```
+
+- 偏函数 将多个入参的函数转化成两部分
+```javascript
+const add = a => (b, c) => a + b + c
+add(1)(2, 3)
+```
+
+- 组合函数
+```javascript
+const add = (x) => x + x
+const mult = (x) => x * x
+
+const addAndMult = (x) => add(mult(x))
+```
+
+## 实现bind函数
+```javascript
+// 第一种: 借助 call/apply
+Function.prototype.bind1 = function (context) {
+  const self = this
+  return function () {
+    return self.call(context)
+  }
+}
+
+// 测试:
+const obj = {
+  value: 'cosyer',
+}
+function testBind() {
+  console.log(this.value)
+}
+const resultBind = testBind.bind1(obj)
+resultBind() // cosyer
+
+// 第二种: 借助 arguments
+Function.prototype.bind2 = function (context) {
+  const arr = Array.prototype.slice.call(arguments, 1)
+  const self = this
+  return function () {
+    const restArr = Array.prototype.slice.call(arguments)
+    return self.apply(context, arr.concat(restArr))
+  }
+}
+// 这种方式的实现其实是函数柯里化的变版
+
+// 比如在监听事件时可以这样子用:
+
+dom.addEventListener('click', fn.bind(this))
+// 进行如下测试:
+
+const obj2 = {
+  value: 'cosyer',
+}
+function testBind2(age, gender) {
+  console.log(this.value) // cosyer
+  console.log(age)        // 23
+  console.log(gender)     // male
+}
+const resultBind2 = testBind2.bind2(obj2, 23)
+resultBind2('male')
+
+// 第三种: 区分环境, 是普通调用还是 new 调用
+Function.prototype.bind3 = function (context) {
+  const arr = Array.prototype.slice.call(arguments, 1)
+  const self = this
+  return function () {
+    const restArr = Array.prototype.slice.call(arguments)
+    return self.apply(this !== windows ? this : context, arr.concat(restArr))
+  }
+}
+
+// 测试: 使用 new 以后 this 会指向 newObj
+const obj3 = {
+  value: 'cosyer',
+}
+function testBind3(age, gender) {
+  console.log(this.value)
+  console.log(age)
+  console.log(gender)
+}
+const resultBind3 = testBind3.bind3(obj3, 23, 'male')
+const newObj = new resultBind3()
+```
+
+## call函数的实现
+```javascript
+// 对象属性指向函数并调用
+// 将函数引用到对象里
+// 调用函数
+// 删除对象里的函数
+Function.prototype.call1 = function (context) {
+  context.fn = this // this 指向实例
+  context.fn()
+  delete context.fn
+}
+
+const obj = {
+  value: 'cosyer',
+}
+
+function testCall() {
+  console.log(this.value)
+}
+
+const resultCall = testCall.call1(obj) // cosyer
+
+// 传入函数的实现
+Function.prototype.call2 = function (context) {
+  const arr = Array.prototype.slice.call(arguments, 1)
+
+  context.fn = this // this 指向实例
+  context.fn(...arr)
+  delete context.fn
+}
+
+// 测试:
+const obj2 = {
+  value: 'cosyer',
+}
+
+function testCall2(age) {
+  console.log(this.value, age) // cosyer 23
+}
+
+const resultCall = testCall2.call2(obj2, 23)
 ```

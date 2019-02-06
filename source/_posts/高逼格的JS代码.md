@@ -179,14 +179,6 @@ var b=JSON.parse(JSON.stringify(a))
 Array(6).fill(8)
 ```
 
-### argument对象转换成数组对象
-```javascript
-// es5 
-Array.prototype.slice.call({0:1,1:3,length:2});
-// es6
-Array.from({0:1,1:3,length:2})
-```
-
 ### 脚本永不报错
 ```javascript
 window.onerror = function(m, f, l){ return true }

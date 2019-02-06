@@ -1102,9 +1102,9 @@ $("btn").detachEvent("onclick",f1);
 ```
 
 ## 位运算符
-位运算符一般使用的很少，当他与数字一起使用的时候，比如~N => -(N+1),这个式子仅当 N == -1 的时候结果为0。
+位运算符一般使用的很少，当他与数字一起使用的时候，比如~N => -(N+1),这个式子仅当 N == -1 的时候结果为0。位运算可以提高程序的运行效率。
 
-我们可以在indexof(..)函数前面加一个~来进行布尔检查，检查一个项是否存在于Array或者string中。
+我们可以在indexof(...)函数前面加一个~来进行布尔检查，检查一个项是否存在于Array或者string中。
 ```javascript
 let userName = 'break jerry'
 
@@ -1112,6 +1112,13 @@ if(~userName.indexOf("break")) {
     console.log('access denied');
 }else {
     console.log('access granted');
+}
+
+// 奇偶性
+if(index & 1) {
+    // 1 奇数 odd 
+}else{
+    // 0 偶数 even
 }
 ```
 
@@ -1141,13 +1148,16 @@ void 0; //节省之后的写法(快)
 Infinity;
 
 
-1/0;//节省之后的写法
+1/0; //节省之后的写法
 
 //布尔值短写法
 true; 
 !0; //节省之后的写法
 false; 
 !1; //节省之后的写法
+
+num & 1 == 1 //奇数
+num & 1 == 0 //偶数
 ```
 
 ## 简单计算页面FPS
@@ -1743,7 +1753,14 @@ window.onload = function () {
 
 ## 类数组对象转数组
 ```javascript
-var arr = [].slice.call(arguments, 0),
+function func(){
+    // 类数组对象转数组
+    console.log(arguments) // {0:1,1:2,2:3,length:3}
+    console.log([].slice.call(arguments))
+    console.log(Array.prototype.slice.call(arguments))
+    console.log(Array.from(arguments))
+}
+func(1,2,3)
 ```
 
 ## 页面滚动条到底判断
@@ -1778,4 +1795,63 @@ for (let n of fibonacci()) {
     console.log(n);
 }
 // 1 2 3 5 8 
+```
+
+### 复制添加版权申明
+```javascript
+if (window.clipboardData) {
+    // IE
+    document.body.oncopy = function(){
+        event.returnValue = false;
+        var t=document.selection.createRange().text;
+        var s=" 原文链接："+location.href;
+        clipboardData.setData('Text',t+'\r\n'+s);
+    };
+} else {
+    function addLink(){
+        var body_element = document.getElementsByTagName('body')[0];
+        var selection;
+        selection = window.getSelection();
+        var pagelink = " 原文链接："+location.href;
+        var copytext = selection + pagelink;
+
+        var newdiv = document.createElement('div');
+        newdiv.style.position='absolute';
+        newdiv.style.left='-99999px';
+        body_element.appendChild(newdiv);
+        newdiv.innerHTML = copytext;
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function(){body_element.removeChild(newdiv);},0);
+    }
+    document.oncopy = addLink;
+}
+```
+
+## 包版本号
+一个包的版本号基本由三位数字构成 x.x.x, 它们分别是主版本号, 次版本号, 修订号。
+
+- *: 升级主版本号 + 次版本号 + 修订号;
+- ^: 升级次版本号 + 修订号;
+- ~: 升级修订号;
+
+## script标签关键字
+- defer 并发下载 顺序执行 渲染完再执行
+- async 并发下载 异步执行谁先下载完 谁先执行
+
+## 防止对象篡改
+* Object.preventExtensions(obj): obj 不能添加属性
+* Object.seal(obj): obj 不能添加/删除属性
+* Object.freeze(obj): obj 不能添加/删除/修改属性
+
+## module.exports和exports
+module.exports才是真正的接口，exports只不过是它的一个辅助工具。　最终返回给调用的是module.exports而不是exports。
+所有的exports收集到的属性和方法，都赋值给了Module.exports。当然，这有个前提，就是module.exports本身不具备任何属性和方法。
+
+1. 最好分别定义module.exports和exports
+
+2. 建议导出对象用module.exports,导出多个方法和变量用exports
+
+## meta自动跳转
+```javascript
+<meta http-equiv="Refresh" content="1; url=http://www.baidu.com"/>
 ```
