@@ -1054,3 +1054,50 @@ function testCall2(age) {
 
 const resultCall = testCall2.call2(obj2, 23)
 ```
+
+## 稀疏数组
+```javascript
+var ary = [0,1,2];
+ary[10] = 10;
+ary.filter(function(x) { return x === undefined;}); // []
+// 3 - 9 都是没有初始化的'坑'!, 这些索引并不存在与数组中. 在 array 的函数调用的// 时候是会跳过这些'坑'的.
+```
+
+## switch严格比较
+```javascript
+function showCase(value) {
+    switch(value) {
+    case 'A':
+        console.log('Case A');
+        break;
+    case 'B':
+        console.log('Case B');
+        break;
+    case undefined:
+        console.log('undefined');
+        break;
+    default:
+        console.log('Do not know!');
+    }
+}
+showCase(new String('A')); // 'Do not know!'
+// switch 是严格比较, String 实例和 字符串不一样.
+
+function showCase2(value) {
+    switch(value) {
+    case 'A':
+        console.log('Case A');
+        break;
+    case 'B':
+        console.log('Case B');
+        break;
+    case undefined:
+        console.log('undefined');
+        break;
+    default:
+        console.log('Do not know!');
+    }
+}
+showCase2(String('A')); // 'Case A'
+// String 不仅是个构造函数 直接调用返回一个字符串哦.
+```
