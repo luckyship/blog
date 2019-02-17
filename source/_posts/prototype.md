@@ -270,7 +270,7 @@ persion.sayName() // error
 2. 属性和方法加入到this引用的对象中
 3. 新创建的对象用this引用，并且隐式地返回this
 
-1. 创建一个新对象(prototype 指向构造函数的prototype)
+1. 创建一个新对象(\_\_proto\_\_ 指向构造函数的prototype)
 2. 把作用域（this）指给这个对象
 3. 执行构造函数的代码
 4. 返回这个对象
