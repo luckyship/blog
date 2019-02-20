@@ -18,6 +18,7 @@ photos:
 ```javascript
 console.log('hello world');
 console.info('信息');
+console.debug('调试');
 console.error('错误');
 console.warn('警告');
 ```

@@ -87,7 +87,7 @@ parseInt('2017-07-04') // 2017
 
 ```javascript
 0.1+0.2 // 0.30000000000000004
-1. parseFloat().toFixed(10) 
+1. parseFloat().toFixed() 
 2. *100/100 
 ```
 

@@ -385,7 +385,7 @@ jquery主要是兼容性好，可以跑在各种pc，移动上，好处是兼容
 
 - 少用location.reload()：使用location.reload() 会刷新页面，刷新页面时页面所有资源 (css，js，img等) 会重新请求服务器。建议使用location.href="当前页url" 代替location.reload() ，使用location.href 浏览器会读取本地缓存资源。
 
--图片懒加载 
+- 图片懒加载 
 
 
 28. commonjs?requirejs?AMD|CMD|UMD?
