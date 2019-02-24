@@ -253,6 +253,7 @@ for (let i of arr) {
 }
 
 // for in 的循环顺序 => 遍历首先数字的可以接着按照创建顺序遍历
+// 对象数字键名会转成字符串 对象的key值只有string和symbol类型
 // 排序规则同样适用于下列API：
 // Object.entries
 // Object.values

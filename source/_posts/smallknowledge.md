@@ -1688,7 +1688,8 @@ window.copyLink = function (str) {
         body.appendChild($input);
         $input.select();
         document.execCommand('copy');
-        $input.remove();
+        // $input.remove();
+        body.remove($input)
     }
 };
 ```
@@ -1861,4 +1862,23 @@ module.exports才是真正的接口，exports只不过是它的一个辅助工�
 ## meta自动跳转
 ```javascript
 <meta http-equiv="Refresh" content="1; url=http://www.baidu.com"/>
+```
+
+## 前端生成文件并下载
+```javascript
+function createAndDownloadFile(fileName, filePath) {
+    const aTag = document.createElement('a');
+    const blob = new Blob([filePath]);
+    aTag.download = `${fileName}.json`;
+    aTag.href = URL.createObjectURL(blob);
+    aTag.click();
+    URL.revokeObjectURL(blob);
+}
+```
+
+## 防止frame嵌套
+```javascript
+if(top != self){
+    location.href = ”about:blank”;
+}
 ```
