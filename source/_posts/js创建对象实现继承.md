@@ -10,7 +10,7 @@ photos:
 top: 114
 ---
 
-今天10月31日，万圣节前夜。希望gf的病早点好，身体健康。
+今天10月31日，万圣节前夜。希望ff的病早点好，身体健康。
 
 ## 创建对象
 ```javascript
@@ -18,6 +18,10 @@ var obj = {} // 字面量
 var obj = new Object()
 var obj = Object.create(null) // 以xx为原型创建对象
 var obj = Object.assign({})   // 复制到目标对象
+// Object.assign()还可以去除多余的参数覆盖
+Object.assign({ a: 1, b: 2 }, { b: 3, c: 3 })
+const newObj = { ...{ a: 1, b: 2 }, ...{ b: 3, c: 3 } }
+// {a: 1, b: 3, c: 3}
 ```
 
 ### 复制一个对象

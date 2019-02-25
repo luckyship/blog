@@ -1163,6 +1163,7 @@ true;
 false; 
 !1; //节省之后的写法
 
+// 判断奇偶
 num & 1 == 1 //奇数
 num & 1 == 0 //偶数
 ```
@@ -1881,4 +1882,14 @@ function createAndDownloadFile(fileName, filePath) {
 if(top != self){
     location.href = ”about:blank”;
 }
+```
+
+## 取反运算简化indexOf判断
+```javascript
+if(~[1,2,3].indexOf(1)){
+    // 存在
+}else{
+    // 不存在
+}
+[(1,2,3)] // 3
 ```

@@ -595,6 +595,22 @@ Array.isArray([]); // true
 ```
 以上，除了Object.prototype.toString外，其它方法都不能正确判断变量的类型。
 
+* 由于每个iframe都有一套自己的执行环境，跨frame实例化的对象彼此是不共享原型链的，因此导致检测代码失效。
+* 最佳写法
+```javascript
+var arr = [1,2,3,1];
+var arr2 = [{ abac : 1, abc : 2 }];
+function isArrayFn(value){
+if (typeof Array.isArray === "function") {
+return Array.isArray(value);
+}else{
+return Object.prototype.toString.call(value) === "[object Array]";
+}
+}
+console.log(isArrayFn(arr));// true
+console.log(isArrayFn(arr2));// true
+```
+
 49. 优化
 - 按需加载（懒加载）路由
 - 业务代码拆分
