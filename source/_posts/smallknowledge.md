@@ -1893,3 +1893,19 @@ if(~[1,2,3].indexOf(1)){
 }
 [(1,2,3)] // 3
 ```
+
+## 已知年月，求当月多少天
+- 先判断该年份是否是闰年，来处理 2 月份情况，闰年 2 月共 29 天，非闰年 2 月共 28 天
+- 再判断其他月份，如 1 月共 31 天，4 月共 30 天
+
+**更简便的方法**
+```javascript
+// Date API 处理日期溢出时，会自动往后推延响应时间
+function getMonthCountDay (year, month) {
+  return 32 - new Date(year, month-1, 32).getDate()
+}
+// better
+function getMonthCountDay (year, month) {
+  return new Date(year, month + 1, 0).getDate()
+}
+```
