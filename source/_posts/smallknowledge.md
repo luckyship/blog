@@ -1413,6 +1413,12 @@ JSON.stringify(testJSON, undefined, 7);
 //          "name": 'test',
 //          "city": 'shanghai',   // 缩进7个空格
 // }"
+
+JSON.stringify({name:123,age:24},null,'\t')
+// "{
+// 	"name": 123,
+// 	"age": 21
+// }"
 ```
 
 ## 随机数
