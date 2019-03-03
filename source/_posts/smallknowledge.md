@@ -1908,10 +1908,11 @@ if(~[1,2,3].indexOf(1)){
 ```javascript
 // Date API 处理日期溢出时，会自动往后推延响应时间
 function getMonthCountDay (year, month) {
-  return 32 - new Date(year, month-1, 32).getDate()
+  return 32 - new Date(year, month-1, 32).getDate();
+  // 32 - (32-当月天数) = 当月天数
 }
 // better
 function getMonthCountDay (year, month) {
-  return new Date(year, month + 1, 0).getDate()
+  return new Date(year, month , 0).getDate();
 }
 ```
