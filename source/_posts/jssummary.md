@@ -110,6 +110,28 @@ typeof null === 'object' // true
 null instanceof Object // false 
 null instanceof null // error
 
+// 不同的对象在底层都表示为二进制
+// 在JavaScript中二进制前三位为0的话都会被判断为object类型
+// null的二进制表示全是0，自然前三位也是0
+// 所以 typeof null === “object”
+
+typeof Function; // 'function'
+typeof new Function(); // 'function'
+typeof function() {}; // 'function'
+
+typeof Array; // 'function'
+typeof Array(); // 'object'
+typeof new Array(); // 'object'
+typeof []; // 'object'
+
+typeof Boolean; // "function"
+typeof Boolean(); // "boolean"
+typeof new Boolean(); // "object"
+
+typeof Math; // 'object'
+typeof Math(); // Math is not a function
+typeof new Math(); // Math is not a constructor
+
 []+[] // ""
 []+{} // "[object Object]"
 {}+[] // 0
@@ -119,6 +141,8 @@ null instanceof null // error
 Math.max() // -Infinity
 Math.min() // Infinity
 ```
+
+> 构造函数 Array(..) 不要求必须带 new 关键字。不带时，它会被自动补上。 因此 Array(1,2,3) 和 new Array(1,2,3) 的效果是一样的
 
 ## MDN基本数据类型的定义
 > 除 Object 以外的所有类型都是不可变的（值本身无法被改变）。例如，与 C 语言不同，JavaScript 中字符串是不可变的
