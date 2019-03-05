@@ -14,6 +14,9 @@ photos:
 ![精简](https://user-images.githubusercontent.com/25027560/37508449-123fc606-292e-11e8-9cf8-9667338b9ac4.png)
 
 ![复杂](https://user-images.githubusercontent.com/25027560/37508456-1c2c0648-292e-11e8-94d7-541f20942869.png)
+
+---
+<!--more-->
  
 ## 二、特殊的`null`
 用`typeof`来检查上述七种类型时，返回的是对应的类型字符串值

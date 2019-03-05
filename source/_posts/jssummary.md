@@ -1126,3 +1126,9 @@ function showCase2(value) {
 showCase2(String('A')); // 'Case A'
 // String 不仅是个构造函数 直接调用返回一个字符串哦.
 ```
+
+## 为什么JS是单线程的
+> 与用途有关，JavaScript的主要用途是与用户互动，以及操作DOM
+> 假定JavaScript同时有两个线程，一个线程在某个DOM节点上添加内容，另一个线程删除了这个节点，这时浏览器应该以哪个线程为准？
+
+为了利用多核CPU的计算能力，HTML5提出Web Worker标准，允许JavaScript脚本创建多个线程，但是子线程完全受主线程控制，且不得操作DOM。所以，这个新标准并没有改变JavaScript单线程的本质。
