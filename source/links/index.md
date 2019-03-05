@@ -106,6 +106,13 @@ copyright: true
                 <p class="per-links-des">人气网红 | 前端小萌新 | bilibili | 有猫 | 开源</p>
             </a>
         </li>
+        <li class="per-links-item">
+            <a href="https://jwchan.cn/" class="group-picture" title="我爱盐酥鸡" target="_blank">
+                <img class="per-links-icon" src="https://jwchan.cn/images/avatar.jpg" alt="">
+                <h3 class="per-links-title">我爱盐酥鸡</h3>
+                <p class="per-links-des">最喜欢小肥柴了嘻嘻</p>
+            </a>
+        </li>
     </ul>
     <hr>
     <div class="instructions">
