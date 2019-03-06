@@ -236,10 +236,10 @@ IFun();
     Person.prototype.friend = [];
     Person.prototype.age = 18;
      var a = new Person();
-     a.friend[0] = '王琦'; // a.friend=['123'] 指向新对象 b.friend // []
+     a.friend[0] = '方涛'; // a.friend=['123'] 指向新对象 b.friend // []
      a.age = 18;
      var b = new Person();
-     b.friend // ['王琦'] 
+     b.friend // ['方涛'] 
      b.age   // 18
     ```
     >1、创建一个空对象，并且 this 变量引用该对象，同时还继承了该函数的原型。   

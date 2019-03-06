@@ -22,6 +22,7 @@ var obj = Object.assign({})   // 复制到目标对象
 Object.assign({ a: 1, b: 2 }, { b: 3, c: 3 })
 const newObj = { ...{ a: 1, b: 2 }, ...{ b: 3, c: 3 } }
 // {a: 1, b: 3, c: 3}
+// Object() ==> {}
 ```
 
 ### 复制一个对象
@@ -178,6 +179,20 @@ person1.hobby.exercise = "running";
 console.log(person1.hobby);  //{exercise: "running"}
 console.log(person2.hobby); //{exercise: "running"}
 ```
+
+## 动态原型模式
+```javascript
+function Person(name, age){ //构造函数模式
+    this.name = name; 
+    this.age = age; 
+    this.friends = ["aa", "bb"]; 
+    if(typeof Person.prototype.hobby !== 'object'){
+        // 只写入1次
+        Person.prototype.hobby = {exercise:"ball"};  
+    }
+}
+```
+
 
 ## 构造函数继承
 ```javascript
