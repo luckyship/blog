@@ -479,6 +479,7 @@ window.onmessage = function (e) {
 将两个页面的document.domain设置成相同域名即可，js中设置，形如：
 document.domain = "";
 6. 服务器设置代理页面/响应header配置cors access-control-allow-origin
+7. nginx反向代理
 
 39. 解决异步回调地狱有哪些方案？
 promise、generator、async/await

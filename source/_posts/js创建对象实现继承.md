@@ -193,7 +193,6 @@ function Person(name, age){ //构造函数模式
 }
 ```
 
-
 ## 构造函数继承
 ```javascript
 function SuperType(){ 
