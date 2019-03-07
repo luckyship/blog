@@ -25,6 +25,9 @@ const newObj = { ...{ a: 1, b: 2 }, ...{ b: 3, c: 3 } }
 // Object() ==> {}
 ```
 
+---
+<!--more-->
+
 ### 复制一个对象
 ```javascript
 var obj = { a: 1 };
