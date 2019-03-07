@@ -1,5 +1,5 @@
 ---
-title: 深入理解继承
+title: 深入理解JS的继承
 tags:
   - 深入理解
 copyright: true
