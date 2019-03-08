@@ -164,3 +164,6 @@ console.log(c51.constructor, c52.constructor);
 // false true
 // Child5 Parent5
 ```
+
+## 相关链接
+[js创建对象实现继承](https://mydearest.cn/js%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1%E5%AE%9E%E7%8E%B0%E7%BB%A7%E6%89%BF.html)

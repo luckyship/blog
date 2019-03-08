@@ -15,7 +15,7 @@ top: 115
 
 > 对于Array,null等特殊对象使用typeof一律返回object，这正是typeof的局限性。
 
-> 在判断除Object类型的对象时比较方便。
+> 在判断除Object类型的对象(基本类型)时比较方便。
 
 ```javascript
 var fn = new Function ('a', 'b', 'return a + b')
