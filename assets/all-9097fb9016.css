@@ -3595,27 +3595,27 @@ hr {
   background-image: url("http://cdn.mydearest.cn/blog/images/js.svg");
 }
 .category-all .category-list-item:nth-child(3)::before {
-  background-image: url("http://cdn.mydearest.cn/blog/images/php.svg");
+  background-image: url("http://cdn.mydearest.cn/blog/images/nodejs.svg");
 }
 .category-all .category-list-item:nth-child(4)::before {
-  background-image: url("http://cdn.mydearest.cn/blog/images/toolbox.svg");
+  background-image: url("http://cdn.mydearest.cn/blog/images/php.svg");
 }
 .category-all .category-list-item:nth-child(5)::before {
-  background-image: url("http://cdn.mydearest.cn/blog/images/chat.svg");
+  background-image: url("http://cdn.mydearest.cn/blog/images/toolbox.svg");
 }
 .category-all .category-list-item:nth-child(6)::before {
   width: 60px;
   height: 60px;
   top: 10px;
   left: -2px;
-  background-image: url("http://cdn.mydearest.cn/blog/images/knowledge.svg");
+  background-image: url("http://cdn.mydearest.cn/blog/images/chat.svg");
 }
 .category-all .category-list-item:nth-child(7)::before {
   width: 55px;
   height: 55px;
   top: 12px;
   left: 0;
-  background-image: url("https://cdn.lishaoy.net/images/category/Optimize.svg");
+  background-image: url("http://cdn.mydearest.cn/blog/images/knowledge.svg");
 }
 .category-all .category-list-item:nth-child(8)::before {
   width: 45px;
