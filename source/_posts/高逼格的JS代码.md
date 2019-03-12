@@ -173,6 +173,10 @@ var a = {
 var b=JSON.parse(JSON.stringify(a))
 // Number parseInt parseFloat
 ```
+局限性：
+- 会忽略 undefined
+- 不能序列化函数，会被忽略
+- 不能解决循环引用的对象
 
 ### 长度为6值为8的数组
 ```javascript
@@ -183,3 +187,14 @@ Array(6).fill(8)
 ```javascript
 window.onerror = function(m, f, l){ return true }
 ```
+
+### 生活常识
+36.3℃～37.2℃(口腔)、36.1℃～37℃(腋窝)
+
+60～100次/分
+
+1500ml
+
+2500大卡
+
+90mmHg<收缩压<140mmHg、60mmHg<舒张压<90mmHg
