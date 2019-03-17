@@ -630,6 +630,13 @@ console.log(isArrayFn(arr2));// true
 px和em都是长度单位,px的只是固定的,em的值是相对的继承父类元素的字体大小。浏览器的默认字体高位16px。1em=16px;
 rem单位基于html根元素的字体大小。
 
+- vw/vh(css3) vmin(vw和vh的较小值)/vmax(vw和vh的较大值)和百分比的区别
+
+|单位|含义|
+|:---|:---|
+|%|大部分相对于祖先元素，也有相对于自身的情况比如（border-radius、translate等)|
+|vm/vh|相对于视窗的尺寸|
+
 52. 路由权限管理
 - route render方法里进行判断 redirect or return null
 - 组件内部判断
