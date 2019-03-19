@@ -1916,3 +1916,20 @@ function getMonthCountDay (year, month) {
   return new Date(year, month , 0).getDate();
 }
 ```
+
+- 日期格式转化 2019/3/19 => 2019-3-19
+1. 正则
+```js
+let date = new Date()
+let dateStr = date.toLocaleDateString().replace(/\//g,'-')
+```
+
+2. 数组计算
+```js
+let date = new Date()
+let arr = date.toLocaleDateString().split('/')
+arr = arr.map((item) => {
+return parseInt(item) < 10 ? '0' + item : item
+})
+let dateStr = arr.join('-')
+```
