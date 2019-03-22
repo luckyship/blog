@@ -48,6 +48,8 @@ chmod +x shadowsocks.sh
 
 ![ss2](http://cdn.mydearest.cn/blog/images/ss1.png)
 
+选择加密方式7(aes-256-cfb)。
+
 然后可以去听首歌~，成功安装之后有你配置的信息显示，记住这些信息。
 
 ## 安装ss客户端，配置好上面的服务器配置信息，就可以开心地玩耍了。Chrome插件推荐使用Proxy SwitchySharp来管理和切换代理配置非常好用。
