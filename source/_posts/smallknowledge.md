@@ -1917,7 +1917,7 @@ function getMonthCountDay (year, month) {
 }
 ```
 
-- 日期格式转化 2019/3/19 => 2019-3-19
+## 日期格式转化 2019/3/19 => 2019-3-19
 1. 正则
 ```js
 let date = new Date()
@@ -1932,4 +1932,10 @@ arr = arr.map((item) => {
 return parseInt(item) < 10 ? '0' + item : item
 })
 let dateStr = arr.join('-')
+```
+
+## 求数值的n次幂
+```js
+Math.pow(2,10); //1024
+2**10 // 1024
 ```
