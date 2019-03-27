@@ -198,3 +198,89 @@ window.onerror = function(m, f, l){ return true }
 2500大卡
 
 90mmHg<收缩压<140mmHg、60mmHg<舒张压<90mmHg
+
+## 使用Boolean过滤数组中的假值
+双否运算符(~~)
+```js
+const compact = arr => arr.filter(Boolean)
+compact([0, 1, false, 2, '', 3, 'a', 'e' * 23, NaN, 's', 34]) // // [ 1, 2, 3, 'a', 's', 34 ] 
+```
+
+## 惰性载入函数
+```js
+jsfunction foo(){
+    if(a !== b){
+        console.log('aaa')
+    }else{
+        console.log('bbb')
+    }
+}
+ 
+// 优化后
+function foo(){
+    if(a != b){
+        foo = function(){
+            console.log('aaa')
+        }
+    }else{
+        foo = function(){
+            console.log('bbb')
+        }
+    }
+    return foo();
+}
+```
+那么第一次运行之后就会覆写这个方法，下一次再运行的时候就不会执行判断了。当然现在只有一个判断，如果判断很多，分支比较复杂，那么节约的资源还是可观的。
+
+## 字符串比较时间大小
+```js
+var a = "2014-08-08";
+var b = "2014-09-09";
+ 
+console.log(a>b, a<b); // false true
+console.log("21:00"<"09:10");  // false
+console.log("21:00"<"9:10");   // true   时间形式注意补0
+```
+字符串比较大小是按照字符串从左到右每个字符的charCode来的，但所以特别要注意时间形式注意补0
+
+## 数字补0操作
+```js
+const addZero1 = (num, len = 2) => (`0${num}`).slice(-len)
+const addZero2 = (num, len = 2) => (`${num}`).padStart( len   , '0')
+addZero1(3) // 03
+ 
+addZero2(32,4)  // 0032
+```
+
+## es6的八进制表示
+```js
+035            // 8进制29      原来的方式
+0o35            // 8进制29     es6的方式
+```
+
+## Math.round实现的精确保留指定位数的函数(toFixed不完善)
+```js
+const round = (n, decimals = 0) => Number(`${Math.round(`${n}e${decimals}`)}e-${decimals}`)
+round(1.345, 2)                 // 1.35
+round(1.345, 1)                 // 1.3
+```
+
+## 统计相同项(reduce)
+```js
+var str = a.split('').reduce((p,k)=>(p[k]++||(p[k]=1),p),{})
+
+
+jsvar cars = ['BMW','Benz', 'Benz', 'Tesla', 'BMW', 'Toyota'];
+var carsObj = cars.reduce(function (obj, name) {
+  obj[name] = obj[name] ? ++obj[name] : 1;
+  return obj;
+}, {});
+carsObj; // => { BMW: 2, Benz: 2, Tesla: 1, Toyota: 1 }
+```
+
+## 两个数值的交换
+```js
+var temp = a; a = b; b = temp            
+b = [a, a = b][0]                     
+a = a + b; b = a - b; a = a - b 
+```
