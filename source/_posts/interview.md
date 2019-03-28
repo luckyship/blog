@@ -594,9 +594,20 @@ Object.prototype.toString.apply(a) === '[object Array]';
 // 6.Array.isArray
 Array.isArray([]); // true
 ```
-以上，除了Object.prototype.toString外，其它方法都不能正确判断变量的类型。
+以上，除了Object.prototype.toString外，其它方法都不能正确判断变量的类型。虽然Array继承自Object，也会有 toString方法，但是这个方法有可能会被改写而达不到我们的要求，而Object.prototype则是老虎的屁股，很少有人敢去碰它的，所以能一定程度保证其“纯洁性”：)😝
 
 * 由于每个iframe都有一套自己的执行环境，跨frame实例化的对象彼此是不共享原型链的，因此导致检测代码失效。
+
+举个🌰
+```js
+var iframe = document.createElement('iframe'); //创建iframe
+document.body.appendChild(iframe); //添加到body中
+xArray = window.frames[window.frames.length-1].Array;
+var arr = new xArray(1,2,3); // 声明数组[1,2,3]
+alert(arr instanceof Array); // false
+alert(arr.constructor === Array); // false
+```
+
 * 最佳写法
 ```javascript
 var arr = [1,2,3,1];
