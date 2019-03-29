@@ -283,4 +283,8 @@ carsObj; // => { BMW: 2, Benz: 2, Tesla: 1, Toyota: 1 }
 var temp = a; a = b; b = temp            
 b = [a, a = b][0]                     
 a = a + b; b = a - b; a = a - b 
+// es6 解构赋值
+let x = 1;
+let y = 2;
+[x, y] = [y, x];
 ```
