@@ -1,5 +1,5 @@
 ---
-title: border-radius:50%和100%究竟有什么区别
+title: borderRadius百分比50和100究竟有什么区别
 tags:
   - 知识
 copyright: true
