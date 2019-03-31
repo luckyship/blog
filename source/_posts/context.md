@@ -13,10 +13,11 @@ photos:
 ## 变量/函数提升(函数及变量的声明都将被提升到函数的最顶部，且函数声明在变量声明上边)
 
 ```javascript
-if(!"a" in window){ // false
+if(!("a" in window)){ // false
     var a=1;
 }
 console.log(a) // undefined
+// if(o.x){} // 不能判断属性存不存在 假值undefine,null,false," ",0或NaN
 ```
 
 ```javascript

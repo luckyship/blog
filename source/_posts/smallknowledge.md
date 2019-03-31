@@ -41,6 +41,10 @@ element.scrollIntoViewIfNeeded(false);
 
 ```javascript
 ~~2.5 // 2 按位取反 -2^31~2^31-1 -2147483648~2147483647
+2147483647 >> 0; // => 2147483647
+2147483648 >> 0; // => -2147483648
+2147483649 >> 0; // => -2147483647
+
 0|3.123;// 3 或运算
 4.3|0; // 4
 4.3<<0; // 4
@@ -126,6 +130,13 @@ Object.is(+0,-0) // false
 NaN !== NaN // true
 NaN === NaN // false 
 Object.is(NaN,NaN) // true
+```
+
+## 判断NaN
+```js
+Number.isNaN(); // true
+x!==x // =>NaN false
+// {}!=={} []!==[]
 ```
 
 ## try-catch跳出forEach循环
@@ -1789,6 +1800,7 @@ function func(){
     console.log([].slice.call(arguments))
     console.log(Array.prototype.slice.call(arguments))
     console.log(Array.from(arguments))
+    console.log([...arguments])
 }
 func(1,2,3)
 ```
@@ -1953,4 +1965,16 @@ let dateStr = arr.join('-')
 ```js
 Math.pow(2,10); //1024
 2**10 // 1024
+```
+
+## 分号的重要性
+```js
+const luke = {}
+const leia = {}
+[luke, leia].forEach(jedi => jedi.father = 'vader');
+
+function foo() {
+  return
+    'search your feelings, you know it to be foo'
+} // undefined
 ```

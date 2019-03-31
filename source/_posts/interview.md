@@ -938,3 +938,16 @@ components:{
 
 物理层（Rj45，802.3）
 OSI的物理层规范是有关传输介质的特这些规范通常也参考了其他组织制定的标准。连接头、帧、帧的使用、电流、编码及光调制等都属于各种物理层规范中的内容。物理层常用多个规范完成对所有细节的定义。示例：Rj45，802.3等。
+
+67. call使用
+```js
+function add(a,b){
+console.log(a+b)
+}
+
+function sub(a,b){
+console.log(a-b)
+}
+
+add.call(sub,3,1) // 4
+```

@@ -263,6 +263,22 @@ addZero2(32,4)  // 0032
 const round = (n, decimals = 0) => Number(`${Math.round(`${n}e${decimals}`)}e-${decimals}`)
 round(1.345, 2)                 // 1.35
 round(1.345, 1)                 // 1.3
+
+// 不太完善 round(1.2,2) 为1.2没有补0
+function addZ(num,len=2){ 
+    num=num.toString() 
+    if(!num.includes('.')) num=num+'.' 
+    if(!Object.is(Number(num),NaN)){ 
+        num= Number(num).toFixed(len)    
+    } 
+    else if(num.includes(',')){ 
+        if(!Object.is(Number(num.replace(/,/g,'')),NaN)){ 
+        len=num.indexOf('.')+Number(len)+1 
+        num= num.length<len? num.padEnd(len,'0'):num; 
+        } 
+    } 
+    return num 
+}
 ```
 
 ## 统计相同项(reduce)
@@ -287,4 +303,18 @@ a = a + b; b = a - b; a = a - b
 let x = 1;
 let y = 2;
 [x, y] = [y, x];
+```
+
+## 多判断
+```js
+if ( foo === 'bar' || foo === 'foobar' || foo === 'foo' )
+{
+//...
+}
+
+就可以写成：
+if ( foo in { 'bar':'', 'foobar':'', 'foo':'' } )
+{
+//...
+}
 ```

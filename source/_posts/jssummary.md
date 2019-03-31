@@ -659,7 +659,7 @@ console.log(o.b()); // 8
 
 ## Symbol(原始数据类型) 不可枚举的 符号类型
 ```javascript
-var  myPrivateMethod  = Symbol(); // 不能使用new Symbol()创建，它是一个不完整的类
+var  myPrivateMethod  = Symbol(); // 不能使用new Symbol()创建，它是一个不完整的类属于基本类型
 this[myPrivateMethod] = function() {...};
 ```
 
