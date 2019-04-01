@@ -57,17 +57,24 @@ border-radius: 50px;
 }
 ```
 
+## 椭圆
+```css
+{
+  width: 150px;
+  height: 100px;
+  border-radius: 50%; 
+}
+```
+
 ### 菱形
 ```css
 .quarter-ellipse{
-    width: 200px;
-    height: 150px;
-    border-radius: 100% 0 0 0;
-    background: black;
-}
-/*将菱形里的字转成正着的方向*/
-.paralle p{
-    transform: skew(20deg);
+    width: 100px;
+    height: 50px;
+    background: pink;
+    transform: skew(-20deg);
+    text-align: center;
+    line-height: 50px;
 }
 ```
 
