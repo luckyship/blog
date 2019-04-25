@@ -104,6 +104,28 @@ var foo=function (){} // 函数表达式 var foo=function foo1(){} 函数名可�
 
 9.007199254740992，这也是 JS 最多能表示的精度。它的长度是 16，所以可以使用 toPrecision(16) 来做精度运算，超过的精度会自动做凑整处理。
 
+任何原始类型都有字面量形式，可以不被变量所存储。
+
+JavaScript语言有"垃圾回收"功能，所以在使用引用类型的时候无需担心内存分配。但是为了防止"内存泄露"还是应该在不实用对象的时候将该对
+
+象的引用赋值为null。让"垃圾回收"器在特定的时间对那一块内存进行回收。
+
+### 原始封装类型
+```js
+var a ='qwer';
+var firstChar = a.chatAt(0);
+console.log(firstChar);// q
+```
+
+在js引擎中发生了
+```js
+var a ='qwer';
+var temp = new String(a);
+var firstChar = temp.chatAt(0);
+temp =null;
+console.log(firstChar);// q
+```
+
 ```js
 0.10000000000000000555.toPrecision(16)
 // 返回 0.1000000000000000，去掉末尾的零后正好为 0.1
