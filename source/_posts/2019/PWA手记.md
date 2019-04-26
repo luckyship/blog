@@ -16,7 +16,10 @@ PWA是 Progressive Web App 的英文缩写， 也就是就是渐进式增强WEB�
 
 一个 PWA 应用首先是一个网页, 可以通过 Web 技术编写出一个网页应用. 随后添加上 App Manifest 和 Service Worker 来实现 PWA 的
 
-安装和离线等功能
+安装和离线等功能。
+
+---
+<!--more-->
 
 ## service worker (web worker)
 1. 外链的js文件，拦截网络请求
