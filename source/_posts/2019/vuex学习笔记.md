@@ -1,7 +1,7 @@
 ---
 title: vuex学习笔记
 tags:
-  - 知识
+  - vue
 copyright: true
 comments: true
 date: 2019-04-19 00:25:20
