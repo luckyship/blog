@@ -81,6 +81,32 @@ typeof null // object null instanceof Object // false
     IE中的事件流叫事件冒泡；事件冒泡：事件开始时由最具体的元素接收，然后逐级向上传播到较为不具体的节点（文档）。对于html来说，就是当一个元素产生了一个事件，它会把这个事件传递给它的父元素，父元素接收到了之后，还要继续传递给它的上一级元素，就这样一直传播到document对象（亲测现在的浏览器到window对象，只有IE8及以下不这样。
 
     事件捕获是不太具体的元素应该更早接受到事件，而最具体的节点应该最后接收到事件。他们的用意是在事件到达目标之前就捕获它；也就是跟冒泡的过程正好相反，以html的click事件为例，document对象（DOM级规范要求从document开始传播，但是现在的浏览器是从window对象开始的）最先接收到click事件的然后事件沿着DOM树依次向下传播，一直传播到事件的实际目标；
+    ```html
+    <nav id="root_b">
+      <ul id="first_b">
+        <li id="second_b"><a id="target_b" href="#">冒泡</a></li>
+      </ul>
+    </nav>
+    <nav id="root_c">
+      <ul id="first_c">
+        <li id="second_c"><a id="target_c" href="#">捕获</a></li>
+      </ul>
+    </nav>
+    ```
+    ```js
+    /**
+    * listen
+    * @param {string[]} ids 
+    * @param {boolean} isCatch 
+    */
+    const listen = (ids, isCatch) => ids.forEach(id => document.getElementById(id).addEventListener('click', () => alert(id), isCatch))
+
+    // BubbleEvent
+    listen(['root_b', 'first_b', 'second_b', 'target_b'], false)
+
+    // CatchEvent
+    listen(['root_c', 'first_c', 'second_c', 'target_c'], true)
+    ```
 
 5. 如何添加一个dom对象到body中?innerHTML和innerText区别?
     body.appendChild(dom元素)；  
@@ -522,13 +548,44 @@ IE只支持事件冒泡。
 44. 如何让事件先冒泡后执行？
 在DOM标准事件模型中，是先捕获后冒泡。但是如果要实现先冒泡后捕获的效果，对于同一个事件，监听捕获和冒泡，分别对应相应的处理函数，监听到捕获事件，先暂缓执行，直到冒泡事件被捕获后再执行捕获事件。
 
-45. 什么是事件委托？
+45. 什么是事件委托？（事件代理）
 简介：事件委托指的是，不在事件的发生地（直接dom）上设置监听函数，而是在其父元素上设置监听函数，通过事件冒泡，父元素可以监听到子元素上事件的触发，通过判断事件发生元素DOM的类型，来做出不同的响应。
 
 举例：最经典的就是ul和li标签的事件监听，比如我们在添加事件时候，采用事件委托机制，不会在li标签上直接添加，而是在ul父元素上添加。
 
 好处：比较合适动态元素的绑定，新添加的子元素也会有监听函数，也可以有事件触发机制。
 
+```html
+<ul id="proxy">
+  <li><button id="1">1</button></li>
+  <li><button id="2">2</button></li>
+  <li><button id="3">3</button></li>
+</ul>
+```
+
+```js
+function main() {
+  const proxy = document.getElementById('proxy')
+
+  proxy.addEventListener('click', event => {
+    const currentTarget = event.target
+    const id = currentTarget.id
+    switch (id) {
+      case '1':
+        alert(`proxy: ${1}`)
+        break;
+      case '2':
+        alert(`proxy: ${2}`)
+        break;
+      case '3':
+        alert(`proxy: ${3}`)
+        break;
+      default:
+        break;
+    }
+  })
+}
+```
 45. 垂直居中
 - margin:auto法 relative -> absolute -> marin:0 auto
 - margin负值法 relative -> absolute -> top:50% left:50% marin-top:height的一半 margin-left:width的一半或者transform：translateX(-50%)和transform：translateY(-50%)
