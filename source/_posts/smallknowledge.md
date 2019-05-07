@@ -2039,3 +2039,12 @@ function enable_scroll() {
     window.onmousewheel = document.onmousewheel = document.onkeydown = null;  
 }
 ```
+
+### map等遍历注意事项
+```js
+var it = []
+it.map((item)=>{
+    console.log(111111111111)
+})
+// 压根就不会执行
+```

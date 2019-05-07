@@ -1,5 +1,5 @@
 ---
-title: ES6Relect对象
+title: ES6Reflect对象
 tags:
   - 深入理解
 copyright: true

@@ -89,13 +89,13 @@ fun1();
 // 伪代码
 
 // fun1()
-ECStack.push(<fun1> functionContext);
+ECStack.push(<fun1\> functionContext);
 
 // fun1中竟然调用了fun2，还要创建fun2的执行上下文
-ECStack.push(<fun2> functionContext);
+ECStack.push(<fun2\> functionContext);
 
 // 擦，fun2还调用了fun3！
-ECStack.push(<fun3> functionContext);
+ECStack.push(<fun3\> functionContext);
 
 // fun3执行完毕
 ECStack.pop();
@@ -107,6 +107,47 @@ ECStack.pop();
 ECStack.pop();
 
 // javascript接着执行下面的代码，但是ECStack底层永远有个globalContext
+```
+
+```js
+function a() {
+    var value = 'local scope'
+    function b() {
+        console.log(value)
+    }
+    return b()
+}
+a()
+function a() {
+    var value = 'local scope'
+    function b() {
+        console.log(value)
+    }
+    return b
+}
+a()()
+```
+分析如下👁：
+```js
+// a()执行的时候，创建执行上下文入栈
+ECsatck.push(<fun\> a)
+// 函数a遇到b可执行函数，执行b函数创建可执行上下文入栈
+ECstack.push(<fun\> b)
+// 后进先出原则b执行完出栈
+ECstack.pop()
+// a执行完出栈
+ECstack.pop()
+
+第二段代码
+
+// a()执行的时候，创建执行上下文入栈
+ECsatck.push(<fun\> a)
+// a执行完后返回了b函数，注意这里没有直接执行而是直接返回了b,所有没有创建b函数的上下文，a执行完直接出栈
+ECstack.pop() //a出栈
+// 在外部返回的b函数被执行， 创建b的执行上下文，压入栈，
+ECstack.push(<fun\> b)
+// b执行完出栈
+ECstack.pop()
 ```
 
 ## 三大属性
