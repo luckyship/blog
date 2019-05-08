@@ -115,3 +115,25 @@ Session:
 在服务器端会创建一个 session 对象，产生一个 sessionID 来标识这个 session 对象，然后将这个 sessionID 放入到 Cookie 中发送到客户端，下一次访问时，sessionID 会发送到服务器，在服务器端进行识别不同的用户。
 
 Session 的实现依赖于 Cookie，如果 Cookie 被禁用，那么 session 也将失效。
+
+### 跨站攻击
+
+#### CSRF（Cross-site request forgery，跨站请求伪造）
+
+- 如何防范 CSRF 攻击？
+
+1. 关键操作只接受 POST 请求
+2. 验证码
+3. 检测referer
+4. token
+
+#### XSS（Cross Site Scripting，跨站脚本攻击）
+
+XSS 全称“跨站脚本”，是注入攻击的一种。其特点是不对服务器端造成任何伤害，而是通过一些正常的站内交互途径，例如发布评论，提交含有 JavaScript 的内容文本。这时服务器端如果没有过滤或转义掉这些脚本，作为内容发布到了页面上，其他用户访问这个页面的时候就会运行这些脚本。
+
+XSS 是实现 CSRF 的诸多途径中的一条，但绝对不是唯一的一条。一般习惯上把通过 XSS 来实现的 CSRF 称为 XSRF。
+
+## HTTPS基本过程
+HTTPS即 HTTP over TLS，是一种在加密信道进行HTTP内容传输的协议
+
+> TLS 的早期版本叫做 SSL。SSL 的 1.0, 2.0, 3.0 版本均已经被废弃，出于安全问题考虑广大浏览器也不再对老旧的 SSL 版本进行支持了，因此这里我们就统一使用 TLS 名称了。

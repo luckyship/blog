@@ -2048,3 +2048,31 @@ it.map((item)=>{
 })
 // 压根就不会执行
 ```
+
+### 符合密码学要求的随机值
+```js
+function getRandomNumbers(min, max) {
+    var minValue = min || '';
+    var maxValue = max || '';
+    var cryptoObj = window.crypto || window.msCrypto;
+    var array = new Uint32Array(1);
+    cryptoObj && cryptoObj.getRandomValues(array);
+    var result = 0;
+    if (minValue || maxValue) {
+        if (!maxValue) {
+            minValue = 0;
+            maxValue = min;
+        }
+        result = parseInt(minValue, 10) + (array[0] % (parseInt(maxValue, 10) - parseInt(minValue, 10)));
+    } else {
+        result = array[0];
+    }
+    return result;
+};
+```
+
+### base64编码和解码
+```js
+let encodedData = window.btoa("Hello, world"); // 编码
+let decodedData = window.atob(encodedData); // 解码
+```

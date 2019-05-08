@@ -10,16 +10,20 @@ photos:
 top: 200
 ---
 
-PWA是 Progressive Web App 的英文缩写， 也就是就是渐进式增强WEB应用， 是 Google 在2016年提出的概念，2017年落地的web技术。
+PWA是Progressive Web App的英文缩写， 也就是就是渐进式增强WEB应用， 是Google 在2016年提出的概念，2017年落地的web技术。
 
 目的就是在移动端利用提供的标准化框架，在网页应用中实现和原生应用相近的用户体验的渐进式网页应用。
 
-一个 PWA 应用首先是一个网页, 可以通过 Web 技术编写出一个网页应用. 随后添加上 App Manifest 和 Service Worker 来实现 PWA 的
-
-安装和离线等功能。
+一个 PWA 应用首先是一个网页, 可以通过 Web 技术编写出一个网页应用. 随后添加上 App Manifest 和 Service Worker 来实现 PWA 的安装和离线等功能
 
 ---
 <!--more-->
+
+## 核心技术
+
+- Service Worker （可以理解为服务工厂）
+- Manifest （应用清单）
+- Push Notification（推送通知）
 
 ## service worker (web worker)
 1. 外链的js文件，拦截网络请求
@@ -28,8 +32,7 @@ PWA是 Progressive Web App 的英文缩写， 也就是就是渐进式增强WEB�
 4. 消息推送和处理后台同步
 
 web worker
-web worker  是运行在后台的JavaScript，独立于其他脚本，不会影响页面的性能 。
-
+web worker  是运行在后台的JavaScript，独立于其他脚本，不会影响页面的性能 。SW 作用于 浏览器于服务器之间，相当于一个代理服务器。
 
 浏览器一般有三类 web Worker
 
@@ -43,28 +46,96 @@ web worker  是运行在后台的JavaScript，独立于其他脚本，不会影�
 
 ## Service Worker生命周期
 
-### 安装中 （installing）
+### Parsed （ 解析成功 ）
+
+首次注册 SW 时，浏览器解决脚本并获得入口点，如果解析成功，就可以访问到 SW 注册对象，在这一点中我们需要在 HTML 页面中添加一个判断，判断该浏览器是否支持 SW 。
+```js
+// 注册ServiceWorker
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker
+        .register('./service-worker.js')
+        .then(registration => { 
+            console.log('Service Worker Registered');
+            Notification.requestPermission(function(result) {
+                    console.log('result', result)
+                    if (result === 'granted') {
+                        registration.showNotification('Vibration Sample', {
+                            body: 'Buzz! Buzz!',
+                            icon: './img/mario.png',
+                            vibrate: [200, 100, 200, 100, 200, 100, 200],
+                            tag: 'vibration-sample'
+                        });
+                    } else {
+                        alert(result);
+                    }     
+            });
+        })
+        .catch(err => console.log(`registration failed with ${err.stack}`));
+}
+```
+
+### 安装中 （installing）指定缓存
 
 这个状态发生在 Service Worker 注册之后，表示开始安装，触发 install 事件回调指定一些静态资源进行离线缓存。
 
 install 事件回调中有两个方法：
 ```js
-event.waitUntil() // 传入一个 Promise 为参数，等到该 Promise 为 resolve 状态为止。
+event.waitUntil() // 传入一个 Promise 为参数，等到该 Promise 为 resolve 状态为止。如果 Promise 被拒绝，则安装失败，SW会进入 Redundant（ 废弃 ）状态。
 
-self.skipWaiting() // self 是当前 context 的 global 变量，执行该方法表示强制当前处在 waiting 状态的 Service Worker 进入 activate 状态。
+self.addEventListener('install', e => {
+    console.log('[ServiceWorker] Install');
+    e.waitUntil(
+        // keyname
+        caches.open(cacheName)
+            .then(cache => {
+                console.log('[ServiceWorker] Caching app shell');
+                return cache.addAll(filesToCache);
+            })
+            // 可加
+            .then(() => {
+                console.log('skip waiting')
+                return self.skipWaiting() // 为了在页面更新的过程当中，新的 SW 脚本能够立刻激活和生效。
+            })
+    );
+});
+
+self.skipWaiting() // self 是当前 context 的 global 变量（ self 是 SW 中作用于全局的对象），执行该方法表示强制当前处在 waiting 状态的 Service Worker 进入 activate 状态。
 ```
 
 ### 已安装 （installed）
-
 Service Worker 已经完成了安装，并且等待其他的 Service Worker 线程被关闭。
 
-### 激活中 （activating）
+### 激活中 （activating）更新缓存
 
 在这个状态下没有被其他的 Service Worker 控制的客户端，允许当前的 worker 完成安装，并且清除了其他的 worker 以及关联缓存的旧缓存资源，等待新的 Service Worker 线程被激活。
 
-activate 回调中有两个方法：
 ```js
-event.waitUntil() // 传入一个 Promise 为参数，等到该 Promise 为 resolve 状态为止。
+// 激活 缓存更新
+self.addEventListener('activate', e => {
+    console.log('[ServiceWorker] Activate');
+    e.waitUntil(
+        caches.keys()
+            .then(keyList => Promise.all(keyList.map(key => {
+                if (key !== cacheName) {
+                    console.log('[ServiceWorker] Removing old cache', key);
+                    return caches.delete(key);
+                }
+            })))
+            // 可加
+            .then(() => {
+            return self.clients.matchAll()
+                .then(clients => {
+                if (clients && clients.length) {
+                    clients.forEach((v,i) => {
+                        // 发送字符串'sw.update'
+                        v.postMessage('sw '+i+' update')
+                    })
+                }
+                })
+            })
+    );
+    return self.clients.claim();
+});
 
 self.clients.claim() // 在 activate 事件回调中执行该方法表示取得页面的控制权, 这样之后打开页面都会使用版本更新的缓存。旧的 Service Worker 脚本不再控制着页面，之后会被停止。
 ```
@@ -85,6 +156,21 @@ self.clients.claim() // 在 activate 事件回调中执行该方法表示取得�
 
 - 新版本的 Service Worker 替换了它并成为激活状态
 
+### 处理动态缓存
+监听 fetch 事件，在 caches 中去 match 事件的 request ，如果 response 不为空的话就返回 response ，最后返回 fetch 请求，在 fetch 事件中我们可以手动生成 response 返回给页面。
+```js
+// 捕获请求
+self.addEventListener('fetch', e => {
+    console.log('[Service Worker] Fetch', e.request.url);
+    e.respondWith(
+        caches.match(e.request)
+            .then(response => response || fetch(e.request))
+    );
+});
+```
+
+通过存放到 Cache Storage 中，我们下次访问的时候如果是弱网或者断网的情况下，就可以不走网络请求，而直接就能将本地缓存的内容展示给用户，优化用户的弱网及断网体验。
+
 ## Service Worker 注册
 
 ```js
@@ -102,12 +188,13 @@ if ('serviceWorker' in navigator) {
 ```
 
 ## Service Work 安装
-
 ```js
 // sw.js
 self.addEventListener('install', function (event) { 
     return self.skipWaiting(); 
 });
+
+// self.oninstall = e => {}
 ```
 
 ## Service Worker 调试
@@ -119,7 +206,6 @@ self.addEventListener('install', function (event) {
 Service Worker 使用 Cache API 缓存只读资源，可以在 Chrome DevTools 上查看缓存的资源列表。
 
 ## Service Worker 网络跟踪
-
 经过 Service Worker 的 fetch 请求 Chrome 都会在 Chrome DevTools Network 标签页里标注出来，其中：
 
 - 来自 Service Worker 的内容会在 Size 字段中标注为 from ServiceWorker
@@ -183,7 +269,6 @@ Service Worker 使用 Cache API 缓存只读资源，可以在 Chrome DevTools �
 ```
 
 ### window10 贴片图标
-
 ```js
 <meta name="msapplication-TileImage" content="images/logo/144x144.png" > 
 <meta name="msapplication-TileColor" content="#2F3BA2" >
