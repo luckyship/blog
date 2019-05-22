@@ -1,23 +1,8 @@
----
-title: PWA手记
-tags:
-  - PWA
-copyright: true
-comments: true
-date: 2019-04-27 01:15:46
-categories: 知识
-photos:
-top: 200
----
-
 PWA是Progressive Web App的英文缩写， 也就是就是渐进式增强WEB应用， 是Google 在2016年提出的概念，2017年落地的web技术。
 
 目的就是在移动端利用提供的标准化框架，在网页应用中实现和原生应用相近的用户体验的渐进式网页应用。
 
 一个 PWA 应用首先是一个网页, 可以通过 Web 技术编写出一个网页应用. 随后添加上 App Manifest 和 Service Worker 来实现 PWA 的安装和离线等功能
-
----
-<!--more-->
 
 ## 核心技术
 
@@ -28,7 +13,7 @@ PWA是Progressive Web App的英文缩写， 也就是就是渐进式增强WEB应
 ## service worker (web worker)
 1. 外链的js文件，拦截网络请求
 2. 一旦注册不可删除除非unregister
-3. 运行在https协议
+3. 运行在https协议(安全性)
 4. 消息推送和处理后台同步
 
 web worker
@@ -44,14 +29,27 @@ web worker  是运行在后台的JavaScript，独立于其他脚本，不会影�
 
 - Service Worker ：是事件驱动的 worker，生命周期与页面无关，关联页面未关闭时，它也可以退出，没有关联页面时，它也可以启动。
 
-## Service Worker生命周期
+## Service Worker生命周期 
+看成红绿灯
+红 下载和解析
+黄 正在执行 还没准备好
+绿 随时可使用
+且第一次加载页面 sw还没有激活 不会处理任何请求 只有安装和激活后才能使用。（刷新页面和跳转新页面才会生效）
+
+- 步骤
+1. 用户导航到url
+2. 注册sw 过程中浏览器下载解析执行sw
+3. 一旦执行激活安装时间
+4. 安装成功就可以控制客户端功能事件
 
 ### Parsed （ 解析成功 ）
 
 首次注册 SW 时，浏览器解决脚本并获得入口点，如果解析成功，就可以访问到 SW 注册对象，在这一点中我们需要在 HTML 页面中添加一个判断，判断该浏览器是否支持 SW 。
 ```js
 // 注册ServiceWorker
+// 检查当前浏览器是否支持sw
 if ('serviceWorker' in navigator) {
+    // 如果支持开始注册sw
     navigator.serviceWorker
         .register('./service-worker.js')
         .then(registration => { 
@@ -85,16 +83,17 @@ event.waitUntil() // 传入一个 Promise 为参数，等到该 Promise 为 reso
 self.addEventListener('install', e => {
     console.log('[ServiceWorker] Install');
     e.waitUntil(
-        // keyname
+        // 使用指定的缓存名来打开缓存
         caches.open(cacheName)
             .then(cache => {
                 console.log('[ServiceWorker] Caching app shell');
+                // 将文件添加到缓存中
                 return cache.addAll(filesToCache);
             })
             // 可加
             .then(() => {
                 console.log('skip waiting')
-                return self.skipWaiting() // 为了在页面更新的过程当中，新的 SW 脚本能够立刻激活和生效。
+                return self.skipWaiting() // 为了在页面更新的过程当中，新的 SW 脚本能够立刻激活和生效。无需刷新或者跳转新页面。
             })
     );
 });
@@ -166,6 +165,35 @@ self.addEventListener('fetch', e => {
         caches.match(e.request)
             .then(response => response || fetch(e.request))
     );
+    // e.respondWith(
+    //     caches.match(e.request)
+    //         .then(response => {
+    //             if(response) {
+    //                 return response; // || fetch(e.request)
+    //             }
+    //             // 新的内容添加到缓存中
+    //             // 复制请求 请求是一个流 只能使用一次
+    //             var requestToCache = e.request.clone();
+    //             return fetch(requestToCache).then(function(response){
+    //                 if(!response || response.status !==200) {
+    //                     // 错误信息立即返回
+    //                     return response;
+    //                 }
+    //                 var responseToCache = response.clone();
+    //                 // 将响应添加到缓存中
+    //                 caches.open(cacheName).then(function (cache){
+    //                     cache.put(requestToCache, responseToCache);
+    //                 })
+    //             })
+    //         }) 
+    // );
+
+    // 自定义响应
+    // e.respondWith(new Response('<p>it is a response</p>', {
+    //     headers:{
+    //         'Content-Type': 'text/html'
+    //     }
+    // }))
 });
 ```
 
@@ -204,6 +232,8 @@ self.addEventListener('install', function (event) {
 
 - 查看缓存
 Service Worker 使用 Cache API 缓存只读资源，可以在 Chrome DevTools 上查看缓存的资源列表。
+
+http缓存：由服务器告知资源何时缓存和何时过期。sw缓存是对http缓存的增强
 
 ## Service Worker 网络跟踪
 经过 Service Worker 的 fetch 请求 Chrome 都会在 Chrome DevTools Network 标签页里标注出来，其中：
@@ -325,3 +355,14 @@ App Shell，顾名思义，就是`壳`的意思，也可以理解为`骨架屏`�
 1. [Lavas 官 网](https://lavas.baidu.com/)
 
 2. [Lavas GitHub](https://github.com/lavas-project/lavas)
+
+### 加载库
+importScripts() // sw里的全局函数
+```js
+importScripts('workbox-sw.prod.v1.1.0.js');
+
+const workboxSW = new self.WorkboxSW();
+
+workboxSW.router.registerRoute('https://test.org/css/(.*)',
+workboxSW.strategies.cacheFist);
+```
