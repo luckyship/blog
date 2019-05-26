@@ -2068,7 +2068,7 @@ function getRandomNumbers(min, max) {
         result = array[0];
     }
     return result;
-};
+}
 ```
 
 ### base64编码和解码

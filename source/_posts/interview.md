@@ -649,7 +649,7 @@ Object.getPrototypeOf(a) === Array.prototype;
 // 5.基于Object.prototype.toString 
 Object.prototype.toString.apply(a) === '[object Array]';
 // 6.Array.isArray
-Array.isArray([]); // true
+Array.isArray(a); // true
 ```
 以上，除了Object.prototype.toString外，其它方法都不能正确判断变量的类型。虽然Array继承自Object，也会有 toString方法，但是这个方法有可能会被改写而达不到我们的要求，而Object.prototype则是老虎的屁股，很少有人敢去碰它的，所以能一定程度保证其“纯洁性”：)😝
 
