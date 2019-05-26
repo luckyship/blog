@@ -1,8 +1,31 @@
-PWA是Progressive Web App的英文缩写， 也就是就是渐进式增强WEB应用， 是Google 在2016年提出的概念，2017年落地的web技术。
+---
+title: PWA手记
+tags:
+  - 深入理解
+copyright: true
+comments: true
+date: 2019-05-26 21:18:30
+categories: JS
+photos:
+top: 220
+---
+
+PWA作为2018最火热的技术概念之一，对提升Web应用的安全、性能和体验有着很大的意义，非常值得我们去了解与学习。
+
+PWA是Progressive Web App的英文缩写，也就是渐进式增强WEB应用， 是 Google 在2016年提出的概念，2017年落地的web技术。
 
 目的就是在移动端利用提供的标准化框架，在网页应用中实现和原生应用相近的用户体验的渐进式网页应用。
 
-一个 PWA 应用首先是一个网页, 可以通过 Web 技术编写出一个网页应用. 随后添加上 App Manifest 和 Service Worker 来实现 PWA 的安装和离线等功能
+一个 PWA 应用首先是一个网页, 可以通过 Web 技术编写出一个网页应用. 随后添加上 App Manifest 和 Service Worker 来实现 PWA 的
+
+安装和离线等功能。
+
+我们需要理解的是，PWA不是某一项技术，或者某一个新的产物；而是一系列Web技术与标准的集合与应用。通过应用这些新的技术与标准，可以从安
+
+全、性能和体验三个方面，优化我们的Web App。所以，其实PWA本质上依然是一个Web App。
+
+---
+<!--more-->
 
 ## 核心技术
 
@@ -11,10 +34,12 @@ PWA是Progressive Web App的英文缩写， 也就是就是渐进式增强WEB应
 - Push Notification（推送通知）
 
 ## service worker (web worker)
-1. 外链的js文件，拦截网络请求
-2. 一旦注册不可删除除非unregister
-3. 运行在https协议(安全性)
-4. 消息推送和处理后台同步
+- 一个独立的 worker 线程，独立于当前网页进程，有自己独立的 worker context。
+- 一旦被 install，就永远存在，除非被 uninstall
+- 需要的时候可以直接唤醒，不需要的时候自动睡眠（有效利用资源）
+- 可编程拦截代理请求和返回，缓存文件，缓存的文件可以被网页进程取到（包括网络离线状态）
+- 不能直接操作DOM出于安全的考虑，必须在 HTTPS 环境下才能工作
+- 异步实现，内部大都是通过 Promise 实现
 
 web worker
 web worker  是运行在后台的JavaScript，独立于其他脚本，不会影响页面的性能 。SW 作用于 浏览器于服务器之间，相当于一个代理服务器。
@@ -23,9 +48,7 @@ web worker  是运行在后台的JavaScript，独立于其他脚本，不会影�
 
 - Dedicated Worker ：专用的worker，只能被创建它的 JS 访问，创建它的页面关闭，它的生命周期就结束了。
 
-
 - Shared  Worker ：共享的 worker，可以被同一域名下的JS访问，关联的页面都关闭时，它的生命周期就结束了。
-
 
 - Service Worker ：是事件驱动的 worker，生命周期与页面无关，关联页面未关闭时，它也可以退出，没有关联页面时，它也可以启动。
 
@@ -35,6 +58,12 @@ web worker  是运行在后台的JavaScript，独立于其他脚本，不会影�
 黄 正在执行 还没准备好
 绿 随时可使用
 且第一次加载页面 sw还没有激活 不会处理任何请求 只有安装和激活后才能使用。（刷新页面和跳转新页面才会生效）
+
+### 全局变量
+- self: 表示 Service Worker 作用域, 也是全局变量
+- caches: 表示缓存
+- skipWaiting: 表示强制当前处在 waiting 状态的脚本进入 activate 状态
+- clients: 表示 Service Worker 接管的页面
 
 - 步骤
 1. 用户导航到url
@@ -72,7 +101,7 @@ if ('serviceWorker' in navigator) {
 }
 ```
 
-### 安装中 （installing）指定缓存
+### 安装中 （installing）处理静态缓存
 
 这个状态发生在 Service Worker 注册之后，表示开始安装，触发 install 事件回调指定一些静态资源进行离线缓存。
 
@@ -132,8 +161,9 @@ self.addEventListener('activate', e => {
                 }
                 })
             })
+            // return self.clients.claim();
     );
-    return self.clients.claim();
+    // return self.clients.claim();
 });
 
 self.clients.claim() // 在 activate 事件回调中执行该方法表示取得页面的控制权, 这样之后打开页面都会使用版本更新的缓存。旧的 Service Worker 脚本不再控制着页面，之后会被停止。
