@@ -394,9 +394,34 @@ importScripts('workbox-sw.prod.v1.1.0.js');
 
 const workboxSW = new self.WorkboxSW();
 
-workboxSW.router.registerRoute('https://test.org/css/(.*)',
-workboxSW.strategies.cacheFist);
+workbox.precaching([
+  // 注册成功后要立即缓存的资源列表
+]);
+
+// html的缓存策略
+workbox.routing.registerRoute(
+  new RegExp(''.*\.html'),
+  workbox.strategies.networkFirst()
+);
+
+workbox.routing.registerRoute(
+  new RegExp('.*\.(?:js|css)'),
+  workbox.strategies.cacheFirst()
+);
+
+workbox.routing.registerRoute(
+  new RegExp('https://your\.cdn\.com/'),
+  workbox.strategies.staleWhileRevalidate()
+);
+
+workbox.routing.registerRoute(
+  new RegExp('https://your\.img\.cdn\.com/'),
+  workbox.strategies.cacheFirst({
+    cacheName: 'example:img'
+  })
+);
 ```
+通过 workbox.precaching 中的是 install 以后要塞进 caches 中的内容，workbox.routing.registerRoute 中第一个参数是一个正则，匹配经过 fetch 事件的所有请求，如果匹配上了，就走相应的缓存策略。
 
 ## 注意事项
 - 避免改变 SW 的 URL（对index.html做了缓存，这样永远拿不到新的sw）
