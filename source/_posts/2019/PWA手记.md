@@ -12,9 +12,7 @@ top: 220
 
 PWA作为2018最火热的技术概念之一，对提升Web应用的安全、性能和体验有着很大的意义，非常值得我们去了解与学习。
 
-PWA是Progressive Web App的英文缩写，也就是渐进式增强WEB应用， 是 Google 在2016年提出的概念，2017年落地的web技术。
-
-目的就是在移动端利用提供的标准化框架，在网页应用中实现和原生应用相近的用户体验的渐进式网页应用。
+PWA是Progressive Web App的英文缩写，也就是渐进式增强WEB应用。目的就是在移动端利用提供的标准化框架，在网页应用中实现和原生应用相近的用户体验。
 
 一个 PWA 应用首先是一个网页, 可以通过 Web 技术编写出一个网页应用. 随后添加上 App Manifest 和 Service Worker 来实现 PWA 的
 
@@ -23,14 +21,15 @@ PWA是Progressive Web App的英文缩写，也就是渐进式增强WEB应用， 
 我们需要理解的是，PWA不是某一项技术，或者某一个新的产物；而是一系列Web技术与标准的集合与应用。通过应用这些新的技术与标准，可以从安
 
 全、性能和体验三个方面，优化我们的Web App。所以，其实PWA本质上依然是一个Web App。
-
 ---
 <!--more-->
 
 ## 核心技术
 
 - Service Worker （可以理解为服务工厂）
+
 - Manifest （应用清单）
+
 - Push Notification（推送通知）
 
 ## service worker (web worker)
@@ -42,28 +41,22 @@ PWA是Progressive Web App的英文缩写，也就是渐进式增强WEB应用， 
 - 异步实现，内部大都是通过 Promise 实现
 
 web worker
-web worker  是运行在后台的JavaScript，独立于其他脚本，不会影响页面的性能 。SW 作用于 浏览器于服务器之间，相当于一个代理服务器。
+web worker  是运行在后台的JavaScript，独立于其他脚本，不会影响页面的性能。
 
 浏览器一般有三类 web Worker
 
-- Dedicated Worker ：专用的worker，只能被创建它的 JS 访问，创建它的页面关闭，它的生命周期就结束了。
+- Dedicated Worker ：专用的 worker，只能被创建它的 JS 访问，创建它的页面关闭，它的生命周期就结束了。
 
-- Shared  Worker ：共享的 worker，可以被同一域名下的JS访问，关联的页面都关闭时，它的生命周期就结束了。
+- Shared  Worker ：共享的 worker，可以被同一域名下的 JS 访问，关联的页面都关闭时，它的生命周期就结束了。
 
-- Service Worker ：是事件驱动的 worker，生命周期与页面无关，关联页面未关闭时，它也可以退出，没有关联页面时，它也可以启动。
+- Service Worker ：是事件驱动的 worker，生命周期与页面无关，关联页面未关闭时，它也可以退出，没有关联页面时，它也可以启动。SW 作用于浏览器与服务器之间，相当于一个代理服务器。
 
-## Service Worker生命周期 
+### Service Worker生命周期 
 看成红绿灯
 红 下载和解析
 黄 正在执行 还没准备好
 绿 随时可使用
 且第一次加载页面 sw还没有激活 不会处理任何请求 只有安装和激活后才能使用。（刷新页面和跳转新页面才会生效）
-
-### 全局变量
-- self: 表示 Service Worker 作用域, 也是全局变量
-- caches: 表示缓存
-- skipWaiting: 表示强制当前处在 waiting 状态的脚本进入 activate 状态
-- clients: 表示 Service Worker 接管的页面
 
 - 步骤
 1. 用户导航到url
@@ -71,69 +64,74 @@ web worker  是运行在后台的JavaScript，独立于其他脚本，不会影�
 3. 一旦执行激活安装时间
 4. 安装成功就可以控制客户端功能事件
 
-### Parsed （ 解析成功 ）
+### 全局变量
+- self: 表示 Service Worker 作用域, 也是全局变量
+- caches: 表示缓存
+- skipWaiting: 表示强制当前处在 waiting 状态的脚本进入 activate 状态（为了在页面更新的过程当中，新的 SW 脚本能够立刻激活和生效。无需刷新或者跳转新页面。）
+- clients: 表示 Service Worker 接管的页面
+- clients.claim() 在 activate 事件回调中执行该方法表示取得页面的控制权, 这样之后打开页面都会使用版本更新的缓存。旧的 Service Worker 脚本不再控制着页面，之后会被停止。
 
-首次注册 SW 时，浏览器解决脚本并获得入口点，如果解析成功，就可以访问到 SW 注册对象，在这一点中我们需要在 HTML 页面中添加一个判断，判断该浏览器是否支持 SW 。
+### Service Worker 注册
 ```js
-// 注册ServiceWorker
 // 检查当前浏览器是否支持sw
 if ('serviceWorker' in navigator) {
     // 如果支持开始注册sw
     navigator.serviceWorker
         .register('./service-worker.js')
         .then(registration => { 
-            console.log('Service Worker Registered');
-            Notification.requestPermission(function(result) {
-                    console.log('result', result)
-                    if (result === 'granted') {
-                        registration.showNotification('Vibration Sample', {
-                            body: 'Buzz! Buzz!',
-                            icon: './img/mario.png',
-                            vibrate: [200, 100, 200, 100, 200, 100, 200],
-                            tag: 'vibration-sample'
-                        });
-                    } else {
-                        alert(result);
-                    }     
-            });
+            console,log('注册成功', registration)
+            // Notification.requestPermission(function(result) {
+            //         console.log('result', result)
+            //         if (result === 'granted') {
+            //             registration.showNotification('Vibration Sample', {
+            //                 body: 'Buzz! Buzz!',
+            //                 icon: './img/mario.png',
+            //                 vibrate: [200, 100, 200, 100, 200, 100, 200],
+            //                 tag: 'vibration-sample'
+            //             });
+            //         } else {
+            //             alert(result);
+            //         }     
+            // });
         })
-        .catch(err => console.log(`registration failed with ${err.stack}`));
+        .catch(err => console.log('注册失败',err));
 }
+// 查看是否注册成功可以在 PC 上chrome 浏览器, 输入 chrome://inspect/#service-workers
 ```
 
-### 安装中 （installing）处理静态缓存
+### Service Worker 安装（处理静态缓存）
 
-这个状态发生在 Service Worker 注册之后，表示开始安装，触发 install 事件回调指定一些静态资源进行离线缓存。
+1. 这个状态发生在 Service Worker 注册之后，是 sw 触发的第一个事件并且只触发一次。表示开始安装，触发 install 事件回调指定一些静态资源进行离线缓存。
 
-install 事件回调中有两个方法：
+2. e.waitUntil() 传入一个 Promise 为参数，等到该 Promise 为 resolve 状态为止。如果 Promise 被拒绝，则安装失败，SW会进入 Redundant（ 废弃 ）状态。
+
+3. sw 在安装成功和激活之前不会触发任何的 fetch 或 push 等事件。
+
+4. 默认情况下，页面的请求（fetch）不会通过 SW，除非它本身是通过 SW 获取的，也就是说，在安装 SW 之后，需要刷新页面才能有效果。
+
+5. clients.claim()可以改变这种默认行为。
+
 ```js
-event.waitUntil() // 传入一个 Promise 为参数，等到该 Promise 为 resolve 状态为止。如果 Promise 被拒绝，则安装失败，SW会进入 Redundant（ 废弃 ）状态。
-
 self.addEventListener('install', e => {
-    console.log('[ServiceWorker] Install');
+    console.log("安装事件，注册后触发只触发一次");
     e.waitUntil(
         // 使用指定的缓存名来打开缓存
         caches.open(cacheName)
             .then(cache => {
-                console.log('[ServiceWorker] Caching app shell');
-                // 将文件添加到缓存中
-                return cache.addAll(filesToCache);
+                console.log("加入缓存", cacheList);
+                return cache.addAll(cacheList);
             })
             // 可加
             .then(() => {
-                console.log('skip waiting')
-                return self.skipWaiting() // 为了在页面更新的过程当中，新的 SW 脚本能够立刻激活和生效。无需刷新或者跳转新页面。
+                console.log('跳过等待')
+                return self.skipWaiting()
             })
     );
 });
-
-self.skipWaiting() // self 是当前 context 的 global 变量（ self 是 SW 中作用于全局的对象），执行该方法表示强制当前处在 waiting 状态的 Service Worker 进入 activate 状态。
+// self.oninstall = e => {}
 ```
 
-### 已安装 （installed）
-Service Worker 已经完成了安装，并且等待其他的 Service Worker 线程被关闭。
-
-### 激活中 （activating）更新缓存
+###  Service Worker 激活（更新缓存）
 
 在这个状态下没有被其他的 Service Worker 控制的客户端，允许当前的 worker 完成安装，并且清除了其他的 worker 以及关联缓存的旧缓存资源，等待新的 Service Worker 线程被激活。
 
@@ -145,7 +143,7 @@ self.addEventListener('activate', e => {
         caches.keys()
             .then(keyList => Promise.all(keyList.map(key => {
                 if (key !== cacheName) {
-                    console.log('[ServiceWorker] Removing old cache', key);
+                    console.log('移除旧缓存', key);
                     return caches.delete(key);
                 }
             })))
@@ -165,8 +163,6 @@ self.addEventListener('activate', e => {
     );
     // return self.clients.claim();
 });
-
-self.clients.claim() // 在 activate 事件回调中执行该方法表示取得页面的控制权, 这样之后打开页面都会使用版本更新的缓存。旧的 Service Worker 脚本不再控制着页面，之后会被停止。
 ```
 
 ### 已激活 （activated）
@@ -186,11 +182,11 @@ self.clients.claim() // 在 activate 事件回调中执行该方法表示取得�
 - 新版本的 Service Worker 替换了它并成为激活状态
 
 ### 处理动态缓存
-监听 fetch 事件，在 caches 中去 match 事件的 request ，如果 response 不为空的话就返回 response ，最后返回 fetch 请求，在 fetch 事件中我们可以手动生成 response 返回给页面。
+监听 fetch 事件，在 caches 中去 match 事件的 request ，如果 response 不为空的话就返回 response ，最后返回 fetch 请求，在 fetch 事件中我们也可以手动生成 response 返回给页面。
 ```js
 // 捕获请求
 self.addEventListener('fetch', e => {
-    console.log('[Service Worker] Fetch', e.request.url);
+    console.log('fetch事件', e.request.url);
     e.respondWith(
         caches.match(e.request)
             .then(response => response || fetch(e.request))
@@ -229,33 +225,7 @@ self.addEventListener('fetch', e => {
 
 通过存放到 Cache Storage 中，我们下次访问的时候如果是弱网或者断网的情况下，就可以不走网络请求，而直接就能将本地缓存的内容展示给用户，优化用户的弱网及断网体验。
 
-## Service Worker 注册
-
-```js
-// index.html
-if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./sw.js')
-        .then(function(reg){
-            console,log('注册成功',reg)
-        })
-        .catch(function(error){
-            console.log('注册失败',error)
-        })
-}
-// 查看是否注册成功可以在 PC 上chrome 浏览器, 输入 chrome://inspect/#service-workers
-```
-
-## Service Work 安装
-```js
-// sw.js
-self.addEventListener('install', function (event) { 
-    return self.skipWaiting(); 
-});
-
-// self.oninstall = e => {}
-```
-
-## Service Worker 调试
+### Service Worker 调试
 
 - 借助 Chrome 浏览器 debug
 使用 Chrome 浏览器，可以通过进入控制台 Application -> Service Workers 面板查看和调试。
@@ -265,7 +235,7 @@ Service Worker 使用 Cache API 缓存只读资源，可以在 Chrome DevTools �
 
 http缓存：由服务器告知资源何时缓存和何时过期。sw缓存是对http缓存的增强
 
-## Service Worker 网络跟踪
+### Service Worker 网络跟踪
 经过 Service Worker 的 fetch 请求 Chrome 都会在 Chrome DevTools Network 标签页里标注出来，其中：
 
 - 来自 Service Worker 的内容会在 Size 字段中标注为 from ServiceWorker
