@@ -66,6 +66,9 @@ web worker  是运行在后台的JavaScript，独立于其他脚本，不会影�
 
 ### 全局变量
 - self: 表示 Service Worker 作用域, 也是全局变量
+SW 的默认作用域为基于当前文件 URL 的 ./。意思就是如果你在//example.com/foo/bar.js里注册了一个 SW，那么它默认的作用域为 //example.com/foo/。
+
+通过查看navigator.serviceWorker.controller是否为 null 来查看一个client是否被 SW 控制。
 - caches: 表示缓存
 - skipWaiting: 表示强制当前处在 waiting 状态的脚本进入 activate 状态（为了在页面更新的过程当中，新的 SW 脚本能够立刻激活和生效。无需刷新或者跳转新页面。）
 - clients: 表示 Service Worker 接管的页面
@@ -80,6 +83,7 @@ if ('serviceWorker' in navigator) {
         .register('./service-worker.js')
         .then(registration => { 
             console,log('注册成功', registration)
+            // 消息推送 获取授权
             // Notification.requestPermission(function(result) {
             //         console.log('result', result)
             //         if (result === 'granted') {
@@ -93,6 +97,8 @@ if ('serviceWorker' in navigator) {
             //             alert(result);
             //         }     
             // });
+            // 手动更新
+            // registration.update();
         })
         .catch(err => console.log('注册失败',err));
 }
@@ -101,9 +107,9 @@ if ('serviceWorker' in navigator) {
 
 ### Service Worker 安装（处理静态缓存）
 
-1. 这个状态发生在 Service Worker 注册之后，是 sw 触发的第一个事件并且只触发一次。表示开始安装，触发 install 事件回调指定一些静态资源进行离线缓存。
+1. 这个状态发生在 Service Worker 注册之后，是 sw 触发的第一个事件并且只触发一次。表示开始安装，触发 install 事件回调指定一些静态资源进行离线缓存。修改你的 SW 后，浏览器会认为这是一个新的 SW，从而会再触发这个新 SW 的install事件。
 
-2. e.waitUntil() 传入一个 Promise 为参数，等到该 Promise 为 resolve 状态为止。如果 Promise 被拒绝，则安装失败，SW会进入 Redundant（ 废弃 ）状态。
+2. e.waitUntil() 传入一个 Promise 为参数，等到该 Promise 为 resolve 状态为止。如果 Promise 被拒绝，则安装失败，SW会进入 Redundant（ 废弃 ）状态。确保 Service Worker 不会在 waitUntil() 里面的代码执行完毕之前安装完成。
 
 3. sw 在安装成功和激活之前不会触发任何的 fetch 或 push 等事件。
 
@@ -111,7 +117,18 @@ if ('serviceWorker' in navigator) {
 
 5. clients.claim()可以改变这种默认行为。
 
+localStorage 的用法和 Service Worker cache 的用法很相似，但是由于 localStorage 是同步的用法，所以不允许在 Service Worker 中使用。 IndexedDB 也可以在 Service Worker 内做数据存储。
+
 ```js
+// 首先定义需要缓存的路径, 以及需要缓存的静态文件的列表。
+var cacheName = 'minimal-pwa-1'
+
+var cacheList = [
+  '/',
+  "index.html",
+  "main.css",
+  "e.png"
+]
 self.addEventListener('install', e => {
     console.log("安装事件，注册后触发只触发一次");
     e.waitUntil(
@@ -182,7 +199,7 @@ self.addEventListener('activate', e => {
 - 新版本的 Service Worker 替换了它并成为激活状态
 
 ### 处理动态缓存
-监听 fetch 事件，在 caches 中去 match 事件的 request ，如果 response 不为空的话就返回 response ，最后返回 fetch 请求，在 fetch 事件中我们也可以手动生成 response 返回给页面。
+监听捕获 fetch 事件，在 caches 中去 match 事件的 request ，如果 response 不为空的话就返回 response ，最后返回 fetch 请求，在 fetch 事件中我们也可以手动生成 response 返回给页面。
 ```js
 // 捕获请求
 self.addEventListener('fetch', e => {
@@ -225,6 +242,12 @@ self.addEventListener('fetch', e => {
 
 通过存放到 Cache Storage 中，我们下次访问的时候如果是弱网或者断网的情况下，就可以不走网络请求，而直接就能将本地缓存的内容展示给用户，优化用户的弱网及断网体验。
 
+两种方式的比较
+
+- on install 的优点是第二次访问即可离线，缺点是需要将需要缓存的 URL 在编译时插入到脚本中，增加代码量和降低可维护性；
+
+- on fetch 的优点是无需更改编译过程，也不会产生额外的流量，缺点是需要多一次访问才能离线可用。
+
 ### Service Worker 调试
 
 - 借助 Chrome 浏览器 debug
@@ -241,6 +264,14 @@ http缓存：由服务器告知资源何时缓存和何时过期。sw缓存是�
 - 来自 Service Worker 的内容会在 Size 字段中标注为 from ServiceWorker
 
 - Service Worker 发出的请求会在 Name 字段中添加 ‘齿轮’ 图标。
+
+### Service Worker 功能性事件
+
+- fetch (请求)：当浏览器在当前指定的 scope 下发起请求时，会触发 fetch 事件，并得到传有 response 参数的回调函数，回调中就可以做各种代理缓存的事情了。
+
+- push (推送)：push 事件是为推送准备的。不过首先需要了解一下 Notification API 和 PUSH API。通过 PUSH API，当订阅了推送服务后，可以使用推送方式唤醒 Service Worker 以响应来自系统消息传递服务的消息，即使用户已经关闭了页面。
+
+- sync (后台同步)：sync 事件由 background sync (后台同步)发出。background sync 配合 Service Worker 推出的 API，用于为 Service Worker 提供一个可以实现注册和监听同步处理的方法。但它还不在 W3C Web API 标准中。在 Chrome 中这也只是一个实验性功能，需要访问 chrome://flags/#enable-experimental-web-platform-features ，开启该功能，然后重启生效。
 
 ## APP Manifest 与添加到主屏幕
 
@@ -366,3 +397,6 @@ const workboxSW = new self.WorkboxSW();
 workboxSW.router.registerRoute('https://test.org/css/(.*)',
 workboxSW.strategies.cacheFist);
 ```
+
+## 注意事项
+- 避免改变 SW 的 URL（对index.html做了缓存，这样永远拿不到新的sw）
