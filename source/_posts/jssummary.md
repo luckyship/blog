@@ -605,7 +605,7 @@ for(let a of iterator){
 // keys返回键() values()返回值
 ```
 
-## Map简单的键值对集合
+## Map简单的键值对集合(类似对象，键可以是各种类型的值)
 ```javascript
 var sayings = new Map();
 sayings.set('dog', 'woof');
@@ -628,6 +628,8 @@ sayings.size; // 0
 ```
 new Map() 参数可以是一个数组或者其他 iterable 对象，其元素或为键值对，或为两个元素的数组。 每个键值对都会添加到新的 Map。null 会被当做 undefined。
 
+### WeakMap（类似Map，只接受对象作为键名（null除外），WeakMap的键名所指向的对象，不计入垃圾回收机制）
+
 **Object和Map的比较**
 
 1. 一般地，objects会被用于将字符串类型映射到数值。Object允许设置键值对、根据键获取值、删除键、检测某个键是否存在。而Map具有更多的优势。
@@ -640,7 +642,7 @@ new Map() 参数可以是一个数组或者其他 iterable 对象，其元素或
 如果需要将原始值存储为键，则使用Map，因为Object将每个键视为字符串，不管它是一个数字值、布尔值还是任何其他原始值。
 如果需要对个别元素进行操作，使用Object。
 
-## Set集合
+## Set集合(类似数组，成员的值都是唯一的)
 ```javascript
 var mySet = new Set();
 mySet.add(1);
@@ -661,6 +663,8 @@ Array.from(mySet2);  // [1,2,3] 常用来去重
 // argument对象（类数组）转成数组
 // Array.from({0:111,1:222,2:333,length:3}) [111,222,333]
 ```
+
+### WeakSet（类似Set，成员都是对象，弱引用）
 
 **Array和Set的比较**
 
