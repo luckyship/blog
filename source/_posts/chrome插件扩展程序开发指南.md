@@ -198,8 +198,8 @@ content_scripts是运行在打开页面的脚本，可以拿到整个页面的DO
 安装路径下的插件扩展程序，是以 ID 为目录区分的
 地址栏访问 chrome://extensions/，可以查看每个插件扩展程序的 ID
 
-### 高级教程-学做一个书签管理插件
-[项目地址]()
+### 高级教程-chrome插件合集
+[项目地址](https://github.com/cosyer/chrome-extensions)
 
 ### 参考资料
 [官方文档](https://developer.chrome.com/extensions/overview)

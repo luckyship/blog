@@ -59,8 +59,19 @@ function setCookie(cname,cvalue,exdays)
   document.cookie = cname + "=" + cvalue + "; " + expires;
 }
 
+function getCookie(name) {
+  var arr = document.cookie.replace(/\s/g, "").split(";");
+  for (var i = 0; i < arr.length; i++) {
+    var tempArr = arr[i].split("=");
+    if (tempArr[0] === name) {
+      return decodeURIComponent(tempArr[1]);
+    }
+  }
+  return "";
+}
+
 // 获取指定cookie
-function getCookie(cname)
+function getCookie2(cname)
 {
   var name = cname + "=";
   var ca = document.cookie.split(';');
@@ -70,6 +81,11 @@ function getCookie(cname)
     if (c.indexOf(name)==0) return c.substring(name.length,c.length);
   }
   return "";
+}
+
+function getCookie3(name) {
+  let v = window.document.cookie.match("(^|;) ?" + name + "=([^;]*)(;|$)");
+  return v ? v[2] : null;
 }
 
 // 检测cookie函数
