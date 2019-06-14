@@ -348,6 +348,7 @@ window.onload = function () {
   var loadTime = window.performance.timing.domContentLoadedEventEnd-window.performance.timing.navigationStart; 
   console.log('Page load time is '+ loadTime);
 }
+// DOMContentLoad是HTML文档被加载和解析完成后触发
 ```
 onload和onready的区别：
 

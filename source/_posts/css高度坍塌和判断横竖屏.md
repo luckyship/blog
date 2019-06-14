@@ -22,6 +22,19 @@ top: 130
 <!--more-->
 ### css高度坍塌
 
+BFC——块级格式化上下文
+
+- 触发条件
+  - float不为none
+  - overflow不为visible
+  - display为table-cell，table-caption，inline-block
+  - position为absolute，fixed
+  - fieldset元素
+- 功能
+  - 自我独立，内部元素不会影响外部元素
+  - 会包含浮动元素
+  - 同一个BFC的margin重叠
+
 #### 当开启元素的BFC以后，元素将会具有如下的特性：
 1. 父元素的垂直外边距不会和子元素重叠
 2. 开启BFC的元素不会被浮动元素所覆盖

@@ -1011,3 +1011,50 @@ console.log(a-b)
 
 add.call(sub,3,1) // 4
 ```
+
+68. css选择器的优先级
+
+标签选择器 < 类选择器 < ID选择器 < 内联style < !important
+
+69. 事件队列
+```js
+// 以下是头条的类似题目，这个考得更全面
+async function a1 () {
+    console.log('a1 start')
+    await a2()
+    console.log('a1 end')
+}
+async function a2 () {
+    console.log('a2')
+}
+console.log('script start')
+setTimeout(() => {
+    console.log('setTimeout')
+}, 0)
+Promise.resolve().then(() => {
+    console.log('promise1')
+})
+a1()
+let promise2 = new Promise((resolve) => {
+    resolve('promise2.then')
+    console.log('promise2')
+})
+promise2.then((res) => {
+    console.log(res)
+    Promise.resolve().then(() => {
+        console.log('promise3')
+    })
+})
+console.log('script end')
+
+// script start
+// a1 start
+// a2
+// promise2
+// script end
+// promise1
+// a1 end
+// promise2.then
+// promise3
+// setTimeout
+```

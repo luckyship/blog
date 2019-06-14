@@ -21,7 +21,7 @@ photos:
 
 webkit内核浏览器（Safari） display:-webkit-flex; display:flex
 
-设为flex布局以后，子元素的float、clear、vertival-align属性将失效。
+设为flex布局以后，子元素的float、clear、vertical-align属性将失效。
 
 --- 
 <!-- more -->
