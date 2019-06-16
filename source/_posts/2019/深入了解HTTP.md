@@ -133,6 +133,15 @@ XSS 全称“跨站脚本”，是注入攻击的一种。其特点是不对服�
 
 XSS 是实现 CSRF 的诸多途径中的一条，但绝对不是唯一的一条。一般习惯上把通过 XSS 来实现的 CSRF 称为 XSRF。
 
+### http缓存
+- 强缓存
+    - cache-control
+    - Expires
+    - Pragma
+- 协商缓存
+    - last-modified
+    - Etag
+
 ## HTTPS基本过程
 HTTPS即 HTTP over TLS，是一种在加密信道进行HTTP内容传输的协议
 

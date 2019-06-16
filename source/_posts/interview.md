@@ -1016,7 +1016,7 @@ add.call(sub,3,1) // 4
 
 标签选择器 < 类选择器 < ID选择器 < 内联style < !important
 
-69. 事件队列
+69. 事件队列（eventLoop）
 ```js
 // 以下是头条的类似题目，这个考得更全面
 async function a1 () {
@@ -1058,3 +1058,9 @@ console.log('script end')
 // promise3
 // setTimeout
 ```
+
+70. vue中watch和computed的区别
+
+- computed，计算属性，随着依赖的数据响应式地改变，用于复杂逻辑处理
+
+- watch，命令式地监听数据变化进行操作
