@@ -2041,7 +2041,7 @@ function enable_scroll() {
 }
 ```
 
-### map等遍历注意事项
+## map等遍历注意事项
 ```js
 var it = []
 it.map((item)=>{
@@ -2050,7 +2050,7 @@ it.map((item)=>{
 // 压根就不会执行
 ```
 
-### 符合密码学要求的随机值
+## 符合密码学要求的随机值
 ```js
 function getRandomNumbers(min, max) {
     var minValue = min || '';
@@ -2072,8 +2072,20 @@ function getRandomNumbers(min, max) {
 }
 ```
 
-### base64编码和解码
+## base64编码和解码
 ```js
 let encodedData = window.btoa("Hello, world"); // 编码
 let decodedData = window.atob(encodedData); // 解码
+```
+
+## 字符串反转
+```js
+function reverse(str) {
+    return str.split().reverse().join();
+}
+
+// 使用递归
+function reverseString(str) {
+  return (str === '') ? '' : reverseString(str.substr(1)) + str.charAt(0);
+}
 ```

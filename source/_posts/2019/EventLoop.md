@@ -39,3 +39,48 @@ top: 240
 - Promise.then
 - Object.observe
 - MutationObserver
+
+### 练习题
+```js
+console.log(1)
+setTimeout(()=>{
+    console.log(2)
+}, 0)
+var promise = new Promise(function(resolve, reject) {
+    console.log(3)
+    resolve();
+})
+promise.then(function(){
+    console.log(4)
+})
+console.log(5)
+// 13542
+
+console.log(1)
+setTimeout(()=>{
+    console.log(2)
+},0)
+
+var intervalId = setInterval(function(){
+    console.log(3)
+}, 0)
+setTimeout(function(){
+    console.log(10)
+    new Promise(function(resolve){
+        console.log(11)
+        resolve()
+    }).then(()=>{
+        console.log(12)
+    }).then(()=>{
+        console.log(13)
+        clearInterval(intervalId)
+    })
+}, 0)
+Promise.resolve().then(()=>{
+    console.log(7)
+}).then(()=>{
+    console.log(8)
+})
+console.log(9)
+// 1 9 7 8 2 3 10 11 12 13
+```

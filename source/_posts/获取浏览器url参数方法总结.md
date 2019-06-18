@@ -69,3 +69,12 @@ url.substring(1)
 // url.substr(1)
 ```
 
+5. 获取所有参数的对象
+```js
+function getQueryStringObject() {
+    var reg = /([^?&=]+)=([^&]+)/g;
+    var q = {};
+    location.search.replace(reg, (m, k, v) => q[k] = v);
+    return q;
+}
+```
