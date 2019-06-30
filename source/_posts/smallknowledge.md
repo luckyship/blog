@@ -697,16 +697,15 @@ const rgbToHex = (r, g, b) => ((r << 16) + (g << 8) + b).toString(16).padStart(6
 ```javascript
 const scrollToTop = _ => {
 
-const c = document.documentElement.scrollTop || document.body.scrollTop;
+    const c = document.documentElement.scrollTop || document.body.scrollTop;
 
-if (c > 0) {
+    if (c > 0) {
 
-​ window.requestAnimationFrame(scrollToTop);
+    ​ window.requestAnimationFrame(scrollToTop);
 
-​ window.scrollTo(0, c - c / 8);
+    ​ window.scrollTo(0, c - c / 8);
 
-}
-
+    }
 };
 
 // scrollToTop()
@@ -770,8 +769,7 @@ const factorial = n => n <= 1 ? 1 : n * factorial(n - 1);
 const getScrollPos = (el = window) =>
 
 ({x: (el.pageXOffset !== undefined) ? el.pageXOffset : el.scrollLeft,
-
-​ y: (el.pageYOffset !== undefined) ? el.pageYOffset : el.scrollTop});
+y: (el.pageYOffset !== undefined) ? el.pageYOffset : el.scrollTop});
 
 // getScrollPos() -> {x: 0, y: 200}
 ```
@@ -1449,6 +1447,7 @@ Math.floor(min+Math.random()*(max-min+1))
 // toString() this is object方法 toString() valueOf
 // 随机颜色
 item.style.backgroundColor = '#' + Math.random().toString(16).slice(2, 8);
+// "#" + ("00000" + ((Math.random() * 0x1000000) << 0).toString(16)).slice(-6)
 ```
 
 ## chrome浏览器跳转调试
