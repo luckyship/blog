@@ -430,23 +430,23 @@ String.prototype.humpToHyphen = function () {
 
 ## 拦截控制台、右键和F12
 ```javascript
-	document.onkeydown = function () {
-			var e = window.event || arguments[0];
-			//屏蔽F12
-			if (e.keyCode == 123) {
-					return false;
-					//屏蔽Ctrl+Shift+I
-			} else if ((e.ctrlKey) && (e.shiftKey) && (e.keyCode == 73)) {
-					return false;
-					//屏蔽Shift+F10
-			} else if ((e.shiftKey) && (e.keyCode == 121)) {
-					return false;
-			}
-	};
-	//屏蔽右键单击
-	document.oncontextmenu = function () {
-			return false;
-	};
+document.onkeydown = function () {
+        var e = window.event || arguments[0];
+        //屏蔽F12
+        if (e.keyCode == 123) {
+                return false;
+                //屏蔽Ctrl+Shift+I
+        } else if ((e.ctrlKey) && (e.shiftKey) && (e.keyCode == 73)) {
+                return false;
+                //屏蔽Shift+F10
+        } else if ((e.shiftKey) && (e.keyCode == 121)) {
+                return false;
+        }
+};
+//屏蔽右键单击
+document.oncontextmenu = function () {
+        return false;
+};
 ```
 
 ## 崩溃欺骗
@@ -527,15 +527,14 @@ function goback() {
 // 2.渐渐回到顶部 距离顶部高度
 //var iScrollTop = document.body.scrollTop; //360,Chrome,
 //var iScrollTop = document.documentElement.scrollTop;  //IE8,火狐
-var iScrollTop = document.body.scrollTop || document.documentElement.scrollTop;
-var timer = setInterval(function () {  //定时器
-	scrollTo(0, iScrollTop -= 100);
-	console.log(iScrollTop);
-	if (iScrollTop <= 0) {
-		clearInterval(timer);  //清除定时器
-	}
-}, 100);
-return false;
+    var iScrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+    var timer = setInterval(function () {  //定时器
+        scrollTo(0, iScrollTop -= 100);
+        console.log(iScrollTop);
+        if (iScrollTop <= 0) {
+            clearInterval(timer);  //清除定时器
+        }
+    }, 100);
 }
 ```
 
