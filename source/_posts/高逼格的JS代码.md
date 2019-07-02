@@ -243,6 +243,13 @@ console.log("21:00"<"9:10");   // true   时间形式注意补0
 ```
 字符串比较大小是按照字符串从左到右每个字符的charCode来的，但所以特别要注意时间形式注意补0
 
+```js
+var a = [1,2,3]
+a.join = a.shift
+a == 1 && a == 2 && a == 3 // true 隐式类型转换
+'选择'>'努力' // true
+```
+
 ## 数字补0操作
 ```js
 const addZero1 = (num, len = 2) => (`0${num}`).slice(-len)
