@@ -139,6 +139,17 @@ x!==x // =>NaN false
 // {}!=={} []!==[]
 ```
 
+## isFinite
+判定一个数字是否是有限数字(如果参数是 NaN，正无穷大或者负无穷大，会返回false，其他返回 true)
+```js
+isFinite(Infinity);  // false
+isFinite(NaN);       // false
+isFinite(-Infinity); // false
+isFinite(0);         // true
+isFinite(2e64);      // true, 在更强壮的Number.isFinite(null)中将会得到false
+isFinite("0");       // true, 在更强壮的Number.isFinite('0')中将会得到false
+```
+
 ## try-catch跳出forEach循环
 forEach遍历不能保证遍历的顺序，以及不能break;一般for循环的性能是forEach的20倍
 
@@ -639,6 +650,7 @@ while不改变作用域链
 
 new Array(1,2,3) // [1,2,3]
 new Array(1) // [empty]
+Array.of(7) // [7]
 ```
 
 ## with语句

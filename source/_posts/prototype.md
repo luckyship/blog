@@ -228,6 +228,17 @@ Cat=isAnimal(function Cat(){})
 console.log(Cat.isAnimal);    // true
 ```
 
+### 描述符
+- Configurable 特性
+configurable 特性表示对象的属性是否可以被删除，以及除 writable 特性外的其他特性是否可以被修改。
+
+- Enumerable 特性
+属性特性 enumerable 定义了对象的属性是否可以在 for...in 循环和 Object.keys() 中被枚举。
+
+- Writable 属性
+当属性特性（property attribute） writable 设置为false时，表示 non-writable，属性不能被修改。
+
+
 ```javascript
 var p = Object.create(o);
 // p是一个继承自 o 的对象

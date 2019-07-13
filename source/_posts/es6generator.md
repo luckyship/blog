@@ -18,8 +18,12 @@ photos:
 
 OK。说说迭代器。当你调用一个generator时，它将返回一个迭代器对象。这个迭代器对象拥有一个叫做next的方法来帮助你重启generator函数并得到下一个值。next方法不仅返回值，它返回的对象具有两个属性：done和value。value是你获得的值，done用来表明你的generator是否已经停止提供值。继续用刚刚取票的例子，每张排队号就是这里的value，打印票的纸是否用完就这是这里的done。
 
+- function 关键字与函数名之间有一个星号；
+- 函数体内部使用 yield表达式，定义不同的内部状态；
+- next 指针移向下一个状态
+
 ```javascript
-// 生成器
+// 生成器 最大的特点是可以交出函数的执行权
 function *createGenerator(){
     yield 1;
     yield 2;
