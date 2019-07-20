@@ -92,3 +92,11 @@ db.addUser('testUser','111')
 
 db.changeUserPassword('tank2','test')
 ```
+
+### mongoose账号密码连接
+```js
+mongoose.connect("mongodb://user:pwd@111.231.121.29/ticket", {
+  authSource: "admin",
+  useMongoClient: true
+});
+```
