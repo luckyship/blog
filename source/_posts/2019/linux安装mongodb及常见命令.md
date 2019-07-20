@@ -1,0 +1,94 @@
+---
+title: linux安装mongodb及常见命令
+tags:
+  - 数据库
+copyright: true
+comments: true
+date: 2019-07-20 14:20:40
+categories: 工具
+photos:
+top: 260
+---
+
+{% fi http://cdn.mydearest.cn/blog/images/mongodb.jpg, MongoDB, MongoDB %}
+
+MongoDB 是一个基于分布式文件存储的数据库。由 C++ 语言编写。旨在为 WEB 应用提供可扩展的高性能数据存储解决方案。
+---
+<!--more-->
+
+## 安装、配置
+```shell
+## 下载
+curl -O https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-3.6.5.tgz
+
+## 解压
+tar -zxvf mongodb-linux-x86_64-3.6.5.tgz 
+
+## 移动到指定目录
+mv  mongodb-linux-x86_64-3.6.5/ /usr/local/mongodb
+
+## MongoDB 的可执行文件位于 bin 目录下，所以可以将其添加到 PATH 路径中：当前终端有效(可跳过)
+export PATH=/usr/local/mongodb/bin:$PATH
+
+## 到根目录创建文件夹 或者mongodb下
+mkdir data/db
+mkdir data/log
+
+## vim /etc/profile 添加到全局命令
+export PATH=/usr/local/mongodb/bin:$PATH 
+
+## 如果有多个
+export PATH=$JAVA_HOME/bin:$JRE_HOME/bin:/usr/local/mongodb/bin:$PATH
+
+## 保存，退出，然后运行
+source /etc/profile
+```
+
+```shell
+## mongodb.conf
+dbpath=/usr/local/mongodb/db
+logpath=/usr/local/mongodb/log/mongodb.log
+bind_ip=0.0.0.0
+fork=true
+```
+
+```shell
+## 关闭
+ps -ef|grep mongod
+kill -9
+
+## 后台启动 开启用户认证
+nohup mongod --auth -f /usr/local/mongodb/mongodb.conf > myLog.log 2>&1 &
+```
+
+## 常见命令
+
+### 设置用户和命令
+```shell
+## 创建管理员
+mongo
+
+use admin
+
+db.createUser(
+  {
+    user: "testuser",
+    pwd: "testpassword",
+    roles: [ { role: "readWriteAnyDatabase", db: "admin" } ]
+  }
+)
+
+## 认证登录
+db.auth("admin", "password")
+
+## 显示当前系统用户
+db.system.users.find()
+
+## 删除用户(删除用户的时候需要切换到用户管理的数据库才可以删除)
+db.dropUser("testuser")
+
+## 修改密码
+db.addUser('testUser','111')
+
+db.changeUserPassword('tank2','test')
+```
