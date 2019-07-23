@@ -544,7 +544,9 @@ console.log(a.indexOf('z')); // logs -1, because 'z' was not found
 
 ### lastIndexOf(searchElement[, fromIndex]) 和 indexOf 差不多，但这是从结尾开始，并且是反向搜索。
 
-### forEach() 循环数组 不定的顺序 不能用break,return false跳出循环遍历  
+### forEach() 循环数组 不定的顺序 不能用break,return false跳出循环遍历
+
+遍历都不会修改原来的基本类型（只能返回新数组）引用类型可以。
 
 ### map() 循环数组返回新数组
 ```javascript
