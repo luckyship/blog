@@ -1210,6 +1210,24 @@ var map =new Map();
 [1,1,2,3].filter((item,index)=>{
 return !map.has(item)&&map.set(item,index)
 })
+
+4. 基础
+// 不使用es6,考虑到（ie6-8）indexOf兼容性问题
+function unique(arr) {
+  var ret = []
+  var hash = {}
+
+  for (var i = 0; i < arr.length; i++) {
+    var item = arr[i]
+    // typeof 区分 1 与 ‘1’
+    var key = typeof(item) + item
+    if (hash[key] !== 1) {
+      ret.push(item)
+      hash[key] = 1
+    }
+  }
+  return ret
+}
 ```
 
 ## 2对象
