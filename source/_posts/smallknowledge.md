@@ -2084,13 +2084,30 @@ let decodedData = window.atob(encodedData); // 解码
 ```
 
 ## 字符串反转
+如果需要支持UTF-16或其他多字节字符的解决方案，请注意此函数将给出无效的Unicode字符串或看起来很有趣的有效字符串。[需要注意](https://stackoverflow.com/questions/958908/how-do-you-reverse-a-string-in-place-in-javascript/16776621#16776621)
+
+![有意思的图](http://cdn.mydearest.cn/blog/images/reverse.jpg)
+
 ```js
 function reverse(str) {
     return str.split().reverse().join();
+    // Array.from(str).reverse().join('')
 }
 
 // 使用递归
 function reverseString(str) {
   return (str === '') ? '' : reverseString(str.substr(1)) + str.charAt(0);
+}
+
+function reverse([h, ...t]) {
+    return h ? reverse(t) + h : '';
+}
+
+function reverse(str){
+    var s ='';
+    for (let i = str.length;i > 0; i--) {
+        s += str[i-1]; // charAt substring substr
+    }
+    return s;
 }
 ```

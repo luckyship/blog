@@ -255,3 +255,12 @@ this.httpClient.request(UserService.METHOD_POST, url, options).subscribe((data)=
 // 这个配置适用于打包文件限制 ng build --prod 
 // 打包生成生产环境时如果包大于2MB,那么CLI工具会提示waning,如果大于5MB,中断打包。
 ```
+
+## npm i 和 npm install的小区别
+1、用npm i 安装的模块无法用npm uninstall卸载，需要用npm uninstall i命令
+
+2、npm i 会帮助检测与当前node版本最匹配的npm包 版本号，并匹配出来相互依赖的npm包应该提升的版本号
+
+3、部分npm包在当前node版本下无法使用，必须使用建议版本
+
+4、安装报错时intall肯定会出现npm-debug.log 文件，npm i不一定
