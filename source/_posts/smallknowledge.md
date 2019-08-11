@@ -37,7 +37,7 @@ element.scrollIntoViewIfNeeded(false);
 - 当元素已经在可视区域时，调用 Element.scrollIntoView()，无论设置什么参数，均发生滚动。
 - 当元素已经在可视区域时，调用 Element.scrollIntoViewIfNeeded()，无论设置什么参数，均不发生滚动。
 
-## JS取整
+## JS取整数部分
 
 ```javascript
 ~~2.5 // 2 按位取反 -2^31~2^31-1 -2147483648~2147483647
@@ -72,6 +72,15 @@ element.scrollIntoViewIfNeeded(false);
 parseInt() 函数解析一个字符串参数，并返回一个指定基数的整数 (数学系统的基础)。
 
 parseInt 解析字符串 '-0' 会得到 -0。如果参数是数字 -0，会得到 0。
+
+4. function trunc(num) {
+  if(num >= 0) return Math.floor(num);
+  return Math.ceil(num);
+}
+
+5. function trunc(num) {
+  return num - num % 1;
+}
 ```
 
 > 在没有指定基数，或者基数为 0 的情况下，JavaScript 作如下处理：
@@ -100,6 +109,19 @@ parseFloat("0xA") // 0
 parseInt(".1") // NaN
 parseFloat(".1") // 0.1
 
+```
+
+## js取小数部分
+```js
+function fract(num) {
+  return num - Math.trunc(num);
+}
+
+console.log(fract(3.75)); // 0.75
+console.log(fract(-3.75)); // -0.75
+
+console.log(3.75 % 1); // 0.75
+console.log(-3.75 % 1); // -0.75
 ```
 
 ## JS浮点数运算(原因浮点数无法用二进制准确表示)
