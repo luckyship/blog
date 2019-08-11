@@ -1106,3 +1106,119 @@ setTimeout表示间隔一段时间之后执行一次调用，而setInterval则�
 - 302 redirect: 302 代表暂时性转移(Temporarily Moved )
 
 详细来说，301和302状态码都表示重定向，就是说浏览器在拿到服务器返回的这个状态码后会自动跳转到一个新的URL地址，这个地址可以从响应的Location首部中获取（用户看到的效果就是他输入的地址A瞬间变成了另一个地址B）——这是它们的共同点。他们的不同在于。301表示旧地址A的资源已经被永久地移除了（这个资源不可访问了），搜索引擎在抓取新内容的同时也将旧的网址交换为重定向之后的网址；302表示旧地址A的资源还在（仍然可以访问），这个重定向只是临时地从旧地址A跳转到地址B，搜索引擎会抓取新的内容而保存旧的网址。
+
+80. 在什么情况下a === a-1 ?
+- Infinity/-Infinity
+
+```js
+let a = Infinity;
+
+console.log(a === a - 1); // true
+
+let b = -Infinity;
+
+console.log(b === b - 1);  // true
+
+console.log(Infinity + Infinity); // Infinity
+console.log(Infinity - Infinity); // NaN
+console.log(Infinity * Infinity); // Infinity
+console.log(Infinity / Infinity); // NaN
+console.log(Infinity * 0); // NaN
+```
+
+- 安全数(-2 ** 53 + 1到2 ** 53 - 1) 即Number.MAX_SAFE_INTEGER和Number.MIN_SAFE_INTEGER 处理特殊情况
+
+```js
+let a = Number.MIN_SAFE_INTEGER - 1;
+console.log(a === a - 1); // true
+```
+
+- a == a -1
+
+```js
+var x = 1
+var a = { x, valueOf: () => a.x }
+Object.defineProperty(a, 'x', { get() { return --x } })
+
+var set = 1
+Object.defineProperty(window, "a", {
+  get : function(){
+    return set++
+  },
+  enumerable : true,
+  configurable : true
+});
+
+const a = {
+ times: 0,
+
+ valueOf() {
+   if (this.times & 1) {
+     return 0;
+   }
+   this.times += 1;
+   return 1;
+ },
+};
+```
+
+81. placeholder样式设置
+
+```css
+::-webkit-input-placeholder{}    /* 使用webkit内核的浏览器 */
+:-moz-placeholder{}                  /* Firefox版本4-18 */
+::-moz-placeholder{}                  /* Firefox版本19+ */
+:-ms-input-placeholder{}           /* IE浏览器 */
+```
+
+82. 巧用currentColor自定义checkbox样式
+```css
+/* 无法自定义checkbox样式 */
+input[type=checkbox] {
+  background-color: red;
+  color: red;
+  border: solid red;
+}
+```
+
+```css
+input[type=checkbox] {
+  position: relative;
+  color: inherit;
+}
+
+input[type=checkbox]::before,
+input[type=checkbox]::after {
+  position: absolute;
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  line-height: 12px;
+  border-radius: 3px;
+  text-align: center;
+}
+
+input[type=checkbox]:checked::after {
+  content: 'x';
+  color: white;
+}
+
+input[type=checkbox]::before {
+  content: ' ';
+  /* 表示将背景色设置为当前的文字颜色值。 */
+  background-color: currentColor;
+}
+```
+
+83. 增补字符不适用String.prototype.charCodeAt和String.fromCharCode
+```js
+'🀄'.length // 2
+
+const str = '🀄';
+console.log(str.codePointAt(0)); // 126980
+
+console.log(String.fromCodePoint(126980)); // 🀄
+
+console.log([..."👨‍👩‍👧‍👦"])
+// ["👨", "‍", "👩", "‍", "👦", "‍", "👦"]
+```
