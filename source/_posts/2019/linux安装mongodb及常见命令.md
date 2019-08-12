@@ -100,3 +100,17 @@ mongoose.connect("mongodb://user:pwd@111.231.121.29/ticket", {
   useMongoClient: true
 });
 ```
+
+## 导入导出表字段
+```js
+mongoexport -d book -c books -o books.json --type json
+
+mongoimport -d book -c books --file /home/mongodump/articles.json --type json
+```
+
+## 备份恢复数据库
+```js
+mongodump -h 127.0.0.1 -d book -o D:\iview-book-admin\static\js
+
+mongorestore -h dbhost -d book --dir D:\iview-book-admin\static\js\book
+```
