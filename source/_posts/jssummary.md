@@ -120,6 +120,48 @@ JavaScript语言有"垃圾回收"功能，所以在使用引用类型的时候�
 
 象的引用赋值为null。让"垃圾回收"器在特定的时间对那一块内存进行回收。
 
+64位浮点数：1位符号位 + 52位整数位 + 11位小数位，如果符号位为1，其他各位均为0，那么这个数值会被表示成"-0"。同理还可以表示"+0"
+
+```js
+// 二进制构造-0
+// 首先创建一个8位的ArrayBuffer
+const buffer = new ArrayBuffer(8);
+// 创建DataView对象操作buffer
+const dataView = new DataView(buffer);
+
+// 将第1个字节设置为0x80，即最高位为1
+dataView.setUint8(0, 0x80);
+
+// 将buffer内容当做Float64类型返回
+console.log(dataView.getFloat64(0)); // -0
+```
+
+- 判断+-0
+```js
+0 === -0 // true
+// Object.is(-0, 0)返回false，Object.is(NaN, NaN)返回true
+// 早期es利用1/-0为-Infinity的特点来判断
+function isNegativeZero(num) {  
+  return num === 0 && (1 / num < 0);
+}  
+```
+
+- Object.is()方法的polyfill
+```js
+if (!Object.is) {
+  Object.is = function(x, y) {
+    // SameValue algorithm
+    if (x === y) { // Steps 1-5, 7-10
+      // Steps 6.b-6.e: +0 != -0
+      return x !== 0 || 1 / x === 1 / y;
+    } else {
+      // Step 6.a: NaN == NaN
+      return x !== x && y !== y;
+    }
+  };
+}
+```
+
 ### 原始封装类型
 ```js
 var a ='qwer';
