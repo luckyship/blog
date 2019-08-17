@@ -331,3 +331,9 @@ if ( foo in { 'bar':'', 'foobar':'', 'foo':'' } )
 tar -zcvf newfilename.tar.gz filename
 tar -zxvf newfilename.tar.gz
 ```
+
+## banana
+```js
+('b'+'a'+ +'a'+'a').toLowerCase()
+// banana
+```
