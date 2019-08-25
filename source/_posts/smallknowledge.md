@@ -2133,3 +2133,9 @@ function reverse(str){
     return s;
 }
 ```
+
+## delete varible
+```js
+delete xxx // true
+delete window //false
+```

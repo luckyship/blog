@@ -1105,9 +1105,11 @@ setTimeout表示间隔一段时间之后执行一次调用，而setInterval则�
 
 如何避免301跳转https(在response中header)
 
-- 302 redirect: 302 代表暂时性转移(Temporarily Moved )
+- 302 redirect: 302 代表暂时性转移(Temporarily Moved)
 
 详细来说，301和302状态码都表示重定向，就是说浏览器在拿到服务器返回的这个状态码后会自动跳转到一个新的URL地址，这个地址可以从响应的Location首部中获取（用户看到的效果就是他输入的地址A瞬间变成了另一个地址B）——这是它们的共同点。他们的不同在于。301表示旧地址A的资源已经被永久地移除了（这个资源不可访问了），搜索引擎在抓取新内容的同时也将旧的网址交换为重定向之后的网址；302表示旧地址A的资源还在（仍然可以访问），这个重定向只是临时地从旧地址A跳转到地址B，搜索引擎会抓取新的内容而保存旧的网址。
+
+[重定向](http://cdn.mydearest.cn/blog/images/redirectCache.png)
 
 80. 在什么情况下a === a-1 ?
 - Infinity/-Infinity
@@ -1254,3 +1256,37 @@ console.log([..."👨‍👩‍👧‍👦"])
 86. src和href引入的区别
 href 表示超文本引用（hypertext reference），在 link和a 等元素上使用。
 src 的内容，是页面必不可少的一部分，是引入。href 的内容，是与该页面有关联，是引用。区别就是，引入和引用。
+
+87. a.b.c.d 和 a['b']['c']['d']，哪个性能更高？
+```js
+var obj = {
+  a:{
+      b:{
+        c:{
+          d:1
+        }
+      }
+    }
+}
+console.time()
+console.log(obj.a.b.c.d)
+console.timeEnd() 
+// console.time()
+// console.log(obj["a"]["b"]["c"]["d"])
+// console.timeEnd() 
+// default:1.100ms 0.964ms
+```
+
+88. 
+```js
+var a = {n: 1};
+var b = a;
+a.x = a = {n: 2};
+
+console.log(a.x) 	
+console.log(b.x)
+// undefined
+// {n:2}
+```
+首先，a和b同时引用了{n:2}对象，接着执行到a.x = a = {n：2}语句，尽管赋值是从右到左的没错，但是.的优先级比=要高，所以这里首先执行a.x，相当于为a（或者b）所指向的{n:1}对象新增了一个属性x，即此时对象将变为{n:1;x:undefined}。之后按正常情况，从右到左进行赋值，此时执行a ={n:2}的时候，a的引用改变，指向了新对象{n：2},而b依然指向的是旧对象。之后执行a.x = {n：2}的时候，并不会重新解析一遍a，而是沿用最初解析a.x时候的a，也即旧对象，故此时旧对象的x的值为{n：2}，旧对象为 {n:1;x:{n：2}}，它被b引用着。
+后面输出a.x的时候，又要解析a了，此时的a是指向新对象的a，而这个新对象是没有x属性的，故访问时输出undefined；而访问b.x的时候，将输出旧对象的x的值，即{n:2}。
