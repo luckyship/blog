@@ -702,7 +702,8 @@ console.log(isArrayFn(arr2));// true
 50. 行内、块级、空元素 
 - 行内元素：a、b、span、img、input、strong、select、label、em、button、textarea
 - 块级元素：div、ul、li、dl、dt、dd、p、h1-h6、blockquote
-- 空元素：即没有内容的HTML元素，例如：br、meta、hr、link、input、img
+- 常见空元素：即没有内容的HTML元素，例如：br、meta、hr、link、input、img
+- 不常见空元素：area、base、col、command、embed、keygen、param、source、track、wbr
 
 51. px、em、rem的区别
 px和em都是长度单位,px的只是固定的,em的值是相对的继承父类元素的字体大小。浏览器的默认字体高位16px。1em=16px;
@@ -1277,7 +1278,7 @@ console.timeEnd()
 // default:1.100ms 0.964ms
 ```
 
-88. 
+88. 对象引用
 ```js
 var a = {n: 1};
 var b = a;
@@ -1290,3 +1291,116 @@ console.log(b.x)
 ```
 首先，a和b同时引用了{n:2}对象，接着执行到a.x = a = {n：2}语句，尽管赋值是从右到左的没错，但是.的优先级比=要高，所以这里首先执行a.x，相当于为a（或者b）所指向的{n:1}对象新增了一个属性x，即此时对象将变为{n:1;x:undefined}。之后按正常情况，从右到左进行赋值，此时执行a ={n:2}的时候，a的引用改变，指向了新对象{n：2},而b依然指向的是旧对象。之后执行a.x = {n：2}的时候，并不会重新解析一遍a，而是沿用最初解析a.x时候的a，也即旧对象，故此时旧对象的x的值为{n：2}，旧对象为 {n:1;x:{n：2}}，它被b引用着。
 后面输出a.x的时候，又要解析a了，此时的a是指向新对象的a，而这个新对象是没有x属性的，故访问时输出undefined；而访问b.x的时候，将输出旧对象的x的值，即{n:2}。
+
+
+89. Doctype作用？标准模式与兼容模式各有什么区别?
+1. <!DOCTYPE>声明位于HTML文档中的第一行，处于 <html> 标签之前。告知浏览器的解析器用什么文档标准解析这个文档。DOCTYPE不存在或格式不正确会导致文档以兼容模式呈现。
+
+2. 标准模式的排版 和JS运作模式都是以该浏览器支持的最高标准运行。在兼容模式中，页面以宽松的向后兼容的方式显示,模拟老式浏览器的行为以防止站点无法工作。
+
+90. HTML5 为什么只需要写 <!DOCTYPE HTML>？
+- HTML5 不基于 SGML，因此不需要对DTD进行引用，但是需要doctype来规范浏览器的行为（让浏览器按照它们应该的方式来运行）；
+
+- 而HTML4.01基于SGML,所以需要对DTD进行引用，才能告知浏览器文档所使用的文档类型。
+
+91. 对浏览器内核的理解？
+主要分成两部分：渲染引擎(layout engineer或Rendering Engine)和JS引擎。
+渲染引擎：负责取得网页的内容（HTML、XML、图像等等）、整理讯息（例如加入CSS等），以及计算网页的显示方式，然后会输出至显示器或打印机。浏览器的内核的不同对于网页的语法解释会有不同，所以渲染的效果也不相同。所有网页浏览器、电子邮件客户端以及其它需要编辑、显示网络内容的应用程序都需要内核。
+
+JS引擎则：解析和执行javascript来实现网页的动态效果。
+
+最开始渲染引擎和JS引擎并没有区分的很明确，后来JS引擎越来越独立，内核就倾向于只指渲染引擎。
+
+
+92. html5新特性？
+- HTML5 现在已经不是 SGML 的子集，主要是关于图像，位置，存储，多任务等功能的增加。
+绘画 canvas;
+用于媒介回放的 video 和 audio 元素;
+本地离线存储 localStorage 长期存储数据，浏览器关闭后数据不丢失;
+sessionStorage 的数据在浏览器关闭后自动删除;
+语意化更好的内容元素，比如 article、footer、header、nav、section;
+表单控件，calendar、date、time、email、url、search;
+新的技术webworker, websocket, Geolocation;
+
+- 移除的元素：
+纯表现的元素：basefont，big，center，font, s，strike，tt，u;
+对可用性产生负面影响的元素：frame，frameset，noframes；
+
+- 支持HTML5新标签：
+IE8/IE7/IE6支持通过document.createElement方法产生的标签，
+可以利用这一特性让这些浏览器支持HTML5新标签，
+浏览器支持新标签后，还需要添加标签默认的样式。
+当然也可以直接使用成熟的框架、比如html5shim;
+
+```js
+<!--[if lt IE 9]>
+<script> src="http://html5shim.googlecode.com/svn/trunk/html5.js"</script>
+<![endif]-->
+```
+
+- 如何区分HTML5： DOCTYPE声明新增的结构元素功能元素
+
+93. 对HTML语义化的理解？
+用正确的标签做正确的事情。
+html语义化让页面的内容结构化，结构更清晰，便于对浏览器、搜索引擎解析;
+即使在没有样式CSS情况下也以一种文档格式显示，并且是容易阅读的;
+搜索引擎的爬虫也依赖于HTML标记来确定上下文和各个关键字的权重，利于SEO;
+使阅读源代码的人对网站更容易将网站分块，便于阅读维护理解。
+
+94. iframe缺点
+* iframe会阻塞主页面的Onload事件；
+* 搜索引擎的检索程序无法解读这种页面，不利于SEO;
+* iframe和主页面共享连接池，而浏览器对相同域的连接有限制，所以会影响页面的并行加载。
+
+使用iframe之前需要考虑这两个缺点。如果需要使用iframe，最好是通过javascript动态给iframe添加src属性值。
+
+95. 多个标签页通信
+WebSocket、SharedWorker；
+也可以调用localstorge、cookies等本地存储方式；
+
+localstorge另一个浏览上下文里被添加、修改或删除时，它都会触发一个事件，
+我们通过监听事件，控制它的值来进行页面信息通信；
+注意quirks：Safari 在无痕模式下设置localstorge值时会抛出 QuotaExceededError 的异常；
+
+96. CSS的盒子模型 border-sizing (border-box)
+（1）有两种， IE 盒子模型、W3C 盒子模型；
+（2）盒模型： 内容(content)、填充(padding)、边界(margin)、 边框(border)；
+（3）区  别： IE的content部分把 border 和 padding计算了进去;
+
+97. CSS选择符有哪些？哪些属性可以继承？
+* 1.id选择器（ # myid）
+  2.类选择器（.myclassname）
+  3.标签选择器（div, h1, p）
+  4.相邻选择器（h1 + p）
+  5.子选择器（ul > li）
+  6.后代选择器（li a）
+  7.通配符选择器（ * ）
+  8.属性选择器（a[rel = "external"]）
+  9.伪类选择器（a:hover, li:nth-child）
+
+* 可继承的样式： font-size font-family color, UL LI DL DD DT;
+
+* 不可继承的样式：border padding margin width height ;
+
+98. css优先级算法
+* 优先级就近原则，同权重情况下样式定义最近者为准;
+* 载入样式以最后载入的定位为准;
+
+优先级为:
+同权重: 内联样式表（标签内部）> 嵌入样式表（当前文件中）> 外部样式表（外部文件中）。
+!important >  id > class > tag
+important 比 内联优先级高
+
+99. css3新增的伪类
+举例：
+p:first-of-type    选择属于其父元素的首个 <p> 元素的每个 <p> 元素。
+p:last-of-type    选择属于其父元素的最后 <p> 元素的每个 <p> 元素。
+p:only-of-type    选择属于其父元素唯一的 <p> 元素的每个 <p> 元素。
+p:only-child        选择属于其父元素的唯一子元素的每个 <p> 元素。
+p:nth-child(2)    选择属于其父元素的第二个子元素的每个 <p> 元素。
+
+::after            在元素之前添加内容,也可以用来做清除浮动。
+::before            在元素之后添加内容
+:enabled          
+:disabled         控制表单控件的禁用状态。
+:checked        单选框或复选框被选中。
