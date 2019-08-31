@@ -597,10 +597,57 @@ function main() {
 }
 ```
 45. 垂直居中
-- margin:auto法 relative -> absolute -> marin:0 auto
-- margin负值法 relative -> absolute -> top:50% left:50% marin-top:height的一半 margin-left:width的一半或者transform：translateX(-50%)和transform：translateY(-50%)
-- table-cell未脱离文档流 设置父元素的display:table-cell,并且vertical-align:middle，这样子元素可以实现垂直居中。
+- margin:auto法
+```css
+div{
+    width:200px;
+    margin:0 auto;
+}
+/* 绝对定位居中 */
+div {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    margin: auto;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: pink;    /* 方便看效果 */
+}
+```
+
+- margin负值法 relative -> absolute 
+```css
+div {
+    position: relative;        /* 相对定位或绝对定位均可 */
+    width:500px;
+    height:300px;
+    top: 50%;
+    left: 50%;
+    margin: -150px 0 0 -250px;         /* 外边距为自身宽高的一半 */
+    /* transform: translate(-50%, -50%); */
+    background-color: pink;         /* 方便看效果 */
+
+}
+```
+
 - flex布局
+```css
+.container {
+    display: flex;
+    align-items: center;         /* 垂直居中 */
+    justify-content: center;    /* 水平居中 */
+
+}
+.container div {
+    width: 100px;
+    height: 100px;
+    background-color: pink;        /* 方便看效果 */
+}  
+```
+
+- table-cell未脱离文档流 设置父元素的display:table-cell,并且vertical-align:middle，这样子元素可以实现垂直居中。
 - text-align:center 块级元素
 
 46. visibility=hidden, opacity=0，display:none
@@ -1404,3 +1451,36 @@ p:nth-child(2)    选择属于其父元素的第二个子元素的每个 <p> 元
 :enabled          
 :disabled         控制表单控件的禁用状态。
 :checked        单选框或复选框被选中。
+
+100. display有哪些值？
+block           块类型。默认宽度为父元素宽度，可设置宽高，换行显示。
+none            元素不显示，并从文档流中移除。
+inline          行内元素类型。默认宽度为内容宽度，不可设置宽高，同行显示。
+inline-block    默认宽度为内容宽度，可以设置宽高，同行显示。
+list-item       象块类型元素一样显示，并添加样式列表标记。
+table           此元素会作为块级表格来显示。
+inherit         规定应该从父元素继承 display 属性的值。
+
+101. position有哪些值？
+absolute
+  生成绝对定位的元素，相对于值不为 static 的第一个父元素进行定位。
+fixed （老IE不支持）
+  生成绝对定位的元素，相对于浏览器窗口进行定位。
+relative
+  生成相对定位的元素，相对于其正常位置进行定位。
+static
+  默认值。没有定位，元素出现在正常的流中（忽略 top, bottom, left, right z-index 声明）。
+inherit
+  规定从父元素继承 position 属性的值。
+
+102. CSS3有哪些新特性？
+新增各种CSS选择器    （: not(.input)：所有 class 不是“input”的节点）
+圆角            （border-radius:8px）
+多列布局        （multi-column layout）
+阴影和反射    （Shadow\Reflect）
+文字特效        （text-shadow、）
+文字渲染        （Text-decoration）
+线性渐变        （gradient）
+旋转             （transform）
+缩放,定位,倾斜,动画,多背景
+例如:transform:\scale(0.85,0.90)\ translate(0px,-30px)\ skew(-9deg,0deg)\Animation: 
