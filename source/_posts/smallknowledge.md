@@ -2139,3 +2139,47 @@ function reverse(str){
 delete xxx // true
 delete window //false
 ```
+
+## jquery指定元素滚动到视图中间
+```js
+function scrollToViewCenter($element) {
+    if (!$element) {
+        return;
+    }
+    var winOffsetHeight = document.body.offsetHeight; // 浏览器窗口可视区域高度
+    var eleOffsetTop = $element.offset().top;
+    var top = eleOffsetTop - (winOffsetHeight / 2);
+    window.scrollTo(0, top);
+}
+```
+
+## new Array()
+```js
+var myArray = Array();
+myArray['A'] = "Athens";
+myArray['B'] = "Berlin";
+myArray['0'] = 1;
+// length 1 只统计数字索引
+// length范围 0~2**32-1
+```
+
+## 构造函数scope-safe模式
+```js
+function Book(name){
+    console.log(1111,this)
+    if(!(this instanceof Book)){
+        return new Book(name);
+    }
+    this.name=name;
+}
+var bookone = Book('harry-potter');
+
+function a(b){
+  alert(b);
+  function b(){
+    alert(b);
+  }
+  b();
+}
+a();
+```
