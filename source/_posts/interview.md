@@ -462,9 +462,11 @@ CommonJS 模块输出的是一个值的拷贝，ES6 模块输出的是值的引�
 
 31. eval是做什么的？
 - 将把对应的字符串解析成JS代码并运行； 应该避免使用eval，不安全，非常耗性能（2次，一次解析成js语句，一次执行）。
+- 由JSON字符串转换为JSON对象的时候可以用eval，var obj =eval('('+ str +')');
 
 32. null和undefined
-- undefined表示变量声明未初始化的，null表示对象的空值（空对象指针）。
+- null         表示一个对象是“没有值”的值，也就是值为“空”；
+- undefined     表示一个变量声明了没有初始化(赋值)；
 
 33. json的理解？
 - JSON（轻量级的数据交换格式），基于JS的子集，数据格式简单，易于读写，占用带宽小。
@@ -860,9 +862,18 @@ console.log(info); //{ a: 3, b: 2, c: 2, d: 1 }
 ```
 
 56. 清除浮动
+清除浮动是为了清除浮动元素产生的影响。浮动元素的高度会发生坍塌，使页面后面的布局不能正常显示。
+设置成浮动后，display值会自动变成block。
 > 浮动会引起高度塌陷和文字环绕。
 - 使用空标签清除浮动clear: both （增加了无意义的标签）
 - 使用overflow: auto/hidden （使用zoom: 1兼容IE）
+zoom:1的清除浮动原理?
+清除浮动，触发hasLayout；
+Zoom属性是IE浏览器的专有属性，它可以设置或检索对象的缩放比例。解决ie下比较奇葩的bug。
+譬如外边距（margin）的重叠，浮动清除，触发ie的haslayout属性等。
+
+来龙去脉大概如下：
+当设置了zoom的值之后，所设置的元素就会就会扩大或者缩小，高度宽度就会重新计算了，这里一旦改变zoom值时其实也会发生重新渲染，运用这个原理，也就解决了ie下子元素浮动时候父元素不随着自动扩大的问题。
 - 使用after伪元素清除浮动（用于非IE浏览器）
 
 ```css
@@ -877,7 +888,13 @@ console.log(info); //{ a: 3, b: 2, c: 2, d: 1 }
     height: 0;
     clear: both;
 }
+
+.clearfix::before, .clearfix::after {
+    content: " ";
+    display: table;
+}
 ```
+发现：除了clear：both用来闭合浮动的，其他代码无非都是为了隐藏掉content生成的内容，这也就是其他版本的闭合浮动为什么会有font-size：0，line-height：0。
 
 57. margin-top和padding-left根据height还是width？
 width
@@ -1527,3 +1544,47 @@ div{
 build/ # 忽略 build/ 目录下的所有文件
 doc/.txt # 会忽略 doc/notes.txt 但不包括 doc/server/arch.txt
 ```
+
+106. 外边距合并
+外边距合并指的是，当两个垂直外边距相遇时，它们将形成一个外边距。合并后的外边距的高度等于两个发生合并的外边距的高度中的较大者。
+[w3school介绍网址](https://www.w3school.com.cn/css/css_margin_collapsing.asp)
+
+107. 如何优化css，提高性能？
+- 使用关键选择器，过滤掉无关的规则
+- 提取项目公共样式，增强可复用性、模块化编写组件
+- 预处理器以及构建工具(postcss`后处理器`补充前缀、打包压缩、自动优雅降级)
+
+108. margin和padding分别适合什么场景使用？
+margin是用来隔开元素与元素的间距；padding是用来隔开元素与内容的间隔。
+margin用于布局分开元素使元素与元素互不相干；
+padding用于元素与内容之间的间隔，让内容（文字）与（包裹）元素之间有一段
+
+109. 如何修改chrome记住密码后自动填充表单的黄色背景 ？
+```css
+input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
+  background-color: rgb(250, 255, 189); /*#FAFFBD;*/
+  background-image: none;
+  color: rgb(0, 0, 0);
+}
+```
+
+110. 什么是Cookie 隔离？
+如果静态文件都放在主域名下，那静态文件请求的时候都带有的cookie的数据提交给server的，非常浪费流量，
+所以不如隔离开。
+
+因为cookie有域的限制，因此不能跨域提交请求，故使用非主要域名的时候，请求头中就不会带有cookie数据，
+这样可以降低请求头的大小，降低请求时间，从而达到降低整体请求延时的目的。
+
+同时这种方式不会将cookie传入Web Server，也减少了Web Server对cookie的处理分析环节，
+提高了webserver的http请求的解析速度。
+
+111. ajax缓存问题
+1、在ajax发送请求前加上 anyAjaxObj.setRequestHeader("If-Modified-Since","0")。
+
+2、在ajax发送请求前加上 anyAjaxObj.setRequestHeader("Cache-Control","no-cache")。
+
+3、在URL后面加上一个随机数： "fresh=" + Math.random();。
+
+4、在URL后面加上时间戳："nowtime=" + new Date().getTime();。
+
+5、如果是使用jQuery，直接这样就可以了 $.ajaxSetup({cache:false})。这样页面的所有ajax都会执行这条语句就是不需要保存缓存记录。

@@ -69,12 +69,18 @@ window.addEventListener("orientationchange", function() {
 ```
 
 - 媒体查询
+```html
+<!-- link元素中的CSS媒体查询 -->
+<link rel="stylesheet" media="(max-width: 800px)" href="example.css" />
+```
+
 ```css
+/* 样式表中的CSS媒体查询 */
 @media all and (orientation: portrait) {
   body div {background: red;} 
 
 }
-@media all and (orientation: landscape) { 
+@media (min-width: 700px) and (orientation: landscape) { 
   body div {background: blue; } 
 }
 ```
