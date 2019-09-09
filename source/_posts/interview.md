@@ -108,10 +108,11 @@ typeof null // object null instanceof Object // false
     listen(['root_c', 'first_c', 'second_c', 'target_c'], true)
     ```
 
-5. 如何添加一个dom对象到body中?innerHTML和innerText区别?
+5. 如何添加一个dom对象到body中?innerHTML、document.write和innerText区别?
     body.appendChild(dom元素)；  
     innerHTML:从对象的起始位置到终止位置的全部内容,包括Html标签。
     innerText:从起始位置到终止位置的内容, 但它去除Html标签 
+    document.write只能重绘整个页面
     window.clearInterval()
     window.clearTimeout()
 
@@ -431,7 +432,7 @@ jquery主要是兼容性好，可以跑在各种pc，移动上，好处是兼容
 
 - CMD是SeaJS 在推广过程中对模块定义的规范化产出
 AMD与CMD的区别：
-（1）对于于依赖的模块，AMD 是提前执行(好像现在也可以延迟执行了)，CMD 是延迟执行。
+（1）对于于依赖的模块，AMD 是提前执行(requirejs2.0+可以延迟执行了)，CMD 是延迟执行。
 （2）AMD 推崇依赖前置，CMD 推崇依赖就近。
 （3）AMD 推崇复用接口，CMD 推崇单用接口。
 （4）书写规范的差异。
@@ -1588,3 +1589,23 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
 4、在URL后面加上时间戳："nowtime=" + new Date().getTime();。
 
 5、如果是使用jQuery，直接这样就可以了 $.ajaxSetup({cache:false})。这样页面的所有ajax都会执行这条语句就是不需要保存缓存记录。
+
+模块化开发，采用立即执行函数不暴露私有成员。
+
+112. jquery.extend 与 jquery.fn.extend的区别？
+- jquery.extend：为jquery类添加类方法，可以理解为添加静态方法
+- jquery.fn.extend: 源码中jquery.fn = jquery.prototype，所以对jquery.fn的扩展，就是为jquery类添加成员函数
+
+> jquery.extend扩展，需要通过jquery类来调用，而jquery.fn.extend扩展，所有jquery实例都可以直接调用。
+
+113. jquery一个对象绑定多个事件
+```js
+// 多个事件同一个函数
+$("div").on("click mouseover", function(){});
+
+// 多个事件不同函数
+$("div").on({
+click: function(){},
+mouseover: function(){}
+});
+```
