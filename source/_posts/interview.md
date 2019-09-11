@@ -19,6 +19,14 @@ a.indexOf(undefined) // -1
 a.includes(undefined) // true 
 ```
 - startsWith()：返回布尔值，表示参数字符串是否在原字符串的头部。
+```js
+// polyfill
+if (String.prototype.startsWith) {
+  String.prototype.startsWith = function (search, index) {
+    return this.substr((!index || index < 0) ? 0 : index, search.length) === search;
+  }
+}
+```
 - endsWith()：返回布尔值，表示参数字符串是否在原字符串的尾部。
 str | index
 - repeat()：返回一个新字符串，表示将原字符串重复n次。参数如果是小数，会被取整(不四舍五入)。参数是负数或者Infinity，会报错。0/Nan返回空字符串,参数是字符串，则会先转换成数字，不传则为空字符串。
@@ -1608,4 +1616,31 @@ $("div").on({
 click: function(){},
 mouseover: function(){}
 });
+```
+
+114. 如何不使用loop循环，创建一个长度为100的数组，并且每个元素的值等于它的下标？
+```js
+Array.from(Array(100).keys())
+
+[...Array(100).keys()]
+```
+
+接着乱序排序
+```js
+arr.sort( () => Math.random() > .5 ? -1 : 1 )
+```
+
+前十个数相加
+```js
+var [a, b, c, d, e, f, g, h, i, j, ...last] = arr3;
+var total = a + b + c + d + e + f + g + h + i + j;
+```
+
+```js
+const foo = ((x, f = (y = x) => x + y) => {
+      let y = f();
+      x = y++;
+      return [x, y, f(y)]
+    })(2)
+// foo = [4,5,9]
 ```

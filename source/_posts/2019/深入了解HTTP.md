@@ -140,11 +140,11 @@ XSS 全称“跨站脚本”，是注入攻击的一种。其特点是不对服�
 XSS 是实现 CSRF 的诸多途径中的一条，但绝对不是唯一的一条。一般习惯上把通过 XSS 来实现的 CSRF 称为 XSRF。
 
 ### http缓存
-- 强缓存
+- 强缓存（from cache）强制浏览器使用本地缓存
     - cache-control
     - Expires
     - Pragma
-- 协商缓存
+- 协商缓存（304还是要和服务器通信一次）
     - last-modified
     - Etag
 
