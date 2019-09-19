@@ -658,7 +658,7 @@ for(let a of iterator){
 // keys返回键() values()返回值
 ```
 
-## Map简单的键值对集合(类似对象，键可以是各种类型的值)
+## Map简单的键值对集合(字典的数字结构类似对象，键可以是各种类型的值)
 ```javascript
 var sayings = new Map();
 sayings.set('dog', 'woof');
@@ -680,6 +680,18 @@ sayings.clear();
 sayings.size; // 0
 ```
 new Map() 参数可以是一个数组或者其他 iterable 对象，其元素或为键值对，或为两个元素的数组。 每个键值对都会添加到新的 Map。null 会被当做 undefined。
+```js
+const set = new Set([
+  ['foo', 1],
+  ['bar', 2]
+]);
+const m1 = new Map(set);
+m1.get('foo') // 1
+
+const m2 = new Map([['baz', 3]]);
+const m3 = new Map(m2);
+m3.get('baz') // 3
+```
 
 ### WeakMap（类似Map，只接受对象作为键名（null除外），WeakMap的键名所指向的对象，不计入垃圾回收机制）
 
@@ -695,7 +707,7 @@ new Map() 参数可以是一个数组或者其他 iterable 对象，其元素或
 如果需要将原始值存储为键，则使用Map，因为Object将每个键视为字符串，不管它是一个数字值、布尔值还是任何其他原始值。
 如果需要对个别元素进行操作，使用Object。
 
-## Set集合(类似数组，成员的值都是唯一的)
+## Set集合(类似数组，成员的值都是唯一且无序的)
 ```javascript
 var mySet = new Set();
 mySet.add(1);
@@ -705,6 +717,7 @@ mySet.add("foo");
 mySet.has(1); // true
 mySet.delete("foo");
 mySet.size; // 2
+mySet.clear(); // 清空集合
 
 for (let item of mySet) console.log(item);
 // 1
@@ -718,6 +731,7 @@ Array.from(mySet2);  // [1,2,3] 常用来去重
 ```
 
 ### WeakSet（类似Set，成员都是对象，弱引用）
+WeakSet 对象中储存的对象值都是被弱引用的，即垃圾回收机制不考虑 WeakSet 对该对象的应用，如果没有其他的变量或属性引用这个对象值，则这个对象将会被垃圾回收掉（不考虑该对象还存在于 WeakSet 中），所以，WeakSet 对象里有多少个成员元素，取决于垃圾回收机制有没有运行，运行前后成员个数可能不一致，遍历结束之后，有的成员可能取不到了（被垃圾回收了），WeakSet 对象是无法被遍历的（ES6 规定 WeakSet 不可遍历），也没有办法拿到它包含的所有元素。
 
 **Array和Set的比较**
 
