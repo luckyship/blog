@@ -13,6 +13,9 @@ top: 260
 ### 一、必备知识点
 ![git](http://cdn.mydearest.cn/blog/images/git.png)
 
+---
+<!--more-->
+
 #### 仓库
 1. **Remote:** 远程主仓库；
 2. **Repository：** 本地仓库；
