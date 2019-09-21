@@ -2183,3 +2183,10 @@ function a(b){
 }
 a();
 ```
+
+## jquery设置!important
+```js
+$("#container").css("top");
+$("#container").css("top","15px");
+$("#container").css("cssText","overflow:auto !important;")
+```

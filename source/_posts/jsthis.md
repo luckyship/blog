@@ -78,7 +78,7 @@ var Person = function(){
 var obj = new Person();
 console.log(obj.name);      // cosyer
 ```
-如果构造函数显式的返回一个对象，那么`this`则会指向该对象。
+如果构造函数显式的返回一个对象(function或者object)，那么`this`则会指向该对象。
 
 ```javascript
 var Person = function(){

@@ -96,6 +96,8 @@ Keys 会有助于 React 识别哪些 `items` 改变了，被添加了或者被�
 #### 何为 JSX
 JSX 是 JavaScript 语法的一种语法扩展，并拥有 JavaScript 的全部功能。JSX 生产 React "元素"，你可以将任何的 JavaScript 表达式封装在花括号里，然后将其嵌入到 JSX 中。在编译完成之后，JSX 表达式就编程了常规的 JavaScript 对象，这意味着你可以在 `if` 语句和 `for` 循环内部使用 JSX，将它赋值给变量，接受它作为参数，并从函数中返回它。
 
+缺点：b&& 强转成boolean类型 否则如果b=0渲染出0
+
 #### 怎么用 React.createElement 重写下面的代码
 
 Question：
