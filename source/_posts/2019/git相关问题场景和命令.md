@@ -192,7 +192,7 @@ git pull --rebase = git fetch + git rebase
 
 执行 `git merge --no-ff <branch-name>` 的结果大概会是这样的：
 
-![git merge --no-ff](https://camo.githubusercontent.com/f6db68ac4243ba30448431ae10edec1c935cc3d7/687474703a2f2f7777312e73696e61696d672e636e2f6c617267652f61373465656439346a773164766e687972713872686a2e6a7067)
+![git merge --no-ff](http://cdn.mydearest.cn/blog/images/git-chain1.png)
 
 中间的分叉线路图很清晰的显示这些提交都是为了实现 **complete adjusting user domains and tags**
 
@@ -207,7 +207,7 @@ git log feature..dev
 
 如果没有输出任何提交信息的话，即表示 feature 对于 dev 分支是 up-to-date 的。如果有输出的话而马上执行了 `git merge --no-ff` 的话，提交线图会变成这样：
 
-![git-merge](https://camo.githubusercontent.com/3ae4d2c20191d0b40d9050800295a2050b9ec2c4/687474703a2f2f7777322e73696e61696d672e636e2f6c617267652f61373465353562346a773164766e696a72323736686a2e6a7067)
+![git-merge](http://cdn.mydearest.cn/blog/images/git-chain2.png)
 
 所以这时在合并前，通常我会先执行：
 
@@ -309,7 +309,7 @@ git commit -m ".gitignore is now working”
 1、配置remote，指向原始仓库
 
 ```
-git remote add upstream https://github.com/InterviewMap/InterviewMap.git
+git remote add upstream https://github.com/cosyer/jelly.git
 ```
 
 2、上游仓库获取到分支，及相关的提交信息，它们将被保存在本地的 upstream/master 分支
