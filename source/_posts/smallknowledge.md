@@ -10,6 +10,8 @@ top: 107
 photos:
 ---
 
+[javascript-puzzlers](http://javascript-puzzlers.herokuapp.com/)
+
 ## void 
 void其实是javascript中的一个函数，接受一个参数，返回值永远是undefined
 void expression
@@ -2209,4 +2211,219 @@ $("#container").css("cssText","overflow:auto !important;")
 .jd i:not(:empty) {
     // 有内容的小红点样式
 }
+```
+
+## arr.reduce(callback[, initialValue])
+- reduce接受两个参数, 一个回调, 一个初始值
+- 回调函数接受四个参数 previousValue, currentValue, currentIndex, array
+
+> 第一个表达式等价于 Math.pow(3, 2) => 9; Math.pow(9, 1) =>9
+
+> 第二个表达式异常 Uncaught TypeError: Reduce of empty array with no initial value
+
+## 变量提升
+在 JavaScript中， functions 和 variables 会被提升。变量提升是JavaScript将声明移至作用域 scope (全局域或者当前函数作用域) 顶部的行为。
+```js
+var name = 'World!';
+(function () {
+    if (typeof name === 'undefined') {
+        var name = 'Jack';
+        console.log('Goodbye ' + name);
+    } else {
+        console.log('Hello ' + name);
+    }
+})();
+// Goodbye Jack
+```
+
+## 最大安全数 + 1值没有变化 会导致循环
+```js
+var END = Math.pow(2, 53);
+var START = END - 100;
+var count = 0;
+for (var i = START; i <= END; i++) {
+    count++;
+}
+console.log(count); // 循环
+```
+
+## 稀疏数组
+没有内容的数组, array 上的操作会跳过这些未初始化的’坑’.
+```js
+var ary = [0,1,2];
+ary[10] = 10;
+ary.filter(function(x) { return x === undefined;});
+// []
+
+var ary = Array(3);
+ary[0]=2
+ary.map(function(elem) { return '1'; });
+// ["1", undefined × 2]
+```
+
+## 一个鲜为人知的实事: Array.prototype => []
+```js	
+Array.isArray( Array.prototype )
+// true
+```
+
+## arguments在es6有初始值时不同
+```js
+function sidEffecting(ary) {
+  ary[0] = ary[2];
+}
+function bar(a,b,c) {
+  c = 10
+  sidEffecting(arguments);
+  return a + b + c;
+}
+bar(1,1,1)
+// 10 + 1 + 10 = 21
+
+function sidEffecting(ary) {
+  ary[0] = ary[2];
+}
+function bar(a,b,c=3) {
+  c = 10
+  sidEffecting(arguments);
+  return a + b + c;
+}
+bar(1,1,1)
+// 1 + 1 + 10 = 12 此时arguments为0
+```
+
+## reverse返回调用者
+```js
+var x = [].reverse;
+x();
+// window
+```
+
+## Number.MIN_VALUE > 0x`
+```js
+Number.MIN_VALUE > 0
+// 5e-324 true
+```
+
+## 抽象相等
+```js
+var a = [0];
+if ([0]) {
+  console.log(a == true);
+} else {
+  console.log("wut");
+}
+// false
+```
+![equality](http://cdn.mydearest.cn/blog/images/equality.png)
+
+## 隐式类型转换
+```js
+[1 < 2 < 3, 3 < 2 < 1]
+
+// 1 < 2 => true < 3 => 1 < 3 true
+// 3 < 2 => false < 1 => 0 < 1 true
+// [true,true]
+
+2 == [[[2]]] // true
+```
+
+## number + .
+```js
+3.toString() // error (3).toString()
+3..toString() // '3'
+3...toString() // error
+```
+
+## automatic global
+```js
+(function(){
+  var x = y = 1;
+})();
+console.log(y); // 1
+console.log(x); // x is not defined
+```
+
+## regexp expression
+```js
+var a = /123/,
+    b = /123/;
+a == b
+a === b
+// false false
+```
+
+## function name is readonly
+```js
+function foo() { }
+var oldName = foo.name;
+foo.name = "bar";
+[oldName, foo.name]
+// 'foo' 'foo'
+```
+
+## parseInt 坑
+```js
+"1 2 3".replace(/\d/g, parseInt)
+// [1, 0], [2, 2], [3, 4]
+// "1 NaN 3"
+
+parseInt(3, 8) // 3
+parseInt(3, 2) // NaN
+parseInt(3, 0) // 3
+```
+
+## function prototype
+```js
+function f() {}
+var parent = Object.getPrototypeOf(f);
+f.name // f
+parent.name // empty
+typeof eval(f.name) // function
+typeof eval(parent.name) //  error
+```
+
+## regexp translate
+```js
+var lowerCaseOnly =  /^[a-z]+$/;
+[lowerCaseOnly.test(null), lowerCaseOnly.test()]
+// 转化成'null' 'undefined'
+// true true
+```
+
+## [,,,].join(", ")
+```js
+[,,,].join(", ")
+// ", , "
+```
+
+## function length
+```js
+var a = Function.length,
+    b = new Function().length
+a === b
+// 1 === 0 false
+```
+
+## Date equal
+```js
+var a = Date(0);
+var b = new Date(0);
+var c = new Date();
+[a === b, b === c, a === c]
+// false false false
+```
+
+## function scope param
+```js
+function foo(a) {
+    var a;
+    return a;
+}
+function bar(a) {
+    var a = 'bye';
+    return a;
+}
+[foo('hello'), bar('hello')]
+// ["hello", "bye"]
 ```
