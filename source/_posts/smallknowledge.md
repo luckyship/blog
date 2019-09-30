@@ -2289,7 +2289,7 @@ function bar(a,b,c=3) {
   return a + b + c;
 }
 bar(1,1,1)
-// 1 + 1 + 10 = 12 此时arguments为0
+// 1 + 1 + 10 = 12
 ```
 
 ## reverse返回调用者
@@ -2299,7 +2299,7 @@ x();
 // window
 ```
 
-## Number.MIN_VALUE > 0x`
+## Number.MIN_VALUE > 0
 ```js
 Number.MIN_VALUE > 0
 // 5e-324 true
@@ -2426,4 +2426,28 @@ function bar(a) {
 }
 [foo('hello'), bar('hello')]
 // ["hello", "bye"]
+```
+
+## nodejs Event模块的简单实现
+```js
+function Event() {
+    this.on = function (eventName, callback) {
+        if (!this.handlers) {
+            this.handlers = {};
+        }
+        if (!this.handlers[eventName]){
+            this.handlers[eventName] = [];
+        }
+        this.handlers[eventName].push(callback);
+    }
+
+    this.emit = function (eventName, data) {
+        if (this.handlers[eventName]) {
+            this.handlers[eventName].forEach((item)=>{
+                item(data);
+            });
+        }
+    }
+    return this;
+}
 ```
