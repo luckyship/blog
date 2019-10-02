@@ -418,7 +418,17 @@ jquery主要是兼容性好，可以跑在各种pc，移动上，好处是兼容
 27. 压缩合并目的？http请求的优化方式？
 - Web性能优化最佳实践中最重要的一条是减少HTTP请求。而减少HTTP请求的最主要的方式就是，合并并压缩JavaScript和CSS文件。 
 
-- CSS Sprites（CSS精灵）：把全站的图标都放在一个图像文件中，然后用CSS的background-image和background-position属性定位来显示其中的一小部分。 
+- CSS Sprites（雪碧图、CSS精灵）：把全站的图标都放在一个图像文件中，然后用CSS的background-image和background-position属性定位来显示其中的一小部分。
+
+优点：
+1. 减少 HTTP 请求数，极大地提高页面加载速度
+2. 增加图片信息重复度，提高压缩比，减少图片大小
+3. 更换风格方便，只需在一张或几张图片上修改颜色或样式即可实现
+
+缺点：
+
+1. 图片合并麻烦
+2. 维护麻烦，修改一个图片可能需要重新布局整个图片，样式
 
 - 合并脚本和样式表; 图片地图：利用image map标签定义一个客户端图像映射，（图像映射指带有可点击区域的一幅图像）具体看：http://club.topsage.com/thread-2527479-1-1.html 
 
