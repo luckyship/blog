@@ -1316,3 +1316,25 @@ function unique(arr) {
 2 .toString() // '2'
 [(1,2,3)] // [3]
 ```
+
+## 斐波那契 js 实现
+```js
+function* fibo()
+{
+    let [pre,curr] = [0,1];
+    for(;;)
+    {
+        yield curr;
+        [pre,curr] = [curr,pre + curr];
+    }
+}
+for(let i of fibo())
+{
+    if(i > 10000)
+    {
+        break;
+    }
+    console.log(i);
+}
+// 实现10000以内的数列
+```
