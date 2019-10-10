@@ -1931,7 +1931,20 @@ module.exports才是真正的接口，exports只不过是它的一个辅助工�
 ```
 
 ## 前端生成文件并下载
+Blob对象简要介绍
+
+Blob 对象表示一个不可变、原始数据的类文件对象。Blob 表示的不一定是JavaScript原生格式的数据。File 接口基于Blob，继承了 Blob 的功能并将其扩展使其支持用户系统上的文件。
+> const aBlob = new Blob( array, options );
+参数说明
+
+- array 是一个由ArrayBuffer, ArrayBufferView, Blob, DOMString 等对象构成的 Array ，或者其他类似对象的混合体，它将会被放进 Blob。DOMStrings会被编码为UTF-8。
+- options 是一个可选的BlobPropertyBag字典，它可能会指定如下两个属性：
+type，默认值为 “”，它代表了将会被放入到blob中的数组内容的MIME类型。
+endings，默认值为”transparent”，用于指定包含行结束符\n的字符串如何被写入。 它是以下两个值中的一个： “native”，代表行结束符会被更改为适合宿主操作系统文件系统的换行符，或者 “transparent”，代表会保持blob中保存的结束符不变
+
 ```javascript
+// const debug = {hello: "world"};
+// const blob = new Blob([JSON.stringify(debug, null, 2)],{type : 'application/json'});
 function createAndDownloadFile(fileName, filePath) {
     const aTag = document.createElement('a');
     const blob = new Blob([filePath]);
