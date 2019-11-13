@@ -15,7 +15,7 @@ top: 160
 ## typeof
 > typeof一般只能返回如下几个结果：number,boolean,string,function,object,undefined字符串
 
-> 对于Array,null等特殊对象使用typeof一律返回object，这正是typeof的局限性。
+> 对于Array,null等特殊对象使用typeof一律返回object，而函数返回function这正是typeof的局限性。
 
 > 在判断除Object类型的对象(基本类型)时比较方便。
 
