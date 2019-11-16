@@ -2464,3 +2464,16 @@ function Event() {
     return this;
 }
 ```
+
+## 实现超链接显示A网站实际跳转B网站
+```html
+<a href="//www.tmall.com" onclick="host='jd.com'">tmall</a>
+```
+
+## nodejs 恶作剧：给系统创建一个叫 node_modules 的用户，然后 npm install 就无法使用了
+
+## 最简单的方式实现`console.log(1)`返回0
+```js
+console = Math;
+console.log(1); // 0
+```

@@ -880,6 +880,20 @@ var info = arr
 console.log(info); //{ a: 3, b: 2, c: 2, d: 1 }
 ```
 
+4. 临时对象简便
+```js
+const map = {}
+const str = 'hello world'
+
+str.split('').forEach(key => {
+  map[key] = -~map[key]
+})
+
+console.log(map)
+// {" ": 1, d: 1, e: 1, h: 1, l: 3, o: 2, r: 1, w: 1}
+// ~i = -(i + 1)，~undefined = -1
+```
+
 56. 清除浮动
 清除浮动是为了清除浮动元素产生的影响。浮动元素的高度会发生坍塌，使页面后面的布局不能正常显示。
 设置成浮动后，display值会自动变成block。

@@ -30,7 +30,7 @@ s.type='text/javascript'; document.body.appendChild(s);
 s.src='//hi.kickassapp.com/kickass.js'; void(0);"> 点击开始摧毁 </a>
 ```
 页面崩溃
-
+- plan A
 ```javascript
 var total = ""; 
 for (var i = 0; i < 10000; i++) { 
@@ -46,6 +46,10 @@ function fn(){
   fn();
 }
 fn();
+```
+- plan B (BitInt 出现后，不用死循环也能实现 CPU 100% 的效果)
+```js
+9n ** 9n ** 9n > 0
 ```
 
 转动吧，风扇！！！
