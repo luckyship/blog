@@ -1,7 +1,7 @@
 ---
-title: 搭建VPS科学上网
+title: 不能说的秘密
 tags:
-  - vultr
+  - 未知
 copyright: true
 comments: true
 date: 2018-06-07 10:21:24
