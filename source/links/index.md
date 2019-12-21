@@ -113,6 +113,14 @@ copyright: true
                 <p class="per-links-des">最喜欢小肥柴了嘻嘻</p>
             </a>
         </li>
+         <li class="per-links-item">
+            <a href="http://www.zeee.vip/app/home/index/index.html" class="group-picture" title="首页_蒋金泽_蒋金泽的博客" target="_blank">
+                <img class="per-links-icon" 
+                src="http://www.zeee.vip/app/application/public/home/img/duo.jpg" alt="">
+                <h3 class="per-links-title">蒋金泽</h3>
+                <p class="per-links-des">家住海邊，喜歡浪。</p>
+            </a>
+        </li>
     </ul>
     <hr>
     <div class="instructions">
