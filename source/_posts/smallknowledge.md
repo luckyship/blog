@@ -2477,3 +2477,19 @@ function Event() {
 console = Math;
 console.log(1); // 0
 ```
+
+## 如何将整个网站页面变成黑白色?
+对于一些需要悼念的日子，很多人也都想把自己的网站弄成全站黑白来表示自己的哀悼之情。还有其他特殊原因（比如公祭日）对部分事件表示哀悼，所以需要把整个网站设置为灰色或者黑白方格。
+
+```css
+html {
+-webkit-filter: grayscale(100%);
+-moz-filter: grayscale(100%);
+-ms-filter: grayscale(100%);
+-o-filter: grayscale(100%);
+filter:progid:DXImageTransform.Microsoft.BasicImage(grayscale=1);
+_filter:none;
+}
+```
+filter 是滤镜的意思，filter:gray 的意思就是说给页面加上一个灰度的滤镜，所以 html 里面的所有内容都会变成黑白的了。
+![黑白色](http://cdn.mydearest.cn/blog/images/grayFilter.png)

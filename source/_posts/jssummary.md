@@ -1015,6 +1015,10 @@ console.log(flattenES5([1, [2, [3, [4]], 5]]))
 const flattenES6 = (arr) => arr.toString().split(',').map((item) => +item);
 console.log(flattenES6([1, [2, [3, [4]], 5]]))
 
+// ...
+var entries = [1, [2, 5], [6, 7], 9];
+var flat_entries = [].concat(...entries);
+
 // es5
 function flattenES5(arr) {
   return arr.toString().split(',').map(function (item) {
