@@ -1400,6 +1400,28 @@ console.log(b.x)
 
 - 而HTML4.01基于SGML,所以需要对DTD进行引用，才能告知浏览器文档所使用的文档类型。
 
+- 新增语义化标签
+```html
+<header>、<footer>、<section>、<article>、<nav>、<hgroup>、<aside>、<figure>
+```
+
+- 删除的标签
+```html
+<big>、<u>、<font>、<basefont>、<center>、<s>、<tt>
+```
+
+- 多媒体
+```html
+<audio>、<video>
+```
+
+```html
+<!-- 只写属性名默认为true -->
+<input type="checkbox"  checked/>
+<!-- 属性名="属性名"也为true -->
+<input type="checkbox"  checked="checked"/>
+```
+
 91. 对浏览器内核的理解？
 主要分成两部分：渲染引擎(layout engineer或Rendering Engine)和JS引擎。
 渲染引擎：负责取得网页的内容（HTML、XML、图像等等）、整理讯息（例如加入CSS等），以及计算网页的显示方式，然后会输出至显示器或打印机。浏览器的内核的不同对于网页的语法解释会有不同，所以渲染的效果也不相同。所有网页浏览器、电子邮件客户端以及其它需要编辑、显示网络内容的应用程序都需要内核。
@@ -1780,3 +1802,5 @@ Flash Of Unstyled Content：用户定义样式表加载之前浏览器使用默�
 如果有操作数是对象，转换为原始值
 此时如果有一个操作数是字符串，其他的操作数都转换为字符串并执行连接
 否则：所有操作数都转换为数字并执行加法
+
+zhoudong18251741643

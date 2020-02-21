@@ -25,6 +25,11 @@
     <div class="powered-by"></div>
     <span class="post-count">Blog总字数: {{ totalcount(site) }}字</span>
   </div>
+
+  <div class="theme-info">
+    <div class="powered-by"></div>
+    <a class="post-count" href="http://www.beian.miit.gov.cn/">苏ICP备17005342号-1</a>
+  </div>
 </div>
 
 <!--
