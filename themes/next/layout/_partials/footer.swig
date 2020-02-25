@@ -28,7 +28,7 @@
 
   <div class="theme-info">
     <div class="powered-by"></div>
-    <a class="post-count" href="http://www.beian.miit.gov.cn/">苏ICP备17005342号-1</a>
+    <a class="post-count" href="http://www.beian.miit.gov.cn/" target="_blank">苏ICP备17005342号-1</a>
   </div>
 </div>
 
