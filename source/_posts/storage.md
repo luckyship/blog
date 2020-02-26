@@ -6,11 +6,11 @@ tags:
 categories: JS
 ---
 
-## Cookie
+## Cookie(属于文档对象模型DOM树根节点document)
 
 Cookie 是小甜饼的意思。顾名思义，cookie 确实非常小，它的大小限制为4KB左右。它的主要用途有保存登录信息，比如你登录某个网站市场可以看到“记住密码”，这通常就是通过在 Cookie 中存入一段辨别用户身份的数据来实现的。
 
-## localStorage
+## localStorage(属于浏览器对象模型BOM的对象window)
 
 localStorage 是 HTML5 标准中新加入的技术，它并不是什么划时代的新东西。早在 IE 6 时代，就有一个叫 userData 的东西用于本地存储，而当时考虑到浏览器兼容性，更通用的方案是使用 Flash。而如今，localStorage 被大多数浏览器所支持，如果你的网站需要支持 IE6+，那以 userData 作为你的 polyfill 的方案是种不错的选择。
 
@@ -106,8 +106,10 @@ function checkCookie()
   }
 }
 ```
-## localStorage和sessionStorage用法
+## localStorage和sessionStorage用法(存储数组、数字、对象等可以被序列化为字符串的内容)
 localStorage和sessionStorage类似(也可以像普通对象一样用点(.)操作符，及[]的方式进行数据存储)
+
+window.localStorage.key(1) // 读取索引为1的值
 ```javascript
     static setStorage(name, data) {
         if (typeof data === 'object') {
