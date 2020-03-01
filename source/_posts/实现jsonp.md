@@ -61,3 +61,32 @@ const JSONP = (url, jsonpObj) => {
 }
 JSONP.count = 0
 ```
+
+- 简单的不传参数的jsonp实现
+```js
+const jsonp = url => {
+  new Promise({resolve, reject} => {
+    // 创建标签
+    const script = document.createElement('script')
+    // 设置回调名
+    const callbackId = `jsonp_${Date.now()}`
+    // 拼接url
+    script.src = url.includes('?') ? `${url}&callback=${callbackId}` : `${url}?callback=${callbackId}`
+
+    // 设置读取返回结果的回调函数, 必须设置在window上
+    window[callbackId] = result => {
+      // 释放内存
+      delete window[callbackId]
+      // 移除标签
+      document.body.removeChild(script)
+      // 结果
+      result ? resolve(result) : reject('404')
+    }
+
+    script.addEventListener('error', () => reject('script create fail'))
+    // 发出请求
+    document.body.appendChild(script)
+}
+
+jsonp('').then(console.log)
+```
