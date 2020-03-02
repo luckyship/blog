@@ -2493,3 +2493,26 @@ _filter:none;
 ```
 filter 是滤镜的意思，filter:gray 的意思就是说给页面加上一个灰度的滤镜，所以 html 里面的所有内容都会变成黑白的了。
 ![黑白色](http://cdn.mydearest.cn/blog/images/grayFilter.png)
+
+
+## 黑幕效果
+```css
+.heimu, .heimu a, a .heimu, .heimu a.new {
+    background-color: #252525;
+    color: #252525;
+    text-shadow: none;
+}
+.heimu:hover, .heimu:active,
+.heimu:hover .heimu, .heimu:active .heimu {
+    color: white !important;
+}
+.heimu:hover a, a:hover .heimu,
+.heimu:active a, a:active .heimu {
+    color: lightblue !important;
+}
+.heimu:hover .new, .heimu .new:hover, .new:hover .heimu,
+.heimu:active .new, .heimu .new:active, .new:active .heimu {
+    color: #BA0000 !important;
+}
+```
+<span class=”heimu“>太对了哥，哥太对</span>
