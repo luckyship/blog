@@ -2114,12 +2114,6 @@ function getRandomNumbers(min, max) {
 }
 ```
 
-## base64编码和解码
-```js
-let encodedData = window.btoa("Hello, world"); // 编码
-let decodedData = window.atob(encodedData); // 解码
-```
-
 ## 字符串反转
 如果需要支持UTF-16或其他多字节字符的解决方案，请注意此函数将给出无效的Unicode字符串或看起来很有趣的有效字符串。[需要注意](https://stackoverflow.com/questions/958908/how-do-you-reverse-a-string-in-place-in-javascript/16776621#16776621)
 
@@ -2516,3 +2510,43 @@ filter 是滤镜的意思，filter:gray 的意思就是说给页面加上一个�
 }
 ```
 <span class="heimu">太对了哥，哥太对</span>
+
+## 字符串和base64相互转换(编码、解码)
+```js
+// 字符串转base64
+function encode(str){
+    // 对字符串进行编码
+    var encode = encodeURI(str);
+    // 对编码的字符串转化base64
+    var base64 = btoa(encode);
+    return base64;
+}
+ 
+// base64转字符串
+function decode(base64){
+    // 对base64转编码
+    var decode = atob(base64);
+    // 编码转字符串
+    var str = decodeURI(decode);
+    return str;
+}
+```
+
+## 随机名称
+```js
+function getRandomName() {
+    let number = getRandomNum(1, 9);
+    let hash = parseInt(
+        ((new Date().getTime() % 3839) + 256).toString(),
+        10
+    ).toString(16);
+    let randomName = 'prefix' + hash + number;
+    return randomName;
+}
+
+function getRandomNum(max, min) {
+    var range = max - min;
+    var rand = Math.random();
+    return min + Math.round(rand * range);
+}
+```

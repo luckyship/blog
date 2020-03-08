@@ -526,6 +526,7 @@ JSON.strinify() // 解析成JSON字符串
 在一个窗口中，窗口载入的所有页面共享一个window.name，每个页面都对window.name具有读写权限，可以在window.name中设置想要的数据。
 4. window.postMessage
 ```javascript
+// iframe通信
 iframe.contentWindow.postMessage(msg);
 window.onmessage = function (e) {
     e = e || event;

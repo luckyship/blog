@@ -62,8 +62,8 @@ Math.pow(2,24)).toString(16)}`)
 
 ### 获取随机字符串
 ```javascript
-Math.random().toString(16).substring(2) 
-Math.random().toString(36).substring(2) 
+Math.random().toString(16).substring(2)  // 0e7a48ca4bec3
+Math.random().toString(36).substring(2)  // s2ue8xvgu7a
 ```
 
 ### 这样的判断你能做对吗
