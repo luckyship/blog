@@ -2550,3 +2550,18 @@ function getRandomNum(max, min) {
     return min + Math.round(rand * range);
 }
 ```
+
+## IDEA连接Github时出现：Failed to connect to github.com port 443: Connection refused的解决方法
+本地hosts文件中配置不正确导致的。
+
+```
+git config --global http.proxy http://127.0.0.1:1080
+
+git config --global https.proxy http://127.0.0.1:1080
+```
+
+但创建完仓库后 push 不上去，这个时候就需要取消代理
+```
+git config --global --unset http.proxy
+
+git config --global --unset https.proxy
