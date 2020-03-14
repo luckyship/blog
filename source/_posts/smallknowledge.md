@@ -2565,3 +2565,22 @@ git config --global https.proxy http://127.0.0.1:1080
 git config --global --unset http.proxy
 
 git config --global --unset https.proxy
+```
+
+## counter 
+
+[FlagCounter](https://flagcounter.com/)
+
+[不蒜子访问统计](http://busuanzi.ibruce.info)
+
+```html
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<span id="busuanzi_container_site_pv">
+    总访问次数:<span id="busuanzi_value_site_pv"></span>
+</span>
+
+<span id="busuanzi_container_site_uv">
+  访问次数:<span id="busuanzi_value_site_uv"></span>
+</span>
+```
