@@ -53,7 +53,7 @@ const getJSON = function(url) {
         return;
       }
       if (this.status === 200) {
-        resolve(this.response);
+        resolve(this.responseText);
       } else {
         reject(new Error(this.statusText));
       }
@@ -63,7 +63,7 @@ const getJSON = function(url) {
     client.onreadystatechange = handler;
     client.responseType = "json";
     client.setRequestHeader("Accept", "application/json");
-    client.send(params);
+    client.send();
   });
   return promise;
 };

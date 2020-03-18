@@ -20,7 +20,7 @@ photos:
 @Input() content:string;
 ```
 
-## 子=>父 output
+## 子->父 output
 ```
 // parent.html
 <child (changeNumber)="changeNumber($event)"></child>

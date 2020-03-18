@@ -129,21 +129,21 @@ typeof null // object null instanceof Object // false
 2)创建XMLHttpRequest对象  
 ```javascript 
 var client=null
-  if(window.XMLHttpRequest){
-       client = new XMLHttpRequest();
-  }else{
-        client = new ActiveXObject("Microsoft.XMLHTTP");
-  }
+if(window.XMLHttpRequest){
+      client = new XMLHttpRequest();
+}else{
+      client = new ActiveXObject("Microsoft.XMLHTTP");
+}
 ```
 3)对XMLHttpRequest进行配置 
 ```javascript   
   client.open("GET", url);
   client.onreadystatechange = function(e) {
-      if (request.readyState !== 4) { // client状态
+      if (client.readyState !== 4) { // client状态
         return;
       }
-      if (request.status === 200) { // HTTP状态码
-        console.log('success', request.responseText);
+      if (client.status === 200) { // HTTP状态码
+        console.log('success', client.responseText);
       } else {
         console.warn('error');
       }
@@ -155,6 +155,35 @@ var client=null
 4)通过AJAX引擎发送异步请求 
 ```javascript
   client.send()
+```
+`promise 封装`
+```js
+/**
+  * @param {string} url
+  * @param {string} method
+  * @param {object} params
+  * @returns
+  */
+function request(url, method = 'GET', params = null) {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest()
+    xhr.open(method, url)
+    xhr.addEventListener('readystatechange', () => {
+      if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+          resolve(xhr.responseText)
+        } else {
+          reject({
+            code: xhr.status,
+            response: xhr.response
+          })
+        }
+      }
+    })
+    setTimeout(() => reject('timeout:1000'), 1000)
+    xhr.send(JSON.stringify(params))
+  })
+}
 ```
 5)服务器端接收请求并且处理请求，返回html或者xml内容  
 6)XML调用一个callback()处理响应回来的内容  
