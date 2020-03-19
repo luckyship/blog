@@ -1833,4 +1833,12 @@ Flash Of Unstyled Content：用户定义样式表加载之前浏览器使用默�
 此时如果有一个操作数是字符串，其他的操作数都转换为字符串并执行连接
 否则：所有操作数都转换为数字并执行加法
 
-zhoudong18251741643
+124. question
+```js
+let i = 0;
+if (function temp(){}) {
+ i+=typeof temp;
+}
+console.log(i)
+// '0undefined'
+```
