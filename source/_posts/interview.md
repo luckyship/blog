@@ -1685,6 +1685,7 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
 提高了webserver的http请求的解析速度。
 
 111. ajax缓存问题
+
 1、在ajax发送请求前加上 anyAjaxObj.setRequestHeader("If-Modified-Since","0")。
 
 2、在ajax发送请求前加上 anyAjaxObj.setRequestHeader("Cache-Control","no-cache")。
@@ -1842,3 +1843,6 @@ if (function temp(){}) {
 console.log(i)
 // '0undefined'
 ```
+
+- Element.getBoundingClientRect() 方法返回元素的大小及其相对于视口的位置。
+属性将会对值四舍五入取整。如果需要小数值

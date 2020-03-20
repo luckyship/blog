@@ -1847,6 +1847,7 @@ var scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
 if (scrollTop + clientHeight == htmlHeight) {
     // 滚动条到底
 }
+// 没有垂直滚动条的情况下，scrollHeight值与元素视图填充所有内容所需要的最小值clientHeight相同
 ```
 
 ## yield函数
