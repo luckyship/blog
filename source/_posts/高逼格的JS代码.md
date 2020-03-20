@@ -301,6 +301,12 @@ var carsObj = cars.reduce(function (obj, name) {
 carsObj; // => { BMW: 2, Benz: 2, Tesla: 1, Toyota: 1 }
 ```
 
+```js
+// 数组相同项的次数
+const countOccurrences = (arr, val) => arr.reduce((a, v) => (v === val ? a + 1 : a), 0);
+countOccurrences([1, 1, 2, 1, 2, 3], 1); // 3
+```
+
 ## 两个数值的交换
 ```js
 var temp = a; a = b; b = temp            
