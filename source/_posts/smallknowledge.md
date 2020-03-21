@@ -1553,6 +1553,38 @@ function uuid(len, radix) {
 };
 ```
 
+```js
+function generateDynamic32UUID() {
+  return "xxxxxxxx-xxxx-xxxx-yxxx-xxxxxxxxxxxx"
+    .replace(/[xy]/g, function(c) {
+      let r = (Math.random() * 16) | 0;
+      let v = c == "x" ? r : (r & 0x3) | 0x8;
+      return v.toString(16);
+    })
+    .toUpperCase(); // "8ED4E1FA-DA4B-5B40-B5AF-05AC386B2753"
+  //   return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
+  //     (
+  //       c ^
+  //       (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))
+  //     ).toString(16)
+  //   );
+}
+```
+
+```js
+// hash name
+function getHashName(prefix) {
+    var number = randomNum(1, 9);
+    var hash = parseInt(((new Date().getTime()) % 3839 + 256), 10).toString(16);
+    hash = prefix + '-' + hash + number;
+    return hash;
+}
+
+function randomNum(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+```
+
 ## jq原生对照
 ```javascript
 1、元素获取
@@ -2584,4 +2616,24 @@ git config --global --unset https.proxy
 <span id="busuanzi_container_site_uv">
   访问次数:<span id="busuanzi_value_site_uv"></span>
 </span>
+```
+
+## i18n语料替换
+```js
+function i18nReplace(s, o) {
+  if (!s || !o) {
+    return;
+  }
+  return s.replace
+    ? s.replace(/\{\s*([^\|\}]+?)\s*(?:\|([^\}]*))?\s*\}/g, function(
+        match,
+        key
+      ) {
+        return o[key] !== undefined ? o[key] : match;
+      })
+    : s;
+}
+
+i18nReplace('123{0}开始了',{0:'奇怪'})
+// "123奇怪开始了"
 ```
