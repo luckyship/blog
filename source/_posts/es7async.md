@@ -79,6 +79,18 @@ let results = await Promise.all([
    ...
 ])
 ```
+
+## Promises 组合：Promise.all，Promise.allSettled， Promise.any
+- Promise API 提供了许多将Promise组合在一起的方法。 其中最有用的是Promise.all，它接受一个Promises数组并返回一个Promise。 如果参数中 promise 有一个失败（rejected），此实例回调失败（reject），失败原因的是第一个失败 promise 的结果。
+
+- Promise.race(iterable) 方法返回一个 promise，一旦迭代器中的某个promise解决或拒绝，返回的 promise就会解决或拒绝。
+
+- 较新版本的V8也将实现两个新的组合：Promise.allSettled和Promise.any。 Promise.any仍然处于提案的早期阶段：在撰写本文时，仍然没有浏览器支持它。
+
+Promise.any可以表明任何Promise是否fullfilled。 与 Promise.race的区别在于Promise.any不会拒绝即使其中一个Promise被拒绝。
+
+无论如何，两者中最有趣的是 Promise.allSettled，它也是 Promise 数组，但如果其中一个Promise拒绝，它不会短路。 当你想要检查Promise数组是否全部已解决时，它是有用的，无论最终是否拒绝，可以把它想象成Promise.all 的反对者。
+
 ## 总结
 
 随着单页JavaScript web程序的兴起和对NodeJS的广泛采用，如何优雅的处理并发对于JavaScript开发人员来说比任何以往的时候都显得更为重要。Async/Await缓解了许多因为控制流问题而导致bug遍地的这个困扰着JavaScript代码库数十年的问题，并且几乎可以保证让任何异步代码块变的更精炼，更简单，更自信。

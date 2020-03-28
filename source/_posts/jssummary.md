@@ -76,12 +76,42 @@ var myvar = "my value";
 ```
 
 ## 函数提升
-声明函数的两种方式：
+声明函数的3种方式：
 
 ```javascript
 function foo(){} // 函数声明 存在函数提升且大于变量提升
 var foo=function (){} // 函数表达式 var foo=function foo1(){} 函数名可写
+new Function("参数1","参数2",...,"参数n","函数体"); // 使用Function构造函数
 ```
+
+从作用域上来说，函数声明式和函数表达式使用的是局部变量，而 Function()构造函数却是全局变量。
+```js
+var name = '我是全局变量 name';
+
+// 声明式
+function a () {
+  var name = '我是函数a中的name';
+  return name;
+}
+console.log(a()); // 打印: "我是函数a中的name"
+
+// 表达式
+var b = function() {
+  var name = '我是函数b中的name';
+  return name; // 打印: "我是函数b中的name"
+}
+console.log(b())
+
+// Function构造函数
+function c() {
+  var name = '我是函数c中的name';
+  return new Function('return name')
+}
+console.log(c()()) // 打印："我是全局变量 name"，因为Function()返回的是全局变量 name，而不是函数体内的局部变量。
+```
+
+从执行效率上来说，Function()构造函数的效率要低于其它两种方式，尤其是在循环体中，因为构造函数每执行一次都要重新编译，并且生成新的函数对象。
+
 此时的3种递归调用自身的方式 
 - foo()
 - foo1()
@@ -191,7 +221,34 @@ console.log(firstChar);// q
 0.1.toPrecision(21) = 0.100000000000000005551
 ```
 
+`"getters"/"setters"`可以想象一个给定的字符串就像一个附加了一堆方法和属性的对象。当访问数组的长度时，你只需调用相应的 getter。setter 函数用于设置操作:
+```js
+var array = {
+  value: ["Hello", 89, false, true],
+  push: function(element) {
+    //
+  },
+  shift: function() {
+    //
+  },
+  get length() {
+    // gets the length
+  },
+  set length(newLen) {
+    // sets the length
+  }
+};
+
+// Getter call
+var len = array.length
+
+// Setter call
+array.length = 50;
+```
+
 ### 对象Object
+Object 是 JS 中最重要的类型，因此几乎所有其他实体都可以从中派生。 例如，函数和数组是专用对象。 JS 中的对象是键/值对的容器。
+
 对象被定义为“无序属性的集合，其属性可以包含基本值，对象或者函数”。
 
 只有null和undefined无法拥有方法
@@ -1342,3 +1399,5 @@ for(let i of fibo())
 }
 // 实现10000以内的数列
 ```
+
+## arguments对象的length属性显示实参的个数，函数的length属性显示形参的个数。

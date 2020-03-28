@@ -15,7 +15,7 @@ top: 114
 ## 创建对象
 ```javascript
 var obj = {} // 字面量 
-var obj = new Object()
+var obj = new Object() // 很少见，性能低 没有形参时可省略()
 var obj = Object.create(null) // 以xx为原型创建对象
 var obj = Object.assign({})   // 复制到目标对象
 // Object.assign()还可以去除多余的参数覆盖

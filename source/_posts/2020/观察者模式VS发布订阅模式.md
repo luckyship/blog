@@ -9,7 +9,7 @@ categories: JS
 photos:
 ---
 
-![observer](http://cdn.mydearest.cn/blog/images/observer.jpeg)
+![subscribe](http://cdn.mydearest.cn/subscribe.png)
 
 从图中可以看出：
 
@@ -31,7 +31,7 @@ photos:
 <!--more-->
 
 ## 观察者模式实现
-![subscribe](http://cdn.mydearest.cn/subscribe.png)
+![observer](http://cdn.mydearest.cn/blog/images/observer.jpeg)
 
 首先目标对象（被观察者）称为`Subject`，有若干个观察者`Observer`进行观察。当`Subject`被某些对应事件驱动了，则通知相对应的观察者，调用其回调操作。
 

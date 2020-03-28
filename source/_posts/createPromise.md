@@ -15,9 +15,9 @@ photos:
 
 前端近年的兴起，有大部分是因为 `NodeJS` 的诞生，而 `NodeJS` 是个适用于 **异步IO** 密集型的语言，一些基于 `NodeJS` 的框架，比如 *KOA2、Adonis* 就有大量的 `async` 和 `await` 语法，`async`的函数的返回值就是 `Promise` 对象，我们可以用 `async` 和 `await` 语法，写出优雅的异步代码，来替换难看且难维护的回调函数。
 
-## Promise 概念
+## Promise 概念(JS的 Promise是未来事件的表示)
 `Promise`是一种对异步操作的封装，主流的规范是Promise/A+。
-`Promise`可以使得异步代码层次清晰，便于理解，且更加容易维护。
+`Promise`可以使得异步代码层次清晰，便于理解，且更加容易维护。 Promise 可以以成功结束：用行话说我们已经解决了resolved(fulfilled)。 但如果 Promise 出错，我们会说它处于**拒绝(rejected )状态。 Promise 也有一个默认状态：每个新的 Promise 都以挂起(pending)**状态开始。
 `Promise`构造函数接受一个函数作为参数，该函数的两个参数分别是resolve和reject。它们是两个函数，由 JavaScript 引擎提供，不用自己部署。
 生成实例时回执信作为参数的函数；<Br/> 
 `resolve`函数的作用是，将Promise对象的状态从“未完成”变为“成功”（即从 pending 变为 fulfilled），在异步操作成功时调用，并将异步操作的结果，作为参数传递出去；
