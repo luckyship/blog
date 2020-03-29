@@ -1950,6 +1950,8 @@ npm使用 a.b.c 的版本号来管理安装包，a大达版本号，有重大api
 * Object.seal(obj): obj 不能添加/删除属性
 * Object.freeze(obj): obj 不能添加/删除/修改属性
 
+Object.freeze工作方式与Object.preventExtensions相同，并且它使所有对象的属性不可写且不可配置。 唯一的缺点是`Object.freeze`仅适用于对象的第一级：嵌套对象不受操作的影响。
+
 ## module.exports和exports
 module.exports才是真正的接口，exports只不过是它的一个辅助工具。　最终返回给调用的是module.exports而不是exports。
 所有的exports收集到的属性和方法，都赋值给了Module.exports。当然，这有个前提，就是module.exports本身不具备任何属性和方法。

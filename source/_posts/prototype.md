@@ -11,12 +11,15 @@ photos:
 ---
 
 {% centerquote %} 
- 原型对象的用途是为每个实例对象存储共享的方法和属性，它仅仅是一个普通对象而已，仅有一份。
+原型对象的用途是为每个实例对象存储共享的方法和属性，它仅仅是一个普通对象而已，仅有一份。
 {% endcenterquote %}
 
 每个对象都会在其内部初始化一个属性，就是prototype(原型)，当我们访问一个对象的属性时，
 如果这个对象内部不存在这个属性，那么它就会去prototype里找这个属性，这个prototype又会有自己的prototype，
 于是就这样一直找下去，也就是我们平时所说的原型链的概念
+
+- “prototype” 是什么？
+prototype 是所有公共方法和属性的宿主，从祖先派生的“子”对象可以从使用祖先的方法和属性。
 
 ## 构造函数创建对象
 
@@ -252,6 +255,22 @@ o===>Object.prototype===>null
 a===>Array.prototype===>Object.prototype===>null
 函数的原型链
 f===>Function.prototype===>Object.prototype===>null
+
+var Tom = Object.create(Person, {
+  age: {
+    value: 34,
+    enumerable: true,
+    writable: true,
+    configurable: true
+  },
+  name: {
+    value: "Tom",
+    enumerable: true,
+    writable: true,
+    configurable: true
+  }
+});
+// 以这种方式配置的属性默认情况下不可写，不可枚举，不可配置。 不可写意味着之后无法更改该属性，更改会被忽略。
 ```
 
 ### 原型对象的添加属性

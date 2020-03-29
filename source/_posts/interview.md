@@ -319,6 +319,12 @@ IFun();
 
 `new 操作符新建了一个空对象，这个对象原型指向构造函数的prototype，执行构造函数后返回这个对象。`
 
+- 创建一个空对象：var obj = {}
+
+- 将空对象的__proto__指向构造函数的 prototype：obj.__proto__ = Person().prototype
+
+- 使用空对象作为上下文调用构造函数： Person.call(obj)
+
 13. 事件委托的好处都有啥？说对了都给它=3=
 - 利用冒泡的原理，把事件加到父级上，触发执行效果  
 
@@ -1516,6 +1522,16 @@ localstorge另一个浏览上下文里被添加、修改或删除时，它都会
 （2）盒模型： 内容(content)、填充(padding)、边界(margin)、 边框(border)；
 （3）区  别： IE的content部分把 border 和 padding计算了进去;
 
+- W3C 标准盒模型(content-box)：
+![w3c](http://cdn.mydearest.cn/blog/images/w3c-box.jpg)
+
+- IE 盒模型(border-box)：
+![ie](http://cdn.mydearest.cn/blog/images/ie-box.jpg)
+
+在 IE 盒模型中，盒子宽高不仅包含了元素的宽高，而且包含了元素的边框以及内边距。
+
+所以在同样的设置下，IE 下的元素会看起来相对于标准盒子来的小。
+
 97. CSS选择符有哪些？哪些属性可以继承？
 * 1.id选择器（ # myid）
   2.类选择器（.myclassname）
@@ -1846,3 +1862,9 @@ console.log(i)
 
 - Element.getBoundingClientRect() 方法返回元素的大小及其相对于视口的位置。
 属性将会对值四舍五入取整。如果需要小数值
+
+125. 什么是构造函数调用？
+使用new关键字，被称为“构造函数调用”
+
+126. 什么是构造函数？
+构造函数 ，是一种特殊的方法。主要用来在创建对象时初始化对象， 即为对象成员变量赋初始值，总与new运算符一起使用在创建对象的语句中。

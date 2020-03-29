@@ -68,6 +68,34 @@ async function f() {
 f().catch(alert) // TypeError: failed to fetch
 ```
 
+```js
+async function getData() {
+  try {
+    if (true) {
+      throw Error("Catch me if you can");
+    }
+  } catch (err) {
+    console.log(err.message);
+  }
+}
+getData()
+  .then(() => console.log("I will run no matter what!"))
+  .catch(() => console.log("Catching err"));
+```
+throw 抛出的错误永远不会触发**getData()**的catch方法。
+
+```js
+async function getData() {
+  try {
+    if (true) {
+      return Promise.reject("Catch me if you can");
+    }
+  } catch (err) {
+    console.log(err.message);
+  }
+}
+```
+
 ### 结合Promise.all
 async/await能够与Promise.all友好的协作，当我们需要等待多个promise时，我们可以将他们包装在Promise.all中然后使用await：
 
@@ -93,4 +121,8 @@ Promise.any可以表明任何Promise是否fullfilled。 与 Promise.race的区�
 
 ## 总结
 
-随着单页JavaScript web程序的兴起和对NodeJS的广泛采用，如何优雅的处理并发对于JavaScript开发人员来说比任何以往的时候都显得更为重要。Async/Await缓解了许多因为控制流问题而导致bug遍地的这个困扰着JavaScript代码库数十年的问题，并且几乎可以保证让任何异步代码块变的更精炼，更简单，更自信。
+随着单页JavaScript web程序的兴起和对NodeJS的广泛采用，如何优雅的处理并发对于JavaScript开发人员来说比任何以往的时候都显得更为重要。
+
+JS引擎是单线程的，这意味着运行函数只有一个调用堆栈。这一限制是JS异步本质的基础:所有需要时间的操作都必须由外部实体(例如浏览器)或回调函数负责。
+
+`Async/Await`缓解了许多因为控制流问题而导致bug遍地的这个困扰着JavaScript代码库数十年的问题，并且几乎可以保证让任何异步代码块变的更精炼，更简单，更自信。
