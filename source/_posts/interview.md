@@ -72,6 +72,14 @@ typeof返回的类型都是字符串形式，可以判断function的类型；在
 判断已知对象类型的方法： instanceof，后面一定要是对象类型，并且大小写不能错，该方法适合一些条件选择或分支。
 ```javascript
 typeof null // object null instanceof Object // false
+
+var str = 'abc';     
+console.log(typeof str++);         //number NaN
+console.log(typeof ('abc' + 1));   //string 'abc1'
+
+console.log(typeof new Date());    //object
+console.log(typeof Date());        //string
+console.log(typeof Date);          //function
 ```
 
 3. 异步编程？
@@ -1868,3 +1876,66 @@ console.log(i)
 
 126. 什么是构造函数？
 构造函数 ，是一种特殊的方法。主要用来在创建对象时初始化对象， 即为对象成员变量赋初始值，总与new运算符一起使用在创建对象的语句中。
+
+127. querySelectorAll 与 getElementsBy 系列的区别
+
+1. querySelectorAll 属于 W3C 中 Selectors API 规范， 而 getElementsBy 系列则属于 W3C DOM 规范。
+
+2. querySelectorAll 方法接受参数是 CSS 选择符，当传入的是不符合 CSS 选择符规范时会抛出异常，而 getElementsBy 系列则接受的参数是单一的 className，tagName 等等。
+
+3. 从返回值角度来看，querySelectorAll 返回的是不变的结点列表，而 getElementsBy 系列返回的是动态的结点列表。
+
+```js
+// Demo 1
+var ul = document.querySelectorAll('ul')[0],
+  lis = ul.querySelectorAll("li");
+for(var i = 0; i < lis.length ; i++){
+  ul.appendChild(document.createElement("li"));
+}
+
+// Demo 2
+var ul = document.getElementsByTagName('ul')[0], 
+  lis = ul.getElementsByTagName("li"); 
+for(var i = 0; i < lis.length ; i++){
+  ul.appendChild(document.createElement("li")); 
+}
+```
+因为 Demo 2 中的 lis 是一个动态的结点列表， 每一次调用 lis 都会重新对文档进行查询，导致无限循环的问题。
+
+而 Demo 1 中的 lis 是一个静态的结点列表，是一个 li 集合的快照，对文档的任何操作都不会对其产生影响。
+
+- 普遍认为：getElementsBy 系列性能比 querySelectorAll 好
+
+- querySelectorAll 返回值为一个 NodeList，而 getElementsBy 系列返回值为一个 HTMLCollection
+
+NodeList 与 HTMLCollection 区别?
+1. HTMLCollection 是元素集合而 NodeList 是节点集合(即可以包含元素，文本节点，以及注释等等)。
+
+2. node.childNodes，querySelectorAll(虽然是静态的) 返回的是 NodeList，而 node.children 和 node.getElementsByXXX 返回 HTMLCollection。
+
+128. 如何判断函数是 new 调用还是普通调用?
+- instanceof
+```js
+function Person() {
+  if(this instanceof arguments.callee) {
+    console.log('new 调用');
+  }else {
+    console.log('普通调用');
+  }
+}
+let p1 = new Person(); // new 调用
+let p2 = Person(); // 函数调用
+```
+
+- 通过 constructor
+```js
+function Person() {
+  if(this.constructor === arguments.callee) {
+    console.log('new 调用');
+  }else {
+    console.log('普通调用');
+  }
+}
+let p1 = new Person(); // new 调用
+let p2 = Person(); // 函数调用 
+```
