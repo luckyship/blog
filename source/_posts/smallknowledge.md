@@ -2567,6 +2567,11 @@ function decode(base64){
 }
 ```
 
+```shell
+echo test|base64 #加密
+echo dGVzdAo= |base64 -d #解密
+```
+
 ## 随机名称
 ```js
 function getRandomName() {

@@ -29,7 +29,7 @@ if (String.prototype.startsWith) {
 ```
 - endsWith()：返回布尔值，表示参数字符串是否在原字符串的尾部。
 str | index
-- repeat()：返回一个新字符串，表示将原字符串重复n次。参数如果是小数，会被取整(不四舍五入)。参数是负数或者Infinity，会报错。0/Nan返回空字符串,参数是字符串，则会先转换成数字，不传则为空字符串。
+- repeat()：返回一个新字符串，表示将原字符串重复n次。参数如果是小数，会被取整(不四舍五入)。参数是负数或者Infinity，会报错。0/NaN返回空字符串,参数是字符串，则会先转换成数字，不传则为空字符串。
 - padStart()：头部补全。
 - padEnd()：尾部补全
 ~~~
@@ -51,7 +51,7 @@ str | index
 - split(字符串或者正则,设置长度) 字符串=>数组
 - substr(开始的索引//splice可以为负数-1则为字符串最后一个字符,length字符数)方法不同的是,substring(开始索引，结束索引+1)负的参数有区别
 只有单参数时到字符串结尾
-String exd=filePath.subString(filePath.lastIndexOf(".")+1,filePath.length)
+String exd=filePath.substring(filePath.lastIndexOf(".")+1,filePath.length)
 
 1. 声明函数作用提升?声明变量和声明函数的提升有什么区别?
 
