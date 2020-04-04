@@ -54,30 +54,6 @@ HTTP 协议中规定 POST 提交的数据必须在 body 部分中，但是协议
 GET 请求 304获取缓存
 第一次请求时，服务器端返回请求数据，之后的请求，服务器根据请求中的 If-Modified-Since 字段判断响应文件没有更新，如果没有更新，服务器返回一个 304 Not Modified响应，告诉浏览器请求的资源在浏览器上没有更新，可以使用已缓存的上次获取的文件。
 
-/*
-    *通过RandomSource.getRandomValues() 方法获取符合密码学要求的安全的随机值
-    */
-this.getRandomNumbers = function (min, max) {
-    var minValue = min || '';
-    var maxValue = max || '';
-    var cryptoObj = window.crypto || window.msCrypto;
-    /*eslint-disable*/
-    var array = new Uint32Array(1);
-    /*eslint-enable*/
-    cryptoObj && cryptoObj.getRandomValues(array);
-    var result = 0;
-    if (minValue || maxValue) {
-        if (!maxValue) {
-            minValue = 0;
-            maxValue = min;
-        }
-        result = parseInt(minValue, 10) + (array[0] % (parseInt(maxValue, 10) - parseInt(minValue, 10)));
-    } else {
-        result = array[0];
-    }
-    return result;
-};
-
 ### 持久连接
 
 在 HTTP 1.0 版本中，并没有官方的标准来规定 Keep-Alive 如何工作，因此实际上它是被附加到 HTTP 1.0协议上，如果客户端浏览器支持 Keep-Alive ，那么就在HTTP请求头中添加一个字段 Connection: Keep-Alive，当服务器收到附带有 Connection: Keep-Alive 的请求时，它也会在响应头中添加一个同样的字段来使用 Keep-Alive 。这样一来，客户端和服务器之间的HTTP连接就会被保持，不会断开（超过 Keep-Alive 规定的时间，意外断电等情况除外），当客户端发送另外一个请求时，就使用这条已经建立的连接。
@@ -140,13 +116,20 @@ XSS 全称“跨站脚本”，是注入攻击的一种。其特点是不对服�
 XSS 是实现 CSRF 的诸多途径中的一条，但绝对不是唯一的一条。一般习惯上把通过 XSS 来实现的 CSRF 称为 XSRF。
 
 ### http缓存
+> 强缓存是不经过服务器的, 协商缓存是经过服务器的
+
 - 强缓存（from cache）强制浏览器使用本地缓存
-    - cache-control
-    - Expires
+    - cache-control(响应头)
+    - Expires(响应头)
     - Pragma
 - 协商缓存（304还是要和服务器通信一次）
-    - last-modified
-    - Etag
+    - last-modified(响应头)
+    - Etag(响应头)
+    - If-None-Match(请求头)
+    - If-Modified-Since(请求头)
+
+HTTP 缓存机制流程图:
+(缓存机制流程图)[http://cdn.mydearest.cn/blog/images/http-cache.jpeg]
 
 ## HTTPS基本过程
 HTTPS即 HTTP over TLS，是一种在加密信道进行HTTP内容传输的协议
