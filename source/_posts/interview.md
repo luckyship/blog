@@ -435,6 +435,8 @@ jquery主要是兼容性好，可以跑在各种pc，移动上，好处是兼容
 - get的安全性可能没有post高，所以我们一般用get来获取数据，post一般用来修改数据。
 - get请求, 倒退按钮是无害的, post会重新发起请求
 - get会主动缓存, post不会
+- get请求只能进行url编码，而post请求支持多种编码
+- get产生一个TCP数据包，POST产生两个TCP数据包
 
 get就是将货品放在车顶，post放在车内。
 
@@ -810,9 +812,11 @@ console.log(isArrayFn(arr2));// true
 - 业务代码拆分
 - 第三方库提取vendor
 
-- 压缩文件图片，合并文件 减少http请求
-- 网络图、字体图标
-- 上cdn
+- 降低请求量：压缩文件图片，合并文件 减少http请求、minify/gzip压缩，webP，lazyload
+- 网络图、字体图标(雪碧图)
+- 缓存：HTTP协议缓存请求，离线缓存manifest
+- 加快请求速度：预解析DNS，减少域名数，并行加载，上cdn分发
+- 渲染：js、css优化，加载顺序，服务端渲染，pipeline
 
 50. 行内、块级、空元素 
 - 行内元素：a、b、span、img、input、strong、select、label、em、button、textarea
@@ -1442,6 +1446,8 @@ console.log(b.x)
 
 2. 标准模式的排版 和JS运作模式都是以该浏览器支持的最高标准运行。在兼容模式中，页面以宽松的向后兼容的方式显示,模拟老式浏览器的行为以防止站点无法工作。
 
+3. 有两种模式： 严格模式：以该浏览器支持的最高标准运行 混杂模式：向后兼容，模拟老浏览器，防止浏览器无法兼容页面。
+
 90. HTML5 为什么只需要写 <!DOCTYPE HTML>？
 - HTML5 不基于 SGML，因此不需要对DTD进行引用，但是需要doctype来规范浏览器的行为（让浏览器按照它们应该的方式来运行）；
 
@@ -1505,6 +1511,7 @@ IE8/IE7/IE6支持通过document.createElement方法产生的标签，
 ```
 
 - 如何区分HTML5： DOCTYPE声明新增的结构元素功能元素
+语义化标签：header,footer,nav,aside,section 增强表单：为input增加了color,email,data,range等类型 存储：sessionStorage，localStorage，离线存储 多媒体：audio，vedio canvas 拖放 地理定位 webworker websocket
 
 93. 对HTML语义化的理解？
 用正确的标签做正确的事情。
@@ -1948,3 +1955,90 @@ fetch发送post请求时总是发送两次，第一次状态码是204，第二�
 
 130. webworker
 在html页面中，如果在执行脚本时，页面的状态是不可响应的，直到脚本执行完成后页面才变为可响应。web worker是运行在后台的js，独立于其他脚本，不会影响页面。并且通过postMessage将结果回转至主线程。
+
+131. 一句话概括RESTFUL
+用url定位资源，用http描述操作
+
+132. 设备像素比（DPR device pixel redio）
+1DPR = 物理像素/分辨率 也就是物理像素在屏幕上最佳的逻辑像素大小
+
+在不缩放的情况下，一个逻辑像素就等于一个DPR，即1逻辑像素 = 物理像素/分辨率
+
+- 自适应
+
+ - 媒体查询
+ - 百分比
+ - rem(都只相对于浏览器的根元素HTML 默认情况下html元素的font-size为16px，所以1rem=16px的font-size)
+为了计算方便
+```css
+html {
+    font-size: 62.5%
+}
+```
+这个意思是默认字体尺寸的62.5%，也就是 16*62.5%=10px，此时我们就有1rem = 10px。
+
+133. click在ios上有300ms的延迟，原因和解决办法
+苹果上有一个双击缩放网页的功能，当第一次click时候浏览器会等待300ms判定用户是否要双击，所以点击一次后会延迟300ms才发生click事件。
+
+解决办法：
+1. 禁用缩放：
+```js
+<meta name="viewport" content="width=device-width;user-scalable=no;">
+```
+
+2. 利用fastClick：
+检测到touchend事件时立即发出模拟click事件，并且把浏览器300ms后发出的点击事件给阻断掉。
+
+134. 浏览器缓存的四种实现方法
+- Service Worker
+- Memory Cache
+- Disk Cache
+- Push Cache
+
+135. 在地址栏里输入一个url到页面呈现出来，中间发生了什么？
+- 输入url，查询对应ip（dns解析）
+  - 先查找缓存：浏览器缓存->系统缓存->路由器缓存
+  - 没有查到则查找系统的hosts文件中是否有记录，
+  - 没有则查询DNS服务器
+- 建立tcp连接
+- 根据ip和端口号构建一个http请求，封装为tcp包，请求传输：应用层->传输层->网络层->数据链路层->物理层
+- 到达服务器，服务器解析请求作出响应
+- 浏览器接收到html构建DOM树（中途如果遇到js就会停止构建而去执行会下载脚本）
+- 构建CSSOM树
+- 合并两树为渲染树（排除了非视觉结点）
+- 布局（确定个元素的尺寸和位置）
+- 渲染页面
+
+136. cache-control的值有哪些
+cache-control是一个通用消息头字段，被用于HTTP请求和响应中。通过指定指令来实现缓存机制，这个缓存指令是单向的，常见的取值有：
+- private(默认)
+- no-cache
+- max-age
+- must-revalidate
+
+137. 如何画0.5px的线
+- 采用视口控制
+```html
+<meta name="viewport" content="width=device-width;initial-scale=0.5;user-scalable=no;" />
+```
+
+- border-image
+需要自己制作一个0.5px的线条图片
+```css
+p {
+    border-width: 0 0 1px 0;
+    border-image: url(xxx.png) 2 0 round;
+}
+```
+
+- transform
+```css
+p {
+    transform: scaleY(0.5);
+    transform-origin: 50% 100%;
+}
+```
+
+138. transition和animation的区别
+- animation：动画，不需要触发任何事件就可以改变属性值 
+- transition：过渡，需要触发某事件才能改变属性

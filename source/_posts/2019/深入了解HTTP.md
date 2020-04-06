@@ -115,6 +115,8 @@ XSS 全称“跨站脚本”，是注入攻击的一种。其特点是不对服�
 
 XSS 是实现 CSRF 的诸多途径中的一条，但绝对不是唯一的一条。一般习惯上把通过 XSS 来实现的 CSRF 称为 XSRF。
 
+XSS（跨站脚本攻击）是指攻击者在返回的HTML中嵌入js脚本，为了减轻这些攻击，需要在HTTP头部配上set-cookie：http-only这个属性可以防止xss，它会禁止js脚本访问cookie。secure这个属性告诉浏览器仅在请求为https时发送cookie。
+
 ### http缓存
 > 强缓存是不经过服务器的, 协商缓存是经过服务器的
 
