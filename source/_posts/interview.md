@@ -2042,3 +2042,14 @@ p {
 138. transition和animation的区别
 - animation：动画，不需要触发任何事件就可以改变属性值 
 - transition：过渡，需要触发某事件才能改变属性
+
+139. 关于js动画和css3动画的差异性
+渲染线程分为main thread和compositor thread。如果css动画只改变transform和opacity，这时候整个css动画在compositor thread得以完成（而js动画会在main thread执行然后compositor thread进行下一步操作），特别注意的是如果改变transform和opacity是不会layout和paint的.
+
+- 区别
+ - 功能覆盖面，js比css大 实现或者重构难度不一，
+ - css3比js简单，性能调优方向固定 对帧速表现不好的浏览器，
+ - css3可以做到自然降级 css动画有天然事件支持 css3有兼容性问题
+
+140. 快速下载git
+https://npm.taobao.org/mirrors/git-for-windows/
