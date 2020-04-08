@@ -158,7 +158,7 @@ Object.is(NaN,NaN) // true
 
 ## 判断NaN
 ```js
-Number.isNaN(); // true
+Number.isNaN(); // true 与isNaN全局函数相比，不存在类型转换更加严格
 x!==x // =>NaN false
 // {}!=={} []!==[]
 ```
