@@ -1403,7 +1403,7 @@ console.log(Obj.a);    //3
 // 789
 ```
 
-## setTimeout 为不可执行的字符串时会造成内存泄露
+## setTimeout 为不可执行的字符串时会造成内存泄漏
 ```javascript
 setTimeout("fn()",100)
 function fn(){
