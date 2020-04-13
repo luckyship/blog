@@ -771,7 +771,7 @@ Array.isArray(a); // true
 ```
 以上，除了Object.prototype.toString外，其它方法都不能正确判断变量的类型。虽然Array继承自Object，也会有 toString方法，但是这个方法有可能会被改写而达不到我们的要求，而Object.prototype则是老虎的屁股，很少有人敢去碰它的，所以能一定程度保证其“纯洁性”：)😝
 
-* 由于每个iframe都有一套自己的执行环境，跨frame实例化的对象彼此是不共享原型链的，因此导致检测代码失效。
+* 由于每个iframe都有一套自己的执行环境，跨iframe实例化的对象彼此是不共享原型链的，因此导致检测代码失效。
 
 举个🌰
 ```js
@@ -978,6 +978,7 @@ width
 1. vuex 2. 在同一个vue实例上调用$emit和$on
 
 ## 原生js实现拖拽
+[拖拽](https://cosyer.github.io/jelly/drag/)
 
 ## 实现函数监听函数发布订阅模式 on emit off 方法 类似 iflux
 ```js
@@ -1605,7 +1606,7 @@ inherit         规定应该从父元素继承 display 属性的值。
 圆角            （border-radius:8px）
 多列布局        （multi-column layout）
 阴影和反射    （Shadow\Reflect）
-文字特效        （text-shadow、）
+文字特效        （text-shadow）
 文字渲染        （Text-decoration）
 线性渐变        （gradient）
 旋转             （transform）

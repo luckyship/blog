@@ -131,7 +131,7 @@ XSS（跨站脚本攻击）是指攻击者在返回的HTML中嵌入js脚本，�
     - If-Modified-Since(请求头)
 
 HTTP 缓存机制流程图:
-(缓存机制流程图)[http://cdn.mydearest.cn/blog/images/http-cache.jpeg]
+[缓存机制流程图](http://cdn.mydearest.cn/blog/images/http-cache.jpeg)
 
 ## HTTPS基本过程
 HTTPS即 HTTP over TLS，是一种在加密信道进行HTTP内容传输的协议
