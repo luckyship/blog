@@ -257,6 +257,8 @@ instance1.sayName(); //cosyer
 instance1.sayAge(); //23
 ```
 
+## 寄生组合继承
+
 - 对象字面量vs构造函数创建对象对比
 
 字面量的优势：

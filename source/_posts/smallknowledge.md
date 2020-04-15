@@ -1882,6 +1882,12 @@ if (scrollTop + clientHeight == htmlHeight) {
 // 没有垂直滚动条的情况下，scrollHeight值与元素视图填充所有内容所需要的最小值clientHeight相同
 ```
 
+- clientHeight：表示的是可视区域的高度，不包括border和滚动条 
+- offsetHeight：表示的是可视区域的高度，包括了border和滚动条 
+- scrollHeight：表示了所有区域的高度。包含了因为滚动被隐藏的部分 
+- clientTop：表示边框border的厚度，在未指定的情况下为0 
+- scrollTop：滚动后被隐藏的高度
+
 ## yield函数
 ```javascript
 // 传入匿名函数
@@ -2643,4 +2649,55 @@ function i18nReplace(s, o) {
 
 i18nReplace('123{0}开始了',{0:'奇怪'})
 // "123奇怪开始了"
+```
+
+## 一行代码实现简单模版引擎
+```js
+function template(tpl, data) {
+  return tpl.replace(/{{(.*?)}}/g, (match, key) => data[key.trim()]);
+}
+
+// 使用：
+template('我是{{name}}，年龄{{age}}，性别{{sex}}', {name: '陈宇', age: 25, sex: '男'}); 
+// "我是陈宇，年龄25，性别男"
+```
+
+## 快速生成包含26个字母的数组
+```js
+Array.from({length: 26}, (_, i) => String.fromCharCode(65 + i));
+```
+
+## 多行元素的文本省略号
+```css
+div {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+}
+```
+
+## 如何实现sleep效果
+### while
+```js
+function sleep(ms) {
+    var start = Date.now(), expires = start + ms;
+    while(Date.now()<expires);
+    console.log('醒了');
+}
+
+sleep(2000);
+```
+
+### promise
+```js
+function sleep(ms) {
+    return new Promise((resolve,reject)=>{
+        setTimeout(resolve,ms);
+    });
+}
+
+sleep(2000).then(()=>{
+    console.log('醒了');
+});
 ```

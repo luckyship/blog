@@ -30,7 +30,8 @@ script(宏任务) - 清空微任务队列 - 执行一个宏任务 - 清空微任
 
 ## 哪些是宏任务哪些是微任务？
 
-### 宏任务
+### 宏任务(优先级由高到低)
+- 主线程同步代码
 - setTimeout
 - setImmediate
 - setIntarval
@@ -38,7 +39,7 @@ script(宏任务) - 清空微任务队列 - 执行一个宏任务 - 清空微任
 - I/O
 - UI rendering
 
-### 微任务
+### 微任务(优先级由高到低)
 - process.nextTick
 - Promise.then
 - Object.observe
@@ -87,4 +88,24 @@ Promise.resolve().then(()=>{
 })
 console.log(9)
 // 1 9 7 8 2 3 10 11 12 13
+
+setTimeout(()=>{
+    console.log(1)
+}, 0);
+
+new Promise((resolve, reject)=>{
+    console.log(2);
+    resolve();
+}).then(()=>{
+    console.log(3);
+}).then(()=>{
+    console.log(4);
+});
+
+process.nextTick(()=>{
+    console.log(5);
+});
+
+console.log(6);
+// 2 6 5 3 4 1
 ```

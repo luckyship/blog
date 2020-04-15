@@ -960,6 +960,48 @@ new Promise((resolve) => {
     console.log(data)
 })
 ```
+- 简单版
+```js
+function myPromise(constructor) {
+    let self = this;
+    self.status = "pending";
+    // resolved时候的值
+    self.value = undefined;
+    // rejected时候的值
+    self.reason = undefined;
+    function resolve(value) {
+        if(self.status === 'pending') {
+            self.value = value;
+            self.status = "resolved";
+        }
+    }
+    function reject(reason) {
+        if(self.status === 'pending') {
+            self.reason = reason;
+            self.status = "rejected";
+        }
+    }
+    // 捕获构造异常
+    try {
+        constructor(resolve, reject);
+    } catch(e) {
+        reject(e);
+    }
+}
+
+myPromise.prototype.then = function(resolved, rejected) {
+    let self = this;
+    switch(self.status) {
+        case "resolved":
+            resolved(self.value);
+            break;
+        case "rejected":
+            rejected(self.reason);
+            break;
+        default:
+    }
+}
+```
 
 ## 现一个函数，将一个字符串中的空格替换成“%20”
 ```javascript
