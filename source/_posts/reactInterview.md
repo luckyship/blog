@@ -191,6 +191,7 @@ diff的只是html tag，并没有diff数据。
 - setState 的“异步”并不是说内部由异步代码实现，其实本身执行的过程和代码都是同步的，只是合成事件和钩子函数的调用顺序在更新之前，导致在合成事件和钩子函数中没法立马拿到更新后的值，形成了所谓的“异步”，当然可以通过第二个参数 setState(partialState, callback) 中的callback拿到更新后的结果。
 - setState 的批量更新优化也是建立在“异步”（合成事件、钩子函数）之上的，在原生事件和setTimeout 中不会批量更新，在“异步”中如果对同一个值进行多次setState，setState的批量更新策略会对其进行覆盖，取最后一次的执行，如果是同时setState多个不同的值，在更新时会对其进行合并批量更新。
 
+
 #### 替换的属性
 
 - class/className for/htmlFor
@@ -199,3 +200,114 @@ diff的只是html tag，并没有diff数据。
 ```javascript
 dangerouslySetInnerHTML={{__html: content}}
 ```
+
+#### 15版本的生命周期如下：
+1. 初始化阶段
+- constructor
+- getDefaultProps
+- getInitialState
+
+2. 挂载阶段
+- componentWillMount
+- render
+- componentDidMount
+
+3. 更新阶段
+props：
+- componentWillReceiveProps
+- shouldComponentUpdate
+- componentWillUpdate
+- render
+- componentDidUpdate
+state：
+- shouldComponentUpdate
+- componentWillUpdate
+- render
+- componentDidUpdate
+
+4. 卸载阶段
+- componentWillUnmount
+
+#### 16版本生命周期如下：
+1. 初始化阶段
+- constructor
+- getDefaultProps
+- getInitialState
+
+2. 挂载阶段
+- getDerivedStateFromProps:传入nextProps和prevState，根据需要将props映射到state，否则返回null
+- render
+- componentDidMount
+
+3. 更新阶段
+- getDerivedStateFromProps
+- shouldComponentUpdate
+- render
+- getSnapshotBeforeUpdate：render之后dom渲染之前会发生，返回一个值作为componentDidUpdate的第三个参数使用
+- componentDidUpdate
+
+4. 卸载阶段
+- componentWillUnmount
+
+5. 错误处理
+- componentDidCatch
+
+#### 事件机制
+react事件并没有绑定到真实的dom结点上，而是通过事件代理，在最外层的document上对事件进行统一分发
+
+#### 为什么react事件要自己绑定this
+在react中事件处理函数是直接调用的，并没有指定调用的组件，所以不进行手动绑定的情况下直接获取到的this是不准确的，所以我们需要手动将当前组件绑定到this上。
+
+#### react和原生事件的执行顺序是什么，可以混用吗
+react的所有事件都通过document进行统一分发，当真实dom触发事件后冒泡到document后才会对react事件进行处理
+
+所以原生事件会先执行，然后执行react合成事件，最后执行真正在document上挂载的事件
+
+两者最好不要混用，原生事件中如果执行了stopPropagation方法，则会导致其他react事件失效，
+
+#### 虚拟dom比普通dom更快吗
+首次渲染时vdom不具有任何优势甚至要进行更多的计算，消耗更多的内存
+
+vdom的优势在于react的diff算法和批处理策略，react在页面更新之前，提前计算好了如何进行更新和渲染dom。vdom主要是能在重复渲染时帮助我们计算如何实现更高效的更新，而不是说它比dom操作快
+
+#### 虚拟dom中的$$typeof属性的作用是什么
+它被赋值为REACT_ELEMENT_TYPE，是一个symbol类型的变量，这个变量可以防止XSS。react渲染时会把没有$$typeof标识以及规则校验不通过的组件全都过滤掉
+
+#### HOC在业务场景中有哪些实际的应用
+
+- 组合渲染
+- 条件渲染
+- 操作props
+- 获取refs
+- 操作state
+- 渲染劫持
+
+实际应用场景：
+
+- 日志打点
+- 权限控制
+- 双向绑定
+- 表单校验
+
+#### HOC和mixin的异同点是什么
+- mixin可能会互相依赖，互相耦合，不利于代码维护
+
+- 不同的mixin中的方法可能会相互冲突
+
+- mixin非常多的时候组件是可以感知到的，甚至还要为其做相关处理，这样会给代码造成滚雪球式的复杂性
+
+- 而HOC的出现则可以解决这些问题
+
+ - hoc是一个没有副作用的纯函数，各个高阶组件不会互相依赖耦合
+ - 高阶组件也有可能造成冲突，但我们可以在遵守约定的情况下避免这些情况
+ - 高阶组件并不关心数据使用的方式和原因，而被包裹的组件也不关心数据来自何处。高阶组件的增加不会为原组件增加负担
+
+#### hooks有哪些优势
+- 减少状态逻辑复用的风险
+hook和mixin在用法上有一定的相似之处，但是mixin引入的逻辑状态是可以互相覆盖的，而多个hooks之间互不影响，hoc也可能带来一定冲突，比如props覆盖等等，使用hooks则可以避免这些问题
+
+- 避免地狱嵌套
+大量使用hoc让我们的代码变得嵌套层级非常深，使用hooks我们可以实现扁平式的状态逻辑复用，而避免了大量的组件嵌套
+
+- 让组件变得更加容易理解
+相比函数，编写一个class可能需要更多的知识，hooks让你可以在classes之外使用更多的react的新特性
