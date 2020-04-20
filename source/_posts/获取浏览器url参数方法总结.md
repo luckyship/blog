@@ -78,3 +78,24 @@ function getQueryStringObject() {
     return q;
 }
 ```
+
+6. URL对象-URLSearchParams
+URLSearchParams 构造函数不会解析完整 URL，但是如果字符串起始位置有 ? 的话会被去除。
+```js
+var paramsString1 = "http://example.com/search?query=%40";
+var searchParams1 = new URLSearchParams(paramsString1);
+
+searchParams1.has("query"); // false 
+searchParams1.has("http://example.com/search?query"); // true
+
+searchParams1.get("query"); // null
+searchParams1.get("http://example.com/search?query"); // "@" (equivalent to decodeURIComponent('%40'))
+
+var paramsString2 = "?query=value";
+var searchParams2 = new URLSearchParams(paramsString2);
+searchParams2.has("query"); // true 
+
+var url = new URL("http://example.com/search?query=%40");
+var searchParams3 = new URLSearchParams(url.search);
+searchParams3.has("query") // true
+```
