@@ -362,6 +362,20 @@ git push
 - 4. 提示写下新的commit message，之前的message可以用#注释掉，保存退出；
 - 5. 此时再git log就会发现，两个commit被合并到一个commit中。
 
+
+### Commit message 前缀规范提要
+| code      | info          
+|---------- |-------------- |
+| **feat**:msg | 新功能 feature | 
+| **fix**:msg | 修复bug| 
+| **merge**:msg | merge 信息| 
+| **docs**:msg | 文档修改 | 
+| **style**:msg | 格式，不影响代码运行的变动 | 
+| **refactor**: msg | 重构即不是新增功能，也不是修改bug的代码变动 | 
+| **test**:msg | 增加测试| 
+| **chore**:msg | 构建过程或辅助工具的变动| 
+| **rm**:msg | 删除文件或代码 | 
+
 ### 参考
 本文参考了 [洁癖者用 Git：pull --rebase 和 merge --no-ff](http://hungyuhei.github.io/2012/08/07/better-git-commit-graph-using-pull---rebase-and-merge---no-ff.html)
 
