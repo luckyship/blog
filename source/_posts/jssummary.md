@@ -1085,7 +1085,7 @@ obj.think();
 
 ## 数组扁平化(将多维数组展开为一维数组)
 ```javascript
-//  es6
+//  es6 递归+判断是不是数组 也可以使用reduce进行遍历
 const flattenES6 = (arr) => {
   let result = [];
   arr.forEach((item, i, arr) => {
@@ -1099,38 +1099,23 @@ const flattenES6 = (arr) => {
 };
 console.log(flattenES6([1, [2, [3, [4]], 5]]))
 
-// es5
-function flattenES5(arr) {
-  var result = [];
-  for (var i = 0, len = arr.length; i < len; i++) {
-    if (Array.isArray(arr[i])) {
-      result = result.concat(flattenES5(arr[i]))
-    } else {
-      result.push(arr[i])
-    }
+// some+concat
+Array.prototype.flat02 = function () {
+  let arr = this
+  while (arr.some(item => Array.isArray(item))) {
+    arr = [].concat(...arr)
   }
-  return result;
+  return arr
 }
-console.log(flattenES5([1, [2, [3, [4]], 5]]))
 
-[1, [2, [3, [4]], 5]] // 1,2,3,4,5
 
 // toString方法
-// es6
 const flattenES6 = (arr) => arr.toString().split(',').map((item) => +item);
 console.log(flattenES6([1, [2, [3, [4]], 5]]))
 
 // ...
 var entries = [1, [2, 5], [6, 7], 9];
 var flat_entries = [].concat(...entries);
-
-// es5
-function flattenES5(arr) {
-  return arr.toString().split(',').map(function (item) {
-    return +item;
-  });
-}
-console.log(flattenES5([1, [2, [3, [4]], 5]]))
 
 // flat方法 返回新数组，不会改变原数组
 [1, 2, [3, 4]].flat()
@@ -1193,6 +1178,39 @@ const add = (a, b) => a + b
 const add = a => b => c => a + b + c
 add(1)(2)(3)
 ```
+问题：sum(2, 3)实现sum(2)(3)的效果
+```js
+// 闭包
+function sub_curry(fn) {
+    let args = [].slice.call(arguments, 1);
+    return function() {
+        return fn.apply(this, args.concat([].slice.call(arguments)));
+    };
+}
+
+function curry(fn, length) {
+    // 初始化时赋值为fn的形参个数，用以标示剩余需要传入参数的个数
+    length = length || fn.length;
+
+    const slice = Array.prototype.slice;
+
+    return function() {
+        if (arguments.length < length) {
+            const combined = [fn].concat(slice.call(arguments));
+            // length - arguments.length用以计数当前已传入的参数
+            return curry(sub_curry.apply(this, combined), length - arguments.length);
+        } else {
+            return fn.apply(this, arguments);
+        }
+    };
+}
+
+function add(a, b) {
+  return a + b
+}
+var sum = curry(add)
+```
+
 
 - 偏函数 将多个入参的函数转化成两部分
 ```javascript
@@ -1402,6 +1420,7 @@ return !map.has(item)&&map.set(item,index)
 
 4. 基础
 // 不使用es6,考虑到（ie6-8）indexOf兼容性问题
+// 对象容器
 function unique(arr) {
   var ret = []
   var hash = {}
@@ -1416,6 +1435,17 @@ function unique(arr) {
     }
   }
   return ret
+}
+
+// 数组
+function unique(arr) {
+  const temp = []
+  arr.forEach(item => {
+    if (temp.indexOf(item) === -1) {
+      temp.push(item)
+    }
+  })
+  return temp
 }
 ```
 
@@ -1449,3 +1479,61 @@ for(let i of fibo())
 ```
 
 ## arguments对象的length属性显示实参的个数，函数的length属性显示形参的个数。
+
+## 在不改变原数组的前提下，添加或删除某个元素
+- concat
+```js
+let arr = [1, 2, 3, 4]
+let newArr = [].concat(0, arr)
+```
+
+- 扩展运算符
+```js
+let arr = [1, 2, 3, 4]
+let newArr = [0, ...arr]
+```
+
+- reduce
+```js
+let arr = [1, 2, 3, 4]
+, newArr = arr.reduce((acc, cur) => {
+  acc.push(cur)
+  return acc
+}, [0])
+```
+
+- slice
+```js
+let arr = [1, 2, 3, 4]
+, newArr = arr.slice(0, -1)
+```
+### 总结·归纳
+- 不修改原数组
+ - slice
+ - concat
+ - forEach
+ - map
+ - every
+ - some
+ - filter
+ - reduce
+ - reduceRight
+ - keys
+ - values
+ - entries
+ - includes
+ - find
+ - findIndex
+ - flat
+ - flatMap
+
+- 修改原数组
+ - splice
+ - pop
+ - push
+ - shift
+ - unshift
+ - sort
+ - reverse
+ - fill
+ - copyWithin

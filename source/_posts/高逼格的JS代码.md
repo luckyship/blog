@@ -244,9 +244,19 @@ console.log("21:00"<"9:10");   // true   时间形式注意补0
 字符串比较大小是按照字符串从左到右每个字符的charCode来的，但所以特别要注意时间形式注意补0
 
 ```js
+// 方法1
 var a = [1,2,3]
 a.join = a.toString = a.shift
 a == 1 && a == 2 && a == 3 // true 隐式类型转换
+
+// 方法2
+var a = {
+    num: 0,
+    valueOf(){
+        this.num++;
+        return this.num;
+    }
+}
 '选择'>'努力' // true
 ```
 
