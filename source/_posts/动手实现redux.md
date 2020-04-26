@@ -51,7 +51,7 @@ function createStore(reducer){
 }
 
 // 实现reducer
-function(state,action){
+function reducer(state,action){
   if(!state){
     return {
       title:'红色',
@@ -78,10 +78,10 @@ function renderDom(state){
 }
 
 // 监听数据变化重新渲染页面
-store.subscribe(() => renderApp(store.getState()));// 让每次dispatch时都会执行传入的这个函数，渲染页面
+store.subscribe(() => renderDom(store.getState()));// 让每次dispatch时都会执行传入的这个函数，渲染页面
 
 // 首次渲染页面
-renderApp(store.getState());
+renderDom(store.getState());
 
 // action
 const updateThemeName = () => ({

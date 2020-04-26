@@ -2701,3 +2701,68 @@ sleep(2000).then(()=>{
     console.log('醒了');
 });
 ```
+
+## 实现一些主流框架的循环渲染
+### 问题
+```js
+var items = [
+  { name: 'item1' },
+  { name: 'item2' }
+];
+var str = '<div ali-for="item in items">{{item.name}}<div>';
+
+// 对应生成的dom  
+ParseDom(str);
+// <div>item1</div>  
+// <div>item2</div>  
+```
+
+```js
+var items = [
+  { name: 'item1' },
+  { name: 'item2' }
+];
+
+// ***********
+const s = {}
+s.items = items
+function ParseDom(str) {
+	// 借助dom子节点使用dom方法
+	const mid = document.createElement('div')
+	mid.innerHTML = str
+	const { children } = mid
+	let res = ''
+	// 遍历子节点
+	;[...children].forEach(c => {
+		// 找属性节点
+		const attrs = [...c.attributes]
+		const targetAttr = attrs.find(x => x.name === 'ali-for');
+		const nodename = c.nodeName.toLocaleLowerCase();
+		// 属性全部写进去
+		const attrsStr = attrs.reduce((r, c) => {
+			if (c.name !== 'ali-for') {
+				r += ` ${c.name}="${c.value}"`
+			}
+			return r
+		}, '')
+		if (!targetAttr) {
+			// 没有循环渲染标记
+			res += `<${nodename}${attrsStr}>${c.innerHTML}</${nodename}>`
+			return
+		}
+		// 循环渲染
+		const vfor = targetAttr.nodeValue
+		const o = vfor.split(' in ')[1]
+		const k = c.innerText.match(/\{\{(.*)\}\}/)[1].split('.')[1]
+		;s[o].forEach(x => {
+			res += `<${nodename}${attrsStr}>${x[k]}</${nodename}>`
+		})
+	})
+	return res
+}
+// ***********
+
+var str = '<div ali-for="item in items">{{item.name}}</div>';
+// 对应生成的dom  
+ParseDom(str);
+```
