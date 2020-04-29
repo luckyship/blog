@@ -2153,3 +2153,13 @@ function Singleton = function(constructor) {
     }
 }
 ```
+
+## 三栏等宽图片布局
+```css
+img {
+    display: block;
+    width: 30%;
+    margin: 2.5% 0 0 2.5%;
+    float: left;
+}
+```
