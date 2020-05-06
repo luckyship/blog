@@ -68,13 +68,13 @@ window的 Notification实例有一个 requestPermission 函数用来获取用户
 // 如果没有，我们就申请权限
 if (window.Notification && Notification.permission !== "granted") {
     Notification.requestPermission(function (status) {
-    //status是授权状态。
-    //如果用户点击的允许，则status为'granted'
+    // status是授权状态。
+    // 如果用户点击的允许，则status为'granted'
     // 如果用户点击的禁止，则status为'denied'
     
     // 这将使我们能在 Chrome/Safari 中使用 Notification.permission
     if (Notification.permission !== status) {
-        Notification.permission = status;
+            Notification.permission = status;
         }
     });
 }
