@@ -587,7 +587,49 @@ window.onmessage = function (e) {
 将两个页面的document.domain设置成相同域名即可，js中设置，形如：
 document.domain = "";
 6. 服务器设置代理页面/响应header配置cors access-control-allow-origin
-7. nginx反向代理
+CORS全称“ Cross-origin resource sharing ”（跨域资源共享），相比JSONP， CORS允许任何类型的请求 。
+
+> CORS需要浏览器和服务器同时支持。目前，所有浏览器都支持该功能，IE浏览器不能低于IE10。
+
+> 整个CORS通信过程，都是浏览器自动完成，不需要用户参与。对于开发者来说，CORS通信与同源的AJAX通信没有差别，代码完全一样。浏览器一旦发现AJAX请求跨
+> 源，就会自动添加一些附加的头信息，有时还会多出一次附加的请求，但用户不会有感觉。
+
+> 因此，实现CORS通信的关键是服务器。只要服务器实现了CORS接口，就可以跨源通信。
+
+
+7. nginx反向代理、nodejs反向代理
+- http-proxy-middleware 插件
+```js
+var express = require('express');
+var proxy = require('http-proxy-middleware');
+
+var app = express();
+
+app.use('/zhuiszhu', proxy({target: 'http://39.105.136.190:3000/', changeOrigin: true}));
+app.listen(3000);
+```
+
+- webpack-dev-server
+```js
+devServer: {
+        port: 3000,
+        inline: true,
+        proxy: {
+            "/zhuiszhu": {
+                target: "http://39.105.136.190:3000/",
+                changeOrigin: true  //必须配置为true，才能正确代理
+            }
+        }
+    }
+```
+webpack 的 devServer.proxy 就是使用了非常强大的 http-proxy-middleware 包来实现代理的，所以本质上是相通的。
+
+8. WebSocket
+WebSocket是一种通信协议，使用ws://（非加密）和wss://（加密）作为协议前缀。该协议不实行同源政策，只要服务器支持，就可以通过它进行跨源通信。
+
+由于发出的WebSocket请求中有有一个字段是Origin，表示该请求的请求源（origin），即发自哪个域名。
+
+正是因为有了Origin这个字段，所以WebSocket才没有实行同源政策。因为服务器可以根据这个字段，判断是否许可本次通信。
 
 ## 解决异步回调地狱有哪些方案？
 - promise
@@ -2163,3 +2205,30 @@ img {
     float: left;
 }
 ```
+
+## 表单提交的常用方式是什么，应用层和通信层发生了什么过程？
+- 在form表单提交时我们最常用的方式时get和post，form表单提交时最要注意的就是enctype，enctype属性默认是application/x-www-form-urlencoded.
+- 在get方式时，浏览器会以当前的enctype编码方式将form数据转化成一个字符串，并将改字符串append到url上，以？分割。加载该新的url
+- 在post方式中：
+ - 如果form中没有type为file的控件时，form也会以默认enctype进行编码。
+ - 如果是具有type为file的控件时，enctype得设置成multipart/form-data，这样浏览器会将表单以控件为单位分割，并为每个部分加上Content-Disposition（form-data或者时file）、content-type（默认值为text/plain）、name等信息，并加上分割符（boundary）
+
+- 应用层和通信层发生了什么过程？
+ - 浏览器发送请求后，DNS（Domain Name System）解析域名得到相应的IP地址。
+  - 通过域名访问网页
+  - 将域名发送到解析域名的服务器上，有很多专门解析.org、.cn、.com等，最主要有一台根域名服务器
+  - 找到对应的IP地址
+
+  - 应用层http协议（HyperText Transfer Protocol，超文本传输协议）
+    - 发送请求的我们称之为客户端（client）、而做出相应的服务器叫做源服务器（origin server）。在客户端和服务端之间可能存在很多中间层，比如代理，网关，隧道等。
+    - http协议中的请求报文和响应报文（具体格式大家可以百度了解下）
+  - 通信层（TCP/IP）：
+    - 生成http报文及请求
+    - TCP协议将http请求报文进行分割（为了方便传输），并在每个报文上标记序号和端口号发给网络层（IP协议）
+    - 网络层增加作为通信目的的MAC地址后转发给链路层（建立电路连接，整个网络的物理基础，典型协议为以太网和ADSL等）
+    - 链路层处理后生成的数据包通过物理层传输到接收端
+    - 接收到数据的服务端后按序网上传，
+    - TCP连接的三次握手四次挥手
+    - IP协议实现数据传递到对方计算机
+    - 解析请求报文并生成响应报文
+TCP协议是一种面向连接的、可靠的字节流的运输层通信协议，TCP是全双工模式。

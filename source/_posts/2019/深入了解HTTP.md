@@ -1,7 +1,7 @@
 ---
 title: 深入了解HTTP
 tags:
-  - HTTP
+  - http
 copyright: true
 comments: true
 date: 2019-04-30 00:48:20

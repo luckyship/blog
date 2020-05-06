@@ -2808,3 +2808,32 @@ ParseDom(str);
 
 - Android:
 修改文件 /system/etc/hosts （需要Root）
+
+## 保留两位小数
+1. toFixed()方法
+```js
+var num =2.446242342;  
+num = num.toFixed(2); 
+console.log(num); //2.45
+```
+详见[toFixed方法注意点]('https://mydearest.cn/toFixed%E6%96%B9%E6%B3%95%E6%B3%A8%E6%84%8F%E7%82%B9.html')
+
+2. Math.floor()
+```js
+num = Math.floor(num * 100) / 100;
+console.log(num); //2.44
+```
+
+3. 字符串匹配
+```js
+num = Number(num.toString().match(/^\d+(?:\.\d{0,2})?/));
+console.log(num); //2.44
+```
+
+4. 保留两位小数 浮点数四舍五入 位数不够 不补0
+```js
+function fomatFloat(src,pos){    
+    return Math.round(src*Math.pow(10, pos))/Math.pow(10, pos);    
+} 
+console.log(fomatFloat(3.12645,2)); // 3.13
+```
