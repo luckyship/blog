@@ -2837,3 +2837,10 @@ function fomatFloat(src,pos){
 } 
 console.log(fomatFloat(3.12645,2)); // 3.13
 ```
+
+## H5 语音合成 SpeechSynthesisUtterance API
+```js
+var utterance = new SpeechSynthesisUtterance('cosyer');
+window.speechSynthesis.speak(utterance);
+```
+
