@@ -180,7 +180,7 @@ a:hover {
    <!-- UV、PV统计 不蒜子
    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
   -->
-  <script type="text/javascript" src="https://cdn.lishaoy.net/js/all-min-d92a58c18b.js"></script>
+  <script type="text/javascript" src="https://cdn.lishaoy.net/js/all-min-0b992cbd38.js"></script>
    <!-- 自己的脚本
   <script type="text/javascript" src="/js/src/cosyer.js"></script>
   -->
