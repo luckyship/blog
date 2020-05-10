@@ -16,6 +16,8 @@ top: 240
 - 主进程同步执行任务，异步操作将添加到异步队列中
 - 等候主进程执行完毕后再执行异步队列中的操作
 
+![event-queue](http://cdn.mydearest.cn/blog/images/event-queue.png)
+
 ---
 <!--more-->
 

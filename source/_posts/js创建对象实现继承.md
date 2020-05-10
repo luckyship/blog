@@ -12,7 +12,7 @@ top: 114
 
 今天10月31日，万圣节前夜。希望ff的病早点好，身体健康。
 
-## 创建对象
+## 创建对象(字面量、构造函数、create方法、调用函数返回对象)
 ```javascript
 var obj = {} // 字面量 
 var obj = new Object() // 很少见，性能低 没有形参时可省略()
@@ -85,7 +85,8 @@ var obj = Object.assign({}, o1, o2, o3);
 console.log(obj); // { a: 1, b: 2, c: 3 }
 ```
 
-## 工厂模式
+### 创建对象模式
+#### 工厂模式
 
 在一个函数内创建一个空对象，给空对象添加属性和属性值，return这个对象。然后调用这个函数并传入参数来使用。
 
@@ -104,7 +105,7 @@ console.log(person1.sayName()) //cosyer
 优点：解决了创建多个相似对象的问题
 缺点：没有解决对象识别的问题（即怎样知道一个对象的类型）
 
-## 构造函数模式
+#### 构造函数模式
 
 创建一个构造函数，然后用new 创建构造函数的实例。
 
@@ -130,7 +131,20 @@ console.log(person1.sayName()) //cosyer
 缺点：
 对于一些可共用的属性方法（比如这边的this.sayName）没必要都在每个实例上重新创建一遍，占用内存。(无法复用)
 
-## 原型模式
+
+- 对象字面量vs构造函数创建对象对比
+
+字面量的优势：
+
+1. 代码量更少，更易读；
+
+2. 可以强调对象就是一个简单的可变的散列表，而不必一定派生自某个类；
+
+3. 对象字面量运行速度更快，因为它们可以在解析的时候被优化：它们不需要作用域解析(scope resolution)；因为存在我们创建了一个同名的构造函数Object()的可能，当我们调用Object()的时候，解析器需要顺着作用域链从当前作用域开始查找，如果在当前作用域找到了名为Object()的函数就执行，如果没找到，就继续顺着作用域链往上照，直到找到全局Object()构造函数为止；
+
+4. Object()构造函数可以接收参数，通过这个参数可以把对象实例的创建过程委托给另一个内置构造函数，并返回另外一个对象实例，而这往往不是你想要的。
+
+#### 原型模式
 
 创建一个函数，给函数原型对象赋值。利用函数的prototype属性指向函数的原型对象，从而在原型对象添加所有实例可共享的属性和方法。
 
@@ -152,7 +166,7 @@ console.log(person1.sayName()) //cosyer
 1. 在创建子类型的实例时，不能向超类型的构造函数中传递参数。
 2. 如果包含引用类型值的属性，那一个实例改了这个属性（引用类型值），其他实例也跟着改变。
 
-## 组合模式
+#### 组合模式
 
 构造函数模式用于定义实例属性，而原型模式用于定义方法和共享的属性。简单来说就是属性值是引用类型的就用构造函数模式，方法和属性能共享的就用原型模式，取精去糟。
 
@@ -183,7 +197,7 @@ console.log(person1.hobby);  //{exercise: "running"}
 console.log(person2.hobby); //{exercise: "running"}
 ```
 
-## 动态原型模式
+#### 动态原型模式
 ```javascript
 function Person(name, age){ //构造函数模式
     this.name = name; 
@@ -196,7 +210,8 @@ function Person(name, age){ //构造函数模式
 }
 ```
 
-## 构造函数继承
+## 继承方式
+### 构造函数继承(复制父类的实例属性给子类)
 ```javascript
 function SuperType(){ 
     this.colors = ["red", "blue", "green"]; 
@@ -211,8 +226,15 @@ console.log(instance1.colors); //"red,blue,green,black"
 var instance2 = new SubType(); 
 console.log(instance2.colors); //"red,blue,green"
 ```
+优点：
+1. 简单，易于实现
+2. 父类新增原型方法、原型属性，子类都能访问到
+缺点：
+1. 无法实现多继承，因为原型一次只能被一个实例更改
+2. 来自原型对象的所有属性被所有实例共享（上诉例子中的color属性）
+3. 创建子类实例时，无法向父构造函数传参
 
-## 原型链继承
+### 原型链继承(将父类的实例作为子类的原型)
 ```javascript
 function SuperType(){ 
     this.colors = ["red", "blue", "green"];
@@ -229,8 +251,15 @@ instance1.colors.push("black");
 console.log(instance1.colors);//["red", "blue", "green", "black"]
 console.log(instance2.colors);//["red", "blue", "green", "black"]
 ```
+优点：
+1. 简单，易于实现
+2. 父类新增原型方法、原型属性，子类都能访问到
+缺点：
+1. 无法实现多继承，因为原型一次只能被一个实例更改
+2. 来自原型对象的所有属性被所有实例共享（上诉例子中的color属性）
+3. 创建子类实例时，无法向父构造函数传参
 
-## 组合继承
+### 组合继承(将原型链和借用构造函数的技术组合到一块。使用原型链实现对原型属性和方法的继承，而通过构造函数来实现对实例属性的继承)
 ```javascript
 function SuperType(name){  //父类（构造函数）
     this.name = name;
@@ -256,19 +285,118 @@ console.log(instance1.name)  //cosyer
 instance1.sayName(); //cosyer
 instance1.sayAge(); //23
 ```
+优点：
+1. 弥补了构造继承的缺点，现在既可以继承实例的属性和方法，也可以继承原型的属性和方法
+2. 既是子类的实例，也是父类的实例
+3. 可以向父类传递参数
+4. 函数可以复用
+缺点：
+1. 调用了两次父类构造函数，生成了两份实例
+2. constructor指向问题
 
-## 寄生组合继承
+### 实例继承(为父类实例添加新特征，作为子类实例返回)
+```js
+function Son(name) {
+    let f=new Father('传给父类的参数')
+    f.name=name||'son'
+    return f
+}
 
-- 对象字面量vs构造函数创建对象对比
+let s = new Son("son"); //或者直接调用子类构造函数 let s = Son("son");
+console.log(s.name); // son
+s.sayAge(); // 18
+s.sayName(); // son
+console.log(s.age); // 18
+console.log(s instanceof Father); // true
+console.log(s instanceof Son); // false
+console.log(s.constructor === Father); // true
+console.log(s.constructor === Son); // false=
+```
+优点：
+1. 不限制调用方式，不管是new 子类()还是子类(),返回的对象具有相同的效果
+缺点：
+1. 实例是父类的实例，不是子类的实例
+2. 不支持多继承
 
-字面量的优势：
+### 拷贝继承(对父类实例中的的方法与属性拷贝给子类的原型)
+```js
+function Son(name) {
+    let f = new Father("传给父类的参数");
+    for (let k in f) {
+    Son.prototype[k] = f[k];
+    }
+    Son.prototype.name = name;
+}
 
-1. 代码量更少，更易读；
+let s = new Son("son");
+console.log(s.name); // son
+s.sayAge(); // 18
+s.sayName(); // son
+console.log(s.age); // 18
+console.log(s instanceof Father); // false
+console.log(s instanceof Son); // true
+console.log(s.constructor === Father); // false
+console.log(s.constructor === Son); // true
+```
+优点：
+1. 支持多继承
+缺点：
+1. 效率低，性能差，占用内存高（因为需要拷贝父类属性）
+2. 无法获取父类不可枚举的方法（不可枚举的方法，不能使用for-in访问到)
 
-2. 可以强调对象就是一个简单的可变的散列表，而不必一定派生自某个类；
+### 寄生组合继承(通过寄生方式，砍掉父类的实例属性，避免了组合继承生成两份实例的缺点)
+```js
+function Son(name) {
+    Father.call(this);
+    this.name = name || "son";
+}
 
-3. 对象字面量运行速度更快，因为它们可以在解析的时候被优化：它们不需要作用域解析(scope resolution)；因为存在我们创建了一个同名的构造函数Object()的可能，当我们调用Object()的时候，解析器需要顺着作用域链从当前作用域开始查找，如果在当前作用域找到了名为Object()的函数就执行，如果没找到，就继续顺着作用域链往上照，直到找到全局Object()构造函数为止；
+// 方法一  自己动手创建一个中间类
+// (function() {
+//   let NoneFun = function() {};
+//   NoneFun.prototype = Father.prototype;
+//   Son.prototype = new NoneFun();
+//   Son.prototype.constructor = Son;
+// })();
 
-4. Object()构造函数可以接收参数，通过这个参数可以把对象实例的创建过程委托给另一个内置构造函数，并返回另外一个对象实例，而这往往不是你想要的。
+// 方法二  直接借用Object.create()方法
+Son.prototype = Object.create(Father.prototype);
+// 修复构造函数指向
+Son.prototype.constructor = Son;
 
+let s = new Son("son");
+console.log(s.name); // son
+s.sayAge(); // 18
+s.sayName(); // son
+console.log(s.age); // 18
+console.log(s instanceof Father); // true
+console.log(s instanceof Son); // true
+console.log(s.constructor === Father); // false
+console.log(s.constructor === Son); // true
+```
+优点：
+1. 比较完美（js实现继承首选方式）
+缺点：
+1.实现起来较为复杂（可通过Object.create简化）
+
+
+### es6 class继承(使用extends表明继承自哪个父类，并且在子类构造函数中必须调用super) 
+```js
+class Son extends Father {
+    constructor(name) {
+    super(name);
+    this.name = name || "son";
+    }
+}
+
+let s = new Son("son");
+console.log(s.name); // son
+s.sayAge(); // 18
+s.sayName(); // son
+console.log(s.age); // 18
+console.log(s instanceof Father); // true
+console.log(s instanceof Son); // true
+console.log(s.constructor === Father); // false
+console.log(s.constructor === Son); // true
+```
 `Happy Halloween!`

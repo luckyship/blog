@@ -97,9 +97,15 @@ console.log(typeof Date);          //function
 ## 事件流？事件捕获？事件冒泡？
 事件流：从页面中接收事件的顺序。也就是说当一个事件产生时，这个事件的传播过程，就是事件流。
 
-IE中的事件流叫事件冒泡；事件冒泡：事件开始时由最具体的元素接收，然后逐级向上传播到较为不具体的节点（文档）。对于html来说，就是当一个元素产生了一个事件，它会把这个事件传递给它的父元素，父元素接收到了之后，还要继续传递给它的上一级元素，就这样一直传播到document对象（亲测现在的浏览器到window对象，只有IE8及以下不这样。
+1. 捕获阶段：事件从window对象自上而下向目标节点传播的阶段；
+2. 目标阶段：真正的目标节点正在处理事件的阶段；
+3. 冒泡阶段：事件从目标节点自下而上向window对象传播的阶段；
 
-事件捕获是不太具体的元素应该更早接受到事件，而最具体的节点应该最后接收到事件。他们的用意是在事件到达目标之前就捕获它；也就是跟冒泡的过程正好相反，以html的click事件为例，document对象（DOM级规范要求从document开始传播，但是现在的浏览器是从window对象开始的）最先接收到click事件的然后事件沿着DOM树依次向下传播，一直传播到事件的实际目标；
+事件捕获是不太具体的元素应该更早接受到事件，而最具体的节点应该最后接收到事件。他们的用意是在事件到达目标之前就捕获它。
+事件冒泡：事件开始时由最具体的元素接收，然后逐级向上传播到较为不具体的节点（文档）。
+
+![boardcast](http://cdn.mydearest.cn/blog/images/boardcast.png)
+
 ```html
 <nav id="root_b">
   <ul id="first_b">
@@ -681,7 +687,9 @@ IE只支持事件冒泡。
 
 举例：最经典的就是ul和li标签的事件监听，比如我们在添加事件时候，采用事件委托机制，不会在li标签上直接添加，而是在ul父元素上添加。
 
-好处：比较合适动态元素的绑定，新添加的子元素也会有监听函数，也可以有事件触发机制。
+好处：
+1. 减少内存消耗，提高性能(不需要为每一个子元素绑定事件)
+2. 动态绑定事件
 
 ```html
 <ul id="proxy">
@@ -714,6 +722,52 @@ function main() {
   })
 }
 ```
+- event.target & event.currentTarget
+```js
+<div id="a">
+    aaaa
+  <div id="b">
+      bbbb
+    <div id="c">
+        cccc
+      <div id="d">
+          dddd
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    document.getElementById("a").addEventListener("click", function (e) {
+        console.log(
+            "target:" + e.target.id + "&currentTarget:" + e.currentTarget.id
+        );
+    });
+    document.getElementById("b").addEventListener("click", function (e) {
+        console.log(
+            "target:" + e.target.id + "&currentTarget:" + e.currentTarget.id
+        );
+    });
+    document.getElementById("c").addEventListener("click", function (e) {
+        console.log(
+            "target:" + e.target.id + "&currentTarget:" + e.currentTarget.id
+        );
+    });
+    document.getElementById("d").addEventListener("click", function (e) {
+        console.log(
+            "target:" + e.target.id + "&currentTarget:" + e.currentTarget.id
+        );
+    });
+</script>
+
+// 当我们点击最里层的元素d的时候，会依次输出:
+// target:d&currentTarget:d
+// target:d&currentTarget:c
+// target:d&currentTarget:b
+// target:d&currentTarget:a
+```
+event.target始终是事件的真正发出者，而event.currentTarget始终是监听事件者。
+
 ## 垂直居中
 1. margin:auto法
 ```css
@@ -1688,26 +1742,24 @@ inherit         规定应该从父元素继承 display 属性的值。
 
 ## BFC规范(块级格式化上下文：block formatting context)的理解？
 
-（W3C CSS 2.1 规范中的一个概念,它是一个独立容器，决定了元素如何对其内容进行定位,以及与其他元素的关系和相互作用。）
-一个页面是由很多个 Box 组成的,元素的类型和 display 属性,决定了这个 Box 的类型。
+BFC（Block Formatting Context）块级格式化上下文，是 Web 页面中盒模型布局的 CSS 渲染模式，指一个独立的渲染区域或者说是一个隔离的独立容器。
 
-不同类型的 Box,会参与不同的 Formatting Context（决定如何渲染文档的容器）,因此Box内的元素会以不同的方式渲染,也就是说BFC内部的
-
-元素和外部的元素不会互相影响。
+也就是说BFC内部的元素和外部的元素不会互相影响。
 
 - 创建规则：
 
 1. 根元素
 2. 浮动元素（float不是none）
 3. 绝对定位元素（position取值为absolute或fixed）
-4. display取值为inline-block,table-cell, table-caption,flex, inline-flex之一的元素
-5. overflow不是visible的元素
+4. display取值为inline-block,table-cell,table-caption,flex,inline-flex之一的元素
+5. overflow不是visible的元素(hidden、auto、scroll)
 
-- 作用：
-
-1. 可以包含浮动元素
-2. 不被浮动元素覆盖
-3. 阻止父子元素的 margin 折叠
+- 作用特性：
+1. 内部的 Box 会在垂直方向上一个接一个的放置
+2. 垂直方向上的距离由 margin 决定；（解决外边距重叠问题）
+3. bfc 的区域不会与 float 的元素区域重叠；（防止浮动文字环绕）
+4. 计算 bfc 的高度时，浮动元素也参与计算；（清除浮动）
+5. 内部的元素和外部的元素不会互相影响
 
 ## css权重
 > 标签的权重为1，class的权重为10，id的权重为100，以下例子是演示各种定义的权重值
