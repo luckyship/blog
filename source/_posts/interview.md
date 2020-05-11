@@ -571,6 +571,9 @@ js是单线程的，因此必须等前一个任务完成后，后一个任务才
 - 不容易调试
 
 ## 跨域问题？
+### 同源策略
+同源策略限制从一个源加载的文档或脚本如何与来自另一个源的资源进行交互。这是一个用于隔离潜在恶意文件的关键安全机制。
+
 - 协议不同
 - 端口不同
 - 域名不同
@@ -601,7 +604,6 @@ CORS全称“ Cross-origin resource sharing ”（跨域资源共享），相比
 > 源，就会自动添加一些附加的头信息，有时还会多出一次附加的请求，但用户不会有感觉。
 
 > 因此，实现CORS通信的关键是服务器。只要服务器实现了CORS接口，就可以跨源通信。
-
 
 7. nginx反向代理、nodejs反向代理
 - http-proxy-middleware 插件
@@ -636,6 +638,27 @@ WebSocket是一种通信协议，使用ws://（非加密）和wss://（加密）
 由于发出的WebSocket请求中有有一个字段是Origin，表示该请求的请求源（origin），即发自哪个域名。
 
 正是因为有了Origin这个字段，所以WebSocket才没有实行同源政策。因为服务器可以根据这个字段，判断是否许可本次通信。
+```js
+var ws = new WebSocket('wss://echo.websocket.org');
+ws.onopen = function (evt) {
+  console.log('Connection open ...');
+  ws.send('Hello WebSockets!');
+};
+ws.onmessage = function (evt) {
+  console.log('Received Message: ', evt.data);
+  ws.close();
+};
+ws.onclose = function (evt) {
+  console.log('Connection closed.');
+};
+```
+
+```
+前后端通信方式
+Ajax 支持同源通信
+WebSocket 不受同源策略影响
+CORS 既支持同源通信也支持跨域通信
+```
 
 ## 解决异步回调地狱有哪些方案？
 - promise

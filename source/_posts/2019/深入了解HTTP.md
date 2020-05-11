@@ -60,7 +60,7 @@ GET 请求 304获取缓存
 
 在 HTTP 1.1 版本中，默认情况下所有连接都被保持，如果加入 "Connection: close" 才关闭。目前大部分浏览器都使用 HTTP 1.1 协议，也就是说默认都会发起 Keep-Alive 的连接请求了。
 
-- HTTP Keep-Alive 简单说就是保持当前的TCP连接，避免了重新建立连接。
+- HTTP Keep-Alive 简单说就是保持当前的TCP连接，避免了重新建立连接。也就是默认都是持续连接的。在事务处理结束之后仍然保持在打开状态的TCP连接称之为持久连接。
 
 - HTTP 长连接不可能一直保持，例如 Keep-Alive: timeout=5, max=100，表示这个TCP通道可以保持5秒，max=100，表示这个长连接最多接收100次请求就断开。
 
@@ -105,8 +105,8 @@ Session 的实现依赖于 Cookie，如果 Cookie 被禁用，那么 session 也
 - 如何防范 CSRF 攻击？
 
 1. 关键操作只接受 POST 请求
-2. 验证码
-3. 检测referer
+2. 验证码 强制用户必须与应用进行交互。
+3. 检测referer 通过Referer识别 根据HTTP协议，在HTTP头中有一个字段叫Referer，它记录了该HTTP请求的来源地址。在通常情况下，访问一个安全受限的页面的请求都来自于同一个网站。
 4. token
 
 #### XSS（Cross Site Scripting，跨站脚本攻击）
@@ -116,6 +116,13 @@ XSS 全称“跨站脚本”，是注入攻击的一种。其特点是不对服�
 XSS 是实现 CSRF 的诸多途径中的一条，但绝对不是唯一的一条。一般习惯上把通过 XSS 来实现的 CSRF 称为 XSRF。
 
 XSS（跨站脚本攻击）是指攻击者在返回的HTML中嵌入js脚本，为了减轻这些攻击，需要在HTTP头部配上set-cookie：http-only这个属性可以防止xss，它会禁止js脚本访问cookie。secure这个属性告诉浏览器仅在请求为https时发送cookie。
+
+分为非持久型(反射型XSS)，一次攻击；存储型XSS存储到服务器上，多次攻击。
+
+- 如何防范 XSS
+1. cookie设置http-only，不允许js修改访问cookie
+2. 输入检查
+3. 输出检查，对变量输入到HTML页面的代码进行编码或转义
 
 ### http缓存
 `缓存是指浏览器（客户端）在本地磁盘中对访问过的资源保存的副本文件。`

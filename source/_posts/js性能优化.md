@@ -47,3 +47,5 @@ categories: JS
 
 ### 不要误用 for-in Object.hasOwnProperty()只遍历当前对象
 由于“for-in”循环需要脚本引擎构建包含所有可枚举属性的列表，因此 for 循环内的代码是不会修改这个列表的。 在 for 循环内部，预先计算出列表的长度并赋给变量 len，然后进行迭代。
+
+![optimize](http://cdn.mydearest.cn/blog/images/optimize.png)

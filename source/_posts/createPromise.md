@@ -425,6 +425,63 @@ new _Promise(function(resolve){
 console.log(3)
 ```
 
+## 如何取消 `promise`
+1. Promise.race方法
+```js
+// 方法一 取消promise方法   promise.race方法
+function wrap(p) {
+  let obj = {};
+  let p1 = new Promise((resolve, reject) => {
+    obj.resolve = resolve;
+    obj.reject = reject;
+  });
+  obj.promise = Promise.race([p1, p]);
+  return obj;
+}
+
+let promise = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve(123);
+  }, 1000);
+});
+let obj = wrap(promise);
+obj.promise.then(res => {
+  console.log(res);
+});
+obj.resolve("请求被拦截了");
+
+obj.reject("请求被拒绝了");
+```
+
+2. 新包装一个可操控的promise
+```js
+function wrap(p) {
+  let res = null;
+  let abort = null;
+
+  let p1 = new Promise((resolve, reject) => {
+    res = resolve;
+    abort = reject;
+  });
+
+  p1.abort = abort;
+  p.then(res, abort);
+
+  return p1;
+}
+
+let promise = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve(123);
+  }, 1000);
+});
+let obj = wrap(promise);
+obj.then(res => {
+  console.log(res);
+});
+obj.abort("请求被拦截");
+```
+
 ## Promise使用注意点
 1. 一般来说，调用`resolve`或`reject`以后，`Promise`的使命就完成了，后继操作应该放到`then`方法里面，而不应该直接写在`resolve`或`reject`的后面。所以，最好在它们前面加上`return`语句，这样就不会有意外。
 

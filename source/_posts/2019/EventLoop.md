@@ -18,6 +18,14 @@ top: 240
 
 ![event-queue](http://cdn.mydearest.cn/blog/images/event-queue.png)
 
+> 同步任务指的是，在主线程上排队执行的任务，只有前一个任务执行完毕，才能执行后一个任务；
+
+> 异步任务指的是，不进入主线程、而进入"任务队列"（task queue）的任务，只有"任务队列"通知主线程，某个异步任务可以执行了，该任务才会进入主线程执行
+
+![task-queue](http://cdn.mydearest.cn/blog/images/task-queue.png)
+任务队列中存着的是异步任务，这些异步任务一定要等到执行栈清空后才会执行。
+异步任务，会先到事件列表中注册函数。如果事件列表中的事件触发了，会将这个函数移入到任务队列中（DOM操作对应DOM事件，资源加载操作对应加载事件，定时器操作可以看做对应一个“时间到了”的事件）
+
 ---
 <!--more-->
 
@@ -30,13 +38,15 @@ script(宏任务) - 清空微任务队列 - 执行一个宏任务 - 清空微任
 - 异步队列中有宏任务微任务之分
 - 一次事件循环：先运行宏任务队列中的一个，然后运行微任务队列中的所有任务。接着开始下一次循环
 
+![macro-micro](http://cdn.mydearest.cn/blog/images/macro-micro.png)
+
 ## 哪些是宏任务哪些是微任务？
 
 ### 宏任务(优先级由高到低)
 - 主线程同步代码
 - setTimeout
 - setImmediate
-- setIntarval
+- setInterval
 - requestAnimationFrame
 - I/O
 - UI rendering
@@ -46,6 +56,24 @@ script(宏任务) - 清空微任务队列 - 执行一个宏任务 - 清空微任
 - Promise.then
 - Object.observe
 - MutationObserver
+
+### 微任务的意义
+减少更新时的渲染次数
+因为根据HTML标准，会在宏任务执行结束之后，在下一个宏任务开始执行之前，UI都会重新渲染。如果在microtask中就完成数据更新，当 macro-task结束就可以得到最新的UI了。如果新建一个 macro-task来做数据更新的话，那么渲染会执行两次。
+
+### 事件循环
+![eventloop](http://cdn.mydearest.cn/blog/images/eventloop.png)
+
+1. 整体的script(作为第一个宏任务)开始执行的时候，会把所有代码分为两部分：“同步任务”、“异步任务”；
+2. 同步任务会直接进入主线程依次执行；
+4. 异步任务会再分为宏任务和微任务；
+5. 宏任务进入到Event Table中，并在里面注册回调函数，每当指定的事件完成时，Event Table会将这个函数移到Event Queue中；
+6. 微任务也会进入到另一个Event Table中，并在里面注册回调函数，每当指定的事件完成时，Event Table会将这个函数移到Event Queue中；
+7. 当主线程内的任务执行完毕，主线程为空时，会检查微任务的Event Queue，如果有任务，就全部执行，如果没有就执行下一个宏任务；
+上述过程会不断重复，这就是Event Loop事件循环；
+
+![summary-loop](http://cdn.mydearest.cn/blog/images/summary-loop.png)
+
 
 ### 练习题
 ```js
@@ -110,4 +138,50 @@ process.nextTick(()=>{
 
 console.log(6);
 // 2 6 5 3 4 1
+```
+
+```js
+console.log(1);
+
+setTimeout(()=>{
+    console.log(2);   
+    new Promise((resolve,reject)=>{
+    console.log(3);
+    resolve()
+}).then(res=>{
+    console.log(4); 
+})
+})
+
+new Promise((resolve,reject)=>{
+    resolve()
+}).then(res=>{
+    console.log(5); 
+}).then(res=>{
+    console.log(6);
+    
+})
+
+new Promise((resolve,reject)=>{
+    console.log(7);
+    resolve()
+}).then(res=>{
+    console.log(8); 
+}).then(res=>{
+    console.log(9);
+    
+})
+
+setTimeout(()=>{
+    console.log(10);   
+    new Promise((resolve,reject)=>{
+    console.log(11);
+    resolve()
+}).then(res=>{
+    console.log(12); 
+})
+})
+
+console.log(13);
+// 1 7 13 5 8 6 9 2 3 4 10 11 12
 ```

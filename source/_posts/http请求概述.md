@@ -21,6 +21,10 @@ photos:
 - 响应报文: 响应行 响应头 空行 响应体
 > 请求行里包括请求方法, url, http 版本; 响应行里包括状态码, http 版本, 状态说明;
 
+![http-request](http://cdn.mydearest.cn/blog/images/http-request.png)
+
+![http-response](http://cdn.mydearest.cn/blog/images/http-response,png)
+
 ## HTTP版本
 在HTTP的发展过程中，出现了很多HTTP版本，其中的大部分协议都是向下兼容的。在进行HTTP请求时，客户端在请求时会告诉服务器它采用的协议版本号，而服务器则会在使用相同或者更早的协议版本进行响应。
 - HTTP/0.9
@@ -179,7 +183,7 @@ PATCH方法出现的较晚，它在2010年的RFC 5789标准中被定义。PATCH�
     </details>
   * 403 Forbidden
     <details>
-      <summary>未认证</summary>
+      <summary>拒绝服务</summary>
       该状态码表明对请求资源的访问被服务器拒绝了。服务器端没有必要给出拒绝的详细理由，但如果想作说明的话，可以在实体的主体部分对原因进行描述，这样就能让用户看到了。未获得文件系统的访问授权，访问权限出现某些问题（从未授权的发送源 IP 地址试图访问）等列举的情况都可能是发生 403 的原因。
     </details>
   * 404 Not Found
@@ -187,6 +191,7 @@ PATCH方法出现的较晚，它在2010年的RFC 5789标准中被定义。PATCH�
       <summary>未找到请求的资源</summary>
       该状态码表明服务器上无法找到请求的资源。除此之外，也可以在服务器端拒绝请求且不想说明理由时使用。
     </details>
+  * 415 Unsupported media type：不支持的媒体类型
 * 5XX
   * 500 Internal Server Error
     <details>
