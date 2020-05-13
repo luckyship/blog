@@ -49,3 +49,81 @@ categories: JS
 由于“for-in”循环需要脚本引擎构建包含所有可枚举属性的列表，因此 for 循环内的代码是不会修改这个列表的。 在 for 循环内部，预先计算出列表的长度并赋给变量 len，然后进行迭代。
 
 ![optimize](http://cdn.mydearest.cn/blog/images/optimize.png)
+
+## 资源合并压缩 减少HTTP请求
+### 尽量合并和压缩html css和js文件 借助前端工具 例如 webpack gulp grunt...
+### 开启gzip压缩
+
+
+## 图片优化
+### 雪碧图 图片压缩 svg base64
+
+
+## 懒加载 / 预加载
+### 懒加载：图片进入可视区域之后请求图片资源 对于电商等图片很多，页面很长的业务场景适用 并发加载的资源过多会阻塞 js 的加载，影响网站的正常使用
+### 预加载：图片等静态资源在使用之前的提前请求 资源使用到时能从缓存中加载，提升用户体验
+
+## 浏览器存储
+### localStorage：大小为 5M 左右仅在客户端使用，不和服务端进行通信 浏览器本地缓存方案
+### indexedDB：用于客户端存储大量结构化数据 为应用创建离线版本
+
+## 浏览器缓存
+### 强缓存：
+
+- expires：
+缓存过期时间，用来指定资源到期的时间，是服务器端的绝对时间
+告诉浏览器在过期时间前浏览器可以直接从浏览器缓存取数据，而无需再次请求
+
+- cache-control：max-age = xxx
+声明该资源在加载后的xxx秒内都直接使用缓存 使用的是相对时间 即加载文件本机的时间
+
+如果在Cache-Control响应头设置了 "max-age" 或者 "s-max-age" 指令，那么 Expires 头会被忽略。
+
+
+### 协商缓存：
+
+> 触发条件
+
+> Cache-Control 的值为 no-cache （不强缓存）
+> max-age 过期了 （强缓存，但总有过期的时候）
+
+- Last-Modified / If-Modified-Since
+
+Last-Modified ------- response header
+If-Modified-Since ------- request header
+缺点：某些服务端不能获取精确的修改时间；文件修改时间改了，但文件内容却没有变
+
+- Etag / If-None-Match
+
+文件内容的 hash 值
+etag ------- response header
+if-none-match ------- request header
+
+## CDN 内容分发网络
+
+## 前端错误监控以及上报
+- 前端错误分类：
+
+1. 即时运行错误：代码错误
+2. 资源加载错误
+3. 对于跨域的代码运行错误会显示 Script error. 对于这种情况我们需要给 script 标签添加 crossorigin 属性，并且服务器添加Access-Control-Allow-Origin
+
+- 即时运行错误捕获
+（1）try ....catch
+（2) window.onerror 或者 window.addEventListener 记住事件捕获阶段获得，不是冒泡阶段
+
+
+- 资源加载错误
+（1）object.onerror，如img.onerror
+（2）performance.getEntries （getEntries api返回一个资源加载完成数组，假设为img，再查询页面中一共有多少个img，二者的差就是没有加载上的资源）
+（3）Error事件捕获
+
+4. 错误如何上报
+- ajax
+- image的src上报
+```js
+(new Image()).src = '错误上报的请求地址'
+```
+
+一般来说都是采用image对象的方式上报错误的；使用图片发送get请求，上报信息，由于浏览器对图片有缓存，同样的请求，图片只会发送一次，避免重复上
+报。

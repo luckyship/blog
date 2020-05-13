@@ -780,7 +780,11 @@ const App = () => {
 useDebugValue(date, date => date.toDateString());
 ```
 
+## 仓库代码
+
+[react-hooks-demo](https://github.com/cosyer/react-hooks-demo)
+
 ## 总结
 
-这篇文章将 React Hooks 语法进行了简单介绍，Hooks 功能十分强大，如果看完文章还不是很理解的话，建议把这些 demo 自己再手动实现一遍，这样收获会更多。如果文章内容有哪些描述错误或者不清的地方，
-欢迎各位纠正并一起交流。👏👏
+这篇文章将 React Hooks 语法进行了简单介绍，Hooks 功能十分强大，如果看完文章还不是很理解的话，建议把这些 demo 自己再手动实现一遍，这样收获会更多。
+如果文章内容有哪些描述错误或者不清的地方，欢迎各位纠正并一起交流。👏👏
