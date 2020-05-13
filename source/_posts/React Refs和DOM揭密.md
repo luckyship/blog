@@ -1,7 +1,7 @@
 ---
 title: React Refs揭密
 tags:
-  - React
+  - react
 copyright: true
 comments: true
 date: 2019-02-17 23:25:48
