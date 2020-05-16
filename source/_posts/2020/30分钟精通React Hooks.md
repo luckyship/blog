@@ -62,6 +62,89 @@ class DataProvider extends React.Component {
 </DataProvider>
 ```
 
+#### 其他🌰
+```js
+class GithubProfile extends React.PureComponent<IProps, IStates> {
+  state: IStates = {
+    profile: {}
+  }
+
+  componentDidMount() {
+    fetch('https://api.github.com/users/cosyer')
+      .then(response => {
+        return response.json()
+      })
+      .then(res => {
+        this.setState({
+          profile: res
+        })
+      })
+  }
+  
+  render() {
+    const { profile } = this.state
+    return (
+      <div className="profile">
+        <img src={profile.avatar_url} alt="avatar" width="200px" />
+        <div>name: {profile.name}</div>
+        <div>company: {profile.company}</div>
+        <div>bio: {profile.bio}</div>
+      </div>
+    )
+  }
+}
+```
+如果其它页面也有相同的需求，或者数据一样，仅仅 UI 不一样，那么我们该怎么处理？其实这个问题目的很简单，那就是：如何实现代码复用。
+```js
+// Render Props
+class Profile extends React.Component<IProps, IStates> {
+  constructor(props:IProps) {
+    super(props)
+    this.state = {
+      profile: {}
+    }
+  }
+
+  componentDidMount() {
+    fetch('https://api.github.com/users/cosyer')
+      .then(response => {
+        return response.json()
+      })
+      .then(res => {
+        this.setState({
+          profile: res
+        })
+      })
+  }
+
+  render() {
+    const { profile } = this.state
+    return <React.Fragment>{this.props.children(profile)}</React.Fragment>
+  }
+}
+```
+定义 props 渲染函数：
+```js
+class ProfileRenderProps extends React.PureComponent {
+  render() {
+    return (
+      <Profile>
+        {(profile:any) => (
+          <div className="profile">
+            <img src={profile.avatar_url} alt="avatar" width="200px" />
+            <div>name: {profile.name}</div>
+            <div>company: {profile.company}</div>
+            <div>bio: {profile.bio}</div>
+          </div>
+        )}
+      </Profile>
+    )
+  }
+}
+```
+#### 缺点
+- 回调地狱
+
 ### 高阶组件
 说白了就是一个函数接受一个组件作为参数，经过一系列加工后，最后返回一个新的组件。
 
@@ -90,6 +173,67 @@ export default withUser(UserPage);
 我们用class来创建react组件时，还有一件很麻烦的事情，就是this的指向问题。为了保证this的指向正确，我们要经常写这样的代码：`this.handleClick = this.handleClick.bind(this)`，或者是这样的代码：`<button onClick={() => this.handleClick(e)}>`。一旦我们不小心忘了绑定this，各种bug就随之而来，很麻烦。
 
 还有就是无状态组件因为需求的变动需要有自己的state，又得很麻烦的改成class组件。
+
+在 React 16.8 之前 function 有两个问题：
+
+- function 组件不得不返回一些 UI 信息，即 JSX 代码
+- function 组件内部不能拥有 state
+
+- Hooks 让函数式组件拥有类组件一样的功能，state ，lifecycle 以及 context。
+- Hooks 不是 React 的新功能，可以将它理解为一个“钩子”，可以让你在不写类组件的情况下“勾住”React 的所有功能。
+
+```js
+// withGithubProfile
+const withGithubProfile = (WrappedComponent:any) => {
+  return class extends React.Component<IProps, IStates> {
+    constructor(props:IProps) {
+      super(props)
+      this.state = {
+        profile: {}
+      }
+    }
+    
+    componentDidMount() {
+      fetch('https://api.github.com/users/cosyer')
+        .then(response => {
+          return response.json()
+        })
+        .then(res => {
+          this.setState({
+            profile: res
+          })
+        })
+    }
+    
+    render() {
+      const { profile } = this.state
+      return <WrappedComponent profile={profile} {...this.props} />
+    }
+  }
+}
+```
+引入高阶组件，使用其profile
+```js
+class GithubProfileHoc extends React.Component<IProps, IStates> {
+  render() {
+    const { profile } = this.props
+    return (
+      <div className="profile">
+        <img src={profile.avatar_url} alt="avatar" width="200px" />
+        <div>name: {profile.name}</div>
+        <div>followers: {profile.followers}</div>
+        <div>following: {profile.following}</div>
+      </div>
+    )
+  }
+}
+
+export default WithGithubProfile(GithubProfileHoc)
+```
+#### 缺点
+- 使用多个高阶组件时，无法确定 props 来源
+- 相同的 props 会存在覆盖的情况
+- 增加调试难度
 
 ## State Hooks
 ### 状态组件
@@ -372,6 +516,89 @@ function FriendListItem(props) {
 }
 ```
 funky!!!
+
+比如还有
+
+### useProfile 使用 Hooks 实现 API 请求
+```js
+// useProfile
+const useProfile = () => {
+  const [profile, setProfile] = useState({} as TProfile)
+  const [loading, setLoading] = useState(false)
+  const [isError, setIsError] = useState(false)
+
+  useEffect(() => {
+    setLoading(true)
+    fetch('https://api.github.com/users/gaearon')
+      .then(response => {
+        return response.json()
+      })
+      .then(res => {
+        setProfile(res as TProfile)
+        setIsError(false)
+        setLoading(false)
+      }).catch(()=> {
+        setIsError(true)
+        setLoading(false)
+      })
+  }, [])
+
+  return { profile, loading,isError }
+}
+```
+使用 `useProfile` Hooks：
+```js
+const UseProfilePage = () => {
+  const { profile, loading, isError } = useProfile()
+  return (
+    <React.Fragment>
+      {isError ? (
+        <div>Network Error...</div>
+      ) : (
+        <div className="profile">
+          {loading ? (
+            <div>loading profile...</div>
+          ) : (
+            <React.Fragment>
+              <img src={profile.avatar_url} alt="avatar" width="200px" />
+              <div>name: {profile.name}</div>
+              <div>company: {profile.company}</div>
+              <div>bio: {profile.bio}</div>
+            </React.Fragment>
+          )}
+        </div>
+      )}
+    </React.Fragment>
+  )
+}
+```
+### useInput 使用 Hooks 实现 input 输入逻辑
+```js
+const useInput = (initialValue:string) => {
+  const [value, setValue] = useState(initialValue)
+
+  const handleChange = (e:any) => {
+    setValue(e.target.value)
+  }
+
+  return {
+    value,
+    onChange: handleChange
+  }
+}
+```
+```js
+const useInputDemo = () => {
+  const value = useInput('KuangPF')
+
+  return (
+    <div className="use-input">
+      <p>current name: {value.value}</p>
+      <input {...value} />
+    </div>
+  )
+}
+```
 
 ## useContext
 `useContext` 是为了在 function 组件中使用类组件的 [context](https://reactjs.org/docs/context.html) API，使用方法很简单，首先创建一个 context：
