@@ -129,7 +129,12 @@ git revert commit
 * 合并本地分支 `git merge hotfix`：(将 hotfix 分支合并到当前分支)
 * 合并远程分支 `git merge origin/serverfix`
 * 删除本地分支 `git branch -d hotfix`：(删除本地 hotfix 分支)
-* 删除远程分支 `git push origin --delete serverfix`
+* 删除远程分支 `git push origin --delete serverfix` 
+or
+```js
+git branch -D master; //删除本地master分支
+git push origin :master; //删除远程master分支
+```
 * 上传新命名的本地分支：`git push origin newName`;
 * 创建新分支：`git branch branchName`：(创建名为 branchName 的本地分支)
 * 切换到新分支：`git checkout branchName`：(切换到 branchName 分支)
