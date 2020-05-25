@@ -53,7 +53,7 @@ commit 时，遗漏提交部分更新，有两种解决方案：
 
 * 方案一：再次 commit
   ```js
-  git commit -m“提交消息”
+  git commit -m 提交消息
   ```
   
   
@@ -307,7 +307,7 @@ git config --global user.email "email"
 ```
 git rm -r --cached .
 git add .
-git commit -m ".gitignore is now working”
+git commit -m .gitignore is now working
 ```
 
 ### 十一、同步Github fork 出来的分支

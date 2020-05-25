@@ -1822,7 +1822,7 @@ doc/.txt # 会忽略 doc/notes.txt 但不包括 doc/server/arch.txt
 ```shell
 git rm -r --cached .
 git add .
-git commit -m 'update .gitignore'
+git commit -m update .gitignore
 ```
 
 ## 外边距合并
