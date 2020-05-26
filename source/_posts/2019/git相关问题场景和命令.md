@@ -223,12 +223,14 @@ git rebase dev
 
 这样就可以将 feature 重新拼接到更新了的 dev 之后，然后就可以合并了，最终得到一个干净舒服的提交线图。
 
-**再次提醒：像之前提到的，rebase 是『危险行为』，建议你足够熟悉 git 时才这么做，否则的话是得不偿失啊。**
+**再次提醒：像之前提到的，rebase 是『危险行为』，建议你足够熟悉 git 时才这么做，否则的话是得不偿失的。**
 
 ##### 总结
 使用 `git pull --rebase` 和 `git merge --no-ff` 其实和直接使用 `git pull` `git merge` 得到的代码应该是一样。
 
-使用 `git pull --rebase` 主要是为是将提交约线图平坦化，而 `git merge --no-ff` 则是刻意制造分叉。
+使用 `git pull --rebase` 主要是为是将提交的线图平坦化，而 `git merge --no-ff` 则是刻意制造分叉。
+
+git rebase 和 git merge 主要的区别在于是否保留分支的 commit 提交节点，rebase 会给你一个简洁的线性历史树。
 
 ### 六、SSH
 #### 1. 查看是否生成了 SSH 公钥

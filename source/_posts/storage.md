@@ -148,6 +148,11 @@ window.localStorage.key(1) // 读取索引为1的值
     }
 ```
 
+## cookie 与 session 的区别
+- Session 是在服务端保存的一个数据结构，用来跟踪用户的状态，这个数据可以保存在集群、数据库、文件中； 
+
+- Cookie 是客户端保存用户信息的一种机制，用来记录用户的一些信息，也是实现 Session 的一种方式。
+
 ## 规避localStorage缺点---localforage
 
 localforage的逻辑是这样的：优先使用IndexedDB存储数据，如果浏览器不支持，使用WebSQL，浏览器再不支持，使用localStorage。

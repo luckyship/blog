@@ -2307,3 +2307,15 @@ img {
     - IP协议实现数据传递到对方计算机
     - 解析请求报文并生成响应报文
 TCP协议是一种面向连接的、可靠的字节流的运输层通信协议，TCP是全双工模式。
+
+## flex: 0 1 auto 表示什么意思
+> flex: 0 1 auto 其实就是弹性盒子的默认值，表示 flex-grow, flex-shrink 和 flex-basis 的简写，分别表示放大比例、缩小比例、分配多余空间之前占据的主轴空间。
+
+
+## 小程序的技术架构和方案、小程序的出现主要解决什么问题？
+包含小程序容器、渲染引擎和 JavaScript 引擎。UI 层运行在 WebView 中，而逻辑层运行在独立的 JS 引擎中。
+
+降低获客成本、打通跨端
+
+## view 层、js 层分别在哪里、怎么通信 ?
+业务逻辑的 JS 在独立的 JavaScript 引擎（ServiceWorker）中，每个页面的 view 和 css 运行在各自独立的 webview 里面，页面之间是通过函数 navigateTo 进行页面的切换；JS 层和 view 层通过消息服务 MessageChannel 进行通信。
