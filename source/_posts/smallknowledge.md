@@ -2858,3 +2858,12 @@ var utterance = new SpeechSynthesisUtterance('cosyer');
 window.speechSynthesis.speak(utterance);
 ```
 
+## 代码结果
+```js
+Object instanceof Function
+Function instanceof Object
+
+Object instanceof Object
+Function instanceof Function
+// true
+```

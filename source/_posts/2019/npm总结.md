@@ -271,6 +271,8 @@ npm adduser
 
 ```js
 npm publish . // package.json 所在目录
+
+npm publish --tag beta // 上传beta版本
 ```
 
 在这个过程中，npm 会将目录打包成一个存档文件，然后上传到官方源仓库中
