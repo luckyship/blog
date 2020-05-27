@@ -259,6 +259,19 @@ console.log(instance2.colors);//["red", "blue", "green", "black"]
 2. 来自原型对象的所有属性被所有实例共享（上诉例子中的color属性）
 3. 创建子类实例时，无法向父构造函数传参
 
+#### 圣杯模式
+```js
+var inherit = (function(c,p){
+	var F = function(){};
+	return function(c,p){
+		F.prototype = p.prototype;
+		c.prototype = new F();
+		c.uber = p.prototype;
+		c.prototype.constructor = c;
+	}
+})();
+```
+
 ### 组合继承(将原型链和借用构造函数的技术组合到一块。使用原型链实现对原型属性和方法的继承，而通过构造函数来实现对实例属性的继承)
 ```javascript
 function SuperType(name){  //父类（构造函数）

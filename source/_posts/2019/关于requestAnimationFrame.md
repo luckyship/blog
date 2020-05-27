@@ -83,7 +83,7 @@ window.requestAnimationFrame(requestAnimation);
 // setInterval实现
 function setInterval(callback, interval) {
     let timer
-    const now = Date.now
+    const now = Date.now()
     let startTime = now()
     let endTime = startTime
     const loop = () ={

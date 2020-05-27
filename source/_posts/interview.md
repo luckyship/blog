@@ -545,10 +545,11 @@ JSON.parse() // 解析成JSON对象
 JSON.strinify() // 解析成JSON字符串
 ```
 
-## js延时加载的方式？
-- defer(仅ie支持)和async
-- 动态创建DOM
-- 按需异步加载JS
+## script 引入方式：
+- html 静态<script>引入
+- js 动态插入<script>
+- <script defer>: 延迟加载，元素解析完成后执行
+- <script async>: 异步加载，但执行时会阻塞元素渲染
 
 ## ajax（异步的js和xml）
 - ajax是指一种创建交互式网页应用的网页开发技术。通过后台与服务器进行少量数据交换，AJAX可以使网页实现异步更新。这意味着可以在不重新加载整个网页的情况下，对网页的某部分进行更新。
@@ -843,7 +844,7 @@ div {
 ```
 
 4. table-cell未脱离文档流 设置父元素的display:table-cell,并且vertical-align:middle，这样子元素可以实现垂直居中。
-5. text-align:center 块级元素
+5. text-align:center 行内元素
 
 ## visibility=hidden, opacity=0，display:none
 - opacity=0，该元素隐藏起来了，但不会改变页面布局，并且，如果该元素已经绑定一些事件，如click事件，那么点击该区域，也能触发点击事件的
@@ -1079,12 +1080,12 @@ console.log(map)
 zoom:1的清除浮动原理?
 清除浮动，触发hasLayout；
 Zoom属性是IE浏览器的专有属性，它可以设置或检索对象的缩放比例。解决ie下比较奇葩的bug。
-譬如外边距（margin）的重叠，浮动清除，触发ie的haslayout属性等。
+譬如外边距（margin）的重叠，浮动清除，触发ie的hasLayout属性等。
 
 来龙去脉大概如下：
 当设置了zoom的值之后，所设置的元素就会就会扩大或者缩小，高度宽度就会重新计算了，这里一旦改变zoom值时其实也会发生重新渲染，运用这个原理，也就解决了ie下子元素浮动时候父元素不随着自动扩大的问题。
 
-3. 给浮动元素的容器也添加浮动
+3. 给浮动元素的容器也添加浮动(创建父级BFC)
 4. 给浮动元素后面的元素添加clear属性
 5. 使用after伪元素清除浮动（用于非IE浏览器）
 
@@ -1710,8 +1711,8 @@ localstorge另一个浏览上下文里被添加、修改或删除时，它都会
 
 优先级为:
 同权重: 内联样式表（标签内部）> 嵌入样式表（当前文件中）> 外部样式表（外部文件中）。
-!important >  id > class > tag
-important 比 内联优先级高
+!important > 行内样式 > id > class > tag > * > 继承 > 默认
+important 比 内联优先级高，选择器从右往左解析
 
 ## css3新增的伪类
 举例：
@@ -1918,15 +1919,15 @@ const foo = ((x, f = (y = x) => x + y) => {
 ```
 
 ## link与@import的区别
-- link 是 html 方式，@import是css方式
+- link 是 html 方式，@import是css方式，link功能较多，可以定义 RSS，定义 Rel 等作用，而@import只能用于加载 css
 
 - link最大限度支持并行下载，@import过多嵌套导致串行下载
 
 - link可以通过rel="alternate stylesheet"指定候选样式
 
-- 浏览器对link支持早于@import，可以使用@import对老浏览器隐藏样式
+- 浏览器对link支持早于@import，可以使用@import对老浏览器隐藏样式，@import需要 IE5 以上才能使用
 
-- @import必须在样式规则之前，可以在 css 文件中引用其他文件
+- @import必须在样式规则之前，可以在 css 文件中引用其他文件，link可以使用 js 动态引入，@import不行
 
 - 总体来说：link 优于@import
 
@@ -2319,3 +2320,17 @@ TCP协议是一种面向连接的、可靠的字节流的运输层通信协议�
 
 ## view 层、js 层分别在哪里、怎么通信 ?
 业务逻辑的 JS 在独立的 JavaScript 引擎（ServiceWorker）中，每个页面的 view 和 css 运行在各自独立的 webview 里面，页面之间是通过函数 navigateTo 进行页面的切换；JS 层和 view 层通过消息服务 MessageChannel 进行通信。
+
+## AST(抽象语法树)
+抽象语法树 (Abstract Syntax Tree)，是将代码逐字母解析成 树状对象 的形式。这是语言之间的转换、代码语法检查，代码风格检查，代码格式化，代码高亮，代码错误提示，代码自动补全等等的基础。例如:
+```js
+function square(n){
+	return n * n
+}
+```
+![ast](http://cdn.mydearest.cn/blog/images/ast.png)
+
+## babel编译原理
+- babylon 将 ES6/ES7 代码解析成 AST
+- babel-traverse 对 AST 进行遍历转译，得到新的 AST
+- 新 AST 通过 babel-generator 转换成 ES5

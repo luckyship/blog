@@ -36,9 +36,19 @@ BFC——块级格式化上下文
   - 同一个BFC的margin重叠
 
 #### 当开启元素的BFC以后，元素将会具有如下的特性：
-1. 父元素的垂直外边距不会和子元素重叠
-2. 开启BFC的元素不会被浮动元素所覆盖
-3. 开启BFC的元素可以包含浮动的子元素
+- 属于同一个 BFC 的两个相邻 Box 垂直排列
+- 属于同一个 BFC 的两个相邻 Box 的 margin 会发生重叠
+- BFC 中子元素的 margin box 的左边， 与包含块 (BFC) border box的左边相接触 (子元素 absolute 除外)
+- BFC 的区域不会与 float 的元素区域重叠
+- 计算 BFC 的高度时，浮动子元素也参与计算
+- 文字层不会被浮动层覆盖，环绕于周围
+
+
+#### 应用
+- 阻止margin重叠
+- 可以包含浮动元素 —— 清除内部浮动(清除浮动的原理是两个div都位于同一个 BFC 区域之中)
+- 自适应两栏布局
+- 可以阻止元素被浮动元素覆盖
 
 #### 如何开启元素的BFC
 1. 设置元素浮动(不推荐)
@@ -104,3 +114,45 @@ window.addEventListener("orientationchange", function() {
     window.addEventListener('DOMContentLoaded',init,false);
 })();
 ```
+
+### 层叠上下文
+元素提升为一个比较特殊的图层，在三维空间中 (z轴) 高出普通元素一等。
+
+- 触发条件
+  - 根层叠上下文(html)
+    - position
+    - css3属性
+    - flex
+    - transform
+    - opacity
+    - filter
+    - will-change
+    - -webkit-overflow-scrolling
+
+- 层叠等级：层叠上下文在z轴上的排序
+  - 在同一层叠上下文中，层叠等级才有意义
+  - z-index的优先级最高
+
+![z-index](http://cdn.mydearest.cn/blog/images/z-index.png)
+
+### 居中布局
+
+
+#### 水平居中
+
+行内元素: text-align: center
+块级元素: margin: 0 auto
+absolute + transform
+flex + justify-content: center
+
+#### 垂直居中
+
+line-height: height
+absolute + transform
+flex + align-items: center
+table
+
+#### 水平垂直居中
+
+absolute + transform
+flex + justify-content + align-items
