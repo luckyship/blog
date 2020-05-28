@@ -2858,7 +2858,7 @@ var utterance = new SpeechSynthesisUtterance('cosyer');
 window.speechSynthesis.speak(utterance);
 ```
 
-## 代码结果
+## instanceof测试练习
 ```js
 Object instanceof Function
 Function instanceof Object
@@ -2867,3 +2867,19 @@ Object instanceof Object
 Function instanceof Function
 // true
 ```
+
+## 掘金头像旋转
+```css
+#pic:hover {
+    transform: rotate(666turn);
+    transition-delay: 1s;
+    transition-property: all;
+    transition-duration: 59s;
+    transition-timing-function: cubic-bezier(.34,0,.84,1);
+}
+```
+1. transform: rotate(666turn); 常见的用来旋转元素角度的css，这里用到的是turn，1turn = 360°
+2. transition-delay：1s; 这个属性的作用就是效果执行前的等待时间
+3. transition-property: all; 这个属性是指明效果变换的位置，比如width，height等，all是所有属性。
+4. transition-duration: 59s; 过渡效果的持续时间。
+5. transition-timing-function: cubic-bezier(.34,0,.84,1); 过渡效果的速度曲线 四个值的范围都是0-1 代表整个过程。

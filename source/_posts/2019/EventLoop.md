@@ -54,7 +54,7 @@ script(宏任务) - 清空微任务队列 - 执行一个宏任务 - 清空微任
 ### 微任务(优先级由高到低)
 - process.nextTick
 - Promise.then
-- Object.observe
+- Object.observe(该方法已废弃)
 - MutationObserver
 
 ### 微任务的意义
@@ -74,6 +74,20 @@ script(宏任务) - 清空微任务队列 - 执行一个宏任务 - 清空微任
 
 ![summary-loop](http://cdn.mydearest.cn/blog/images/summary-loop.png)
 
+**精炼**事件循环是指: 执行一个宏任务，然后执行清空微任务列表，循环再执行宏任务，再清微任务列表。
+
+### Node 的 Event Loop: 6个阶段
+- timer 阶段: 执行到期的setTimeout / setInterval队列回调
+- I/O 阶段: 执行上轮循环残流的callback
+- idle, prepare
+- poll: 等待回调
+  - 执行回调
+  - 执行定时器
+    - 如有到期的setTimeout / setInterval， 则返回 timer 阶段
+    - 如有setImmediate，则前往 check 阶段
+- check
+  - 执行setImmediate
+- close callbacks
 
 ### 练习题
 ```js

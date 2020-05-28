@@ -152,7 +152,7 @@ PATCH方法出现的较晚，它在2010年的RFC 5789标准中被定义。PATCH�
     </details>
   * 302 Found
     <details>
-      <summary>临时性重定向</summary>
+      <summary>临时性重定向(可使用原有URI)</summary>
       该状态码表示请求的资源已被分配了新的 URI，希望用户（本次）能使用新的 URI 访问。和 301 Moved Permanently 状态码相似，但 302 状态码代表的资源不是被永久移动，只是临时性质的。换句话说，已移动的资源对应的URI 将来还有可能发生改变。比如，用户把 URI 保存成书签，但不会像 301 状态码出现时那样去更新书签，而是仍旧保留返回 302 状态码的页面对应的 URI。
     </details>
   * 303 See Other
@@ -162,7 +162,7 @@ PATCH方法出现的较晚，它在2010年的RFC 5789标准中被定义。PATCH�
     </details>
   * 304 Not Modified
     <details>
-      <summary>协商缓存</summary>
+      <summary>协商缓存(资源未修改可使用缓存)</summary>
       该状态码表示客户端发送附带条件的请求时，服务器端允许请求访问资源，但未满足条件的情况。304 状态码返回时，不包含任何响应的主体部分。304 虽然被划分在 3XX 类别中，但是和重定向没有关系。(附带条件的请求是指采用 GET方法的请求报文中包含 If-Match，If-ModifiedSince，If-None-Match，If-Range，If-Unmodified-Since 中任一首部。)
     </details>
   * 307 Temporary Redirect
@@ -178,12 +178,12 @@ PATCH方法出现的较晚，它在2010年的RFC 5789标准中被定义。PATCH�
     </details>
   * 401 Unauthorized
     <details>
-      <summary>未认证</summary>
+      <summary>要求身份认证</summary>
       该状态码表示发送的请求需要有通过 HTTP 认证（BASIC 认证、DIGEST 认证）的认证信息。另外若之前已进行过 1 次请求，则表示用 户认证失败。返回含有 401 的响应必须包含一个适用于被请求资源的 WWWAuthenticate 首部用以质询（challenge）用户信息。当浏览器初次接收到 401 响应，会弹出认证用的对话窗口。
     </details>
   * 403 Forbidden
     <details>
-      <summary>拒绝服务</summary>
+      <summary>拒绝请求</summary>
       该状态码表明对请求资源的访问被服务器拒绝了。服务器端没有必要给出拒绝的详细理由，但如果想作说明的话，可以在实体的主体部分对原因进行描述，这样就能让用户看到了。未获得文件系统的访问授权，访问权限出现某些问题（从未授权的发送源 IP 地址试图访问）等列举的情况都可能是发生 403 的原因。
     </details>
   * 404 Not Found
@@ -213,6 +213,10 @@ DNS 解析、连接、传输、处理。
 ## TCP三次握手
 客户端和服务端都需要知道各自可收发，因此需要三次握手
 
+- 客户端发送 syn(同步序列编号) 请求，进入 syn_send 状态，等待确认
+- 服务端接收并确认 syn 包后发送 syn+ack 包，进入 syn_recv 状态
+- 客户端接收 syn+ack 包后，发送 ack 包，双方进入 established 状态
+
 ```js
                   C                   S
                           SYN=1
@@ -223,6 +227,12 @@ DNS 解析、连接、传输、处理。
                      ---------------> 确认C可收
 
 ```
+
+## TCP四次挥手
+- 客户端 -- FIN --> 服务端， FIN—WAIT
+- 服务端 -- ACK --> 客户端， CLOSE-WAIT
+- 服务端 -- ACK,FIN --> 客户端， LAST-ACK
+- 客户端 -- ACK --> 服务端，CLOSED
 
 ## TCP和UDP的区别
 
