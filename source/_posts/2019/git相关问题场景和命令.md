@@ -230,7 +230,7 @@ git rebase dev
 
 使用 `git pull --rebase` 主要是为是将提交的线图平坦化，而 `git merge --no-ff` 则是刻意制造分叉。
 
-git rebase 和 git merge 主要的区别在于是否保留分支的 commit 提交节点，rebase 会给你一个简洁的线性历史树。
+git rebase 和 git merge 主要的区别在于是否保留分支的 commit 提交节点，rebase 会给你一个简洁的线性历史树。rebase 适合小分支，大分支还是使用 merge --squash。
 
 ### 六、SSH
 #### 1. 查看是否生成了 SSH 公钥
