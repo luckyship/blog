@@ -12,12 +12,20 @@ photos:
 ---
 
 概念：
-- 一个app有一个store，一个store管理着一个全局state
+- 一个app只有一个store，一个store管理着一个全局state含有以下方法
+  - getState: 获取 state；
+  - dispatch: 触发 action, 更新 state；
+  - subscribe: 订阅数据变更，注册监听器；
 - createStore 传入reducer，返回getState, dispatch, subscribe
 - action是一个至少有type这个键的对象，可以写一个creactActioner 函数去return生成action对象
 - createStore.dispatch(action) 根据action这个对象去更新state
 - dispatch是一个函数，内部有将执行reducer函数
 - reducer也是一个函数，传入state,action, 输出一个新的state . (switch case return…)
+  - 遵守数据不可变，不要去直接修改 state，而是返回出一个 新对象；
+  - 默认情况下需要 返回原数据，避免数据被清空；
+  - 最好设置 初始值，便于应用的初始化及数据稳定；
+
+![redux](http://cdn.mydearest.cn/blog/images/redux.png)
 
 ---
 <!-- more -->

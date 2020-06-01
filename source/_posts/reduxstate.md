@@ -150,9 +150,18 @@ TodoList是 UI 组件，VisibleTodoList就是由 react-redux 通过connect方法
 mapStateToProps：从Redux状态树中提取需要的部分作为props传递给当前的组件。
 mapDispatchToProps：将需要绑定的响应事件（action）作为props传递到组件上。
 
-### Provide
+### Provide(将 store 通过 context 传入组件中)
 Provider实现store的全局访问，将store传给每个组件。
 原理：使用React的context，context可以实现跨组件之间的传递。
+
+### reducer的拆分和重构
+随着项目越大，如果将所有状态的 reducer 全部写在一个函数中，将会 难以维护；可以将 reducer 进行拆分，也就是 函数分解，最终再使用`combineReducers()`进行重构合并；
+
+### 异步Action
+由于 Reducer 是一个严格的纯函数，因此无法在 Reducer 中进行数据的请求，需要先获取数据，再dispatch(Action)即可，下面是三种不同的异步实现:
+- [redex-thunk](https://github.com/reduxjs/redux-thunk)
+- [redux-saga](https://github.com/redux-saga/redux-saga)
+- [redux-observable](https://github.com/redux-observable/redux-observable)
 
 ## 使用 复杂性 数据交互 结构复杂繁琐 大型
 - "如果你不知道是否需要 Redux，那就是不需要它。"

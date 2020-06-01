@@ -66,6 +66,6 @@ switch(number){
 // Uncaught ReferenceError: name is not defined
 ```
 
-这里虽然case里面定义的块级虽然不会存在变量提升，但是会存在暂时性死区,也就是说如果let name = 'cosyer' 没有执行，也就是name定义的过程没有执行，那么name在整个块级作用域内都是不可用的，都是undefined。
+这里虽然case里面定义的块级虽然不会存在变量提升，但是会存在暂时性锁区,也就是说如果let name = 'cosyer' 没有执行，也就是name定义的过程没有执行，那么name在整个块级作用域内都是不可用的，都是undefined。
 
 所以尽量不要在case里定义块级变量。

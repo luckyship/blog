@@ -78,7 +78,7 @@ script(宏任务) - 清空微任务队列 - 执行一个宏任务 - 清空微任
 
 ### Node 的 Event Loop: 6个阶段
 - timer 阶段: 执行到期的setTimeout / setInterval队列回调
-- I/O 阶段: 执行上轮循环残流的callback
+- I/O 阶段: 执行上轮循环残留的callback
 - idle, prepare
 - poll: 等待回调
   - 执行回调

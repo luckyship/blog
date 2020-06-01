@@ -1456,7 +1456,8 @@ function unique(arr) {
 [(1,2,3)] // [3]
 ```
 
-## 斐波那契 js 实现
+## 递归运用斐波那契数列 js 实现
+
 ```js
 function* fibo()
 {
@@ -1476,6 +1477,17 @@ for(let i of fibo())
     console.log(i);
 }
 // 实现10000以内的数列
+```
+爬楼梯问题
+初始在第一级，到第一级有1种方法(s(1) = 1)，到第二级也只有一种方法(s(2) = 1)， 第三级(s(3) = s(1) + s(2))
+```js
+function cStairs(n) {
+    if(n === 1 || n === 2) {
+        return 1;
+    } else {
+        return cStairs(n-1) + cStairs(n-2)
+    }
+}
 ```
 
 ## arguments对象的length属性显示实参的个数，函数的length属性显示形参的个数。
