@@ -386,3 +386,6 @@ git push
 ### 参考
 本文参考了 [洁癖者用 Git：pull --rebase 和 merge --no-ff](http://hungyuhei.github.io/2012/08/07/better-git-commit-graph-using-pull---rebase-and-merge---no-ff.html)
 
+[Git常用命令参考手册](https://github.com/xjh22222228/git-manual)
+
+[高质量的Git中文教程](https://github.com/geeeeeeeeek/git-recipes)

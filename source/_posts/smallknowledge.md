@@ -2958,3 +2958,12 @@ Function instanceof Function
   filter: drop-shadow(2px 2px 2px rgba(0,0,0,.2));
 }
 ```
+
+## 禁用鼠标事件
+```css
+.disabled {
+    pointer-events: none;
+    cursor: default;
+    opacity: 0.6;
+}
+```
