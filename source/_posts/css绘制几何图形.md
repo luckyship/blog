@@ -87,7 +87,7 @@ border-radius: 50px;
 }
 ```
 
-### 三角形 尖端朝向
+### 正三角
 ```css
 #triangle-up {
     width: 0;
@@ -525,4 +525,12 @@ border-radius: 50px;
   border-radius: 50%;
   box-shadow: 15px 15px 0 0 red;
 }  
+```
+
+### 虚线
+```css
+.dotted-line{
+    border: 1px dashed transparent;
+    background: linear-gradient(white,white) padding-box, repeating-linear-gradient(-45deg,#ccc 0, #ccc .25em,white 0,white .75em);
+}
 ```

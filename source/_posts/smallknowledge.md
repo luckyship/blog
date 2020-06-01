@@ -2681,13 +2681,25 @@ template('我是{{name}}，年龄{{age}}，性别{{sex}}', {name: '陈宇', age:
 Array.from({length: 26}, (_, i) => String.fromCharCode(65 + i));
 ```
 
+## 单行文本的省略号
+```css
+.single-ellipsis{
+  width: 500px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+```
+
 ## 多行元素的文本省略号
 ```css
-div {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
-    overflow: hidden;
+.multiline-ellipsis {
+  display: -webkit-box;
+  word-break: break-all;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4; // 需要显示的行数
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 ```
 
@@ -2883,3 +2895,66 @@ Function instanceof Function
 3. transition-property: all; 这个属性是指明效果变换的位置，比如width，height等，all是所有属性。
 4. transition-duration: 59s; 过渡效果的持续时间。
 5. transition-timing-function: cubic-bezier(.34,0,.84,1); 过渡效果的速度曲线 四个值的范围都是0-1 代表整个过程。
+
+## 时间轴
+```html
+<div class="timeline-content">
+  <div v-for='(item, index) in timeLine' :key='index' class="time-line">
+    <div :class="`state-${item.state} state-icon`"></div>
+    <div class="timeline-title">{{item.title}}</div>
+  </div>
+</div>
+```
+
+```css
+/** 时间轴 */
+.timeline-content{
+  display: flex;
+  .time-line{
+    padding: 10px 10px 10px 20px;
+    position: relative;
+    &::before{
+      content: '';
+      height: 1px;
+      width: calc(100% - 34px);
+      background: #EBEBEB;
+      position: absolute;
+      left: 24px;
+      top: 0;
+    }
+  }
+  .state-icon{
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: -12px;
+    left: 0;
+  }
+  .state-1{
+    background: url('https://static.daojia.com/assets/project/tosimple-pic/fen-zu-7-copy-6bei-fen_1589266208621.png') no-repeat;
+    background-size: cover;
+  }
+  .state-2{
+    background: url('https://static.daojia.com/assets/project/tosimple-pic/12_1589266226040.png') no-repeat;
+    background-size: cover;
+  }
+  .state-3{
+    background: url('https://static.daojia.com/assets/project/tosimple-pic/fen-zu-7-copy-3_1589266140087.png') no-repeat;
+    background-size: cover;
+  }
+}
+```
+
+## 卡券效果
+```css
+.coupon{
+  width: 300px;
+  height: 100px;
+  position: relative;
+  background: radial-gradient(circle at right bottom, transparent 10px, #ffffff 0) top right /50% 51px no-repeat,
+    radial-gradient(circle at left bottom, transparent 10px, #ffffff 0) top left / 50% 51px no-repeat,
+    radial-gradient(circle at right top, transparent 10px, #ffffff 0) bottom right / 50% 51px no-repeat,
+    radial-gradient(circle at left top, transparent 10px, #ffffff 0) bottom left / 50% 51px no-repeat;
+  filter: drop-shadow(2px 2px 2px rgba(0,0,0,.2));
+}
+```
