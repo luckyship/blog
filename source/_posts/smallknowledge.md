@@ -2959,11 +2959,23 @@ Function instanceof Function
 }
 ```
 
-## 禁用鼠标事件
+## css禁用鼠标事件
 ```css
 .disabled {
     pointer-events: none;
     cursor: default;
     opacity: 0.6;
+}
+```
+
+## css禁止用户选择
+```css
+body{
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 ```
