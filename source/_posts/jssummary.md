@@ -1549,3 +1549,9 @@ let arr = [1, 2, 3, 4]
  - reverse
  - fill
  - copyWithin
+
+## polyfill(腻子)
+polyfill 是“在旧版浏览器上复制标准 API 的 JavaScript 补充”,可以动态地加载 JavaScript 代码或库，在不支持这些标准 API 的浏览器中模拟它们。
+
+- 常用的方案
+> html5shiv、Geolocation、Placeholder

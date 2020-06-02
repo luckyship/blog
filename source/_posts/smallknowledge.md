@@ -159,6 +159,8 @@ Object.is(NaN,NaN) // true
 ## 判断NaN
 ```js
 Number.isNaN(); // true 与isNaN全局函数相比，不存在类型转换更加严格
+Number.isNaN('测试') // false
+isNaN('测试') // true
 x!==x // =>NaN false
 // {}!=={} []!==[]
 ```
@@ -2978,4 +2980,25 @@ body{
   -ms-user-select: none;
   user-select: none;
 }
+```
+
+## jquery添加扩展方法
+```js
+$.fn.stringifyArray = function(array) {
+  return JSON.stringify(array)
+}
+```
+
+- jquery.extend 与 jquery.fn.extend的区别？
+> jquery.extend 为jquery类添加类方法，可以理解为添加静态方法
+> 源码中jquery.fn = jquery.prototype所以jquery.fn.extend扩展，所有jquery实例都可以直接调用。
+
+```js
+// 多个事件同一个函数：
+$("div").on("click mouseover", function(){});
+// 多个事件不同函数
+$("div").on({
+  click: function(){},
+  mouseover: function(){}
+});
 ```
