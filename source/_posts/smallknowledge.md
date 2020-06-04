@@ -3002,3 +3002,10 @@ $("div").on({
   mouseover: function(){}
 });
 ```
+
+## 万物转换(oﾟ▽ﾟ)o  
+```js
+'vue'.split('').sort().join('') // euv
+
+'node'.split('').sort().join('') // deno
+```

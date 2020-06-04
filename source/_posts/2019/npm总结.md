@@ -217,7 +217,7 @@ path.resolve(process.execPath, "..", "..", "lib", "node_modules")
 // 例如：/usr/local/lib/node_modules
 ```
 
-### 一零. npm 发布包
+### 十. npm 发布包
 * **创建一个空文件**：
 
 ```js
@@ -286,3 +286,16 @@ npm owner ls [<@scope>/]<pkg>
 ```
 
 在自己的项目中安装包 `npm install`，通过 `npm ls` 分析模块路径找到的所有包，并生成依赖树。
+
+### 常见错误
+1. Unable to look up github.com (port 9418)
+
+```js
+git config --global url."https://".insteadOf git://
+```
+再重新`npm install`，问题解决。
+
+2. 清除包缓存
+```js
+npm cache clean --force
+```
