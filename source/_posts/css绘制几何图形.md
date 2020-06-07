@@ -534,3 +534,72 @@ border-radius: 50px;
     background: linear-gradient(white,white) padding-box, repeating-linear-gradient(-45deg,#ccc 0, #ccc .25em,white 0,white .75em);
 }
 ```
+
+## 气泡框
+使用绝对定位进行三角形覆盖，实现气泡框突出部分。
+```html
+<style>
+.bubble-tip {
+  width: 100px;
+  height: 30px;
+  line-height: 30px;
+  margin-left: 10px;
+  border: 1px solid #c5c5c5;
+  border-radius: 4px;
+  position: relative;
+  background-color: #fff;
+}
+.bubble-tip::before {
+  content: "";
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 10px 10px 10px 0;
+  border-color: transparent #ffffff transparent transparent;
+  position: absolute;
+  top: 5px;
+  left: -10px;
+  z-index: 2;
+}
+.bubble-tip::after {
+  content: "";
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 10px 10px 10px 0;
+  border-color: transparent #c5c5c5 transparent transparent;
+  position: absolute;
+  top: 5px;
+  left: -11px;
+  z-index: 1;
+}
+</style>
+<div class="bubble-tip"></div>
+```
+
+## 卡券贴
+在CSS3当中，background添加了`background-size`属性，控制背景图片的大小，配合`background-position`属性，可以在一个背景下面展示多张图片。详见[background-MDN](https://developer.mozilla.org/zh-CN/docs/Web/CSS/background)。
+
+
+卡券贴的核心是使用透明白色径向渐变radial-gradient，分别让4张背景图中的左下角、右下角、右上角和左下角出现缺省，再利用drop-shadow实现元素阴影，从而达到效果。
+
+radial-gradient语法如下：
+```css
+radial-gradient(shape size at position, start-color, ..., last-color)
+```
+
+```html
+<style>
+.coupon{
+  width: 200px;
+  height: 80px;
+  background: radial-gradient(circle at right bottom, transparent 10px, #ffffff 0) top right / 50% 40px no-repeat,
+    radial-gradient(circle at left bottom, transparent 10px, #ffffff 0) top left / 50% 40px no-repeat,
+    radial-gradient(circle at right top, transparent 10px, #ffffff 0) bottom right / 50% 40px no-repeat,
+    radial-gradient(circle at left top, transparent 10px, #ffffff 0) bottom left / 50% 40px no-repeat;
+  filter: drop-shadow(3px 3px 3px #c5c5c5);
+}
+</style>
+
+<div class="coupon"></div>
+```
