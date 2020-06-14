@@ -1522,7 +1522,7 @@ item.style.backgroundColor = '#' + Math.random().toString(16).slice(2, 8);
 
 UTC和本地时间的关系：本地时间=UTC+时区+夏令时偏移量。
 
-## uuid生成
+## uuid生成(Math.random)
 ```javascript
 function uuid(len, radix) {
     var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
@@ -1584,6 +1584,16 @@ function getHashName(prefix) {
 
 function randomNum(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+```
+
+## UUID(createObjectURL)
+```js
+function uuid() {
+  var temp_url = URL.createObjectURL(new Blob());
+  var uuid = temp_url.toString(); // blob:https://xxx.com/b250d159-e1b6-4a87-9002-885d90033be3
+  URL.revokeObjectURL(temp_url);
+  return uuid.substr(uuid.lastIndexOf("/") + 1);
 }
 ```
 
