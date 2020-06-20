@@ -363,12 +363,19 @@ git push
 但在团队协作时，每次 commit 前还需要 rebase upstream，这会自动将一些其他人做的修改也自动merge到本地的源码中。如果此时希望覆盖前一次 commit ，reset 到之前的状态后，再次 commit 的内容就包含了其他人的修改，这不是我们希望看到的。因此，我们需要使用 git rebase -i 。
 
 #### 基本步骤
-- 1. git log查看所有commit的情况，找到自己想要合并的commit之前的那个commit的ssh码；
+- 1. git log查看所有commit的情况，找到自己想要合并的commit之前的那个commit的ssh码(前7位)；
 - 2. git rebase -i 43jk2l3ba343，这样会弹出一个文本编辑器；git reset --soft  HEAD^ 上个commit ^^上上个commit HEAD~6；
 - 3. 修改pick为squash会将这个commit合并到前一个commit中，保存退出；
 - 4. 提示写下新的commit message，之前的message可以用#注释掉，保存退出；
 - 5. 此时再git log就会发现，两个commit被合并到一个commit中。
 
+### 修改push到远程的commit
+- git log
+- git rebase -i 
+- pick修改为edit
+- git commit --amend 修改新的commit message保存
+- git rebase --continue
+- git push -f
 
 ### Commit message 前缀规范提要
 | code      | info          
@@ -382,6 +389,16 @@ git push
 | **test**:msg | 增加测试| 
 | **chore**:msg | 构建过程或辅助工具的变动| 
 | **rm**:msg | 删除文件或代码 | 
+
+### 恢复误删除的stash
+```bash
+# 显示所有不可访问对象
+git fask --unreachable
+
+git show 302063e31742cbce7c5fdb917edf520183154cc1 > D:\recovery\backup.txt
+```
+
+> 在使用 git fsck –unreachable 命令输出的很多文件里面，有很多是带有 commit 和 tree 的标识的，这些可以使用 git stash apply 加标记号进行找回。而 blob 的文件是只能手动拷贝的，或者像上面一样使用> 输出到指定的路径去
 
 ### 参考
 本文参考了 [洁癖者用 Git：pull --rebase 和 merge --no-ff](http://hungyuhei.github.io/2012/08/07/better-git-commit-graph-using-pull---rebase-and-merge---no-ff.html)
