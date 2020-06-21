@@ -22,6 +22,9 @@ chsh -s /bin/zsh      # 设置为zsh
 chsh -s /bin/bash     # 设置为bash（Mac自带默认）
 ```
 
+---
+<!--more-->
+
 ## 安装 ob-my-zsh
 ```bash
 # 方式一：wegt安装
