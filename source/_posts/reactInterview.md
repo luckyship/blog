@@ -82,7 +82,7 @@ Refs 可以用于获取一个 DOM 节点或者 React 组件(组件实例)的引�
 因为 `this.props` 和 `this.state` 的更新可能是异步的，不能依赖它们的值去计算下一个 state。setState在生命周期里是异步的，第二个参数是组件重新渲染完成后的回调。
 
 ### 除了在构造函数中绑定 `this`，还有其它方式吗
-你可以使用属性初始值设定项(property initializers)来正确绑定回调，create-react-app 也是默认支持的。在回调中你可以使用箭头函数，但问题是每次组件渲染时都会创建一个新的回调。
+在 constructor 里使用 bind。在回调中你可以使用箭头函数，但问题是每次组件渲染时都会创建一个新的回调。
 
 ### 怎么阻止组件的渲染
 在组件的 `render` 方法中返回 `null` 并不会影响触发组件的生命周期方法
@@ -187,7 +187,7 @@ React 只会匹配相同 class 的 component（这里面的class指的是组件�
 diff的只是html tag，并没有diff数据。
 
 ### setState的理解
-- setState 只在`合成事件`和`钩子函数(除了componentDidUpdate)`中是“异步”的，在原生事件和setTimeout 中都是同步的。
+- setState 只在`合成事件`和`钩子函数(除了componentDidUpdate)`中是“异步”的，在原生事件和 setTimeout 中都是同步的。
 - setState 的“异步”并不是说内部由异步代码实现，其实本身执行的过程和代码都是同步的，只是合成事件和钩子函数的调用顺序在更新之前，导致在合成事件和钩子函数中没法立马拿到更新后的值，形成了所谓的“异步”，当然可以通过第二个参数 setState(partialState, callback) 中的callback拿到更新后的结果。
 - setState 的批量更新优化也是建立在“异步”（合成事件、钩子函数）之上的，在原生事件和setTimeout 中不会批量更新，在“异步”中如果对同一个值进行多次setState，setState的批量更新策略会对其进行覆盖，取最后一次的执行，如果是同时setState多个不同的值，在更新时会对其进行合并批量更新。
 
@@ -294,7 +294,8 @@ react的所有事件都通过document进行统一分发，当真实dom触发事�
 vdom的优势在于react的diff算法和批处理策略，react在页面更新之前，提前计算好了如何进行更新和渲染dom。vdom主要是能在重复渲染时帮助我们计算如何实现更高效的更新，而不是说它比dom操作快
 
 ### 虚拟dom中的$$typeof属性的作用是什么
-它被赋值为REACT_ELEMENT_TYPE，是一个symbol类型的变量，这个变量可以防止XSS。react渲染时会把没有$$typeof标识以及规则校验不通过的组件全都过滤掉
+它被赋值为REACT_ELEMENT_TYPE，是一个symbol类型的变量，这个变量可以防止XSS。react渲染时会把没有$$typeof标识以及规则校验不通过的组件全都过滤掉。当你的环境不支持Symbol时，$$typeof被赋值为0xeac7，为什么采用0xeac7？
+> 0xeac7看起来有点像React。
 
 ### HOC在业务场景中有哪些实际的应用
 

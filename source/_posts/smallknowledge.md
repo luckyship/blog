@@ -3040,3 +3040,40 @@ require.context('./test', false, /.test.js$/);
 r.keys().forEach(r);
 })(require.context('./', true, /reducer.js/));
 ```
+
+## img标签之间的间距问题原理
+众所周知，多个img并列显示时会有几像素间距，但是这并不是img标签特有的特性。
+
+### 原理
+> 实际上，所有display属性为inline ， inline-block 的盒模型都会有文字特性，间距就是由于两个标签之间的空白引起的。
+
+### 常用方案
+- 删除标签之间的空格
+```html
+<img src="img/test.jpg" alt=""><img src="img/test.jpg" alt=""><img src="img/test.jpg" alt="">
+```
+
+- 将父级设置为font-size: 0px：
+```html
+<div style="font-size: 0px">
+  <img src="img/test.jpg" alt="">
+  <img src="img/test.jpg" alt="">
+  <img src="img/test.jpg" alt="">
+  <img src="img/test.jpg" alt="">
+  <img src="img/test.jpg" alt="">
+</div>
+```
+
+-  将父级设置为使用负margin去除边距
+```css
+img {
+    margin-left: -8px;
+}
+```
+
+- 设置浮动
+```css
+img {
+    float: left;
+}
+```
