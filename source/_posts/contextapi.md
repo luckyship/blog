@@ -2,7 +2,6 @@
 title: React 16新特性context api
 tags:
   - react
-  - context api
 copyright: true
 comments: true
 date: 2018-06-11 17:19:45

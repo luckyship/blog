@@ -1,7 +1,6 @@
 ---
 title: 使用 Async/Await 让你的代码更简洁
 tags:
-  - es7
   - Async/Await
 copyright: true
 comments: true

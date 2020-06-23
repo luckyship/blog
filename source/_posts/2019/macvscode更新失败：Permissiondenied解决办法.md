@@ -1,7 +1,7 @@
 ---
 title: macvscode更新失败：Permissiondenied解决办法
 tags:
-  - 安装
+  - 工具
 copyright: true
 comments: true
 date: 2019-04-09 23:15:24
