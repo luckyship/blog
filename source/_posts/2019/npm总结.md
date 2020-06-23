@@ -299,3 +299,14 @@ git config --global url."https://".insteadOf git://
 ```js
 npm cache clean --force
 ```
+
+3. 淘宝镜像
+```js
+npm config set registry https://registry.npm.taobao.org
+
+// cnpm
+npm install -g cnpm --registry=https://registry.npm.taobao.org
+
+// 还原
+npm config set registry https://registry.npmjs.org
+```
