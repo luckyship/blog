@@ -3077,3 +3077,36 @@ img {
     float: left;
 }
 ```
+
+## prettier script
+```js
+"jsformat": "prettier --write \"./**/*.js\""
+
+{
+"editor.formatOnSave": true,
+"files.autoSave": "off",
+"git.ignoreMissingGitWarning": true,
+"git.enableSmartCommit": true,
+"fileheader.Author": "chenyu",
+"fileheader.LastModifiedBy": "chenyu",
+"powermode.enabled": false, // 屏振
+"git.autofetch": true,
+// tsconfig.json 文件会覆盖此设置。要求 TypeScript >=2.3.1。
+"javascript.implicitProjectConfig.experimentalDecorators": true,
+"prettier.disableLanguages": [
+"vue",
+"markdown"
+],
+"vetur.format.defaultFormatter.html": "js-beautify-html",
+"javascript.updateImportsOnFileMove.enabled": "never",
+"files.associations": {
+".cjson": "jsonc",
+".wxss": "css",
+"*.wxs": "javascript"
+},
+"emmet.includeLanguages": {
+"wxml": "html"
+},
+"minapp-vscode.disableAutoConfig": true
+}
+```
