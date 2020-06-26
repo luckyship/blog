@@ -35,3 +35,20 @@ xattr -dr com.apple.quarantine /Applications/Visual\ Studio\ Code.app
 ```
 
 ## 重新安装更新 完成😁
+
+## Mac版本下的Chrome，双击html文件打不开
+原因其实是因为在Mac OS系统下，在Finder(访达)中做任何操作，文件都会不可避免的被附加上一个特有的拓展属性(extend attributes)，可以通过终端命令ls -l查看，这些文件通常都会有@作为标记，因此，由于产品的原型是由Axure来制作的，然后导出了tar的压缩包，因此我们解压之后，通常都不能直接在浏览器打开！
+
+怎么解决这种问题呢？
+
+我们可以清除掉这个属性(extend attributes)！
+
+1. 可以针对单个文件做清除操作（filename就是要文件名，例如：index.html）
+```js
+xattr -c filename
+```
+
+2. 也可以针对整个目录做清除操作（directory就是目录名，例如：content）
+```js
+xattr -rc directory
+```
