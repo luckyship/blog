@@ -121,6 +121,14 @@ copyright: true
                 <p class="per-links-des">家住海邊，喜歡浪。</p>
             </a>
         </li>
+        <li class="per-links-item">
+            <a href="https://sunhang.top" class="group-picture" title="SH'S BLOG" target="_blank">
+                <img class="per-links-icon" 
+                src="https://cdn.jsdelivr.net/gh/2662419405/CDN@1.0/sh.jpg" alt="">
+                <h3 class="per-links-title">残梦</h3>
+                <p class="per-links-des">前端丶JS</p>
+            </a>
+        </li>
     </ul>
     <hr>
     <div class="instructions">
@@ -133,7 +141,7 @@ copyright: true
         <ul>
             <li>名称：cosyer's blog</li>
             <li>地址：https://mydearest.cn</li>
-            <li>描述：生无可恋的程序猿 👨🏻‍💻 </li>
+            <li>描述：自主学习，独立思考，自我淘汰的劣等人🐶</li>
             <li>图片：https://mydearest.cn/images/avatar.jpg</li>
         </ul>
     </div>
