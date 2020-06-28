@@ -3110,3 +3110,17 @@ img {
 "minapp-vscode.disableAutoConfig": true
 }
 ```
+
+## HTML - 输入框 Input 按回车 Enter 自动刷新页面解决方案
+
+### 原因
+在一个 form 表单中，若只有一个 input，按回车键表单会自动提交，但是当表单中存在多个 input 时，按回车键不会执行任何操作，这是 form 表单的一个特性。
+
+### 解决
+1. 直接去除掉 form 表单，当然这是最简单粗暴的方法。
+
+2. 如果一个 input 会自动提交，那么比较容易想到的是再加一个 input。值得注意的是 这里的 input 不能设置 type 为 hidden，这样一样是不生效的，form 一样会认为只有一个 input。需要设置成 <input type="text" class="form-control" style="display:none"> 。
+
+3. 给 input 加上回车事件直接 return false。在 input 加上 οnkeydοwn="if(event.keyCode==13){return false;} 。
+
+4. 直接阻止 form 表单的提交，在 form 表单加入 οnsubmit="return false;"。
