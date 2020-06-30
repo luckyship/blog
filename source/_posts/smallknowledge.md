@@ -3124,3 +3124,10 @@ img {
 3. 给 input 加上回车事件直接 return false。在 input 加上 οnkeydοwn="if(event.keyCode==13){return false;} 。
 
 4. 直接阻止 form 表单的提交，在 form 表单加入 οnsubmit="return false;"。
+
+
+## 为什么ES模块比CommonJS更好?
+> ES模块是官方标准，也是JavaScript语言明确的发展方向，而CommonJS模块是一种特殊的传统格式，在ES模块被提出之前做为暂时的解决方案。 ES模块允许进行静态分析，从而实现像 tree-shaking 的优化，并提供诸如循环引用和动态绑定等高级功能。
+
+## 什么是 `tree-shaking`（树摇）
+Tree-shaking, 也被称为 "live code inclusion," 它是清除实际上并没有在给定项目中使用的代码的过程，但是它可以更加高效。

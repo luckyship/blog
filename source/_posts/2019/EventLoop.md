@@ -12,9 +12,9 @@ top: 240
 
 ## 描述事件队列的过程？
 
-- js是单线程的，会出现阻塞问题，因此有了异步队列的出现
-- 主进程同步执行任务，异步操作将添加到异步队列中
-- 等候主进程执行完毕后再执行异步队列中的操作
+- js是单线程的，会出现阻塞问题，因此有了任务队列的出现
+- 主线程同步执行任务，异步的工作一般会交给其他线程完成，然后回调函数会放到事件队列中
+- 等候主线程执行完毕后再执行事件队列中的操作
 
 ![event-queue](http://cdn.mydearest.cn/blog/images/event-queue.png)
 
@@ -45,17 +45,17 @@ script(宏任务) - 清空微任务队列 - 执行一个宏任务 - 清空微任
 ### 宏任务(优先级由高到低)
 - 主线程同步代码
 - setTimeout
-- setImmediate
+- setImmediate node无
 - setInterval
-- requestAnimationFrame
+- requestAnimationFrame node无
 - I/O
 - UI rendering
 
 ### 微任务(优先级由高到低)
-- process.nextTick
+- process.nextTick 浏览器无
 - Promise.then
 - Object.observe(该方法已废弃)
-- MutationObserver
+- MutationObserver node无
 
 ### 微任务的意义
 减少更新时的渲染次数

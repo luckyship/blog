@@ -858,6 +858,14 @@ JSON.stringify(obj) // {}
 Object.keys(obj) // []
 Object.getOwnPropertyNames(obj) // []
 Object.getOwnPropertySymbols(obj) // [ foo, bar ]
+
+Symbol.for("foo"); // 创建一个 symbol 并放入 symbol 注册表中，键为 "foo"
+Symbol.for("foo"); // 从 symbol 注册表中读取键为"foo"的 symbol
+Symbol.for("bar") === Symbol.for("bar"); // true，证明了上面说的
+
+// 创建一个 symbol 并放入 Symbol 注册表，key 为 "foo"
+var globalSym = Symbol.for("foo"); 
+Symbol.keyFor(globalSym); // "foo"
 ```
 
 ## Proxy 代理

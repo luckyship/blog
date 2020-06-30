@@ -1641,11 +1641,10 @@ JS引擎则：解析和执行javascript来实现网页的动态效果。
 
 ## html5新特性？
 - HTML5 现在已经不是 SGML 的子集，主要是关于图像，位置，存储，多任务等功能的增加。
-绘画 canvas;
-用于媒介回放的 video 和 audio 元素;
-本地离线存储 localStorage 长期存储数据，浏览器关闭后数据不丢失;
-sessionStorage 的数据在浏览器关闭后自动删除;
-语意化更好的内容元素，比如 article、footer、header、nav、section;
+### 绘画 canvas;
+### 用于媒介回放的 video 和 audio 元素;
+### 本地离线存储 localStorage 长期存储数据，浏览器关闭后数据不丢失;sessionStorage 的数据在浏览器关闭后自动删除;
+### 语义化更好的内容元素，比如 article、footer、header、nav、section;
 表单控件，calendar、date、time、email、url、search;
 新的技术webworker, websocket, Geolocation;
 
@@ -1755,9 +1754,9 @@ inherit         规定应该从父元素继承 display 属性的值。
 ## position有哪些值？
 - fixed：固定定位。元素的位置相对于浏览器窗口定位，即是窗口是滚动的他也不会移动。fixed定位使元素的位置与文档流无关，因此不占据空间。fixed定位的元素和其它元素重叠
 
-- relative：如果对一个元素进行相对定位，他将出现在他所在的位置上，然后可以通过设置垂直或水平位置，让这个元素相对于他的起点移动，在使用相对定位时，无论是否进行移动，元素仍然占据原来的空间，因此，移动元素将导致它覆盖其他框。
+- relative：如果对一个元素进行相对定位，它将出现在它所在的位置上，然后可以通过设置垂直或水平位置，让这个元素相对于它的起点移动，在使用相对定位时，无论是否进行移动，元素仍然占据原来的空间，因此，移动元素将导致它覆盖其他框。
 
-- absolute：绝对定位的元素的位置相，相对于 static 定位以外的第一个父元素进行定位，如果元素没有已定位的父元素，那么他的位置相对于html。absolute定位使元素的位置与文档流无关，因此不占据空间，absolute定位的元素和其它元素重叠
+- absolute：绝对定位的元素的位置相对于 static 定位以外的第一个父元素进行定位，如果元素没有已定位的父元素，那么他的位置相对于html。absolute定位使元素的位置与文档流无关，因此不占据空间，absolute定位的元素和其它元素重叠
 
 - sticky：粘性定位。元素先按照普通文档流定位，然后相对于该元素在流中的flow root（BFC）和containing block（最近的块级祖先元素）定位。而后，元素定位表现为在跨越特定阈值前为相对定位，之后为fixed定位
 
@@ -1768,16 +1767,23 @@ inherit         规定应该从父元素继承 display 属性的值。
 `float`元素的display为block。
 
 ## CSS3有哪些新特性？
-新增各种CSS选择器    （: not(.input)：所有 class 不是“input”的节点）
-圆角            （border-radius:8px）
-多列布局        （multi-column layout）
-阴影和反射    （Shadow\Reflect）
-文字特效        （text-shadow）
-文字渲染        （Text-decoration）
-线性渐变        （gradient）
-旋转             （transform）
-缩放,定位,倾斜,动画,多背景
-例如:transform:\scale(0.85,0.90)\ translate(0px,-30px)\ skew(-9deg,0deg)\Animation: 
+### 新增各种CSS选择器（: not(.input)：所有 class 不是“input”的节点）
+### 圆角（border-radius:8px）
+### 阴影（border-shadow/border-image）
+### 多列布局（multi-column layout）
+### 反射（Reflect）
+-webkit-box-reflect:方向[ above-上 | below-下 | right-右 | left-左 ]，偏移量，遮罩图片
+### 文字特效（text-shadow）
+### 文字渲染（text-decoration）
+### 线性渐变（gradient）
+### 过渡（transition）
+### 形状转换（transform）
+rotate(30deg);   translate(30px,30px);   scale(.8);        skew(10deg,10deg);        rotateX(180deg);     rotateY(180deg);        rotate3d(10,10,10,90deg);
+### 动画（animation keyframes）
+### 滤镜（filter）
+### 弹性布局（flex）
+### 栅格布局（grid）
+### 媒体查询（media）
 
 ## BFC规范(块级格式化上下文：block formatting context)的理解？
 

@@ -103,7 +103,7 @@ __webpack_require__.e = function requireEnsure(chunkId) {
     }
   }
   head.appendChild(script)
-    // 返回 fullfilled 的 Promise
+    // 返回 fulfilled 的 Promise
   return promise
 }
 ```

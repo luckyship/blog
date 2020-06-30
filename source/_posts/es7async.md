@@ -114,7 +114,7 @@ let results = await Promise.all([
 
 - 较新版本的V8也将实现两个新的组合：Promise.allSettled和Promise.any。 Promise.any仍然处于提案的早期阶段：在撰写本文时，仍然没有浏览器支持它。
 
-Promise.any可以表明任何Promise是否fullfilled。 与 Promise.race的区别在于Promise.any不会拒绝即使其中一个Promise被拒绝。
+Promise.any可以表明任何Promise是否fulfilled。 与 Promise.race的区别在于Promise.any不会拒绝即使其中一个Promise被拒绝。
 
 无论如何，两者中最有趣的是 Promise.allSettled，它也是 Promise 数组，但如果其中一个Promise拒绝，它不会短路。 当你想要检查Promise数组是否全部已解决时，它是有用的，无论最终是否拒绝，可以把它想象成Promise.all 的反对者。
 
