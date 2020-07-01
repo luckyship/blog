@@ -1425,8 +1425,10 @@ var map =new Map();
 [1,1,2,3].filter((item,index)=>{
 return !map.has(item)&&map.set(item,index)
 })
+```
 
 4. 基础
+```js
 // 不使用es6,考虑到（ie6-8）indexOf兼容性问题
 // 对象容器
 function unique(arr) {
@@ -1454,6 +1456,16 @@ function unique(arr) {
     }
   })
   return temp
+}
+```
+
+5. reduce
+```js
+function unique(arr) {
+  return arr.reduce((pre, cur) => {
+    !pre.includes(cur) && pre.push(cur)
+    return pre
+  }, [])
 }
 ```
 

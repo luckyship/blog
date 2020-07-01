@@ -58,6 +58,9 @@ try {
 Array.prototype.forEach.call(document.querySelectorAll('*'), 
 dom => dom.style.outline = `1px solid #${parseInt(Math.random() * 
 Math.pow(2,24)).toString(16)}`)
+
+$$('*').map(x => x.style.border = '1px solid')
+// 删除括号内容replace(/\((.+?)\)$/g,'')
 ```
 
 ### 获取随机字符串
