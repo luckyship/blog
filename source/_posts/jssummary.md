@@ -419,6 +419,8 @@ f(); // console 0, 1, 3; returns false
 ```
 
 ## for of 和 for in循环
+- for in 更适合对象，遍历数组和对象
+- for of 适合遍历数组，遍历没有Symbol.iterator属性的对象是会报错的
 ```javascript
 let arr = [3, 5, 7];
 arr.foo = "hello";
