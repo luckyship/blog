@@ -1894,11 +1894,21 @@ if (scrollTop + clientHeight == htmlHeight) {
 // 没有垂直滚动条的情况下，scrollHeight值与元素视图填充所有内容所需要的最小值clientHeight相同
 ```
 
-- clientHeight：表示的是可视区域的高度，不包括border和滚动条 
-- offsetHeight：表示的是可视区域的高度，包括了border和滚动条 
-- scrollHeight：表示了所有区域的高度。包含了因为滚动被隐藏的部分 
-- clientTop：表示边框border的厚度，在未指定的情况下为0 
-- scrollTop：滚动后被隐藏的高度
+```
+网页可见区域宽： document.body.clientWidth;
+网页可见区域高： document.body.clientHeight;
+网页可见区域宽： document.body.offsetWidth (包括边线的宽);
+网页可见区域高： document.body.offsetHeight (包括边线的宽);
+网页正文全文宽： document.body.scrollWidth;
+网页正文全文高： document.body.scrollHeight;
+网页被卷去的高： document.body.scrollTop;
+网页被卷去的左： document.body.scrollLeft;
+网页正文部分上： window.screenTop;
+网页正文部分左： window.screenLeft;
+屏幕分辨率的高： window.screen.height;
+屏幕分辨率的宽： window.screen.width;
+屏幕可用工作区高度： window.screen.availHeight;
+```
 
 ## yield函数
 ```javascript
