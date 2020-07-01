@@ -17,9 +17,9 @@ photos:
   - dispatch: 触发 action, 更新 state；
   - subscribe: 订阅数据变更，注册监听器；
 - createStore 传入reducer，返回getState, dispatch, subscribe
-- action是一个至少有type这个键的对象，可以写一个creactActioner 函数去return生成action对象
+- action是一个至少有type这个键的对象，可以写一个creactAction 函数去return生成action对象
 - createStore.dispatch(action) 根据action这个对象去更新state
-- dispatch是一个函数，内部有将执行reducer函数
+- dispatch是一个函数，内部又将执行reducer函数
 - reducer也是一个函数，传入state,action, 输出一个新的state . (switch case return…)
   - 遵守数据不可变，不要去直接修改 state，而是返回出一个 新对象；
   - 默认情况下需要 返回原数据，避免数据被清空；
@@ -76,7 +76,7 @@ function reducer(state,action){
 }
 
 // 传入reducer生成store
-const store =createStore(reducer)
+const store = createStore(reducer)
 
 // 渲染代码
 function renderDom(state){
@@ -90,6 +90,17 @@ store.subscribe(() => renderDom(store.getState()));// 让每次dispatch时都会
 
 // 首次渲染页面
 renderDom(store.getState());
+
+// createAction
+// const MAIN_PAGE_TYPE = 'mainPage'
+// export function getMainPage({ name }) {
+//   return {
+//     type: MAIN_PAGE_TYPE,
+//     payload: {
+//       name
+//     }
+//   }
+// }
 
 // action
 const updateThemeName = () => ({

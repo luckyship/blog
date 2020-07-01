@@ -3131,3 +3131,8 @@ img {
 
 ## 什么是 `tree-shaking`（树摇）
 Tree-shaking, 也被称为 "live code inclusion," 它是清除实际上并没有在给定项目中使用的代码的过程，但是它可以更加高效。
+
+## windows更新计算机策略
+```bash
+gpupdate /force
+```
