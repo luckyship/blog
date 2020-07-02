@@ -15,6 +15,9 @@ photos:
 ---
 <!--more-->
 
+### vue 双向绑定的原理
+采用数据劫持结合发布者-订阅者模式的方式，通过Object.defineProperty()来劫持各个属性的setter，getter，在数据变动时发布消息给订阅者，触发相应的监听回调。
+
 ### v-show和v-if有什么区别
 
 - v-if
@@ -83,7 +86,7 @@ Vue.items.splice(indexOfItem, 1, newValue)
 vm.items.splice(newLength)
 ```
 
-### vue生命周期的理解
+### vue生命周期的理解（10个）
 - 生命周期是什么
 vue实例有一个完整的生命周期，也就是从开始创建，初始化数据，编译模板，挂载dom->渲染更新->渲染卸载等一些过程，我们称这是vue的生命周期
 
@@ -96,7 +99,8 @@ vue实例有一个完整的生命周期，也就是从开始创建，初始化�
   - updated：组件数据更新之后
   - activited：keep-alive专属，组件被激活时调用
   - deactivated：keep-alive专属，组件被销毁时调用
-  - beforeDestroy：组件被销毁前 destroyed：组件被销毁后调用
+  - beforeDestroy：组件被销毁前
+  - destroyed：组件被销毁后调用
 
 - _init_
   - initLifecycle/Event，往vm上挂载各种属性
@@ -127,7 +131,6 @@ vue实例有一个完整的生命周期，也就是从开始创建，初始化�
   - destroyed: 完成后触发钩子
 
 ```js
-
 new Vue({})
 
 // 初始化Vue实例
@@ -270,7 +273,7 @@ keep-alive是vue内置的一个组件，可以使被包含的组件保留状态�
 - checkbox和radio使用checked和change
 - select字段将value作为prop并将change作为事件
 
-### vue组件间通信有哪几种方式
+### vue组件间通信有哪几种方式（6种）
 - props和$emit
 适用父子组件通信
 
@@ -278,14 +281,14 @@ keep-alive是vue内置的一个组件，可以使被包含的组件保留状态�
 ref：如果在普通dom上使用，引用指向的就是dom元素，如果用在子组件上，引用就指向组件实例 $parent/$children：访问父子实例
 
 - EventBus（$emit/$on）
-这种方法通过一个空的vue实例作为中央事件总线（事件中心），用他来触发事件和监听事件，从而实现任何组件间的通信，包括父子，隔代，兄弟组件
+这种方法通过一个空的vue实例作为中央事件总线（事件中心），用它来触发事件和监听事件，从而实现任何组件间的通信，包括父子，隔代，兄弟组件
 
 - $attrs/$listeners
 $attrs：包含了父作用域里不被prop所识别（且获取）的特性绑定（class和style除外）。当一个组件没有声明任何prop时，这里会包含所有父作用域的绑定（class和style除外），并且可以通过v-bind="$attrs"传入内部组件。通常配合inheritAttrs选项一起使用
 
 $listeners：包含了父作用域中的v-on事件监听器，它可以通过v-on="$listeners"传入内部组件
 
-- provide、inject
+- provider、inject
 祖先组件通过provider来提供变量，然后在子孙组件中通过inject来注入变量，provide / inject API主要解决了跨级组件间的通信问题，不过他的使用场景，主要是子组件获取上级组件的状态，跨级组件间建立一种主动提供和依赖注入的关系
 
 - vuex
@@ -325,7 +328,6 @@ vue是构建客户端应用程序的框架，默认情况下，可以在浏览�
 
 ### nextTick
 在下次dom更新循环结束之后执行延迟回调，可用于获取更新后的dom状态。
-
 
 - 新版本中默认是microtasks, v-on中会使用macrotasks
 

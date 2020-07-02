@@ -2184,7 +2184,7 @@ function getRandomNumbers(min, max) {
 
 ```js
 function reverse(str) {
-    return str.split().reverse().join();
+    return str.split('').reverse().join('');
     // Array.from(str).reverse().join('')
 }
 

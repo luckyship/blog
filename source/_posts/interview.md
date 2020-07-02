@@ -2428,3 +2428,36 @@ CDN:CDN是将源站内容分发至最接近用户的节点，使用户可就近�
 5. 表单提交
 6. a href=""
 7. iframe src=""
+
+## axios 特点
+1. Axios 是一个基于 promise 的 HTTP 库，支持 promise 所有的 API
+
+2. 它可以拦截请求和响应
+
+3. 它可以转换请求数据和响应数据，并对响应回来的内容自动转换成 JSON 类 型的数据
+
+4. 安全性更高，客户端支持防御 XSRF
+
+默认 Content-Type: application/json;charset=utf-8
+- Content-Type: application/json ： 请求体中的数据会以json字符串的形式发送到后端
+- Content-Type: application/x-www-form-urlencoded：请求体中的数据会以普通表单形式（键值对）发送到后端
+- Content-Type: multipart/form-data： 它会将请求体的数据处理为一条消息，以标签为单元，用分隔符分开。既可以上传键值对，也可以上传文件。
+
+### 配置axios请求头中的content-type为指定类型
+```js
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'; 或者 
+
+{headers:{'Content-Type':'application/x-www-form-urlencoded'}}
+```
+
+## Base64的编码原理
+字符选用了"A-Z、a-z、0-9、+、/" 64个可打印字符，这是标准的Base64协议规定。
+```js
+['A', 'B', 'C', ... 'a', 'b', 'c', ... '0', '1', ... '+', '/']
+```
+
+### 具体转换步骤
+- 第一步 将待转换的字符串每三个字节分为一组，每个字节占8bit，那么共有24个二进制位。
+- 第二步 将上面的24个二进制位每6个一组，共分为4组。
+- 第三步 在每组前面添加两个0，每组由6个变为8个二进制位，总共32个二进制位，即四个字节。
+- 第四步 根据Base64编码对照表获得对应的值。
