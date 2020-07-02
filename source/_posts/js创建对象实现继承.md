@@ -85,7 +85,7 @@ var obj = Object.assign({}, o1, o2, o3);
 console.log(obj); // { a: 1, b: 2, c: 3 }
 ```
 
-### 创建对象模式
+### 创建对象模式(5种)
 #### 工厂模式
 
 在一个函数内创建一个空对象，给空对象添加属性和属性值，return这个对象。然后调用这个函数并传入参数来使用。
@@ -210,7 +210,7 @@ function Person(name, age){ //构造函数模式
 }
 ```
 
-## 继承方式
+## 继承方式(6种)
 ### 构造函数继承(复制父类的实例属性给子类)
 ```javascript
 function SuperType(){ 

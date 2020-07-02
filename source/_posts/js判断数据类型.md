@@ -35,6 +35,13 @@ typeof fn // function
 /abc/ instanceof RegExp // true 
 ({}) instanceof Object // true 
 (function(){}) instanceof Function // true
+
+// 基于constructor 
+a.constructor === Array; 
+// 基于Object.prototype.isPrototypeOf 
+Array.prototype.isPrototypeOf(a); 
+// 4.基于getPrototypeOf 
+Object.getPrototypeOf(a) === Array.prototype; 
 ```
 
 ## Object.prototype.toString.call

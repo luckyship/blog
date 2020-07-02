@@ -214,7 +214,7 @@ var f = ([a, b] = [1, 2], c=3 ) => a + b + c;
 f(); // 6
 ```
 
-### 箭头函数不可以使用arguments对象，
+### 箭头函数不可以使用arguments对象，super或new.target
 arguments对象在函数体内不存在，如果要用的话，可以用rest参数代替
 
 ### 箭头函数没有原型
