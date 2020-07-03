@@ -87,8 +87,9 @@ border-radius: 50px;
 }
 ```
 
-### 正三角
+### 三角形
 ```css
+/* 上三角 */
 #triangle-up {
     width: 0;
     height: 0;
@@ -96,6 +97,7 @@ border-radius: 50px;
     border-right: 50px solid transparent;
     border-bottom: 100px solid lightblue;
 }
+/* 下三角 */
 #triangle-down {
     width: 0;
     height: 0;
@@ -103,6 +105,7 @@ border-radius: 50px;
     border-right: 50px solid transparent;
     border-top: 100px solid lightblue;
 }
+/* 左三角 */
 #triangle-left {
     width: 0;
     height: 0;
@@ -110,6 +113,7 @@ border-radius: 50px;
     border-right: 100px solid lightblue;
     border-bottom: 50px solid transparent;
 }
+/* 右三角 */
 #triangle-right {
     width: 0;
     height: 0;
@@ -117,24 +121,28 @@ border-radius: 50px;
     border-left: 100px solid lightblue;
     border-bottom: 50px solid transparent;
 }
+/* 左上角 */
 #triangle-topleft {
     width: 0;
     height: 0;
     border-top: 100px solid lightblue;
     border-right: 100px solid transparent;
 }
+/* 右上角 */
 #triangle-topright {
     width: 0;
     height: 0;
     border-top: 100px solid lightblue;
     border-left: 100px solid transparent; 
 }
+/* 左下角 */
 #triangle-bottomleft {
     width: 0;
     height: 0;
     border-bottom: 100px solid lightblue;
     border-right: 100px solid transparent;
 }
+/* 右下角 */
 #triangle-bottomright {
     width: 0;
     height: 0;

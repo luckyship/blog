@@ -864,7 +864,8 @@ div {
 ```
 
 4. table-cell未脱离文档流 设置父元素的display:table-cell,并且vertical-align:middle，这样子元素可以实现垂直居中。
-5. text-align:center 行内元素
+5. grid布局
+6. line-height单配height
 
 ## visibility=hidden, opacity=0，display:none
 - opacity=0，该元素隐藏起来了，但不会改变页面布局，并且，如果该元素已经绑定一些事件，如click事件，那么点击该区域，也能触发点击事件的
