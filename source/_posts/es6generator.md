@@ -37,6 +37,23 @@ console.log(iterator.next().value) // 2
 console.log(iterator.next().value) // 3
 ```
 
+```js
+function *foo(x) {
+  let y = 2 * (yield (x + 1))
+  let z = yield (y / 3)
+  return (x + y + z)
+}
+let it = foo(5)
+console.log(it.next())   // => {value: 6, done: false}
+console.log(it.next(12)) // => {value: 8, done: false}
+console.log(it.next(13)) // => {value: 42, done: true}
+```
+1. 首先 Generator 函数调用时它会返回一个迭代器
+2. 当执行第一次 next 时，传参会被忽略，并且函数暂停在 yield (x + 1) 处，所以返回 5 + 1 = 6
+3. 当执行第二次 next 时，传入的参数等于上一个 yield 的返回值，如果你不传参，yield 永远返回 undefined。此时 let y = 2 * 12，所以第二个 
+yield 等于 2 * 12 / 3 = 8
+4. 当执行第三次 next 时，传入的参数会传递给 z，所以 z = 13, x = 5, y = 24，相加等于 42
+
 那生成器和迭代器又有什么用处呢？
 
 围绕着生成器的许多兴奋点都与异步编程直接相关。异步调用对于我们来说是很困难的事，我们的函数并不会等待异步调用完再执行，你可能会想到用回调函数，（当然还有其他方案比如Promise比如Async/await）。
@@ -66,8 +83,8 @@ function run(taskDef){
   step();
 }
 ```
-生成器与迭代器最有趣、最令人激动的方面，或许就是可创建外观清晰的异步操作代码。可以不必到处使用回调函数，而是可以建立貌似同步的代码，但实际上却使用 `yield` 来等待异步操作结束。
-
+生成器与迭代器最有趣、最令人激动的方面，或许就是可创建外观清晰的异步操作代码。可以不必到处使用回调函数，而是可以建立貌似同步的代码，但实际上却使用 
+`yield` 来等待异步操作结束。
 
 es6引入了 async 函数，使得异步操作变得更加方便。
 
