@@ -2553,9 +2553,11 @@ p.construtor.prototype
 Object.getProtorypeOf(p)
 ```
 
+## 造火箭
 - 什么是xxx
 - 你对xxx的理解
 - xxx的原理、xxx怎么实现
+- xxx的优缺点
 
 ## Iterator是什么，有什么作用？
 terator（迭代器）是一种接口，也可以说是一种规范。为各种不同的数据结构提供统一的访问机制。任何数据结构只要部署Iterator接口，就可以完成遍历操作（即

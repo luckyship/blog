@@ -134,6 +134,10 @@ or
 ```js
 git branch -D master; //删除本地master分支
 git push origin :master; //删除远程master分支
+
+git pull origin master:master // 远程:本地
+git push origin master:master // 本地:远程
+git push --set-upstream origin master // 将本地分支与远程同名分支相关联
 ```
 * 上传新命名的本地分支：`git push origin newName`;
 * 创建新分支：`git branch branchName`：(创建名为 branchName 的本地分支)

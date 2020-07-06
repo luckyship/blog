@@ -24,6 +24,7 @@ function bubleSort(arr) {
     return arr;
 }
 
+// 推荐
 function bubleSort(arr) {
     var nLength = arr.length;
 
@@ -46,6 +47,7 @@ function bubleSort(arr) {
 
 ## 选择排序(遍历自身以外的元素，最小的元素和自己调换位置)
 ```js
+// 推荐
 function selectSort(arr) {
     var len = arr.length;
     for(let i = 0 ;i < len - 1; i++) {
