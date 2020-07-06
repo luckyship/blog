@@ -1223,6 +1223,14 @@ false;
 // 判断奇偶
 num & 1 == 1 //奇数
 num & 1 == 0 //偶数
+
+num % 2 === 0 //偶数
+// 递归判断
+function isEven(num) {
+  if (num < 0 || num === 1) return false;
+  if (num == 0) return true;
+  return isEven(num - 2);
+}
 ```
 
 ## 简单计算页面FPS
