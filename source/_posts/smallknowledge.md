@@ -3243,3 +3243,59 @@ function isValid(str) {
   }
 }
 ```
+
+## 什么时候适合使用 Map 而不是 Object
+「Map」映射是一种经典的数据结构类型，其中数据以 「key/value」 的键值对形式存在
+||Map|Object|
+|:--|:--:|--:|
+|默认值|默认不包含任何值，只包含显式插入的键|一个 Object 有一个原型，原型上的键名有可能和自己对象上设置的键名冲突|
+|类型|任意|String 或 Symbol|
+|长度|键值对个数通过 size 属性获取|键值对个数只能手动计算|
+|性能|频繁增删键值对的场景下表现更好|频繁添加和删除键值对的场景下未作出优化|
+
+>「Map」 是可迭代的，可以直接进行迭代，例如forEach循环或者for...of...循环
+
+### 遍历Object
+```js
+for(const key of Object.keys(object)) {
+  console.log(key);
+}
+// key1
+// key2
+// key3
+
+for(const value of Object.values(object)) {
+  console.log(value);
+}
+// value1
+// value2
+// value3
+
+for(const entry of Object.entries(object)) {
+  console.log(entry);
+}
+// ["key1", "value1"]
+// ["key2", "value2"]
+// ["key3", "value3"]
+
+for(const [key,value] of Object.entries(object)) {
+  console.log(key,value);
+}
+//"key1", "value1"
+//"key2", "value2"
+//"key3", "value3"
+
+// for in遍历
+for(const key in object) {
+  console.log(key);
+}
+// key1
+// key2
+// key3
+```
+
+## JS中的宿主对象与原生对象有何不同？
+宿主对象:这些是运行环境提供的对象。这意味着它们在不同的环境下是不同的。例如，浏览器包含像windows这样的对象，但是Node.js环境提供像Node List这样的
+对象。 
+
+原生对象:这些是JS中的内置对象。它们也被称为全局对象，因为如果使用JS，内置对象不受是运行环境影响。
