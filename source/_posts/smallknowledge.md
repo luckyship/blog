@@ -3148,9 +3148,98 @@ img {
 > ES模块是官方标准，也是JavaScript语言明确的发展方向，而CommonJS模块是一种特殊的传统格式，在ES模块被提出之前做为暂时的解决方案。 ES模块允许进行静态分析，从而实现像 tree-shaking 的优化，并提供诸如循环引用和动态绑定等高级功能。
 
 ## 什么是 `tree-shaking`（树摇）
-Tree-shaking, 也被称为 "live code inclusion," 它是清除实际上并没有在给定项目中使用的代码的过程，但是它可以更加高效。
+Tree-shaking, 也被称为 "live code inclusion," 通常用于打包时移除js中未引用的代码(dead-code)，它依赖于ES6模块系统中的import 和 export 的**静态结构特性**
+
+## scope hoisting
+> Scope hositing 作用:是将模块之间的关系进行结果推测，可以让webpack文件打包出来的代码文件更小、运行的更快
+scope hositing实现原理:分析出模块之间的依赖关系，尽可能的把打散的模块合并到一个函数中，但是前提是不能造成代码冗余， 因此只有哪些被引用了一次的模块可能被合并
+由于scope hositing 需要分析出模块之间的依赖关系，因此源码必须使用ES6模块化语句，不然就不能生效，原因和 tree shaking一样。
+
+## webpack优化
+### production模式自带优化
+- tree shaking
+- scope hoisting
+- 代码压缩混淆(UglifyJsPlugin)
+### css优化
+- css提取到独立文件(Mini-css-extract-plugin)
+- postcss添加前缀
+- css压缩(optimize-css-assets-webpack-plugin)
+### js优化
+- 代码分离(code splitting)
+1. 入口起点：使用entry配置，手动的分离代码（配置多入口）
+```js
+entry:{
+ main: './src/main.js',
+ other: './src/other.js'
+},
+```
+2. 放置重复：使用 SplitChunksPlugin 去重和分离 chunk（抽取公共代码）
+```js
+optimization:{
+  splitChunks:{
+    chunks: "all"
+  }
+}
+```
+3. 动态导入：通过模块的内联函数调用来分离代码（懒加载）
+webpack4默认是允许import语法动态导入的，但是需要babel的插件支持，最新版babel的插件包为:@babel/plugin-syntax-dynamic-import,需要注意动态导入最大的好处就是实现了懒加载，用到那个模块才会
+加载那个模块，可以提高SPA应用程序的首屏加载速度，三大框架的路由懒加载原理一样
+
+### noParse
+在引入一些第三方模块时，如jq等，我们知道其内部肯定不会依赖其他模块，因为我们用到的只是一个单独的js或者css文件，所以此时如果webpack再去解析他们的内部依赖关系，其实是非常浪费时间的，就需要阻
+止webpack浪费精力去解析这些明知道没有依赖的库，可以在webpack的配置文件的module节点下加上noParse，并配置正则来确定不需要解析依赖关系的模块
+```js
+module:{
+ noParse: /jquery|bootstrap/  // jquery|bootstrap 之间不能加空格变成 jquery | bootstrap， 会无效
+}
+```
+
+### DLLPlugin
+在引入一些第三方模块时，例如Vue、React等，这些框架的文件一般都是不会修改的，而每次打包都需要去解析他们，也会影响打包速度，就算是做了拆分，也只是提高了上线后的用户访问速度，并不会提高构建速
+度，所以如果需要提高构建速度，应该使用动态链接库的方式，类似windows的dll文件借助DLLPlugin插件实现将这些框架作为一个个的动态链接库，只构建一次，以后的每次构建都只会生成自己的业务代码，可以
+很好的提高构建效率。
+
+主要思想在于，讲一些不做修改的依赖文件，提前打包，这样我们开发代码发布的时候就不需要再对这些代码进行打包，从而节省了打包时间，主要使用两个插件: DLLPlugin和DLLReferencePlugin
+需要注意的是，若是使用的DLLPlugin，CleanWebpackPlugin插件会存在冲突，需要移除CleanWebpackPlugin插件
+
+### IgnorePlugin
+在引入一些第三方模块时，例如momentJS、dayJS，其内部会做i18n处理，所以会包含很多语言包，而语言包打包时会比较占用空间，如果项目只需要用到中文或者少数语言，可以忽略掉所有的语言包，然后按需引
+入语言包，从而使得构建效率更高，打包生成的文件更小
+
+## 分析优化
+在打包时，合理使用插件speed-measure-webpack-plugin和webpack-bundle-analyzer，可以对项目构建过程中的每个loader、plugin等进行耗时统计，并针对耗时的操作进行优化，打包结果可以进行体积的大
+小的控制和优化。
 
 ## windows更新计算机策略
 ```bash
 gpupdate /force
+```
+
+## 有一个数字字符串，它所代表的数字远大于js所能表示的最大数，可能有两万位，这样的数字你怎么判断它能不能被6整除
+1. 调接口放到后台处理
+2. 最后一位被2整除 && 所有位加起来被3整除
+```js
+function isValid(str) {
+  const arr = str.split('')
+  return Number(arr[arr.length -1]) %2 === 0 && arr.reduce((total, num) => total + num, 0) % 3 === 0
+}
+```
+
+3. 高位判断
+最大安全数 2**53 -1 // 9007199254740991
+因为js用的是IEEE754标准，小数有效位为52位，加上默认的1一共是53位，超过这个就无法保持精确了。
+```js
+function isValid(str) {
+  const arr = str.split('')
+  let temp = 0
+  for (let i of arr) {
+    temp = i * temp + parseInt(i , 10)
+    temp = temp % 6
+  }
+  if (temp === 0) {
+    return true
+  } else {
+    return false
+  }
+}
 ```

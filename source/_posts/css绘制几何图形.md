@@ -611,3 +611,19 @@ radial-gradient(shape size at position, start-color, ..., last-color)
 
 <div class="coupon"></div>
 ```
+
+## 图片切角
+```css
+background: url(image.png);
+  mask:
+      linear-gradient(135deg, transparent 15px, #fff 0)
+      top left,
+      linear-gradient(-135deg, transparent 15px, #fff 0)
+      top right,
+      linear-gradient(-45deg, transparent 15px, #fff 0)
+      bottom right,
+      linear-gradient(45deg, transparent 15px, #fff 0)
+      bottom left;
+  mask-size: 50% 50%;
+  mask-repeat: no-repeat;
+```

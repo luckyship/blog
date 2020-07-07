@@ -204,7 +204,7 @@ Reflect.setPrototypeOf({}, Object.prototype); // 输出true
 
 // 给该对象数组[[Prototype]] 为null.
 Reflect.setPrototypeOf({}, null); // true
-// 此时的obj.__proto__为undefine
+// 此时的obj.__proto__为undefined
 
 //把对象冻结以后重新设置[[prototype]]
 Reflect.setPrototypeOf(Object.freeze({}), null); // false

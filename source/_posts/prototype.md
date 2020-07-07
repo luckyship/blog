@@ -84,6 +84,8 @@ console.log(person.__proto__ === Person.prototype); // true
 
 既然实例对象和构造函数都可以指向原型，那么原型是否有属性指向构造函数或者实例呢？
 
+> __proto__标准是浏览器实现的。
+
 ### constructor
 
 指向实例倒是没有，因为一个构造函数可以生成多个实例，但是原型指向构造函数倒是有的，这就要讲到第三个属性：constructor，每个原型都有一个 constructor 属性指向关联的构造函数。

@@ -985,16 +985,22 @@ function myPromise(constructor) {
     self.value = undefined;
     // rejected时候的值
     self.reason = undefined;
+    // 存放成功回调的数组
+    self.onResolveCallbacks = [];
+    // 存放失败回调的数组
+    self.onRejectedCallbacks = [];
     function resolve(value) {
         if(self.status === 'pending') {
             self.value = value;
             self.status = "resolved";
+            self.onResolveCallbacks.forEach(cb => cd(self.value))
         }
     }
     function reject(reason) {
         if(self.status === 'pending') {
             self.reason = reason;
             self.status = "rejected";
+            self.onRejectedCallbacks.forEach(cb => cd(self.value))
         }
     }
     // 捕获构造异常
@@ -1005,17 +1011,69 @@ function myPromise(constructor) {
     }
 }
 
-myPromise.prototype.then = function(resolved, rejected) {
-    let self = this;
-    switch(self.status) {
-        case "resolved":
-            resolved(self.value);
-            break;
-        case "rejected":
-            rejected(self.reason);
-            break;
-        default:
+myPromise.prototype.then = function(onFulfilled, onRejected) {
+  // let self = this;
+  // switch(self.status) {
+  //     case "resolved":
+  //         resolved(self.value);
+  //         break;
+  //     case "rejected":
+  //         rejected(self.reason);
+  //         break;
+  //     default:
+
+  // 如果成功和失败的回调没有传，表示这个then没有任何逻辑，只负责把值往后抛
+  onFulfilled = typeof onFulfilled == 'function' ? onFulfilled : value => value
+  onRejected = typeof onRejected == 'function' ? onRejected : reason => { throw reason }
+  let self = this;
+  let promise2;
+  // 实现链式调用，每一种状态都要返回的是一个promise实例
+  if(self.status == "resolved"){ // 如果promise状态已经是成功态，onFulfilled直接取值
+    return promise2 = new Promise(function(resolve, reject){
+      setTimeout(function(){  // 保证返回的promise是异步
+        try{
+          onFulfilled(self.value)
+        } catch (e){
+          //  如果执行成功的回调过程中出错，用错误原因把promise2 reject
+          reject(e)
+        }
+      })
+    })
+  }
+  if(self.status == "rejected"){
+    return promise2 = new Promise(function(){
+      setTimeout(function(){
+        try{
+          onRejected(self.value)
+        } catch (e){
+          reject(e)
+        }
+      })
+    })
+  }
+  if(self.status === "pending"){
+    return promise2 = new Promise(function(resolve, reject){
+      // pending 状态时就会把所有的回调函数都添加到实例中的两个堆栈中暂存，等状态改变后依次执行，其实这个过程就是观察者模式
+      self.onResolveCallbacks.push(function(){
+        setTimeout(function(){
+          try{
+            onFulfilled(self.value)
+          } catch(e){
+            reject(e)
+          }
+        })
+      })
+    })
+    self.onRejectCallbacks.push(){
+      setTimeout(function(){
+        try{
+          onRejected(self.value)
+        } catch(e){
+          reject(e)
+        }
+      })
     }
+  }
 }
 ```
 

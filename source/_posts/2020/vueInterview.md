@@ -67,7 +67,7 @@ style也可以通过对象语法和数组语法进行动态绑定
 - 但我们需要在数据变化时执行异步或开销较大的操作时应该使用watch，使用watch选项允许我们执行异步操作，限制我们执行该操作的频率，并在我们得到最终结果前，设置中间状态，这些都是计算属性无法做到的。
 
 ### 直接给一个数组项赋值，vue能检测到吗
-由于js的限制，vue不能检测到以下数组的变动：
+- 由于js的限制，vue不能检测到以下数组的变动：
 
 - 当你利用索引直接设置一个数组项时，例如vm.item[indexOfItem] = newValue
 - 当你修改数组的长度时，例如vm.items.length = newLength
@@ -84,6 +84,21 @@ Vue.items.splice(indexOfItem, 1, newValue)
 为了解决第二个问题，vue提供了以下操作方法：
 ```js
 vm.items.splice(newLength)
+```
+
+- Vue 是不能检测对象属性的添加或删除
+```js
+data() {
+    return {
+        obj:{
+            name:'Vue'
+        }
+    };
+},
+mounted() {
+    this.name = 'zs' // 不是响应式的
+    this.$set(this.obj,'name','lisi') //响应式
+},
 ```
 
 ### vue生命周期的理解（10个）
@@ -168,7 +183,7 @@ function mountComponent(vm) {
         this.options.render = render
     }
     // 触发钩子
-    callHook('beforeMounte')
+    callHook('beforeMount')
     // 初始化观察者
     // render 渲染 vdom， 
     vdom = vm.render()
@@ -607,3 +622,22 @@ let reactiveData = new Proxy(data, {
   - <router-link to=""></router-link>
 - 占位
   - <router-view></router-view>
+
+### 为什么在v-for中使用key？
+v-for中加key可以减少渲染次数，提升渲染性能。
+
+### Vuex页面刷新数据丢失怎么解决？
+使用 vuex-persist 插件，它就是为 Vuex 持久化存储而生的一个插件。不需要你手动存取 storage ，而是直接将状态保存至 cookie 或者 localStorage 中
+
+### vue项目的优化
+1. v-if和v-show区分场景使用
+
+2. computed 和 watch 区分场景使用
+
+3. v-for 遍历必须加key，key最好是id值，且避免同时使用v-if
+
+4. 图片懒加载
+
+5. 路由懒加载
+
+6. 第三方插件按需引入
