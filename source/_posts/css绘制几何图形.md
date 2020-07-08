@@ -588,6 +588,7 @@ border-radius: 50px;
 ## 卡券贴
 在CSS3当中，background添加了`background-size`属性，控制背景图片的大小，配合`background-position`属性，可以在一个背景下面展示多张图片。详见[background-MDN](https://developer.mozilla.org/zh-CN/docs/Web/CSS/background)。
 
+background-size: cover;使背景图像完全覆盖背景区域。也可以js获取图片宽高再比较一下，再决定往哪个方向居中。
 
 卡券贴的核心是使用透明白色径向渐变radial-gradient，分别让4张背景图中的左下角、右下角、右上角和左下角出现缺省，再利用drop-shadow实现元素阴影，从而达到效果。
 

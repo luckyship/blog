@@ -1041,10 +1041,10 @@ myPromise.prototype.then = function(onFulfilled, onRejected) {
     })
   }
   if(self.status == "rejected"){
-    return promise2 = new Promise(function(){
+    return promise2 = new Promise(function(resolve, reject){
       setTimeout(function(){
         try{
-          onRejected(self.value)
+          onRejected(self.reason)
         } catch (e){
           reject(e)
         }
@@ -1067,7 +1067,7 @@ myPromise.prototype.then = function(onFulfilled, onRejected) {
     self.onRejectCallbacks.push(){
       setTimeout(function(){
         try{
-          onRejected(self.value)
+          onRejected(self.reason)
         } catch(e){
           reject(e)
         }

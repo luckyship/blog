@@ -106,3 +106,9 @@ const timer = setTimeout(() => {
 React 16.x 增加了componentDidCatch() 生命周期方法
 捕获全局异常来进行页面的友好提示
 ```
+
+## 移动端适配
+- 媒体查询
+- px2rem
+- flex
+- grid

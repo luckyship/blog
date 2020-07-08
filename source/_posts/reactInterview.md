@@ -477,6 +477,9 @@ class Component extends React.Component {
   
   // 组件已销毁
   componentDidUnMount() {}
+
+  // 错误边界捕获全局异常
+  componentDidCatch() {}
 }
 ```
 
@@ -537,4 +540,12 @@ React的设计思想是单向数据流，我觉得可以这样理解为什么没
 
 ### 单向数据流
 
-单向数据流是指数据的流向只能由父组件通过props将数据传递给子组件，不能由子组件向父组件传递数据，要想实现数据的双向绑定，只能由子组件接收父组件props传过来的方法去改变父组件的数据，而不是直接将子组件的数据传递给父组件。
+单向数据流是指数据的流向只能由父组件通过props将数据传递给子组件，不能由子组件向父组件传递数据，要想实现数据的双向绑定，只能由子组件接收父组件props传过来的方法去改变父组件的数据，而不是直接将
+子组件的数据传递给父组件。
+
+### react和vue的对比
+react 函数式思想 纯组件传入状态和逻辑，所以单项数据流结合immutable setState 触发重新render 单项数据流设计成不可变数据 purecomponent对shouldconponentupdate是否触发重新渲染
+
+vue 响应式的思想 监听数据的变化 初始化时对数据的每一个属性添加watcher基于数据可变 数据变化时触发watcher回调 更新虚拟dom
+
+react的性能优化需要手动去判断 vue是自动的应为要给每个属性添加 watcher所以大型项目state不比较多的时候watcher也会比较多容易造成卡顿的情况

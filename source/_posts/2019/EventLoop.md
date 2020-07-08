@@ -24,7 +24,6 @@ top: 240
 
 ![task-queue](http://cdn.mydearest.cn/blog/images/task-queue.png)
 任务队列中存着的是异步任务，这些异步任务一定要等到执行栈清空后才会执行。
-异步任务，会先到事件列表中注册函数。如果事件列表中的事件触发了，会将这个函数移入到任务队列中（DOM操作对应DOM事件，资源加载操作对应加载事件，定时器操作可以看做对应一个“时间到了”的事件）
 
 ---
 <!--more-->
@@ -35,8 +34,9 @@ script(宏任务) - 清空微任务队列 - 执行一个宏任务 - 清空微任
 2.查找任务队列有没有微任务，有就把此时的微任务全部按顺序执行 （这就是为什么promise会比setTimeout先执行，因为先执行的宏任务是同步代码，setTimeout被放进任务队列了，setTimeout又是宏任务，在它之前先得执行微任务(就比如promise)）。
 3.执行一个宏任务（先进到队列中的那个宏任务），再把这次宏任务里的宏任务和微任务放到任务队列。
 4.一直重复2、3步骤
-- 异步队列中有宏任务微任务之分
-- 一次事件循环：先运行宏任务队列中的一个，然后运行微任务队列中的所有任务。接着开始下一次循环
+
+当满足执行条件时，宏任务(macroTask) 和 微任务(microTask) 会各自被放入对应的队列：宏队列(Macrotask Queue) 和 微队列(Microtask Queue) 中等待执行。
+先执行<script>中的同步任务，然后所有微任务，一个宏任务，所有微任务，一个宏任务...
 
 ![macro-micro](http://cdn.mydearest.cn/blog/images/macro-micro.png)
 
@@ -91,6 +91,26 @@ Loop（事件循环）
 - check
   - 执行setImmediate
 - close callbacks
+
+### 区别总结
+- Node端，microtask 在事件循环的各个阶段之间执行
+```js
+loop.forEach((阶段) => {
+    阶段全部任务();
+    nextTick全部任务();
+    microTask全部任务();
+});
+loop = loop.next;
+}
+```
+
+- 浏览器端，microtask 在事件循环的 macrotask 执行完之后执行
+```js
+while (true) {
+    宏任务队列.shift();
+    微任务队列全部任务();
+}
+```
 
 ### 练习题
 ```js

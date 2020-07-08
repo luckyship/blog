@@ -641,3 +641,76 @@ v-for中加key可以减少渲染次数，提升渲染性能。
 5. 路由懒加载
 
 6. 第三方插件按需引入
+
+### vue父子组件实现双向绑定实例
+```
+<Child :name="name" :change="changeName"/>
+
+props:{
+    name:{
+        type:String,
+        required: false
+    }
+},
+data() {
+    newName:''
+},
+watch:{
+    name(val){
+        this.newName = val
+    },
+    newName(val){
+        this.$emit('change', val)
+    }
+}
+```
+
+### 自定义v-model
+```
+// v-model只是一个语法糖
+<input type="text" v-model="price"/>
+
+<input type="text" :value="price" @input="price=$event.target.value" />
+```
+```
+Vue.component("base-checkbox", {
+    model:{
+        prop:'checked', // 绑定属性
+        event:'change', // 抛出事件
+    },
+    props:{
+        checked: boolean
+    },
+    templete:`<input type="checkbox" v-bind:checked="checked" v-on:change="$emit('change',$event.target.value)"/>`
+})
+
+<base-checkbox v-model="value"></base-checkbox>
+```
+
+### provide/inject有什么用？
+> 常用的父子组件通信方式都是父组件绑定要传递给子组件的数据，子组件通过`props`属性接收，一旦组件层级变多时，采用这种方式一级一级传递值非常麻烦，而且代码可读性不高，不便后期维护。
+
+> vue提供了`provide`和`inject`帮助我们解决多层次嵌套嵌套通信问题。在`provide`中指定要传递给子孙组件的数据，子孙组件通过`inject`注入祖父组件传递过来的数据。
+
+> `provide`和`inject`主要为高阶插件/组件库提供用例。并不推荐直接用于应用程序代码中。
+```js
+provide() {
+    return {
+        elForm: this
+    }
+}
+
+inject: ['elForm']
+
+
+provide:{
+    name: 'cosyer'
+}
+
+inject:{
+    newName: {
+        from: 'name',
+        default: ''
+    }
+}
+```

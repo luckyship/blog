@@ -213,9 +213,9 @@ DNS 解析、连接、传输、处理。
 ## TCP三次握手
 客户端和服务端都需要知道各自可收发，因此需要三次握手(syn建立联机,ack确认联机)
 
-- 客户端发送 syn(同步序列编号) 请求，进入 syn_send 状态，等待确认
-- 服务端接收并确认 syn 包后发送 syn+ack 包，进入 syn_recv 状态
-- 客户端接收 syn+ack 包后，发送 ack 包，双方进入 established 状态
+- 客户端发送 syn=1(同步序列编号)，ack=0标志的数据包给服务端，进入 syn_send 状态，等待确认
+- 服务端接收并确认 syn 包后发送 syn+ack(1,1) 包，进入 syn_recv 状态
+- 客户端接收 syn+ack 包后，发送syn=0，ack=1 包，双方进入 established 状态
 
 ```js
                   C                   S
