@@ -1641,7 +1641,7 @@ console.log(b.x)
 3. 有两种模式： 严格模式：以该浏览器支持的最高标准运行 混杂模式：向后兼容，模拟老浏览器，防止浏览器无法兼容页面。
 
 ## HTML5 为什么只需要写 <!DOCTYPE HTML>？
-- HTML5 不基于 SGML，因此不需要对DTD进行引用，但是需要doctype来规范浏览器的行为（让浏览器按照它们应该的方式来运行）；
+- HTML5 不基于 SGML，因此不需要对DTD(文档类型定义)进行引用，但是需要doctype来规范浏览器的行为（让浏览器按照它们应该的方式来运行）；
 
 - 而HTML4.01基于SGML,所以需要对DTD进行引用，才能告知浏览器文档所使用的文档类型。
 
@@ -2559,6 +2559,7 @@ Object.getProtorypeOf(p)
 - xxx的优缺点
 - xxx怎么进行优化
 - 讲讲xxx的思想，设计思路
+- 项目中(react/vue)遇到的问题
 
 ## Iterator是什么，有什么作用？
 terator（迭代器）是一种接口，也可以说是一种规范。为各种不同的数据结构提供统一的访问机制。任何数据结构只要部署Iterator接口，就可以完成遍历操作（即
@@ -2651,3 +2652,17 @@ const EnumSex = Object.freeze({
 
 ### 程序代码区
 存放函数体的二进制代码。  
+
+## js实现Map(数组存放对象实现api)，reduce方法
+```js
+// 归并方法
+const reduceHelper = (f, acc, arr) => {
+  if (arr.length === 0) return acc
+  const [head, ...tail] = arr
+  return reduceHelper(f, f(acc, head), tail)
+}
+
+Array.prototype.fakeReduce = function (fn, initialValue) {
+  return reduceHelper(fn, initialValue, this)
+}
+```
