@@ -628,3 +628,8 @@ background: url(image.png);
   mask-size: 50% 50%;
   mask-repeat: no-repeat;
 ```
+
+## 1px高的线条
+```html
+<div style="height:1px;overflow:hidden;background:red"></div>
+```

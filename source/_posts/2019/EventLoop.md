@@ -93,6 +93,41 @@ Loop（事件循环）
 - close callbacks
 
 ### 区别总结
+![eventloop-diff](http://cdn.mydearest.cn/blog/images/eventloop-diff.png)
+```js
+setTimeout(()=>{
+    console.log('timer1')
+    Promise.resolve().then(function() {
+        console.log('promise1')
+    })
+}, 0)
+setTimeout(()=>{
+    console.log('timer2')
+    Promise.resolve().then(function() {
+        console.log('promise2')
+    })
+}, 0)
+```
+> 浏览器端运行结果：timer1=>promise1=>timer2=>promise2
+![navigator-eventloop](http://cdn.mydearest.cn/blog/images/navigator-eventloop.png)
+
+Node端运行结果分两种情况：
+
+如果是node11版本一旦执行一个阶段里的一个宏任务(setTimeout,setInterval和setImmediate)就立刻执行微任务队列，这就跟浏览器端运行一致，最后的结果
+为timer1=>promise1=>timer2=>promise2
+
+如果是node10及其之前版本：要看第一个定时器执行完，第二个定时器是否在完成队列中。
+
+如果是第二个定时器还未在完成队列中，最后的结果为timer1=>promise1=>timer2=>promise2
+如果是第二个定时器已经在完成队列中，则最后的结果为timer1=>timer2=>promise1=>promise2(下文过程解释基于这种情况下)
+
+1. 全局脚本（main()）执行，将2个timer依次放入timer队列，main()执行完毕，调用栈空闲，任务队列开始执行；
+2. 首先进入timers阶段，执行timer1的回调函数，打印timer1，并将promise1.then回调放入microtask队列，同样的步骤执行timer2，打印timer2；
+3. 至此，timer阶段执行结束，event loop进入下一个阶段之前，执行microtask队列的所有任务，依次打印promise1、promise2
+
+![node-eventloop](http://cdn.mydearest.cn/blog/images/node-eventloop.png)
+
+### 结论
 - Node端，microtask 在事件循环的各个阶段之间执行
 ```js
 loop.forEach((阶段) => {
@@ -103,6 +138,7 @@ loop.forEach((阶段) => {
 loop = loop.next;
 }
 ```
+
 
 - 浏览器端，microtask 在事件循环的 macrotask 执行完之后执行
 ```js
@@ -222,3 +258,6 @@ setTimeout(()=>{
 console.log(13);
 // 1 7 13 5 8 6 9 2 3 4 10 11 12
 ```
+
+## 参考
+[浏览器与Node的事件循环(Event Loop)有何区别?](https://juejin.im/post/5c337ae06fb9a049bc4cd218)

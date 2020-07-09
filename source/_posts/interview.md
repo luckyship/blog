@@ -444,7 +444,7 @@ jquery主要是兼容性好，可以跑在各种pc，移动上，好处是兼容
 
 3、数据有效期不同，sessionStorage：仅在当前浏览器窗口关闭前有效，自然也就不可能持久保持；localStorage：始终有效，窗口或浏览器关闭也一直保存，因此用作持久数据；cookie只在设置的cookie过期时间之前一直有效，即使窗口或浏览器关闭
 
-4、作用域不同，sessionStorage不在不同的浏览器窗口中共享，即使是同一个页面(即数据不共享)；localStorage 在所有同源窗口中都是共享的；cookie也是在所有同源窗口中都是共享的( 即数据共享 )。
+4、作用域不同，sessionStorage只在同源的同窗口（或标签页）中共享数据，也就是只在当前会话中共享；localStorage 在所有同源窗口中都是共享的；cookie也是在所有同源窗口中都是共享的( 即数据共享 )。
 
 
 ## ajax的get与post区别？
@@ -1719,12 +1719,11 @@ html语义化让页面的内容结构化，结构更清晰，便于对浏览器�
 使用iframe之前需要考虑这两个缺点。如果需要使用iframe，最好是通过javascript动态给iframe添加src属性值。
 
 ## 多个标签页通信
-WebSocket、SharedWorker；
-也可以调用localstorge、cookies等本地存储方式；
-
-localstorge另一个浏览上下文里被添加、修改或删除时，它都会触发一个事件，
-我们通过监听事件，控制它的值来进行页面信息通信；
-注意quirks：Safari 在无痕模式下设置localstorge值时会抛出 QuotaExceededError 的异常；
+1. 使用 WebSocket，通信的标签页连接同一个服务器，发送消息到服务器后，服务器推送消息给所有连接的客户端。
+2. 使用 SharedWorker （只在 chrome 浏览器实现了），两个页面共享同一个线程，通过向线程发送数据和接收数据来实现标签页之间的双向通行。
+3. 也可以调用localstorge、cookies等本地存储方式；localstorge另一个浏览上下文里被添加、修改或删除时，它都会触发一个 storage 事件，我们通过监
+听 storage 事件，控制它的值来进行页面信息通信。
+4. 获取对应标签页的引用，通过 postMessage 方法也是可以实现多个标签页通信的。
 
 ## CSS的盒子模型 border-sizing (border-box)
 （1）有两种， IE 盒子模型、W3C 盒子模型；
@@ -2560,7 +2559,11 @@ Object.getProtorypeOf(p)
 - xxx的优缺点
 - xxx怎么进行优化
 - 讲讲xxx的思想，设计思路
+- xxx的作用是什么，怎么做的
 - 项目中(react/vue)遇到的问题
+
+### 工具
+短命令行工具、自动化上传部署、i18n词条翻译、eslint校验目录格式、chrome插件、模板编译、axios封装、基建
 
 ## Iterator是什么，有什么作用？
 terator（迭代器）是一种接口，也可以说是一种规范。为各种不同的数据结构提供统一的访问机制。任何数据结构只要部署Iterator接口，就可以完成遍历操作（即
@@ -2684,3 +2687,24 @@ Array.prototype.fakeReduce = function (fn, initialValue) {
   return reduceHelper(fn, initialValue, this)
 }
 ```
+
+## Label 的作用是什么？是怎么用的？
+label 标签来定义表单控制间的关系，当用户选择该标签时，浏览器会自动将焦点转到和标签相关的表单控件上。
+```html
+<label for="Name">Number:</label>
+<input type=“text“ name="Name" id="Name"/>
+```
+
+## Canvas 和 SVG 有什么区别？
+> Canvas 是一种通过 JavaScript 来绘制 2D 图形的方法。Canvas 是逐像素来进行渲染的，因此当我们对 Canvas 进行缩放时，会出现锯齿或者失真的情况。
+ 
+> SVG 是一种使用 XML 描述 2D 图形的语言。SVG 基于 XML，这意味着 SVG DOM 中的每个元素都是可用的。我们可以为某个元素附加 JavaScript 事件监听函
+数。并且 SVG 保存的是图形的绘制方法，因此当 SVG 图形缩放时并不会失真。
+
+## 网页验证码是干嘛的，是为了解决什么安全问题？
+1. 区分用户是计算机还是人的公共全自动程序。可以防止恶意破解密码、刷票、论坛灌水
+2. 有效防止黑客对某一个特定注册用户用特定程序暴力破解方式进行不断的登陆尝试
+
+## 渐进增强和优雅降级的定义
+- 渐进增强：针对低版本浏览器进行构建页面，保证最基本的功能，然后再针对高级浏览器进行效果、交互等改进和追加功能达到更好的用户体验。
+- 优雅降级：一开始就根据高版本浏览器构建完整的功能，然后再针对低版本浏览器进行兼容。
