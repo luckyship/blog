@@ -99,8 +99,9 @@ Refs 可以用于获取一个 DOM 节点或者 React 组件(组件实例)的引�
 ### 怎么阻止组件的渲染
 在组件的 `render` 方法中返回 `null` 并不会影响触发组件的生命周期方法
 
-### 当渲染一个列表时，何为 key？设置 key 的目的是什么
-Keys 会有助于 React 识别哪些 `items` 改变了，被添加了或者被移除了。Keys 应该被赋予数组内的元素以赋予(DOM)元素一个稳定的标识，选择一个 key 的最佳方法是使用一个字符串，该字符串能惟一地标识一个列表项。很多时候你会使用数据中的 IDs 作为 keys，当你没有稳定的 IDs 用于被渲染的 `items` 时，可以使用项目索引作为渲染项的 key，但这种方式并不推荐，如果 `items` 可以重新排序，就会导致 `re-render` 变慢。在map遍历是能唯一地标识元素item，时的处理列表更加高效。
+### eact 与 vue 数组中 key 的作用是什么
+diff算法需要比对虚拟dom的修改，然后异步的渲染到页面中，当出现大量相同的标签时，vnode会首先判断key和标签名是否一致，如果一致再去判断子节点一致，使用key可以帮助diff算法提升判断的速度，在页面
+重新渲染时更快消耗更少。
 
 ### (在构造函数中)调用 super(props) 的目的是什么
 在 `super()` 被调用之前，子类是不能使用 `this` 的，在 ES2015 中，子类必须在 `constructor` 中调用 `super()`。传递 `props` 给 `super()` 的原因则是便于(在子类中)能在 `constructor` 访问 `this.props`。
@@ -561,3 +562,50 @@ react 函数式思想 纯组件传入状态和逻辑，所以单项数据流结�
 vue 响应式的思想 监听数据的变化 初始化时对数据的每一个属性添加watcher基于数据可变 数据变化时触发watcher回调 更新虚拟dom
 
 react的性能优化需要手动去判断 vue是自动的应为要给每个属性添加 watcher所以大型项目state不比较多的时候watcher也会比较多容易造成卡顿的情况
+
+### React 中，cloneElement 与 createElement 各是什么，有什么区别
+```js
+React.cloneElement(
+  element,
+  [props],
+  [...children]
+)
+
+React.createElement(
+  type,
+  [props],
+  [...children]
+)
+```
+
+### React Portal 有哪些使用场景
+在以前， react 中所有的组件都会位于 #app 下，而使用 Portals 提供了一种脱离 #app 的组件。
+因此 Portals 适合脱离文档流(out of flow) 的组件，特别是 position: absolute 与 position: fixed 的组件。比如模态框，通知，警告，goTop 等。
+
+```js
+const modalRoot = document.getElementById('modal');
+
+class Modal extends React.Component {
+  constructor(props) {
+    super(props);
+    this.el = document.createElement('div');
+  }
+
+  componentDidMount() {
+    modalRoot.appendChild(this.el);
+  }
+
+  componentWillUnmount() {
+    modalRoot.removeChild(this.el);
+  }
+
+  render() {
+    return ReactDOM.createPortal(
+      this.props.children,
+      this.el,
+    );
+  }
+}
+```
+
+

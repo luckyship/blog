@@ -266,7 +266,7 @@ var a = {
 ## 数字补0操作
 ```js
 const addZero1 = (num, len = 2) => (`0${num}`).slice(-len)
-const addZero2 = (num, len = 2) => (`${num}`).padStart( len   , '0')
+const addZero2 = (num, len = 2) => (`${num}`).padStart(len, '0')
 addZero1(3) // 03
  
 addZero2(32,4)  // 0032

@@ -22,7 +22,9 @@ top: 130
 <!--more-->
 ### css高度坍塌
 
-BFC——块级格式化上下文
+IFC（inline Formatting Contexts)--内联格式化上下文,IFC的高度由其包含行内元素中最高的实际高度计算而来的（不受竖直方向上的padding/margin影响）
+
+BFC--块级格式化上下文
 
 - 触发条件
   - float不为none
@@ -42,7 +44,6 @@ BFC——块级格式化上下文
 - BFC 的区域不会与 float 的元素区域重叠
 - 计算 BFC 的高度时，浮动子元素也参与计算
 - 文字层不会被浮动层覆盖，环绕于周围
-
 
 #### 应用
 - 阻止margin重叠
