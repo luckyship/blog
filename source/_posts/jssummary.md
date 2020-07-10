@@ -1323,6 +1323,21 @@ Function.prototype.bind2 = function (context) {
     return self.apply(context, arr.concat(restArr))
   }
 }
+
+// 考虑到原型链 因为在new 一个bind过生成的新函数的时候，必须的条件是要继承原函数的原型
+Function.prototype.bind2New = function(context){
+  var arr = Array.prototype.slice.call(arguments, 1);
+  var self = this;
+  var bound = function() {
+    restArr = restArr.concat(Array.prototype.slice.call(arguments));
+    return self.apply(context, restArr);
+  }
+  var F = function(){}
+  // 这里需要一个寄生组合继承
+  F.prototype = context.prototype;
+  bound.prototype = new F();
+  return bound;
+}
 // 这种方式的实现其实是函数柯里化的变版
 
 // 比如在监听事件时可以这样子用:

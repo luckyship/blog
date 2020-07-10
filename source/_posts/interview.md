@@ -742,10 +742,12 @@ addEventListener：addEventListener 是DOM2 级事件新增的指定事件处理
 IE只支持事件冒泡。
 
 ## 如何让事件先冒泡后执行？
-在DOM标准事件模型中，是先捕获后冒泡。但是如果要实现先冒泡后捕获的效果，分别为某一元素先后绑定两个监听器，第一个监听器第三个参数设为false，第二个监听器第三个参数设为true。
+在DOM标准事件模型中，是先捕获后冒泡。但是如果要实现先冒泡后捕获的效果，对于同一个事件，监听捕获和冒泡，分别对应相应的处理函数，监听到捕获事件，先暂缓执行，直到冒泡事件被捕获后再执行捕获事
+件。
 
 ## 什么是事件委托？（事件代理）
-简介：事件委托指的是，不在事件的发生地（直接dom）上设置监听函数，而是在其父元素上设置监听函数，通过事件冒泡，父元素可以监听到子元素上事件的触发，通过判断事件发生元素DOM的类型，来做出不同的响应。
+简介：事件委托指的是，不在事件的发生地（直接dom）上设置监听函数，而是在其父元素上设置监听函数，通过事件冒泡，父元素可以监听到子元素上事件的触发，通过判断事件发生元素DOM的类型，来做出不同的
+响应。
 
 捕获阶段的实际应用：可以在父元素层面阻止事件向子元素传播，也可以代替子元素执行某些操作。
 
@@ -1158,6 +1160,30 @@ width
 1. vuex 2. 在同一个vue实例上调用$emit和$on
 
 ## 原生js实现拖拽
+```html
+<div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+<img
+id="img1"
+draggable="true"
+ondragstart="drag(event)"
+src="http://dir.mydearest.cn/static/img/avatar.jpg"
+/>
+<script>
+  function allowDrop(ev) {
+    ev.preventDefault();
+  }
+
+  function drag(ev) {
+    ev.dataTransfer.setData("Text", ev.target.id);
+  }
+
+  function drop(ev) {
+    ev.preventDefault();
+    var data = ev.dataTransfer.getData("Text");
+    ev.target.appendChild(document.getElementById(data));
+  }
+</script>
+```
 [拖拽](https://cosyer.github.io/jelly/drag/)
 
 ## 实现函数监听函数发布订阅模式 on emit off 方法 类似 iflux
