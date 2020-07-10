@@ -260,6 +260,9 @@ a===>Array.prototype===>Object.prototype===>null
 函数的原型链
 f===>Function.prototype===>Object.prototype===>null
 
+Function.__proto__==Object.prototype // false
+Function.__proto__==Function.prototype // true Function的原型也是Function
+
 var Tom = Object.create(Person, {
   age: {
     value: 34,

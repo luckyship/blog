@@ -440,6 +440,11 @@ jquery主要是兼容性好，可以跑在各种pc，移动上，好处是兼容
 区别:
 1、cookie在浏览器和服务器间来回传递。而sessionStorage和localStorage不会自动把数据发给服务器，仅在本地保存
 
+### cookie的作用
+- 保存用户登录状态(存储sessionId来标识唯一用户)
+- 跟踪用户行为
+- 定制页面
+
 2、存储大小限制也不同，cookie数据不能超过4k，sessionStorage和localStorage 但比cookie大得多，可以达到5M
 
 3、数据有效期不同，sessionStorage：仅在当前浏览器窗口关闭前有效，自然也就不可能持久保持；localStorage：始终有效，窗口或浏览器关闭也一直保存，因此用作持久数据；cookie只在设置的cookie过期时间之前一直有效，即使窗口或浏览器关闭
@@ -1324,16 +1329,16 @@ components:{
 </script>
 ```
 
-## 网络七层协议
+## OSI七层协议
 ![tcp](http://cdn.mydearest.cn/blog/images/tcp.png)
 
 - 应用层
+- 表示层
 - 会话层
 - 传输层
 - 网络层
 - 数据链路层
 - 物理层
-- 表示层
 
 - 应用层（HTTP，FTP，NFS，SMTP）
 与其它计算机进行通讯的一个应用，它是对应应用程序的通信服务的。例如，一个没有通信功能的字处理程序就不能执行通信的代码，从事字处理工作的程序员也不关心OSI的第7层。但是，如果添加了一个传输文件的选项，那么字处理器的程序员就需要实现OSI的第7层。示例：TELNET，HTTP，FTP，NFS，SMTP等。
@@ -2695,7 +2700,7 @@ const EnumSex = Object.freeze({
 - Jest
 
 ## BOM 和 DOM 的关系
-- BOM全称Browser Object Model，即浏览器对象模型，主要处理浏览器窗口和框架。
+- BOM全称Browser Object Model，即浏览器对象模型，主要处理浏览器窗口和框架。(location/history/navigator)
 - DOM全称Document Object Model，即文档对象模型，是 HTML 和XML 的应用程序接口（API），遵循W3C 的标准，所有浏览器公共遵守的标准。
 
 BOM包含了DOM(对象)，浏览器提供出来给予访问的是BOM对象，从BOM对象再访问到DOM对象，从而js可以操作浏览器以及浏览器读取到的文档。
@@ -2734,3 +2739,5 @@ label 标签来定义表单控制间的关系，当用户选择该标签时，�
 ## 渐进增强和优雅降级的定义
 - 渐进增强：针对低版本浏览器进行构建页面，保证最基本的功能，然后再针对高级浏览器进行效果、交互等改进和追加功能达到更好的用户体验。
 - 优雅降级：一开始就根据高版本浏览器构建完整的功能，然后再针对低版本浏览器进行兼容。
+
+> 无头浏览器（Headless browser）指没有用户图形界面的(GUI)的浏览器，目前广泛运用于web爬虫和自动化测试中。

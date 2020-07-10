@@ -12,6 +12,10 @@ top: 300
 
 在JS中，我们可以使用 `setTimeout` 和 `setIntarval` 实现动画，但是 H5 的出现，让我们又多了两种实现动画的方式，分别是 CSS 动画（`transition`、`animation`）和 H5的`canvas` 实现。除此以外，H5还提供了一个专门用于请求动画的API，让 DOM 动画、canvas动画、svg动画、webGL动画等有一个专门的刷新机制。
 
+> 传统的javascript 动画是通过定时器 setTimeout 或者 setInterval 实现的。但是定时器动画一直存在两个问题
+- 动画的循时间环间隔不好确定(推荐的最佳循环间隔是17ms（大多数电脑的显示器刷新频率是60Hz，1000ms/60）)
+- 定时器第二个时间参数只是指定了多久后将动画任务添加到浏览器的UI线程队列中，如果UI线程处于忙碌状态，那么动画不会立刻执行
+
 ### 1. 定义
 `requestAnimationFrame` 方法会告诉浏览器希望执行动画并请求浏览器在下一次重绘之前调用回调函数来更新动画。
 
@@ -83,7 +87,7 @@ window.requestAnimationFrame(requestAnimation);
 // setInterval实现
 function setInterval(callback, interval) {
     let timer
-    const now = Date.now()
+    const now = Date.now
     let startTime = now()
     let endTime = startTime
     const loop = () ={

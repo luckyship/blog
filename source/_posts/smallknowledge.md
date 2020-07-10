@@ -2758,6 +2758,30 @@ sleep(2000).then(()=>{
 });
 ```
 
+### generate
+```js
+function* sleep(ms){
+   yield new Promise(function(resolve,reject){
+             setTimeout(resolve,ms);
+        })  
+}
+sleep(500).next().value.then(function(){console.log(111)})
+```
+
+### async/await
+```js
+function sleep(ms){
+  return new Promise((resolve)=>setTimeout(resolve,ms));
+}
+async function test(){
+  var temple=await sleep(1000);
+  console.log(1111)
+  return temple
+}
+test();
+//延迟1000ms输出了1111
+```
+
 ## 实现一些主流框架的循环渲染
 ### 问题
 ```js

@@ -1336,6 +1336,7 @@ Function.prototype.bind2New = function(context){
   // 这里需要一个寄生组合继承
   F.prototype = context.prototype;
   bound.prototype = new F();
+  // bound.prototype = Object.create(context.prototype);
   return bound;
 }
 // 这种方式的实现其实是函数柯里化的变版
@@ -1387,7 +1388,7 @@ const newObj = new resultBind3()
 // 删除对象里的函数
 Function.prototype.call1 = function (context) {
   context.fn = this // this 指向实例
-  context.fn()
+  context.fn() // ...args
   delete context.fn
 }
 
