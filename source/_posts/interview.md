@@ -2786,3 +2786,25 @@ fetch("http://localhost:8000", { signal }).then(response => {
 // Abort request
 controller.abort();
 ```
+
+## 协议相对URL
+如果用户当前访问的页面是通过 HTTPS 协议来浏览的，那么网页中的资源也只能通过 HTTPS 协议来引用，否则浏览器会出现警告信息，不同浏览器警告信息展现形式
+不同。
+
+为了解决这个问题，我们可以省略 URL 的协议声明，省略后浏览器照样可以正常引用相应的资源，这项解决方案称为protocol-relative URL，暂且可译作协议相
+对 URL。
+
+## MVC模式
+![mvc](http://cdn.mydearest.cn/blog/images/mvc.png)
+
+用户把对View的操作交给了Controller处理，在Controller中响应View的事件调用Model的接口对数据进行操作，一旦Model发生变化便通知相关视图进行更新。
+
+MVC模式可以这样理解。将html看成view;js看成controller，负责处理用户与应用的交互，响应对view的操作（对事件的监听），调用Model对数据进行操作，完
+成model与view的同步（根据model的改变，通过选择器对view进行操作）;将js的ajax当做Model，也就是数据层，通过ajax从服务器获取数据。
+
+
+## MVV模式
+![mvvm](http://cdn.mydearest.cn/blog/images/mvvm.png)
+
+MVVM与MVC两者之间最大的区别就是：MVVM实现了对View和Model的自动同步，也就是当Model的属性改变时，我们不用再自己手动操作Dom元素来改变View的变化，
+而是改变其属性后，该属性对应的View层数据会自动改变。

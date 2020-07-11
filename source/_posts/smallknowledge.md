@@ -1979,7 +1979,7 @@ npm使用 a.b.c 的版本号来管理安装包，a大达版本号，有重大api
 
 ## script标签关键字
 - defer 并发下载 顺序执行 渲染完再执行(延迟执行)
-- async 并发下载 异步执行谁先下载完 谁先执行
+- async 异步下载 异步执行谁先下载完 谁先执行
 
 ## 防止对象篡改
 * Object.preventExtensions(obj): obj 不能添加属性
