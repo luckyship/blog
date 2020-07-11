@@ -2601,6 +2601,8 @@ Object.getProtorypeOf(p)
 - 如何实现一个 animate.js
 - 三个词描述自己
 - 觉得自己为啥能符合这个岗位
+- xxx解决了什么问题
+- 随机应变
 
 ### 工具
 短命令行工具、自动化上传部署、i18n词条翻译、eslint校验目录格式、chrome插件、模板编译、axios封装、基建

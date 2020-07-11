@@ -319,10 +319,173 @@ vuex是一个专门为vue应用程序开发的状态管理模式，每一个vuex
 主要包括以下几个模块：
 
 - state：定义了应用状态的数据结构，可以在这里设置默认的初始状态
-- Getter：允许组件从State中获取数据，mapGetters辅助函数仅仅是将store中的getter映射到局部计算属性
-- Mutation：是唯一更改store中状态的方法，且必须是同步函数
-- Action：用于提交mutation，而不是直接更改状态，可以包含任意的异步操作
-- Module：允许将单一的Store拆分成多个store且同时保存在单一的状态树里
+- Getters：允许组件从State中获取数据，mapGetters辅助函数仅仅是将store中的getter映射到局部计算属性
+- Mutations：是唯一更改store中状态的方法，且必须是同步函数
+- Actions：用于提交mutation，而不是直接更改状态，可以包含任意的异步操作
+- Modules：允许将单一的Store拆分成多个store且同时保存在单一的状态树里
+
+### vuex解决了什么问题
+1. 多个组件依赖同一状态，多层嵌套繁琐，兄弟组件没办法传值通信。
+
+2. 不同组件的行为需要修改同一状态
+
+### Vuex中状态是对象时，使用时要注意什么？
+因为对象是引用类型，复制后改变属性还是会影响原始数据，这样会改变state里面的状态，是不允许，所以先用深度克隆复制对象，再修改。
+
+### 组件中批量使用Vuex的state状态
+```js
+import {mapState} from 'vuex'
+export default{
+    computed:{
+        ...mapState(['price','number'])
+    }
+}
+```
+
+### Vuex中要从state派生一些状态出来，且多个组件使用它
+使用getter属性，相当Vue中的计算属性computed，只有原状态改变派生状态才会改变。
+```js
+const store = new Vuex.Store({
+    state: {
+        price: 10,
+        number: 10,
+        discount: 0.7,
+    },
+    getters: {
+        total: state => {
+            return state.price * state.number
+        },
+        discountTotal: (state, getters) => {
+            return state.discount * getters.total
+        },
+        getTodoById: (state) => (id) =>{
+            return state.todos.find(todo => todo.id === id)
+        }
+    },
+});
+```
+```js
+computed: {
+    total() {
+        return this.$store.getters.total
+    },
+    discountTotal() {
+        return this.$store.getters.discountTotal
+    },
+    getTodoById() {
+        return this.$store.getters.getTodoById
+    },
+    ...mapGetters(['total','discountTotal']), // 批量使用getter属性
+    ...mapGetters({
+        myTotal:'total',
+        myDiscountTotal:'discountTotal',
+    }) // 取别名
+},
+mounted(){
+    console.log(this.getTodoById(2).done)//false
+}
+```
+- 在getter中可以通过第三个参数rootState访问到全局的state,可以通过第四个参数rootGetters访问到全局的getter。
+- 在mutation中不可以访问全局的state和getter，只能访问到局部的state。
+- 在action中第一个参数context中的context.rootState访问到全局的state，context.rootGetters访问到全局的getter。
+
+### 在组件中多次提交同一个mutation,action
+```js
+methods:{
+    ...mapMutations({
+        setNumber:'SET_NUMBER',
+    }),
+    ...mapActions({
+        setNumber:'SET_NUMBER',
+    })
+}
+```
+this.setNumber(10)相当调用this.$store.commit('SET_NUMBER',10)
+
+### Vuex中action和mutation有什么区别？
+1. action 提交的是 mutation，而不是直接变更状态。mutation可以直接变更状态。
+2. action 可以包含任意异步操作。mutation只能是同步操作。
+3. 提交方式不同，action 是用this.$store.dispatch('ACTION_NAME',data)来提交。mutation是用this.$store.commit('SET_NUMBER',10)来提交。
+4. 接收参数不同：
+```js
+{
+    state,      // 等同于 `store.state`，若在模块中则为局部状态
+    rootState,  // 等同于 `store.state`，只存在于模块中
+    commit,     // 等同于 `store.commit`
+    dispatch,   // 等同于 `store.dispatch`
+    getters,    // 等同于 `store.getters`
+    rootGetters // 等同于 `store.getters`，只存在于模块中
+}
+```
+多个actions，A结束后再执行其他操作
+```js
+actions:{
+    async actionA({commit}){
+        //...
+    },
+    async actionB({dispatch}){
+        await dispatch ('actionA')//等待actionA完成
+        // ... 
+    }
+}
+```
+
+### 命名空间
+```js
+export default{
+    namespaced: true,
+    state,
+    getters,
+    mutations,
+    actions
+}
+```
+- 怎么在带命名空间的模块内提交全局的mutation和action？
+```js
+this.$store.dispatch('actionA', null, { root: true })
+this.$store.commit('mutationA', null, { root: true })
+```
+
+### 在Vuex插件中怎么监听组件中提交mutation和action？
+```js
+export default function createPlugin(param) {
+    return store => {
+        store.subscribe((mutation, state) => {
+            console.log(mutation.type)//是那个mutation
+            console.log(mutation.payload)
+            console.log(state)
+        })
+        // store.subscribeAction((action, state) => {
+        //     console.log(action.type)//是那个action
+        //     console.log(action.payload)//提交action的参数
+        // })
+        store.subscribeAction({
+            before: (action, state) => {//提交action之前
+                console.log(`before action ${action.type}`)
+            },
+            after: (action, state) => {//提交action之后
+                console.log(`after action ${action.type}`)
+            }
+        })
+    }
+}
+```
+
+### 在v-model上怎么用Vuex中state的值？
+```js
+<input v-model="message">
+// ...
+computed: {
+    message: {
+        get () {
+            return this.$store.state.message
+        },
+        set (value) {
+            this.$store.commit('updateMessage', value)
+        }
+    }
+}
+```
 
 ### vue SSR
 vue是构建客户端应用程序的框架，默认情况下，可以在浏览器中输出vue组件，进行生成dom和操作dom，然而，也可以将同一个组件渲染为服务端的html字符串，将他们直接发送到客户端，然后将这些静态标记激活为客户端上可以交互的应用程序。
