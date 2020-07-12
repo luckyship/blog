@@ -2730,6 +2730,18 @@ Array.prototype.fakeReduce = function (fn, initialValue) {
 }
 ```
 
+## reduce实现数组map
+```js
+
+Array.prototype._map = function(fn, thisArg) {
+  const result = [];
+  this.reduce((prev, curr, index, array) => {
+    result[index] = fn.call(thisArg, array[index], index, array);
+  }, 0)
+  return result;
+}
+```
+
 ## Label 的作用是什么？是怎么用的？
 label 标签来定义表单控制间的关系，当用户选择该标签时，浏览器会自动将焦点转到和标签相关的表单控件上。
 ```html
@@ -2805,8 +2817,12 @@ MVC模式可以这样理解。将html看成view;js看成controller，负责处�
 成model与view的同步（根据model的改变，通过选择器对view进行操作）;将js的ajax当做Model，也就是数据层，通过ajax从服务器获取数据。
 
 
-## MVV模式
+## MVVM模式
 ![mvvm](http://cdn.mydearest.cn/blog/images/mvvm.png)
 
 MVVM与MVC两者之间最大的区别就是：MVVM实现了对View和Model的自动同步，也就是当Model的属性改变时，我们不用再自己手动操作Dom元素来改变View的变化，
 而是改变其属性后，该属性对应的View层数据会自动改变。
+
+- Model代表数据模型，也可以在Model中定义操作数据变化的业务逻辑；
+- View代表UI视图，它负责将数据模型转化成UI展现出来；
+- ViewModel监听Model中数据的改变和控制View层的展现；

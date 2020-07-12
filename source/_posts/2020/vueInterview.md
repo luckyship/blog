@@ -18,15 +18,22 @@ photos:
 ### vue 双向绑定的原理
 采用数据劫持结合发布者-订阅者模式的方式，通过Object.defineProperty()来劫持各个属性的setter，getter，在数据变动时发布消息给订阅者，触发相应的监听回调。
 
+具体流程：
+Vue中先遍历data选项中所有的属性（发布者）用Object.defineProperty劫持这些属性将其转为getter/setter。读取数据时候会触发getter。修改数据时会触发setter。
+
+然后给每个属性对应new Dep()，Dep是专门收集依赖、删除依赖、向依赖发送消息的。先让每个依赖设置在Dep.target上，在Dep中创建一个依赖数组，先判断Dep.target是否已经在依赖中存在，不存在的话添加到依赖数组中完成依赖收集，随后将Dep.target置为上一个依赖。
+
+组件在挂载过程中都会new一个Watcher实例。这个实例就是依赖（订阅者）。Watcher第二参数是一个函数，此函数作用是更新且渲染节点。在首次渲染过程，会自动调用Dep方法来收集依赖，收集完成后组件中每个数据都绑定上该依赖。当数据变化时就会在seeter中通知对应的依赖进行更新。在更新过程中要先读取数据，就会触发Wacther的第二个函数参数。一触发就再次自动调用Dep方法收集依赖，同时在此函数中运行patch（diff运算)来更新对应的DOM节点，完成了双向绑定。
+
 ### v-show和v-if有什么区别
 
-- v-if
-v-if 是真正的条件渲染，因为它会确保在切换过程中条件块内的事件监听和子组件适当地被销毁和重建，也是惰性的，如果在初始渲染条件为假时，则什么也不做——直到条件第一次变为真时才开始渲染条件块。
+- v-if（初始化不会渲染）
+v-if 是真正的条件渲染，因为它会确保在切换过程中条件块内的事件监听和子组件适当地被销毁和重建，也是惰性的，如果在初始渲染条件为假时，则什么也不做——直到条件第一次变为真时才开始渲染条件块，能用在<template>上。
 
-- v-show
+- v-show（初始化会渲染）
 v-show就简单得多，不管初始条件是什么，元素总是会被渲染，并且只是简单地基于css的display进行切换。
 
-所以，v-if适用于切换不频繁的场景，v-show适用于切换频繁的场景。
+所以，v-if适用于切换不频繁的场景，v-show适用于切换频繁的场景，不能用在<template>上。
 
 ### class和style如何动态绑定
 
@@ -55,8 +62,10 @@ style也可以通过对象语法和数组语法进行动态绑定
 
 额外地，每次父级组件发生更新时，子组件中的所有prop都会刷新为最新的值，这意味着你不应该在一个子组件内部改变prop，如果你这样做了，vue会在浏览器的控制台发出警告，子组件想修改时，只能通过$emit派发一个自定义事件，父组件接收到后，由父组件修改.
 
+> 双向数据流是指数据从父级向子级传递数据，子级可以通过一些手段改变父级向子级传递的数据。
+
 ### computed和watch的区别和运用场景
-- computed：是计算属性，依赖其他属性值，并且computed的值有缓存，只有它依赖的属性值发生改变时下一次获取computed的值时候才会重新计算computed的值。
+- computed：是计算属性，依赖其他属性值，并且computed的值有缓存，只有它依赖的属性值发生改变时下一次获取computed的值时候才会重新计算computed的值。避免在模板中放入太多的逻辑，导致模板过重且难以维护。
 
 - watch：更多的是观察作用，类似于某些数据的监听回调，每当监听的数据发生变化时都会执行回调进行后续操作。
 
@@ -67,7 +76,7 @@ style也可以通过对象语法和数组语法进行动态绑定
 - 但我们需要在数据变化时执行异步或开销较大的操作时应该使用watch，使用watch选项允许我们执行异步操作，限制我们执行该操作的频率，并在我们得到最终结果前，设置中间状态，这些都是计算属性无法做到的。
 
 ### 直接给一个数组项赋值，vue能检测到吗
-- 由于js的限制，vue不能检测到以下数组的变动：
+- 由于js的限制(引用类型)，vue不能检测到以下数组的变动(对象属性的提娜及和删除)：
 
 - 当你利用索引直接设置一个数组项时，例如vm.item[indexOfItem] = newValue
 - 当你修改数组的长度时，例如vm.items.length = newLength
@@ -97,7 +106,9 @@ data() {
 },
 mounted() {
     this.name = 'zs' // 不是响应式的
-    this.$set(this.obj,'name','lisi') //响应式
+    this.$set(this.obj,'name','lisi') //响应式 解决添加
+    // 用Object.assign来解决第二种情况。解决对象的删除
+    // Vue.delete
 },
 ```
 
@@ -487,6 +498,308 @@ computed: {
 }
 ```
 
+### vue router全局导航守卫
+三个参数
+- to：即将要进入的目标 路由对象。
+- from：当前导航正要离开的路由对象。
+- next：函数，必须调用，不然路由跳转不过去。
+
+next()：进入下一个路由。
+next(false)：中断当前的导航。
+next('/')或next({ path: '/' }) : 跳转到其他路由，当前导航被中断，进行新的一个导航。
+
+- router.beforeEach：全局前置守卫。
+- router.beforeResolve：全局解析守卫。
+- router.afterEach：全局后置钩子。
+
+### 路由独享守卫
+```js
+const router = new VueRouter({
+    routes: [
+        {
+            path: '/foo',
+            component: Foo,
+            beforeEnter: (to, from, next) => {
+            // ...
+            }
+        }
+    ]
+})
+```
+
+### 组件内导航守卫
+- beforeRouteLeave：在失活的组件里调用离开守卫。
+- beforeRouteUpdate：在重用的组件里调用,比如包含<router-view />的组件。
+- beforeRouteEnter：在进入对应路由的组件创建前调用。
+
+### router-link
+<router-link>是Vue-Router的内置组件，在具有路由功能的应用中作为声明式的导航使用。类似react的Link标签
+```html
+<router-link to="home">Home</router-link>
+<router-link :to="'home'">Home</router-link>
+<router-link :to="{ path: 'home' }">Home</router-link>
+<router-link :to="{ name: 'user', params: { userId: 123 }}">User</router-link>
+<router-link :to="{ path: 'user', query: { userId: 123 }}">User</router-link>
+```
+
+### 组件内监听路由的变化
+只能用在包含<router-view />的组件内
+1. 
+```js
+watch: {
+    '$route'(to, from) {
+        //这里监听
+    },
+}
+```
+
+2. 
+```js
+beforeRouteUpdate (to, from, next) {
+    //这里监听
+},
+```
+
+### 切换新路由的滚动条处理
+```js
+const router = new Router({
+    mode: 'history',
+    base: process.env.BASE_URL,
+    routes,
+    scrollBehavior(to, from, savedPosition) {
+        if (savedPosition) {
+            return savedPosition;
+        } else {
+            return { x: 0, y: 0 };
+        }
+    }
+});
+```
+
+### 路由传参获取方式
+1. meta：路由元信息，写在routes配置文件中。
+```js
+{
+    path: '/home',
+    name: 'home',
+    component: load('home'),
+    meta: {
+        title: '首页'
+    },
+},
+```
+> this.$route.meta.title
+
+2. query
+```js
+this.$route.push({
+    path:'/home',
+    query: {
+        userId:123
+    }
+})
+```
+> this.$route.query.userId
+
+3. params
+```js
+{
+    path: '/home/:userId',
+    name: 'home',
+    component: load('home'),
+},
+// 注意用params传参，只能用命名的路由（用name访问）
+const userId = '123'
+this.$router.push({ name: 'home', params: { userId } })
+```
+
+### 实现动态加载路由
+- 使用Router的实例方法addRoutes来实现动态加载路由，一般用来实现菜单权限。
+
+- 使用时要注意，静态路由文件中不能有404路由，而要通过addRoutes一起动态添加进去。
+
+### 路由之间跳转
+1. 声明式
+通过使用内置组件<router-link :to="/home">来跳转
+
+2. 编程式
+```js
+this.$route.push({ path:'home' })
+this.$route.replace({ path: '/home' })
+```
+
+### 打开新窗口
+```js
+const obj = {
+    path: xxx,//路由地址
+    query: {
+       mid: data.id//可以带参数
+    }
+};
+const {href} = this.$router.resolve(obj);
+window.open(href, '_blank');
+```
+
+### 动态绑定Class和Style
+```html
+<!--第一种对象语法 -->
+<div class="test" :class="{active:actived,'active-click': clicked&&actived}"></div>
+<!-- 第二种数组语法 -->
+<div class="test" :class="[actived?activeClass : '', clicked&&actived?activeClickClass : '']"></div>
+<!-- 第三种对象和数组混合 -->
+<div :class="[testClass,{active:actived},{'active-click':clicked&&actived}]"></div>
+<!-- 第四种对象和计算属性(推荐) -->
+<div :class="classObject"></div>
+```
+
+### 过滤器(filter)
+```js
+<div><span>{{money | moneyFilter(0.15)}}</span>美元</div>
+<div><span>{{money | moneyFilter(0.12)}}</span>英镑</div>
+filters: {
+    moneyFilter: function(val, ratio) {
+        return Number(val * ratio).toFixed(2);
+    }
+}
+```
+除了用在插值上还可以用在v-bind表达式上。
+
+### computed中的属性名和data中的属性名可以相同吗？也不能和method中属性同名
+不能同名，因为不管是computed属性名还是data数据名还是props数据名都会被挂载在vm实例上，因此这三个都不能同名。
+
+### watch的属性使用箭头函数定义可以吗？
+不可以。this会是undefind,因为箭头函数中的this指向的是定义时的this，而不是执行时的this，所以不会指向Vue实例的上下文。
+
+### watch怎么深度监听对象变化
+```js
+watch:{
+   a:{
+       handler:function(val,oldval){
+           
+       },
+       deep:true,
+       immediate: true // 监听开始之后立即被调用
+   }
+}
+```
+
+### 强制刷新组件
+- this.$forceUpdate()。
+- 组件上加上key，然后变化key的值。
+
+### 访问子组件实例或者子元素
+1. ref
+先用ref特性为子组件赋予一个ID引用<base-input ref="myInput"></<base-input>
+
+比如子组件有个focus的方法，可以这样调用this.$refs.myInput.focus()；
+比如子组件有个value的数据，可以这样使用this.$refs.myInput.value。
+
+2. 子组件访问父组件
+this.$parent
+
+### 组件什么时候下被销毁
+- 没有使用keep-alive切换
+- v-if="false"
+- 执行vm.$destroy()
+
+### $event.target和$event.currentTarget有什么区别
+$event.currentTarget始终指向事件所绑定的元素，而$event.target指向事件发生时的元素。
+
+### 事件修饰符和表单修饰符
+
+- 事件修饰符
+
+.stop：阻止事件传递；
+.prevent： 阻止默认事件；
+.capture ：在捕获的过程监听，没有capture修饰符时都是默认冒泡过程监听；
+.self：当前绑定事件的元素才能触发；
+.once：事件只会触发一次；
+.passive：默认事件会立即触发，不要把.passive和.prevent一起使用，因为.prevent将不起作用。
+
+- 表单修饰符.number .lazy .trim
+
+要注意顺序很重要，用@click.prevent.self会阻止所有的点击，而@click.self.prevent只会阻止对元素自身的点击。
+
+### 说说你对Vue的表单修饰符.lazy的理解。
+input标签v-model用lazy修饰之后，并不会立即监听input的value的改变，会在input失去焦点之后，才会监听input的value的改变。
+
+### 监听键盘事件
+使用按键修饰符 <input @keyup.enter="submit">按下回车键时候触发submit事件。
+- .enter
+- .tab
+- .delete (捕获“删除”和“退格”键)
+- .esc
+- .space
+- .up
+- .down
+- .left
+- .right
+
+### v-on绑定多个方法
+```html
+<template>
+    <div v-on:{click:a,dblclick:b}></div>
+</template>
+<script>
+    methods:{
+        a(){
+            alert(1)
+        },
+        b(){
+            alert(2)
+        }
+    }
+</script>
+```
+
+### css样式当前组件有效
+```html
+<style lang="less" scoped></style>
+```
+原理：vue通过在DOM结构以及css样式上加上唯一的标记`data-v-xxxxxx`，保证唯一，达到样式私有化，不污染全局的作用。
+
+### 渲染模板保留注释
+- 在组件中将comments选项设置为true
+- <template comments> ... <template>
+
+### 在created和mounted这两个生命周期中请求数据有什么区别呢？
+在created中，页面视图未出现，如果请求信息过多，页面会长时间处于白屏状态，DOM节点没出来，无法操作DOM节点。在mounted不会这样，比较好。
+
+### Vue组件里的定时器要怎么销毁？
+- 如果页面上有很多定时器，可以在data选项中创建一个对象timer，给每个定时器取个名字一一映射在对象timer中，
+在beforeDestroy构造函数中for(let k in this.timer){clearInterval(k)}；
+
+- 如果页面只有单个定时器，可以这么做。
+```js
+const timer = setInterval(() =>{}, 500);
+this.$once('hook:beforeDestroy', () => {
+   clearInterval(timer);
+})
+```
+
+### Vue中能监听到数组变化的方法有哪些？为什么这些方法能监听到呢？
+- push()、pop()、shift()、unshift()、splice()、sort()、reverse()，这些方法在Vue中被重新定义了，故可以监听到数组变化；
+- filter()、concat()、slice()，这些方法会返回一个新数组，也可以监听到数组的变化。
+
+### 定义全局方法
+1. 挂载在Vue的prototype上
+2. 利用全局混入mixin
+3. 
+```js
+this.$root.$on('demo',function(){
+    console.log('test');
+})
+this.$root.$emit('demo')；
+this.$root.$off('demo')；
+// Mustache的web模板引擎
+```
+
+### 捕获组件的错误信息
+- errorCaptured是组件内部钩子，当捕获一个来自子孙组件的错误时被调用，接收error、vm、info三个参数，return false后可以阻止错误继续向上抛出。
+
+- errorHandler为全局钩子，使用Vue.config.errorHandler配置，接收参数与errorCaptured一致，2.6后可捕捉v-on与promise链的错误，可用于统一错误
+处理与错误兜底。
+
 ### vue SSR
 vue是构建客户端应用程序的框架，默认情况下，可以在浏览器中输出vue组件，进行生成dom和操作dom，然而，也可以将同一个组件渲染为服务端的html字符串，将他们直接发送到客户端，然后将这些静态标记激活为客户端上可以交互的应用程序。
 
@@ -509,7 +822,7 @@ vue是构建客户端应用程序的框架，默认情况下，可以在浏览�
 
 - 新版本中默认是microtasks, v-on中会使用macrotasks
 
-###  数据响应(数据劫持)
+### 数据响应(数据劫持)
 数据响应的实现由两部分构成: 观察者( watcher ) 和 依赖收集器( Dep )，其核心是 defineProperty 这个方法，它可以重写属性的 get 与 set 方法，从而完成监听数据的改变。
 
 - Observe (观察者)观察 props 与 state
