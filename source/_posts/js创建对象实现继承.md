@@ -394,6 +394,27 @@ console.log(s.constructor === Son); // true
 缺点：
 1.实现起来较为复杂（可通过Object.create简化）
 
+```js
+function Person(obj) {
+    this.name = obj.name
+    this.age = obj.age
+}
+Person.prototype.add = function(value){
+    console.log(value)
+}
+var p1 = new Person({name:"番茄", age: 18})
+
+function Person1(obj) {
+    Person.call(this, obj)
+    this.sex = obj.sex
+}
+// 这一步是继承的关键
+Person1.prototype = Object.create(Person.prototype)
+Person1.prototype.play = function(value){
+    console.log(value)
+}
+var p2 = new Person1({name:"鸡蛋", age: 118, sex: "男"})
+```
 
 ### es6 class继承(使用extends表明继承自哪个父类，并且在子类构造函数中必须调用super) 
 ```js

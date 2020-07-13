@@ -1631,9 +1631,10 @@ console.log([..."👨‍👩‍👧‍👦"])
 
 其任意多次执行对资源本身所产生的影响均与一次执行的影响相同。
 
-## src和href引入的区别
-href 表示超文本引用（hypertext reference），在 link和a 等元素上使用。
-src 的内容，是页面必不可少的一部分，是引入。href 的内容，是与该页面有关联，是引用。区别就是，引入和引用。
+## src和href的区别(引入和引用)
+- src 指的是 source ，属性中可以设置 src  的标签多为替换标签，用于将资源加载后替换该标签的内容， src  加载的资源是会阻塞 DOM 解析的。
+
+- href 指的是 hypertext reference ，属性中可以设置 href  的标签多为引用或链接标签，用于引用互联网上的其他资源或设置锚点， href  引用的资源不会阻塞 DOM 解析，而是会并行加载。
 
 ## a.b.c.d 和 a['b']['c']['d']，哪个性能更高？
 ```js
@@ -2016,7 +2017,7 @@ const foo = ((x, f = (y = x) => x + y) => {
 
 - link最大限度支持并行下载，@import过多嵌套导致串行下载
 
-- link可以通过rel="alternate stylesheet"指定候选样式
+- link可以通过rel="alternate stylesheet"指定候选样式。link 标签可以实现资源加载、DNS 预解析等功能。
 
 - 浏览器对link支持早于@import，可以使用@import对老浏览器隐藏样式，@import需要 IE5 以上才能使用
 
@@ -2293,7 +2294,7 @@ p {
 
 ## transition和animation的区别
 - animation：动画，不需要触发任何事件就可以改变属性值 
-- transition：过渡，需要触发某事件才能改变属性
+- transition：过渡，侦听属性发生变化时触发，搭配其他样式属性能实现大多数过渡动画
 
 创建动画序列，需要使用animation属性或者其子属性，该属性允许配置动画时间、时长以及其他动画细节，但该属性不能配置动画的实际表现。动画的实际表现是由@keyframes规则实现
 
@@ -2303,8 +2304,8 @@ transition也可以实现动画，transition强调过渡，是元素的一个或
 渲染线程分为main thread和compositor thread。如果css动画只改变transform和opacity，这时候整个css动画在compositor thread得以完成（而js动画会在main thread执行然后compositor thread进行下一步操作），特别注意的是如果改变transform和opacity是不会layout和paint的.
 
 - 区别
- - 功能覆盖面，js比css大 实现或者重构难度不一，
- - css3比js简单，性能调优方向固定 对帧速表现不好的浏览器，
+ - 功能覆盖面，js比css大 实现或者重构难度不一，适合效果复杂且动态效果要求高的动画
+ - css3比js简单，性能调优方向固定 能触发 GPU 加速，调用 GPU 能力，帧率高
  - css3可以做到自然降级 css动画有天然事件支持 css3有兼容性问题
 
 `calc属性使用户可以动态计算长度值。任何长度值都可以使用calc()函数来计算`

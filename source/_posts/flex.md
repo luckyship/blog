@@ -121,7 +121,7 @@ flex-basis: <length> | auto; /* default auto */
 
 它可以设为跟width或height属性一样的值（比如350px），则项目将占据固定空间。
 
-### flex:是flex-grow, flex-shrink 和 flex-basis的简写，默认值为0 1 auto。后两个属性可选。
+### flex: 1 是flex-grow, flex-shrink 和 flex-basis的简写，默认值为0 1 auto。后两个属性可选。分别对应的是 flex 元素的占位、缩放、容器宽高。
 
 flex: none | [ <'flex-grow'> <'flex-shrink'>? || <'flex-basis'> ]
 

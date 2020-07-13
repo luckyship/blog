@@ -92,7 +92,7 @@ console.log(obj.name);      // chenyu
 ```
 如果该函数不用`new`调用，当作普通函数执行，那么`this`依然指向全局对象。
 
-### call() 或 apply() 调用 Function.prototype.bind()将当前函数绑定到指定对象绑定返回新函数之后再进行调用(间接调用)
+### call() 或 apply() 调用 Function.prototype.bind()将当前函数绑定到指定对象绑定返回新函数之后再进行调用(间接调用、显示绑定)
 通过调用函数的 call() 或 apply() 方法可动态的改变`this`的指向。
 
 ```javascript
