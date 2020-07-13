@@ -103,7 +103,7 @@ PATCH方法出现的较晚，它在2010年的RFC 5789标准中被定义。PATCH�
 2.当资源不存在时，PATCH会创建一个新的资源，而PUT只会对已在资源进行更新。
 
 ### 请求头和响应头
-
+> header 有哪些字段
 1)请求(客户端->服务端[request]) 
     GET(请求的方式) /newcoder/hello.html(请求的目标资源) HTTP/1.1(请求采用的协议和版本号) 
     Accept: */*(客户端能接收的资源类型) 
@@ -116,7 +116,11 @@ PATCH方法出现的较晚，它在2010年的RFC 5789标准中被定义。PATCH�
     If-Modified-Since: Tue, 11 Jul 2000 18:23:51 GMT(缓存时间)  
     Cookie(客户端暂存服务端的信息) 
     Date: Tue, 11 Jul 2000 18:23:51 GMT(客户端请求服务端的时间)
-
+    content-type：请求/响应体文件里 MIME 类型。
+    content-length：请求/响应体长
+    origin：跨域请求时存在，请求来源
+    cache-control：强缓存控制，字段见 MDN
+    expires：强缓存控制，值为时间戳，标记缓存过期时间
 
 2)响应(服务端->客户端[response])
     HTTP/1.1(响应采用的协议和版本号) 200(状态码) OK(描述信息)
