@@ -465,8 +465,8 @@ jquery主要是兼容性好，可以跑在各种pc，移动上，好处是兼容
 - get请求, 倒退按钮是无害的, post会重新发起请求
 - get会主动缓存, post不会
 - get请求只能进行url编码，而post请求支持多种编码
-- get产生一个TCP数据包，POST产生两个TCP数据包
-- get比较快
+- ***get产生一个TCP数据包，POST产生两个TCP数据包***
+- get比较快且有历史记录
 
 get就是将货品放在车顶，post放在车内。
 

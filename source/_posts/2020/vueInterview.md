@@ -10,11 +10,6 @@ categories: JS
 photos:
 ---
 
-## Vue面试问题
-
----
-<!--more-->
-
 ### vue 双向绑定的原理
 采用数据劫持结合发布者-订阅者模式的方式，通过Object.defineProperty()来劫持各个属性的setter，getter，在数据变动时发布消息给订阅者，触发相应的监听回调，实现视图刷新。
 
@@ -24,6 +19,9 @@ Vue中先遍历data选项中所有的属性（发布者）用Object.defineProper
 然后给每个属性对应new Dep()，Dep是专门收集依赖、删除依赖、向依赖发送消息的。先让每个依赖设置在Dep.target上，在Dep中创建一个依赖数组，先判断Dep.target是否已经在依赖中存在，不存在的话添加到依赖数组中完成依赖收集，随后将Dep.target置为上一个依赖。
 
 组件在挂载过程中都会new一个Watcher实例。这个实例就是依赖（订阅者）。Watcher第二参数是一个函数，此函数作用是更新且渲染节点。在首次渲染过程，会自动调用Dep方法来收集依赖，收集完成后组件中每个数据都绑定上该依赖。当数据变化时就会在setter中通知对应的依赖进行更新。在更新过程中要先读取数据，就会触发Wacther的第二个函数参数。一触发就再次自动调用Dep方法收集依赖，同时在此函数中运行patch（diff运算)来更新对应的DOM节点，完成了双向绑定。
+
+---
+<!--more-->
 
 ### v-show和v-if有什么区别
 
@@ -118,7 +116,8 @@ vue实例有一个完整的生命周期，也就是从开始创建，初始化�
 
 - 各个生命周期的作用
   - beforeCreate：组件被创建之初，组件的属性生效之前
-  - created：组件实例已经完全创建，属性也绑定，但是真实的dom还没有生成，$el还不能用
+  - created：组件实例已经完全创建，属性也绑定，但是真实的dom还没有生成，$el还不能用(vue实例的数据对象data有了，el和数据对象data都为undefined，还
+  未初始化。)
   - beforeMount：在挂载开始之前被调用，相关的render函数首次被调用
   - mounted：el被新创建的vm.$el替换，并挂载到实例上去后调用该钩子
   - beforeUpdate：组件数据更新之前调用，发生在虚拟dom打补丁之前 
@@ -541,6 +540,8 @@ const router = new VueRouter({
 <router-link :to="{ name: 'user', params: { userId: 123 }}">User</router-link>
 <router-link :to="{ path: 'user', query: { userId: 123 }}">User</router-link>
 ```
+注册在router-link上事件无效解决方法:
+使用@click.native。原因：router-link会阻止click事件，.native指直接监听一个原生事件
 
 ### 组件内监听路由的变化
 只能用在包含<router-view />的组件内
@@ -592,7 +593,7 @@ const router = new Router({
 
 2. query
 ```js
-this.$route.push({
+this.$router.push({
     path:'/home',
     query: {
         userId:123
@@ -618,15 +619,34 @@ this.$router.push({ name: 'home', params: { userId } })
 
 - 使用时要注意，静态路由文件中不能有404路由，而要通过addRoutes一起动态添加进去。
 
+```js
+webpack< 2.4 时
+{ 
+    path:'/', 
+    name:'home',
+    components:resolve=>require(['@/components/home'],resolve)
+} 
+webpack> 2.4 时
+{ 
+    path:'/', 
+    name:'home', 
+    components:()=>import('@/components/home')
+}
+```
+
 ### 路由之间跳转
 1. 声明式
-通过使用内置组件<router-link :to="/home">来跳转
+通过使用内置组件<router-link :to="/home">来跳转 or router-link :to="{name:'index'}">
 
 2. 编程式
 ```js
-this.$route.push({ path:'home' })
-this.$route.replace({ path: '/home' })
+this.$router.push({ path:'home' })
+this.$router.replace({ path: '/home' })
+this.$router.push({name:'组件名')};
 ```
+router和route的区别
+> route为当前router跳转对象里面可以获取name、path、query、params等
+> router为VueRouter实例，想要导航到不同URL，则使用router.push方法
 
 ### 打开新窗口
 ```js
@@ -671,14 +691,18 @@ filters: {
 不可以。this会是undefind,因为箭头函数中的this指向的是定义时的this，而不是执行时的this，所以不会指向Vue实例的上下文。
 
 ### watch怎么深度监听对象变化
+监听的函数接收两个参数，第一个参数是最新的值；第二个参数是输入之前的值；
 ```js
 watch:{
    a:{
        handler:function(val,oldval){
            
        },
-       deep:true,
-       immediate: true // 监听开始之后立即被调用
+       deep:true, // 一层层遍历给属性都加上监听器
+       immediate: true // 组件加载立即触发回调函数执行
+   },
+   'obj.a': {
+
    }
 }
 ```
@@ -717,6 +741,16 @@ $event.currentTarget始终指向事件所绑定的元素，而$event.target指�
 .passive：默认事件会立即触发，不要把.passive和.prevent一起使用，因为.prevent将不起作用。
 
 - 表单修饰符.number .lazy .trim
+
+```
+<comp :foo.sync="bar"></comp>
+```
+相当于
+```
+<comp :foo="bar" @update:foo="val => bar = val"></comp>
+
+// this.$emit('update:foo', newValue)
+```
 
 要注意顺序很重要，用@click.prevent.self会阻止所有的点击，而@click.self.prevent只会阻止对元素自身的点击。
 
@@ -825,22 +859,16 @@ vue是构建客户端应用程序的框架，默认情况下，可以在浏览�
 ### 数据响应(数据劫持)
 数据响应的实现由两部分构成: 观察者( watcher ) 和 依赖收集器( Dep )，其核心是 defineProperty 这个方法，它可以重写属性的 get 与 set 方法，从而完成监听数据的改变。
 
-- Observe (观察者)观察 props 与 state
-  - 遍历 props 与 state，对每个属性创建独立的监听器( watcher )
+> 1. 对需要observe的数据对象进行递归遍历，包括子属性对象的属性，都加上setter和getter这样的话，给这个对象的某个值赋值，就会触发setter，那么就能监听到了数据变化
 
-- 使用 defineProperty 重写每个属性的 get/set(defineReactive）
-  - get: 收集依赖
-  - Dep.depend()
-    - watcher.addDep()
+> 2. compile解析模板指令，将模板中的变量替换成数据，然后初始化渲染页面视图，并将每个指令对应的节点绑定更新函数，添加监听数据的订阅者，一旦数据有变动，收到通知，更新视图
 
-  - set: 派发更新
-    - Dep.notify()
-    - watcher.update()
-    - queenWatcher()
-    - nextTick
-    - flushScheduleQueue
-    - watcher.run()
-    - updateComponent()
+> 3. Watcher订阅者是Observer和Compile之间通信的桥梁，主要做的事情是:
+①在自身实例化时往属性订阅器(dep)里面添加自己
+②自身必须有一个update()方法
+③待属性变动dep.notice()通知时，能调用自身的update()方法，并触发Compile中绑定的回调
+
+> 4、MVVM作为数据绑定的入口，整合Observer、Compile和Watcher三者，通过Observer来监听自己的model数据变化，通过Compile来解析编译模板指令，最终利用Watcher搭起Observer和Compile之间的通信桥梁，达到数据变化 -> 视图更新；视图交互变化(input) -> 数据model变更的双向绑定效果。
 
 ```js
 let data = {a: 1}
@@ -1100,7 +1128,7 @@ let reactiveData = new Proxy(data, {
   - <router-view></router-view>
 
 ### 为什么在v-for中使用key？
-v-for中加key可以减少渲染次数，提升渲染性能。
+为了标识每个唯一的节点，方便比较，v-for中加key可以减少渲染次数，提升渲染性能。
 
 ### Vuex页面刷新数据丢失怎么解决？
 使用 vuex-persist 插件，它就是为 Vuex 持久化存储而生的一个插件。不需要你手动存取 storage ，而是直接将状态保存至 cookie 或者 localStorage 中
@@ -1149,7 +1177,9 @@ watch:{
 
 <input type="text" :value="price" @input="price=$event.target.value" />
 ```
-```
+- Vue.extend方法创建一个组件
+```js
+// 注册组件
 Vue.component("base-checkbox", {
     model:{
         prop:'checked', // 绑定属性
@@ -1188,6 +1218,52 @@ inject:{
     newName: {
         from: 'name',
         default: ''
+    }
+}
+```
+
+### assets和static的区别
+- assets中的文件在运行npm run build的时候会打包，简单来说就是会被压缩体积，代码格式化之类的。打包之后也会放到static中。
+
+- static中的文件则不会被打包。
+
+> 建议：将图片等未处理的文件放在assets中，打包减少体积。而对于第三方引入的一些资源文件如iconfont.css等可以放在static中，因为这些文件已经经过处理了。
+
+
+## slot插槽
+很多时候，我们封装了一个子组件之后，在父组件使用的时候，想添加一些dom元素，这个时候就可以使用slot插槽了，但是这些dom是否显示以及在哪里显示，则是看子组件
+中slot组件的位置了。
+
+## 常用UI库
+### 移动端
+- mint-ui （http://mint-ui.github.io/#!/zh-cn）
+
+- Vant（https://youzan.github.io/vant/#/zh-CN/home）
+
+- VUX (https://vux.li/)
+
+### pc端
+- element-ui（https://element.eleme.cn/2.13/#/zh-CN/component/installation）
+
+- Ant Design of Vue（https://www.antdv.com/docs/vue/introduce-cn/）
+
+- Avue (https://avuejs.com/)
+
+## 常用配置
+### publicPath
+部署应用包时的基本 URL。默认情况下，Vue CLI会假设你的应用是被部署在一个域名的根路径上，例如https://www.my-app.com/。如果应用被部署在一个子路径上，
+你就需要用这个选项指定这个子路径。例如，如果你的应用被部署在https://www.my-app.com/my-app/，则设置publicPath为/my-app/
+
+```js
+proxy: { 
+    "/api": { //如果ajax请求的地址是http://192.168.0.118:9999/api1那么你就可以在ajax中使用/api/api1路径,其请求路径会解析
+    // http://192.168.0.118:9999/api1，当然你在浏览器上看到的还是http://localhost:8080/api/api1;
+    target: "http://192.168.0.118:9999",
+    //是否允许跨域，这里是在开发环境会起作用，但在生产环境下，还是由后台去处理，所以不必太在意
+    changeOrigin: true,
+    pathRewrite: {
+        //把多余的路径置为''
+        "api": ""
     }
 }
 ```
