@@ -404,6 +404,23 @@ git show 302063e31742cbce7c5fdb917edf520183154cc1 > D:\recovery\backup.txt
 
 > 在使用 git fsck –unreachable 命令输出的很多文件里面，有很多是带有 commit 和 tree 的标识的，这些可以使用 git stash apply 加标记号进行找回。而 blob 的文件是只能手动拷贝的，或者像上面一样使用> 输出到指定的路径去
 
+### git push 报 HTTP Basic: Access denied 错误
+- 永久记住密码
+`git config --global credential.helper store`
+
+如果没`--global`，则在当前项目下的.git/config文件中添加。
+
+- 默认记住15分钟
+> git config --global credential.helper cache
+
+- 自定义配置记住1小时：
+> git config --global credential.helper 'cache –timeout=3600'
+
+解决方案： 
+1. 如果账号密码有变动 用这个命令 `git config --system --unset credential.helper` (清除用户名密码)重新输入账号密码应该就能解决了 
+2. 如果用了第一个命令 还不能解决问题那么 用这个命令： 
+`git config –global http.emptyAuth true`
+
 ### 查看git上个人代码量
 ```bash
 git log --author="username" --pretty=tformat: --numstat | awk '{ add += $1; subs += $2; loc += $1 - $2 } END { printf "added lines: %s, removed lines: %s, total lines: %s\n", add, subs, loc }' -
