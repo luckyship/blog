@@ -608,4 +608,33 @@ class Modal extends React.Component {
 }
 ```
 
+### 路由传参
+1. params传参(刷新页面后参数不消失，参数会在地址栏显示)
+```
+路由页面：<Route path='/demo/:id' component={Demo}></Route>  //注意要配置 /:id
+路由跳转并传递参数：
+    链接方式：<Link to={'/demo/'+'6'}>XX</Link>
+        或：<Link to={{pathname:'/demo/'+'6'}}>XX</Link>
 
+    js方式：this.props.history.push('/demo/'+'6')  
+        或：this.props.history.push({pathname:'/demo/'+'6'})
+获取参数：this.props.match.params.id    //注意这里是match而非history
+```
+
+2. query传参(刷新页面后参数消失)
+```
+路由页面：<Route path='/demo' component={Demo}></Route>  //无需配置
+路由跳转并传递参数：
+    链接方式：<Link to={{pathname:'/demo',query:{id:22,name:'dahuang'}}}>XX</Link>
+    js方式：this.props.history.push({pathname:'/demo',query:{id:22,name:'dahuang'}})
+获取参数： this.props.location.query.name
+```
+
+3. state传参( 刷新页面后参数不消失，state传的参数是加密的，比query传参好用)
+```
+路由页面：<Route path='/demo' component={Demo}></Route>  //无需配置
+路由跳转并传递参数：
+    链接方式： <Link to={{pathname:'/demo',state:{id:12,name:'dahuang'}}}>XX</Link> 
+    js方式：this.props.history.push({pathname:'/demo',state:{id:12,name:'dahuang'}})
+获取参数： this.props.location.state.name
+```

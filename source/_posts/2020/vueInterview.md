@@ -612,6 +612,7 @@ this.$router.push({
 // 注意用params传参，只能用命名的路由（用name访问）
 const userId = '123'
 this.$router.push({ name: 'home', params: { userId } })
+// this.$route.params
 ```
 
 ### 实现动态加载路由
