@@ -212,7 +212,7 @@ function Person(name, age){ //构造函数模式
 
 #### 寄生构造函数模式
 
-## 继承方式(6种)
+## 继承方式(9种)
 ### 构造函数继承(复制父类的实例属性给子类)
 ```javascript
 function SuperType(){ 
@@ -435,4 +435,31 @@ console.log(s instanceof Son); // true
 console.log(s.constructor === Father); // false
 console.log(s.constructor === Son); // true
 ```
+
+### 原型式继承
+利用一个空对象作为中介，将某个对象直接赋值给空对象构造函数的原型。
+```js
+function object(obj){
+  function F(){}
+  F.prototype = obj;
+  return new F();
+}
+```
+缺点：
+- 原型链继承多个实例的引用类型属性指向相同，存在篡改的可能。
+- 无法传递参数
+
+### 寄生式继承
+核心：在原型式继承的基础上，增强对象，返回构造函数。
+```js
+function createAnother(original){
+  var clone = object(original); // 通过调用 object() 函数创建一个新对象
+  clone.sayHi = function(){  // 以某种方式来增强对象
+    alert("hi");
+  };
+  return clone; // 返回这个对象
+}
+```
+缺点（同原型式继承）
+
 `Happy Halloween!`
