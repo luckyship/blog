@@ -32,7 +32,7 @@ context === void 666
 ## Element.scrollIntoViewIfNeeded
 Element.scrollIntoViewIfNeeded()方法用来将不在浏览器窗口的可见区域内的元素滚动到浏览器窗口的可见区域。 如果该元素已经在浏览器窗口的可见区域内，则不会发生滚动。
  ```javascript
-element.scrollIntoViewIfNeeded(); // 等同于element.scrollIntoViewIfNeeded(true) 
+element.scrollIntoView(); // 等同于element.scrollIntoViewIfNeeded(true) 
 element.scrollIntoViewIfNeeded(true); 
 element.scrollIntoViewIfNeeded(false);
  ```

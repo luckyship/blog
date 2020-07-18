@@ -117,4 +117,19 @@ module.exports = {
   }
 ```
 
+### 最小化js文件
+> config.optimization.minimize(true)
+
+### 图片资源压缩
+```js
+config.module
+  .rule('images')
+  .use('image-webpack-loader')
+  .loader('image-webpack-loader')
+  .options({
+    bypassOnDebug: true
+  })
+  .end()
+```
+
 这里只是简单的介绍，想要详细的了解webpack4的新特性请访问[github地址](https://github.com/cosyer/webpack4)。
