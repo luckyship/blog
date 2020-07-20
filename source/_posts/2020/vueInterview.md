@@ -1152,7 +1152,7 @@ let reactiveData = new Proxy(data, {
 
 8. 释放组件资源(beforeDestroy移除监听)
 
-9. 首屏优化
+9. 首屏优化 mixins抽离公共代码
 
 ### vue父子组件实现双向绑定实例
 ```

@@ -638,3 +638,10 @@ class Modal extends React.Component {
     js方式：this.props.history.push({pathname:'/demo',state:{id:12,name:'dahuang'}})
 获取参数： this.props.location.state.name
 ```
+
+### create-react-app配置文件修改
+
+- 通过package.json或引用第三方的库增加配置
+- react构建时通过webpack，关于webpack配置查看node_modules/react-scripts/config/webpack*
+- npm run eject暴露所有配置文件、(安装react-app-rewired包)建立新的配置文件覆盖部分默认的配置
+- HashRouter支持配置package-json homepage: '.'修改根目录路径，BrowerRouter修改无效还得修改服务端配置
