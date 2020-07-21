@@ -6,7 +6,7 @@ tags:
 copyright: true
 comments: true
 date: 2020-04-23 00:10:18
-categories: JS
+categories: Vue
 photos:
 ---
 

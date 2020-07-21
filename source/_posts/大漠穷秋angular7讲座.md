@@ -5,7 +5,7 @@ tags:
 copyright: true
 comments: true
 date: 2018-12-14 09:29:25
-categories: JS
+categories: Ng
 top: 107
 photos:
 ---

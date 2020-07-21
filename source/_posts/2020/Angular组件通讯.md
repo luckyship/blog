@@ -5,7 +5,7 @@ tags:
 copyright: true
 comments: true
 date: 2020-03-15 22:54:18
-categories: JS
+categories: Ng
 photos:
 ---
 

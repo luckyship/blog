@@ -5,7 +5,7 @@ tags:
 copyright: true
 comments: true
 date: 2018-06-11 20:09:00
-categories: JS
+categories: React
 top: 107
 photos:
 ---
