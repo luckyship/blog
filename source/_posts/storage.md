@@ -2,7 +2,7 @@
 title: 详解 Cookie、 LocalStorage 与 SessionStorage
 date: 2018-06-23 13:43:32
 tags:
-  - 存储
+  - 浏览器
 categories: JS
 ---
 

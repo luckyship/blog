@@ -2,7 +2,7 @@
 title: Promise诞生记
 tags:
   - es6
-  - Promise
+  - promise
 copyright: true
 comments: true
 date: 2018-06-05 01:34:09

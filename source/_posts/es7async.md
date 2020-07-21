@@ -1,7 +1,7 @@
 ---
 title: 使用 Async/Await 让你的代码更简洁
 tags:
-  - Async/Await
+  - promise
 copyright: true
 comments: true
 date: 2018-06-11 01:30:51

@@ -1,7 +1,7 @@
 ---
 title: JavaScript停止冒泡和阻止浏览器默认行为
 tags:
-  - 冒泡
+  - 前端
 copyright: true
 comments: true
 date: 2018-06-18 19:16:48

@@ -1,7 +1,7 @@
 ---
 title: 响应式网页设计
 tags:
-  - 响应式
+  - 前端
 copyright: true
 comments: true
 date: 2018-06-20 01:33:47

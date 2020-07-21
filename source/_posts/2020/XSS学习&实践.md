@@ -1,7 +1,7 @@
 ---
 title: XSS学习&实践
 tags:
-  - web安全
+  - 前端
 copyright: true
 comments: true
 date: 2020-06-24 01:13:10
