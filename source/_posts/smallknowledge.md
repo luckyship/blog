@@ -3174,6 +3174,12 @@ img {
 ## 什么是 `tree-shaking`（树摇）
 Tree-shaking, 也被称为 "live code inclusion," 通常用于打包时移除js中未引用的代码(dead-code)，它依赖于ES6模块系统中的import 和 export 的**静态结构特性**
 
+- 虽然生产模式下默认开启，但是由于经过babel编译全部模块被封装成IIFE
+
+- IIFE存在副作用无法被tree-shaking掉，需要配置 { module: false } 和 sideEffects: false
+
+- rollup和webpack的shaking程度不同，以一个class为例子
+
 ## scope hoisting
 > Scope hositing 作用:是将模块之间的关系进行结果推测，可以让webpack文件打包出来的代码文件更小、运行的更快
 scope hositing实现原理:分析出模块之间的依赖关系，尽可能的把打散的模块合并到一个函数中，但是前提是不能造成代码冗余， 因此只有哪些被引用了一次的模块可能被合并
@@ -3218,7 +3224,7 @@ module:{
 }
 ```
 
-### DLLPlugin
+### DLLPlugin(提高打包速度cache-loader/多线程)
 在引入一些第三方模块时，例如Vue、React等，这些框架的文件一般都是不会修改的，而每次打包都需要去解析他们，也会影响打包速度，就算是做了拆分，也只是提高了上线后的用户访问速度，并不会提高构建速
 度，所以如果需要提高构建速度，应该使用动态链接库的方式，类似windows的dll文件借助DLLPlugin插件实现将这些框架作为一个个的动态链接库，只构建一次，以后的每次构建都只会生成自己的业务代码，可以
 很好的提高构建效率。
@@ -3333,3 +3339,6 @@ for(const key in object) {
 - http://www.ilovepdf.com/zh_cn
 
 - https://smallpdf.com/
+
+## knife4j 增强swagger的UI
+正则就是有限的状态机

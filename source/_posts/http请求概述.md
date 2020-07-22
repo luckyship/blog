@@ -54,7 +54,7 @@ server {
     ···//省略
     location / {
         ···//省略
-        http2_push /style.css；
+        http2_push /style.css;
         http2_push /example.png;
     }
 }

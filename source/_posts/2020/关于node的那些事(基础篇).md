@@ -167,6 +167,15 @@ async function middleware(ctx, next) {
 - express 中间件：是通过 next 的机制，即上一个中间件会通过 next 触发下一个中间件
 - koa2 中间件：是通过 async await 实现的，中间件执行顺序是“洋葱圈”模型（推荐）
 
+1. express大而全有路由，而koa2小而精通过中间件
+2. koa2使用async await，express next
+3. koa2有洋葱模型和ctx上下文，express没有
+
+koa2和egg的区别
+- egg是在koa2上的封装
+- egg有controller、service、router
+- egg约定了文件目录结构
+
 ## 什么是模版引擎？
 > 模板引擎是一个通过结合页面模板、要展示的数据生成HTML页面的工具，本质上是后端渲染（SSR）的需求，加上Node渲染页面本身是纯静态的，当我们需要页面多样化、更灵活，我们就需要使用模板引擎来强化页面，更好的凸显服务端渲染的优势。
 

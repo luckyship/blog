@@ -645,3 +645,8 @@ class Modal extends React.Component {
 - react构建时通过webpack，关于webpack配置查看node_modules/react-scripts/config/webpack*
 - npm run eject暴露所有配置文件、(安装react-app-rewired包)建立新的配置文件覆盖部分默认的配置
 - HashRouter支持配置package-json homepage: '.'修改根目录路径，BrowerRouter修改无效还得修改服务端配置
+
+
+### react diff和vue diff的区别
+- vnode作为数据和视图的一种映射关系
+- 相同点：都是同层比较、不同点：vue使用双指针比较，react是key集合级比较
