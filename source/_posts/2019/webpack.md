@@ -13,6 +13,8 @@ top: 260
 ## 谈谈你对webpack的看法
 webpack是一个模块打包工具，可以使用它管理项目中的模块依赖，并编译输出模块所需的静态文件。它可以很好地管理、打包开发中所用到的HTML,CSS,JavaScript和静态文件（图片，字体）等，让开发更高效。对于不同类型的依赖，webpack有对应的模块加载器，而且会分析模块间的依赖关系，最后合并生成优化的静态资源。
 
+> webpack 最出色的功能之一就是，除了 JavaScript，还可以通过 loader 引入任何其他类型的文件。
+
 ## webpack的基本功能和工作原理？
 - 代码转换：TypeScript 编译成 JavaScript、SCSS 编译成 CSS 等等
 - 文件优化：压缩 JavaScript、CSS、HTML 代码，压缩合并图片等
@@ -22,6 +24,13 @@ webpack是一个模块打包工具，可以使用它管理项目中的模块依�
 - 代码校验：在代码被提交到仓库前需要检测代码是否符合规范，以及单元测试是否通过
 - 自动发布：更新完代码后，自动构建出线上发布代码并传输给发布系统。
 
+- Entry（入口）：Webpack 执行构建的第一步将从 Entry 开始，可抽象成输入。
+- Output（出口）：指示 webpack 如何去输出、以及在哪里输出
+- Module（模块）：在 Webpack 里一切皆模块，一个模块对应着一个文件。Webpack 会从配置的 Entry 开始递归找出所有依赖的模块。
+- Chunk（代码块）：一个 Chunk 由多个模块组合而成，用于代码合并与分割。
+- Loader（模块转换器）：用于把模块原内容按照需求转换成新内容。
+- Plugin（扩展插件）：在 Webpack 构建流程中的特定时机会广播出对应的事件，插件可以监听这些事件，并改变输出结果
+
 ## webpack构建过程
 - 从entry里配置的module开始递归解析entry依赖的所有module
 - 每找到一个module，就会根据配置的loader去找对应的转换规则
@@ -30,6 +39,14 @@ webpack是一个模块打包工具，可以使用它管理项目中的模块依�
 - 最后webpack会把所有Chunk转换成文件输出
 - 在整个流程中webpack会在恰当的时机执行plugin里定义的逻辑
 
+1. 初始化：解析webpack配置参数，生成 Compiler 实例
+2. 注册插件：调用插件的apply方法，给插件传入compiler实例的引用，插件通过compiler调用Webpack提供的API，让插件可以监听后续的所有事件节点。
+3. 入口：读取入口文件
+4. 解析文件：使用loader将文件解析成抽象语法树 AST
+5. 生成依赖图谱：找出每个文件的依赖项（遍历）
+6. 输出：根据转换好的代码，生成 chunk
+7. 生成最后打包的文件
+
 ## webpack打包原理
 将所有依赖打包成一个bundle.js，通过代码分割成单元片段按需加载
 ---
@@ -37,15 +54,17 @@ webpack是一个模块打包工具，可以使用它管理项目中的模块依�
 
 ## 什么是webpack，与gulp,grunt有什么区别
 - webpack是一个模块打包工具，可以递归地打包项目中的所有模块，最终生成几个打包后的文件。
-- 区别：webpack支持代码分割，模块化（AMD,CommonJ,ES2015），全局分析
+- 区别：webpack支持代码分割，模块化（AMD,CommonJ,ES2015），全局分析。gulp 是任务执行器(task runner)：就是用来自动化处理常见的开发任务，例如项目的检查(lint)、构建(build)、测试(test)
 
 ## 什么是entry,output?
 - entry 入口，告诉webpack要使用哪个模块作为构建项目的起点，默认为./src/index.js
 - output 出口，告诉webpack在哪里输出它打包好的代码以及如何命名，默认为./dist
 
 ## 什么是loader，plugins?
-- loader是用来告诉webpack如何转换某一类型的文件，并且引入到打包出的文件中。
-- plugins(插件)作用更大，可以打包优化，资源管理和注入环境变量
+- loader是用来告诉webpack如何转换某一类型的文件，并且引入到打包出的文件中
+- plugins(插件)作用更大，可以打包优化，资源管理和注入环境变量(plugin是一个含有 apply 方法的 类)
+
+apply 方法中接收一个 compiler 参数，也就是 webpack实例。由于该参数的存在 plugin 可以很好的运用 webpack 的生命周期钩子，在不同的时间节点做一些操作。
 
 ### 手写一个loader
 loader就是一个node模块，它输出了一个函数。当某种资源需要用这个loader转换时，这个函数会被调用。并且，这个函数可以通过提供给它的this上下文访问Loader API。
@@ -65,7 +84,25 @@ module.exports = function(src) {
 			'./path/reverse-txt-loader'
 		}
 	]
+    // use: {
+    //     loader: './path/reverse-txt-loader',
+    //     include: path.resolve(__dirname, 'src'),// 指定需要转译的文件夹
+    //     exclude: path.resolve(__dirname, 'node_modules'),// 指定转译时忽略的文件夹  
+    // }
 },
+```
+
+### 手写一个plugin
+```js
+class DemoWebpackPlugin {
+    constructor () {
+        console.log('初始化 插件')
+    }
+    apply (compiler) {
+    }
+}
+
+module.exports = DemoWebpackPlugin
 ```
 
 ## 什么是bundle,chunk,module?
@@ -102,9 +139,19 @@ module.exports = {
 module.entrys = {
     entry: {
         pageOne: './src/pageOne/index.js',
-        pageTwo: './src/pageTwo/index.js'
+        pageTwo: ['./src/pageTwo/index.js', "./src/pageTwo/main.js"],
     }
 }
+```
+多入口可以通过 HtmlWebpackPlugin 分开注入
+```js
+plugins: [
+  new HtmlWebpackPlugin({
+    chunks: ['pageOne'],
+    filename: 'test.html',
+    template: 'src/assets/test.html'
+  })
+]
 ```
 
 ## 几个常见的loader
@@ -163,6 +210,66 @@ module.exports = {
             minChunks:2}),  
         new ExtractTextPlugin("[name].css"), 
         providePlugin     
-    ]
+    ],
+    externals: {
+    // 从输出的 bundle 中排除 echarts 依赖
+    echarts: 'echarts',
+  }
 }
 ```
+
+## webpack-dev-server
+1. 用express启一个服务
+2. sockjs与页面互动。
+
+底层一方面使用webpack在服务器端进行构建打包，一方面在客户端注入runtime以便和服务器端建立联系。还提供了代理功能，代理有很多应用场景，举几个简单的例子：本地数据接口模拟、远端接口调试、分拆接
+口到不同的远端服务器等。
+
+### 自动刷新
+- iframe模式 http://[host]:[port]/webpack-dev-server/[path]
+✦ 无需额外的配置
+✦ 顶部条可以显示编译信息
+✦ 浏览器的地址不会跟着页面URL变动
+
+- inline模式 http://[host]:[port]/[path]
+✦ 需要额外的配置
+✦ 编译信息只能在命令行和浏览器console中查看
+✦ 浏览器的地址和页面URL同步
+
+### 热替换HMR 只支持inline模式
+> webpack-dev-server --inline --hot
+
+### devServer配置
+- devServer.compress， 启用gzip压缩。
+- devServer.contentBase，告诉服务器从哪里提供内容。 只有在你想要提供静态文件时才需要。
+- devServer.host， 指定host。 使用0 .0 .0 .0 可以让局域网内可访问。
+- devServer.hot， 启用 webpack 的模块热替换特性（ Hot Module Replacement）。
+- devServer.inline， 模式切换。 默认为内联模式， 使用false切换到iframe模式。
+- devServer.open， 启动webpack - dev - server后是否使用浏览器打开首页。
+- devServer.port， 监听端口号。 默认8080。
+- devServer.proxy， 代理， 对于另外有单独的后端开发服务器API来说比较适合。
+- devServer.publicPath， 设置内存中的打包文件的输出目录。 区别于output.publicPath。
+- devServer.historyApiFallback，回退:支持历史API。
+- devServer.progress，让编译的输出内容带有进度和颜色。
+
+![webpack-hmr](http://cdn.mydearest.cn/blog/images/webpack-hmr.png)
+
+注释：绿色是webpack控制区域，蓝色是webpack-dev-server控制区域，红色是文件系统，青色是项目本身。
+
+第一步：webpack监听文件变化并打包（1，2）
+webpack-dev-middleware 调用 webpack 的 api 对文件系统 watch，当文件发生改变后，webpack 重新对文件进行编译打包，然后保存到内存中。 打包到了内存中，不生成文件的原因就在于访问内存中的代码比访问文件系统中的文件更快，而且也减少了代码写入文件的开销
+
+第二步： webpack-dev-middleware对静态文件的监听（3）
+webpack-dev-server 对文件变化的一个监控，这一步不同于第一步，并不是监控代码变化重新打包。当我们在配置文件中配置了devServer.watchContentBase 为 true 的时候，Server 会监听这些配置文件夹中静态文件的变化，变化后会通知浏览器端对应用进行 live reload。注意，这儿是浏览器刷新，和 HMR 是两个概念
+
+第三步：devServer 通知浏览器端文件发生改变（4）
+sockjs 在服务端和浏览器端建立了一个 webSocket 长连接，以便将 webpack 编译和打包的各个阶段状态告知浏览器，最关键的步骤还是 webpack-dev-server 调用 webpack api 监听 compile的 done 事件，当compile 完成后，webpack-dev-server通过 _sendStatus 方法将编译打包后的新模块 hash 值发送到浏览器端。
+
+第四步：webpack 接收到最新 hash 值验证并请求模块代码（5，6）
+webpack-dev-server/client 端并不能够请求更新的代码，也不会执行热更模块操作，而把这些工作又交回给了 webpack，webpack/hot/dev-server 的工作就是根据 webpack-dev-server/client 传给它的信息以及 dev-server 的配置决定是刷新浏览器呢还是进行模块热更新。当然如果仅仅是刷新浏览器（执行步骤11），也就没有后面那些步骤了。
+
+第五步：HotModuleReplacement.runtime 对模块进行热更新（7,8,9）
+是客户端 HMR 的中枢，它接收到上一步传递给他的新模块的 hash 值，它通过 JsonpMainTemplate.runtime 向 server 端发送 Ajax 请求，服务端返回一个 json，该 json 包含了所有要更新的模块的 hash 值，获取到更新列表后，该模块再次通过 jsonp 请求，获取到最新的模块代码。
+
+第六步：HotModulePlugin 将会对新旧模块进行对比（10）
+HotModulePlugin 将会对新旧模块进行对比，决定是否更新模块，在决定更新模块后，检查模块之间的依赖关系，更新模块的同时更新模块间的依赖引用 ，第一个阶段是找出 outdatedModules 和 outdatedDependencies。第二个阶段从缓存中删除过期的模块和依赖。第三个阶段是将新的模块添加到 modules 中，当下次调用 __webpack_require__ (webpack 重写的 require 方法)方法的时候，就是获取到了新的模块代码了。

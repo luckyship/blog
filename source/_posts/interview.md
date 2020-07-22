@@ -663,7 +663,7 @@ var proxy = require('http-proxy-middleware');
 
 var app = express();
 
-app.use('/zhuiszhu', proxy({target: 'http://39.105.136.190:3000/', changeOrigin: true}));
+app.use('/cosyer', proxy({target: 'http://39.105.136.190:3000/', changeOrigin: true}));
 app.listen(3000);
 ```
 
@@ -673,7 +673,7 @@ devServer: {
     port: 3000,
     inline: true,
     proxy: {
-        "/zhuiszhu": {
+        "/cosyer": {
             target: "http://39.105.136.190:3000/",
             changeOrigin: true  //必须配置为true，才能正确代理
         }

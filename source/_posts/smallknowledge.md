@@ -3191,7 +3191,7 @@ scope hositing实现原理:分析出模块之间的依赖关系，尽可能的�
 - scope hoisting
 - 代码压缩混淆(UglifyJsPlugin)
 ### css优化
-- css提取到独立文件(Mini-css-extract-plugin)
+- css提取到独立文件(mini-css-extract-plugin)
 - postcss添加前缀
 - css压缩(optimize-css-assets-webpack-plugin)
 ### js优化
@@ -3224,13 +3224,21 @@ module:{
 }
 ```
 
-### DLLPlugin(提高打包速度cache-loader/多线程)
+### DLLPlugin、DllReferencePlugin(提高打包速度)
 在引入一些第三方模块时，例如Vue、React等，这些框架的文件一般都是不会修改的，而每次打包都需要去解析他们，也会影响打包速度，就算是做了拆分，也只是提高了上线后的用户访问速度，并不会提高构建速
 度，所以如果需要提高构建速度，应该使用动态链接库的方式，类似windows的dll文件借助DLLPlugin插件实现将这些框架作为一个个的动态链接库，只构建一次，以后的每次构建都只会生成自己的业务代码，可以
 很好的提高构建效率。
 
+> 将库和项目代码分离打包需要 dll 映射文件
+
 主要思想在于，讲一些不做修改的依赖文件，提前打包，这样我们开发代码发布的时候就不需要再对这些代码进行打包，从而节省了打包时间，主要使用两个插件: DLLPlugin和DLLReferencePlugin
 需要注意的是，若是使用的DLLPlugin，CleanWebpackPlugin插件会存在冲突，需要移除CleanWebpackPlugin插件
+
+### 配置缓存（提高打包速度，插件自带 loader，不支持的可以用 cache-loader）
+
+### 使用 HappyPack 开启多进程 Loader 转换
+
+### 使用 include 或 exclude 加快文件查找速度
 
 ### IgnorePlugin
 在引入一些第三方模块时，例如momentJS、dayJS，其内部会做i18n处理，所以会包含很多语言包，而语言包打包时会比较占用空间，如果项目只需要用到中文或者少数语言，可以忽略掉所有的语言包，然后按需引

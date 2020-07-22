@@ -168,9 +168,9 @@ location / {
 3. 解决跨域(其实跨域是浏览器的安全策略，这意味着只要不是通过浏览器，就可以绕开跨域的问题。所以只要通过在同域下启动一个 Nginx 服务，转发请求即可)
 ```bash
 location ^~/api/ {
-	 # 重写请求并代理到对应域名下
-    rewrite ^/api/(.*)$ /$1 break;
-    proxy_pass https://www.cross-target.com/;
+	# 重写请求并代理到对应域名下
+  rewrite ^/api/(.*)$ /$1 break;
+  proxy_pass https://www.cross-target.com/;
 }
 ```
 
@@ -184,6 +184,9 @@ location ^~/api/ {
 server {
 listen 80;
 server_name www.toutiao.com;
+
+// server_name xxxx.cn xxxx.xxxx.cn;
+// rewrite ^/(.*) https://xxx.xxxx.cn permanent; #跳转到Https
 
 location / {
     proxy_pass http://localhost:3000;
