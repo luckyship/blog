@@ -1004,6 +1004,10 @@ console.log(isArrayFn(arr2));// true
 - 常见空元素：即没有内容的HTML元素，例如：br、meta、hr、link、input、img
 - 不常见空元素：area、base、col、command、embed、keygen、param、source、track、wbr
 
+宽高和margin可以设置auto。对于块级元素来说，宽度设置为auto，则会尽可能的宽；高度设置为auto，则会尽可能的窄 注意： 如果没有显式声明包含块的height，则元素的百分数高度会重置为auto
+注意： 不管是上下padding还是左右padding，当我们使用百分比设置的时候，都是基于width的。
+注意： margin通过百分比设置的时候同样是基于宽度的。
+
 ## px、em、rem的区别
 px和em都是长度单位,px的只是固定的,em的值是相对的继承父类元素的字体大小。浏览器的默认字体高位16px。1em=16px;
 rem单位基于html根元素的字体大小。
@@ -1126,6 +1130,12 @@ console.log(map)
 ```
 
 ## 清除浮动
+**浮动元素的影响**
+- 浮动元素宽度默认为内容的宽度
+- 向指定的浮动方向一直移动
+- 对它之前的block没有影响
+- 会掩盖后面的block元素，但是不会遮盖其中的文本和内联元素
+
 清除浮动是为了清除浮动元素产生的影响。浮动元素的高度会发生坍塌，使页面后面的布局不能正常显示。
 设置成浮动后，display值会自动变成block。
 > 浮动会引起高度塌陷和文字环绕。
@@ -1777,22 +1787,94 @@ html语义化让页面的内容结构化，结构更清晰，便于对浏览器�
 
 所以在同样的设置下，IE 下的元素会看起来相对于标准盒子来的小。
 
-## CSS选择符有哪些？哪些属性可以继承？
-* 1.id选择器（ # myid）
-  2.类选择器（.myclassname）
-  3.标签选择器（div, h1, p）
-  4.相邻选择器（h1 + p）
-  5.子选择器（ul > li）
-  6.后代选择器（li a）
-  7.通配符选择器（ * ）
-  8.属性选择器（a[rel = "external"]）
-  9.伪类选择器（a:hover, li:nth-child）
+## CSS选择器有哪些？哪些属性可以继承？(4+4+2+1)11种
+**4个属于简单选择器_**
+### id选择器（#myid）
+
+### 类选择器（.myclassname）
+
+### 标签选择器（div, h1, p）
+
+### 通配符选择器（*）
+
+**4个属于组合选择器**
+组合选择器是通过多个简单选择器进行组合
+
+### 相邻选择器（h1 + p）
+
+### 同级元素选择器：A~B，作用于A后面的所有同级的B
+
+### 子选择器（ul > li）
+
+### 后代选择器（li a）
+
+### 伪类选择器（a:hover, li:nth-child）
+|常见的伪类选择器|功能|
+|:--|:--|
+|:hover|鼠标移入元素上方|
+|:focus|元素获得焦点|
+|:checked|选中的表单元素|
+|:empty|没有任何子元素的元素|
+|:optional|表单元素中可以为空的元素|
+|:read-only|只读属性的元素|
+|:read-write|没有只读属性的元素|
+|:required|	选择表单必填项的元素|
+|:valid|选择所有有效值的元素|
+|:target|当前活动元素|
+|:root|匹配到文档根元素|
+|:enabled|匹配到页面上可用状态的元素|
+|:disabled|匹配到不可用的元素|
+|:first-child|匹配到一个作为第一个子元素的元素|
+|:last-child|匹配到一个作为最后一个子元素的元素|
+|:nth-child(n)|匹配父元素的第n个子元素（允许食用乘法因子n作为换算）|
+|:nth-last-child(n)|匹配父元素的倒数第n个子元素|
+|:link|	没有访问过的链接|
+|:visited|访问过的链接|
+
+### 伪元素选择器（::after）
+定义： 伪元素建立了对超出文档语言指定的文档树的抽象。
+|伪元素选择器|功能|
+|:--|:--|
+|::first-letter|选择元素的第一个字母|
+|::first-line|选择元素的第一行|
+|::before|在元素之前插入内容并定制样式|
+|::after|在元素之后插入内容并定制样式|
+|::selection|被用户选中的内容|
+
+### 属性选择器（a[rel = "external"]）
+```css
+/* 第一种 [attr] */
+[disabled]{
+    background-color: #ccc;
+}
+/* 第二种 [attr=val] */
+[type='button']{
+    background-color: #ccc;
+}
+/* 第三种 [attr~=val] 属性包含val */
+[class~='test']{
+    color:red;
+}
+/* 第四种 [attr^=val] 属性以val开头 */
+[class^='demo']{
+    background-color:red;
+}
+/* 第五种 [attr|=val] 属性以 val- 开头 */
+[class|='demo']{
+    background-color:red;
+}
+/* 第六种 [attr$=val] 属性以 val 结尾 */
+[class$='item']{
+    font-weight: bold;   
+}
+```
 
 * 可继承的样式： font-size font-family color, UL LI DL DD DT;
 
 * 不可继承的样式：border padding margin width height ;
 
 ## css优先级算法
+内联样式 > ID选择器 > 伪类选择器=属性选择器=类选择器 > 标签选择器 > 通用选择器 > 继承样式
 * 优先级就近原则，同权重情况下样式定义最近者为准;
 * 载入样式以最后载入的定位为准;
 
@@ -1801,7 +1883,16 @@ html语义化让页面的内容结构化，结构更清晰，便于对浏览器�
 !important > 行内样式 > id > class > tag > * > 继承 > 默认
 important 比 内联优先级高，选择器从右往左解析
 
-## css3新增的伪类
+_权值_
+```
+内联样式 -> 1000
+ID属性值 -> 100
+类属性值、属性选择或伪类 -> 10
+元素或伪元素 -> 1
+结合符和通配选择器 -> 0
+```
+
+## css3新增的伪类、伪元素
 举例：
 p:first-of-type    选择属于其父元素的首个 <p> 元素的每个 <p> 元素。
 p:last-of-type    选择属于其父元素的最后 <p> 元素的每个 <p> 元素。
@@ -2845,3 +2936,67 @@ _详细的含义：_
 2. `&ensp;`：此空格有个相当稳健的特性，就是其占据的宽度正好是1/2个中文宽度，而且基本上不受字体影响。
 
 3. `&emsp;`：此空格也有个相当稳健的特性，就是其占据的宽度正好是1个中文宽度，而且基本上不受字体影响。
+
+### 浏览器私有属性
+|-webkit-|-moz-|-ms-|-o-|
+|chrome,safari|firefox||||
+
+### CSS变量
+自从CSS3，我们可以在CSS中定义变量，从而使得页面的样式更统一。
+```css
+/* 声明全局变量 */
+:root{
+    --color-main-font: #303133;
+    --color-normal-font: #606266;
+    --color-secondary-font: #909399;
+    --size-main-title: 20px;
+    --size-title: 18px;
+    --size-second-title: 16px;
+    --size-body: 14px;
+    --size-tip: 12px;
+}
+/* 声明局部变量 */
+div{
+    --color: green;
+}
+/* 使用变量 */
+.example{
+    color:var(--color-main-font);
+    /* 如果变量不存在就会使用逗号后面的值 */
+    font-size:var(--color-body,20px);
+}
+```
+注： 当有重复变量名的时候，遵循优先级规则覆盖！
+
+#### 媒体查询(@media)
+```csss
+@media only screen and (max-width: 600px) {
+    .example {background: red;}
+}
+```
+
+我们也可以在HTML文件中通过媒体查询判断是否引入一个CSS
+
+```html
+<link rel="stylesheet" media="(min-width:480px)" href="mystylesheet.css">
+```
+
+#### 自定义字体(@font-face)
+```css
+@font-face{
+    font-family:'myFont';
+    src:url('./font/example.svg')format('svg'),
+        url('./font/example.ttf')format('truetype');
+}
+
+/* 可以直接将上面定义好的的 `my-font` 作为字体 */
+.my-font{
+    font-family: 'myFont';
+}
+/* 如果是小图标，可以作为伪元素插入到页面中 */
+.icon-back:before{
+    content:'\800';
+}
+
+/* <span class="my-font icon-back"></span> */
+```

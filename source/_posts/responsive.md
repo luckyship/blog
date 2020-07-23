@@ -74,17 +74,29 @@ photos:
 ## 栗子🌰
 
 ```css
-/* for 240 px width screen */
-@media only screen and (max-device-width:240px){
-  selector{ ... }
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+    .example {background: red;}
 }
-/* for 320px width screen */
-@media only screen and (min-device-width:241px) and (max-device-width:320px){
-  selector{ ... }
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+    .example {background: green;}
 }
-/* for 480 px width screen */
-@media only screen (min-device-width:321px)and (max-device-width:480px){
-        selector{ ... }
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+    .example {background: blue;}
+} 
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+    .example {background: orange;}
+} 
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+    .example {background: pink;}
 }
 ```
 

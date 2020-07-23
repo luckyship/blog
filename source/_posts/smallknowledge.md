@@ -3376,3 +3376,13 @@ for(const key in object) {
 
 ## knife4j 增强swagger的UI
 正则就是有限的状态机
+
+## mysql迁移postgresql问题记录：
+
+1. jdbc连接字符串需要指定当前schema jdbc:postgresql://193.160.26.65:5432/engine?useUnicode=true&characterEncoding=utf-8&currentSchema=faker_vmware
+
+2. postgresql列名是区分大小写的，大写的列名需要加上双引号
+
+3. mysql没有bool数据类型，用的tinyint(1)，sql语句中where flag = false迁移报错，pg用的int(2)
+
+4. ON DUPLICATE KEY UPDATE 重复插入约束 => on conflict (id) do update set
