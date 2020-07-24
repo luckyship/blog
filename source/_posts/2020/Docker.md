@@ -140,6 +140,7 @@ Dockerfile来打包出一个镜像。
 
 #### 配置国内镜像源
 在 Linux 环境下，我们可以通过修改 /etc/docker/daemon.json ( 如果文件不存在，你可以直接创建它 ) 这个 Docker 服务的配置文件达到效果。
+- Docker中国官方镜像加速
 ```
 {
     "registry-mirrors": [
@@ -147,6 +148,20 @@ Dockerfile来打包出一个镜像。
     ]
 }
 ```
+- 网易163镜像加速
+```
+{
+  "registry-mirrors": ["http://hub-mirror.c.163.com"]
+}
+```
+- 中科大镜像加速
+```
+{
+    "registry-mirrors": ["https://docker.mirrors.ustc.edu.cn"]     
+}
+```
+- 直接下载站点镜像
+> docker pull hub.c.163.com/library/tomcat:latest  //复制站点链接用 pull 下来
 
 然后重启 docker 让配置生效
 ```bash
