@@ -180,3 +180,20 @@ docker container start xxx # xxx 为上一条命令运行得到的结果
 ```
 
 然后在浏览器打开ip:9000，就能刚刚自己写的index.html内容。
+
+在上边第一个命令中，我们使用docker container create来创建基于hello-docker:1.0.0镜像的一个容器，使用-p来指定端口绑定——将容器中的80端口绑定在宿主机的2333端口。执行完该命令，会返回一个容ID
+而第二个命令，则是启动这个容器启动后，就能通过访问本机的9000端口来达到访问容器内80端口的效果了
+
+> Tips: 你可以使用docker container ls来查看当前运行的容器
+当容器运行后，可以通过如下命令进入容器内部：
+```bash
+docker container exec -it xxx /bin/bash # xxx 为容器ID
+```
+
+原理实际上是启动了容器内的/bin/bash，此时你就可以通过bash shell与容器内交互了。就像远程连接了SSH一样
+
+#### 总结
+1. 写一个 Dockerfile
+2. 使用docker image build来将Dockerfile打包成镜像
+3. 使用docker container create来根据镜像创建一个容器
+4. 使用docker container start来启动一个创建好的容器
