@@ -273,3 +273,9 @@ webpack-dev-server/client 端并不能够请求更新的代码，也不会执行
 
 第六步：HotModulePlugin 将会对新旧模块进行对比（10）
 HotModulePlugin 将会对新旧模块进行对比，决定是否更新模块，在决定更新模块后，检查模块之间的依赖关系，更新模块的同时更新模块间的依赖引用 ，第一个阶段是找出 outdatedModules 和 outdatedDependencies。第二个阶段从缓存中删除过期的模块和依赖。第三个阶段是将新的模块添加到 modules 中，当下次调用 __webpack_require__ (webpack 重写的 require 方法)方法的时候，就是获取到了新的模块代码了。
+
+### 使用场景
+
+工具的使用是分场景的，Rollup的使用场景是，你的代码基于 ES6 模块编写，并且你做的东西是准备给他人使用的。
+
+有一句经验之谈：在开发应用时使用 Webpack，开发库时使用 Rollup。

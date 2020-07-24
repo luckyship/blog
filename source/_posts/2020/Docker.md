@@ -70,3 +70,98 @@ Docker 就是基于 Linux 容器的一种上层封装，提供了更为简单易
 
 1. 为了便于镜像的使用，Docker 提供了类似于 git 的仓库机制，在仓库中包含着各种各样版本的镜像。官方服务是 Docker Hub；
 2. 可以快速地从仓库中拉取各种类型的镜像，也可以基于某些镜像进行自定义，甚至发布到仓库供社区使用；
+
+### 安装
+- linux
+> curl -sSL https://get.docker.com/ | sh或者wget -qO- https://get.docker.com/ | sh
+
+- Mac
+https://download.docker.com/mac/stable/Docker.dmg
+
+- windows
+https://download.docker.com/win/stable/Docker%20for%20Windows%20Installer.exe
+
+### 第一个 docker 项目
+接下来我们搭建一个能够托管静态文件的 Nginx 服务器，容器运行程序，而容器哪来的呢？容器是镜像创建出来的。那镜像又是哪来的呢？
+
+镜像是通过一个 Dockerfile 打包来的，它非常像我们前端的package.json文件。
+
+```
+Dockerfile: 类似于“package.json”
+ |
+ V
+Image: 类似于“Win7纯净版.rar”
+ |
+ V
+Container: 一个完整操作系统
+```
+
+#### 创建文件
+```
+hello-docker
+  |____index.html
+  |____Dockerfile
+```
+- index.html
+```html
+<h1>Hello docker</h1>
+```
+
+- Dockerfile
+```
+FROM nginx
+
+COPY ./index.html /usr/share/nginx/html/index.html
+
+EXPOSE 80
+```
+
+#### 打包镜像
+```bash
+cd hello-docker/ # 进入刚刚的目录
+docker image build ./ -t hello-docker:1.0.0 # 打包镜像
+```
+此时遇到问题`Docker 安装后 报 Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running? `
+
+```bash
+systemctl daemon-reload
+sudo service docker restart
+sudo service docker status (should see active (running))
+```
+然后重新运行 `docker image build ./ -t hello-docker:1.0.0` 命令。这条命令的意思是基于路径./（当前路径）打包一个镜像，镜像的名字是hello-docker，版本号是1.0.0。该命令会自动寻找
+Dockerfile来打包出一个镜像。
+
+解读下Dockerfile的内容：
+- FROM nginx：基于哪个镜像
+- COPY ./index.html /usr/share/nginx/html/index.html：将宿主机中的./index.html文件复制进容器里的/usr/share/nginx/html/index.html
+- EXPOSE 80：容器对外暴露80端口
+
+> 注意！Docker 中的选项（Options）放的位置非常有讲究，docker —help image和docker image —help是完全不同的命令
+
+#### 配置国内镜像源
+在 Linux 环境下，我们可以通过修改 /etc/docker/daemon.json ( 如果文件不存在，你可以直接创建它 ) 这个 Docker 服务的配置文件达到效果。
+```
+{
+    "registry-mirrors": [
+        "https://registry.docker-cn.com"
+    ]
+}
+```
+
+然后重启 docker 让配置生效
+```bash
+sudo systemctl restart docker
+```
+
+通过 docker info 来查阅当前注册的镜像源列表，验证我们配置的镜像源是否生效
+```bash
+sudo docker info
+```
+
+#### 运行容器
+```bash
+docker container create -p 9000:80 hello-docker:1.0.0 # 根据镜像创建容器
+docker container start xxx # xxx 为上一条命令运行得到的结果
+```
+
+然后在浏览器打开ip:9000，就能刚刚自己写的index.html内容。
