@@ -75,6 +75,11 @@ Docker 就是基于 Linux 容器的一种上层封装，提供了更为简单易
 - linux
 > curl -sSL https://get.docker.com/ | sh或者wget -qO- https://get.docker.com/ | sh
 
+```bash
+curl https://get.docker.com/ > install-docker.sh # 下载安装脚本
+sh install-docker.sh # 执行安装脚本
+```
+
 - Mac
 https://download.docker.com/mac/stable/Docker.dmg
 
@@ -197,3 +202,24 @@ docker container exec -it xxx /bin/bash # xxx 为容器ID
 2. 使用docker image build来将Dockerfile打包成镜像
 3. 使用docker container create来根据镜像创建一个容器
 4. 使用docker container start来启动一个创建好的容器
+
+iptables --list | grep DOCKER
+
+iptables -t nat -nvL
+
+sysctl net.ipv4.ip_forward  
+
+firewall-cmd --state
+
+vi /etc/sysctl.conf
+
+docker rm -f `docker ps -a -q`
+
+docker inspect my-nginx9|grep IPAddress
+
+172.17.0.2:80
+
+#### 三种网络模式
+- bridge
+- host
+- none
