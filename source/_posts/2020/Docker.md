@@ -203,6 +203,8 @@ docker container exec -it xxx /bin/bash # xxx 为容器ID
 3. 使用docker container create来根据镜像创建一个容器
 4. 使用docker container start来启动一个创建好的容器
 
+![docker](http://cdn.mydearest.cn/blog/images/docker.png)
+
 iptables --list | grep DOCKER
 
 iptables -t nat -nvL
@@ -217,9 +219,46 @@ docker rm -f `docker ps -a -q`
 
 docker inspect my-nginx9|grep IPAddress
 
+docker container run --name nginxserver -d -p 80:80 nginx
+
 172.17.0.2:80
+
+- 遇到了centos7系统docker 宿主机不能访问容器问题，unbantu系统没问题
+```bash
+#停止docker
+systemctl stop docker
+#关闭docker0
+ip link set dev docker0 down
+#删除docker0网桥
+brctl delbr docker0
+#防火墙设置,后来发现这一步不用执行可以
+iptables -t nat -F POSTROUTING
+#增加docker0 网桥
+brctl addbr docker0
+#增加网卡
+ip addr add 172.16.10.1/24 dev docker0
+#启用网卡
+ip link set dev docker0 up
+#重启docker服务
+systemctl restart docker
+```
 
 #### 三种网络模式
 - bridge
 - host
 - none
+
+### SPA应用迁移
+之前的步骤：
+1. 本地`npm run build`打包静态文件
+2. 手动FTP传输到服务器
+3. git push更新github
+
+自动化CI：
+1. 执行git push
+2. 自动检测到 github 有代码更新，自动打包出一个 Docker 镜像
+3. CI 编译完成后，SSH 登录 VPS，删掉现有容器，用新镜像创建一个新容器
+
+好处：
+1. 不必再手动 FTP 上传文件
+2. 当进行修改错别字这样的简单操作时，可以免测。改完直接git push，而不必本地npm run build
