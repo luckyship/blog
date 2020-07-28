@@ -791,7 +791,22 @@ input标签v-model用lazy修饰之后，并不会立即监听input的value的改
 ```html
 <style lang="less" scoped></style>
 ```
-原理：vue通过在DOM结构以及css样式上加上唯一的标记`data-v-xxxxxx`，保证唯一，达到样式私有化，不污染全局的作用。
+原理：vue通过在DOM结构以及css样式上加上唯一的标记`data-v-xxxxxx`，保证动态属性唯一，达到样式私有化，不污染全局的作用。
+
+编译后：
+```html
+<template>    
+    <span data-v-3e5b2a80 class="textScoped">scoped测试</span>
+</template>
+<script>
+
+</script>
+<style scoped>    
+    .textScoped[data-v-3e5b2a80]{        
+        color: red;    
+    }
+</style>
+```
 
 ### 渲染模板保留注释
 - 在组件中将comments选项设置为true

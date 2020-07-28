@@ -71,6 +71,37 @@ React框架并不会立即去计算并渲染DOM树的变化部分，相反，Rea
 ### 在 React 中，refs 的作用是什么
 Refs 可以用于获取一个 DOM 节点或者 React 组件(组件实例)的引用。何时使用 refs 的好的示例有管理焦点/文本选择，触发命令动画，或者和第三方 DOM 库集成。你应该避免使用 String 类型的 Refs 和内联的 ref 回调。Refs 回调是 React 所推荐的。
 
+### 三种ref方式
+1. string类型绑定
+类似于vue中的ref绑定方式，可以通过this.refs.绑定的ref的名字获取到节点dom，注意的是这种方式已经不被最新版的react推荐使用，有可能会在未来版本中遗弃。
+```js
+focus = () => {
+  this.refs.inputRef.focus()
+}
+<input ref="inputRef"/>
+```
+
+2. react.CreateRef()
+通过在class中使用React.createRef()方法创建一些变量，可以将这些变量绑定到标签的ref中，该变量的current则指向绑定的标签dom。
+```js
+inputRef = React.createRef()
+focus = () => {
+  this.inputRef.current.focus()
+}
+<input ref={this.inputRef}/>
+```
+
+3. 函数形式
+在class中声明函数，在函数中绑定ref使用这种方法可以将子组件暴露给父组件以使得父组件能够调用子组件的方法
+```js
+inputRef = null
+focus = () => {
+  this.inputRef.focus()
+}
+<input ref={(el)=>this.inputRef=el}/>
+```
+注意: react并不推荐过度使用ref，如果能通过state做到的事情，就不应该使用 refs 在你的 app 中“让事情发生”。过度使用ref并不符合数据驱动的思想。
+
 ### 何为高阶组件(higher order component)
 高阶组件是一个以组件为参数并返回一个新组件的函数。HOC 运行你重用代码、逻辑和引导抽象。最常见的可能是 Redux 的 `connect` 函数。除了简单分享工具库和简单的组合，HOC最好的方式是共享 React 组件之间的行为。如果你发现你在不同的地方写了大量代码来做同一件事时，就应该考虑将代码重构为可重用的 HOC。
 装饰器@decoration

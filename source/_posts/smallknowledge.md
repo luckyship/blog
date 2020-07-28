@@ -676,7 +676,7 @@ while不改变作用域链
 
 new Array(1,2,3) // [1,2,3]
 new Array(1) // [empty]
-Array.of(7) // [7]
+Array.of(7) // [7] Array.of解决掉了这个陷阱
 ```
 
 ## with语句
@@ -1883,6 +1883,9 @@ function func(){
     console.log(Array.prototype.slice.call(arguments))
     console.log(Array.from(arguments))
     console.log([...arguments])
+
+    console.log(Array.from({length:0})); //[]
+    console.log(Array.from('')); //[]
 }
 func(1,2,3)
 ```
@@ -3386,3 +3389,8 @@ for(const key in object) {
 3. mysql没有bool数据类型，用的tinyint(1)，sql语句中where flag = false迁移报错，pg用的int(2)
 
 4. ON DUPLICATE KEY UPDATE 重复插入约束 => on conflict (id) do update set
+
+5. 在pg中的sql，单引号用来标识实际的值，双引号用来标识表名（table name）或列名（column name）等数据库中存在的值
+
+## Typed Arrays 
+一个TypedArray 对象描述一个底层的二进制数据缓存区的一个类似数组(array-like)视图

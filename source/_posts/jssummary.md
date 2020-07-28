@@ -137,7 +137,13 @@ console.log(c()()) // 打印："我是全局变量 name"，因为Function()返�
 - Symbol(它的实例是唯一且不可改变)
 - bigint
 
-Object 是 JavaScript 中所有对象的父对象
+Object 是 JavaScript 中所有对象的父对象（object、array、function）
+
+两种类型的区别是：存储位置不同；
+原始数据类型直接存储在栈(stack)中的简单数据段，占据空间小、大小固定，属于被频繁使用数据，所以放入栈中存储；
+引用数据类型存储在堆(heap)中的对象,占据空间大、大小不固定,如果存储在栈中，将会影响程序运行的性能；引用数据类型在栈中存储了指针，该指针指向堆中该实体的起始地址。当解释器寻找引用值时，会首先
+检索其在栈中的地址，取得地址后从堆中获得实体
+
 数据封装类对象：Object、Array、Boolean、Number 和 String
 其他对象：Function、Arguments、Math、Date、RegExp、Error
 
@@ -149,6 +155,8 @@ Object 是 JavaScript 中所有对象的父对象
 不仅 JavaScript，所有遵循 IEEE 754 规范的语言都是如此；
 
 `在JavaScript中，所有的Number都是以64-bit的双精度浮点数存储的，在用二进制存储时会存在精度误差；`
+
+`原因：计算机不能精确表示0.1， 0.2这样的浮点数，计算时使用的是带有舍入误差的数，但不是所有的浮点数在计算机内部都存在舍入误差，比如0.5就没有舍入误差`
 
 双精度的浮点数在这64位上划分为3段，而这3段也就确定了一个浮点数的值，64bit的划分是“1-11-52”的模式，具体来说：
 
@@ -314,7 +322,7 @@ console.log(a)  // string
 倒是有很多操作字符串的方法，但是这些方法都是返回一个新的字符串，并没有改变其原有的数据。
 
 ### 引用数据类型
-引用类型（object）是存放在堆内存中的，变量实际上是一个存放在栈内存的指针，这个指针指向堆内存中的地址。每个空间大小不一样，要根据情况开进行特定的分配。
+引用类型（object）是存放在堆heap内存中的，变量实际上是一个存放在栈内存的指针，这个指针指向堆内存中的地址。每个空间大小不一样，要根据情况开进行特定的分配。
 
 ### 传值和传址
 了解了基本数据类型与引用类型的区别之后，我们就应该能明白传值与传址的区别了。
@@ -841,6 +849,7 @@ console.log(o.b()); // 8
 3. Object.getOwnPropertyNames()
 
 ## Symbol(原始数据类型) 不可枚举的 符号类型
+- 应用于对象的属性,Symbol类型的属性具有一定的隐藏性。
 ```javascript
 var  myPrivateMethod  = Symbol(); // 不能使用new Symbol()创建，它是一个不完整的类属于基本类型
 this[myPrivateMethod] = function() {...};
@@ -869,6 +878,39 @@ Symbol.for("bar") === Symbol.for("bar"); // true，证明了上面说的
 // 创建一个 symbol 并放入 Symbol 注册表，key 为 "foo"
 var globalSym = Symbol.for("foo"); 
 Symbol.keyFor(globalSym); // "foo"
+```
+
+```js
+let name = Symbol('name');
+let obj = {
+  age:22,
+  [name]:'Joh'
+};
+
+console.log(Object.keys(obj)); // 打印不出 类型为Symbol的[name]属性
+
+// 使用for-in也打印不出 类型为Symbol的[name]属性
+for(var k in obj) {
+  console.log(k);
+}
+
+// 使用 Object.getOwnPropertyNames 同样打印不出 类型为Symbol的[name]属性
+console.log(Object.getOwnPropertyNames(obj)); 
+
+// 使用 Object.getOwnPropertySymbols 可以
+var key = Object.getOwnPropertySymbols(obj)[0];
+console.log(obj[key]); // Joh
+```
+- 使用Symbol.iterator迭代器来逐个返回数组的单项
+```js
+et arr = ['a', 'b', 'c'];
+var iterator = arr[Symbol.iterator]();
+// next 方法返回done表示是否完成
+console.log(iterator.next()); // {value: "a", done: false}
+console.log(iterator.next()); // {value: "b", done: false}
+console.log(iterator.next()); // {value: "c", done: false}
+console.log(iterator.next()); // {value: undefined, done: true}
+console.log(iterator.next()); // {value: undefined, done: true}
 ```
 
 ## Proxy 代理

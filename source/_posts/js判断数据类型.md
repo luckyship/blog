@@ -28,7 +28,7 @@ typeof fn // function
 
 > instanceof 运算符用来测试一个对象在其原型链中是否存在一个构造函数的 prototype 属性。换种说法就是如果左侧的对象是右侧对象的实例， 则表达式返回true, 否则返回false 。
 
-> instanceof对基本数据类型检测不起作用，因为基本数据类型没有原型链。
+> instanceof对基本数据类型检测不起作用，因为基本数据类型没有原型链。可以准确的判断复杂数据类型。
 
 ```javascript
 [1, 2, 3] instanceof Array // true 
@@ -62,15 +62,31 @@ Object.prototype.toString.call(); // => [object Undefined]
 ```
 
 ```javascript
-var isType = function( type ){ 
-    return function( obj ){ 
-        return Object.prototype.toString.call( obj ) === '[object '+ type +']'; 
-    } 
-};
-
+let isType = type => obj => {
+  return Object.prototype.toString.call( obj ) === '[object ' + type + ']';
+}
+ 
 var isString = isType( 'String' ); 
 var isArray = isType( 'Array' ); 
 var isNumber = isType( 'Number' );
 
 console.log( isArray( [ 1, 2, 3 ] ) ); //true
+```
+
+## constructor
+constructor也不是保险的，因为constructor属性是可以被修改的，会导致检测出的结果不正确。
+
+```js
+console.log([].constructor === Array)   // true
+function a() {}
+console.log(a.constructor === Function)   // true
+console.log(12.constructor === Number)  // true
+console.log('22'.constructor === String)  // true
+console.log([] .constructor ===  Array)   // true
+console.log({a: 1}.constructor ===  Object) // true
+console.log(true.constructor === Boolean) // true
+console.log(json.constructor === Object) // true
+console.log((new Date()).constructor === Date)   // true
+console.log(reg.constructor ===  RegExp) //true
+console.log(error.constructor === Error) // true
 ```

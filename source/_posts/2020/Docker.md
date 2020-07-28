@@ -205,6 +205,7 @@ docker container exec -it xxx /bin/bash # xxx 为容器ID
 
 ![docker](http://cdn.mydearest.cn/blog/images/docker.png)
 
+```bash
 iptables --list | grep DOCKER
 
 iptables -t nat -nvL
@@ -222,6 +223,7 @@ docker inspect my-nginx9|grep IPAddress
 docker container run --name nginxserver -d -p 80:80 nginx
 
 172.17.0.2:80
+```
 
 - 遇到了centos7系统docker 宿主机不能访问容器问题，unbantu系统没问题
 ```bash
@@ -248,7 +250,7 @@ systemctl restart docker
 - host
 - none
 
-### SPA应用迁移
+### SPA应用静态站点迁移
 之前的步骤：
 1. 本地`npm run build`打包静态文件
 2. 手动FTP传输到服务器
@@ -262,3 +264,121 @@ systemctl restart docker
 好处：
 1. 不必再手动 FTP 上传文件
 2. 当进行修改错别字这样的简单操作时，可以免测。改完直接git push，而不必本地npm run build
+
+#### travis
+免费的CI资源[travis](https://www.travis-ci.org/)，需要在[/hub.docker.com](https://hub.docker.com/)注册账号。
+使用 Github 登录 Travis CI 后，在左边点击+加号添加自己的 Github 仓库后，需要移步到 Setting 为项目添加DOCKER_USERNAME和DOCKER_PASSWORD环境变量。这样保证我们可以秘密的登录 Docker Hub 而
+不被其他人看到自己的密码。
+
+```
+language: node_js
+node_js:
+  - "12"
+services:
+  - docker
+
+before_install:
+  - npm install
+
+script:
+  - npm run build
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker build -t cosyer/hello-docker:1.0.0 .
+  - docker push cosyer/hello-docker:1.0.0
+```
+
+然后需要添加 Dockerfile 文件来描述如何打包 Docker 镜像。
+按照.travis.yml的命令次序，在打包镜像时，npm run build已经执行过了，项目产出已经有了。不必在 Docker 容器中运行npm install和npm run build之类的，直接复制文件即可：
+
+```
+FROM nginx
+
+COPY ./dist/ /usr/share/nginx/html/
+COPY ./vhost.nginx.conf /etc/nginx/conf.d/hello-docker.conf
+
+EXPOSE 80
+```
+将不访问文件的请求全部重定向到/index.html，处理history路由`vhost.nginx.conf`
+```
+server {
+    listen 80;
+    server_name localhost;
+    location / {
+        root /usr/share/nginx/html;
+        index index.html index.htm;
+        proxy_set_header Host $host;
+
+        if (!-f $request_filename) {
+          rewrite ^.*$ /index.html break;
+        }
+
+    }
+
+    error_page 500 502 503 504 /50x.html;
+    location = /50x.html {
+        root /usr/share/nginx/html;
+    }
+}
+```
+
+### nginx反向代理
+宿主机`/etc/nginx/conf.d/vhost.conf`
+```
+server {
+    listen 80;
+    server_name pea3nut.info;
+
+    location / {
+        proxy_pass http://127.0.0.1:8082;
+    }
+}
+```
+配置的意思是，监听来自 80 端口的流量，若访问域名是mydearest.cn（替换为你自己的域名），则全部转发到http://127.0.0.1:8082中
+
+### nodejs站点迁移(express)
+之前的步骤：
+1. 本地修改好 Ejs 或者其他文件
+2. 手动通过 FTP 上传到服务器
+3. 在服务器端重启 Nodejs 进程。若有 npm 包依赖改动，需要在VP S服务器上手动执行npm install
+4. git push更新 Github 源码
+
+> Tips: 你可能发现了 Dockerfile 中的ENTRYPOINT命令必须指定一个前台进程。若你的 Nodejs 应用是使用 PM2 进行保护的，你需要替换pm2 start app.js为pm2-docker app.js
+
+### docker-compose  
+docker-compose 是 Docker 官方提供的一个 Docker 管理工具。
+
+docker-compose 和 Docker 差不多，也是只要一份文件就能跑起来。docker-compose 主要的作用就是能够让你不必手敲那么多 Docker 命令
+
+- 安装
+```bash
+curl -L "https://github.com/docker/compose/releases/download/1.23.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+chmod +x /usr/local/bin/docker-compose
+```
+
+- 目录
+建立一个目录，然后在目录中建立docker-compose.yml，内容如下：
+```bash
+version: "3.7" # 这个是配置文件的版本，不同的版本号声明方式会有细微的不同
+services:
+    info:
+        container_name: hello-docker
+        image: cosyer/hello-docker:1.0.0
+        ports:
+            - "8082:80"
+        restart: on-failure
+```
+
+- 启动
+```bash
+docker-compose up info
+```
+docker-compose 会帮我们自动去拉镜像，创建容器，将容器中的80端口映射为宿主机的8082端口。restart字段还要求 docker-compose 当发现容器意外挂掉时重新启动容器，类似于 pm2，所以你不必再在容器内
+使用 pm2
+
+如果想要更新一个镜像创建新容器，只需要：
+```bash
+docker-compose pull info
+docker-compose stop info
+docker-compose rm info
+docker-compose up -d info # -d 代表后台运行
+```

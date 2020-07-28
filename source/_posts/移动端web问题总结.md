@@ -110,6 +110,7 @@ React 16.x 增加了componentDidCatch() 生命周期方法
 ## 移动端适配
 - 媒体查询
 - px2rem
+- flexible
 - flex
 - grid
 - 百分比
