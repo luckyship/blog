@@ -372,8 +372,8 @@ services:
 ```bash
 docker-compose up info
 ```
-docker-compose 会帮我们自动去拉镜像，创建容器，将容器中的80端口映射为宿主机的8082端口。restart字段还要求 docker-compose 当发现容器意外挂掉时重新启动容器，类似于 pm2，所以你不必再在容器内
-使用 pm2
+docker-compose 会帮我们自动去拉镜像，创建容器，将容器中的80端口映射为宿主机的8082端口。restart字段还要求 docker-compose 当发现容器意外挂掉时
+重新启动容器，类似于 pm2，所以你不必再在容器内使用 pm2
 
 如果想要更新一个镜像创建新容器，只需要：
 ```bash

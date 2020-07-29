@@ -1252,30 +1252,53 @@ inject:{
 
 > 建议：将图片等未处理的文件放在assets中，打包减少体积。而对于第三方引入的一些资源文件如iconfont.css等可以放在static中，因为这些文件已经经过处理了。
 
-
-## slot插槽
+### slot插槽
 很多时候，我们封装了一个子组件之后，在父组件使用的时候，想添加一些dom元素，这个时候就可以使用slot插槽了，但是这些dom是否显示以及在哪里显示，则是看子组件
 中slot组件的位置了。
 
-## 常用UI库
-### 移动端
+### vue-clock指令的作用
+- 解决页面闪烁问题
+如果网速慢，而该标签内容是变量没有请求响应回来的时候，页面上先不显示该标签（vue给该标
+签加了css样式），当响应回来的时候改标签默认将css样式去除。
+
+`此指令可以解决使用插值表达式页面闪烁问题`将该指令加在html标签中时，可以在该文件中加
+style属性为display：none
+```js
+<div class="#app" v-cloak>
+    <p>{{name}}</p>
+</div>
+
+[v-cloak]{
+    display: none;
+}
+```
+
+### 常用UI库
+#### 移动端
 - mint-ui （http://mint-ui.github.io/#!/zh-cn）
 
 - Vant（https://youzan.github.io/vant/#/zh-CN/home）
 
 - VUX (https://vux.li/)
 
-### pc端
-- element-ui（https://element.eleme.cn/2.13/#/zh-CN/component/installation）
+#### pc端
+- [element-ui](https://element.eleme.cn/2.13/#/zh-CN/component/
+installation）
 
-- Ant Design of Vue（https://www.antdv.com/docs/vue/introduce-cn/）
+- [Ant Design of Vue](https://www.antdv.com/docs/vue/introduce-cn/)
 
-- Avue (https://avuejs.com/)
+- [iview/viewui/view-design](https://iviewui.com/)
 
-## 常用配置
-### publicPath
-部署应用包时的基本 URL。默认情况下，Vue CLI会假设你的应用是被部署在一个域名的根路径上，例如https://www.my-app.com/。如果应用被部署在一个子路径上，
-你就需要用这个选项指定这个子路径。例如，如果你的应用被部署在https://www.my-app.com/my-app/，则设置publicPath为/my-app/
+- [Avue](https://avuejs.com/)
+
+- [vuetify](https://vuetifyjs.com/)
+
+### 常用配置
+#### publicPath
+部署应用包时的基本 URL。默认情况下，Vue CLI会假设你的应用是被部署在一个域名的根路径
+上，例如https://www.my-app.com/。如果应用被部署在一个子路径上，
+你就需要用这个选项指定这个子路径。例如，如果你的应用被部署在https://www.my-app.
+com/my-app/，则设置publicPath为/my-app/
 
 ```js
 proxy: { 
