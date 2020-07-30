@@ -59,6 +59,8 @@ kill -9
 
 ## 后台启动 开启用户认证
 nohup mongod --auth -f /usr/local/mongodb/mongodb.conf > myLog.log 2>&1 &
+
+nohup mongod -f /usr/local/mongodb/mongodb.conf > myLog.log 2>&1 &
 ```
 
 ## 常见命令
@@ -114,3 +116,4 @@ mongodump -h 127.0.0.1 -d book -o D:\iview-book-admin\static\js
 
 mongorestore -h dbhost -d book --dir D:\iview-book-admin\static\js\book
 ```
+admin 111.231.121.29 27017
