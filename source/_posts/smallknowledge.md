@@ -221,7 +221,7 @@ function add(num){
     var _add = function(args){
         num+=args;
         return arguments.callee; //  return add(num+args);
-        // 现在已经不推荐使用arguments.callee();推荐这样写var _add = (function foo(args){num+=args return foo;})
+        // 现在已经不推荐使用arguments.callee();推荐这样写var _add = (function foo(args){num+=args return foo;}) callee被调用者、callee调用者
         // 原因：访问 arguments 是个很昂贵的操作，因为它是个很大的对象，每次递归调用时都需要重新创建。影响现代浏览器的性能，还会影响闭包。
     }
     _add.toString = _add.valueOf = function(){
