@@ -1275,11 +1275,13 @@ style属性为display：none
 
 ### 常用UI库
 #### 移动端
-- mint-ui （http://mint-ui.github.io/#!/zh-cn）
+- [mint-ui](http://mint-ui.github.io/#!/zh-cn)
 
-- Vant（https://youzan.github.io/vant/#/zh-CN/home）
+- [Vant](https://youzan.github.io/vant/#/zh-CN/home)
 
-- VUX (https://vux.li/)
+- [VUX](https://vux.li/)
+
+- [cube-ui](https://didi.github.io/cube-ui/)
 
 #### pc端
 - [element-ui](https://element.eleme.cn/2.13/#/zh-CN/component/

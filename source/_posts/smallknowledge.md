@@ -3394,3 +3394,8 @@ for(const key in object) {
 
 ## Typed Arrays 
 一个TypedArray 对象描述一个底层的二进制数据缓存区的一个类似数组(array-like)视图
+
+## markdown github stats
+- ![my github stats](https://github-readme-stats.vercel.app/api?username=cosyer&show_icons=true&hide_border=true&hide=contribs,prs)
+
+- ![主要使用语言](https://github-readme-stats.vercel.app/api/top-langs/?username=cosyer)

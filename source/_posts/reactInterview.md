@@ -322,7 +322,7 @@ state：
 - componentDidCatch
 
 ### 事件机制
-react事件并没有绑定到真实的dom结点上，而是通过事件代理，在最外层的document上对事件进行统一分发
+react事件并没有绑定到真实的dom节点上，而是通过事件代理，在最外层的document上对事件进行统一分发。
 
 ### 为什么react事件要自己绑定this
 在react中事件处理函数是直接调用的，并没有指定调用的组件，所以不进行手动绑定的情况下直接获取到的this是不准确的，所以我们需要手动将当前组件绑定到this上。
@@ -330,14 +330,12 @@ react事件并没有绑定到真实的dom结点上，而是通过事件代理，
 ### react和原生事件的执行顺序是什么，可以混用吗
 react的所有事件都通过document进行统一分发，当真实dom触发事件后冒泡到document后才会对react事件进行处理
 
-所以原生事件会先执行，然后执行react合成事件，最后执行真正在document上挂载的事件
-
-两者最好不要混用，原生事件中如果执行了stopPropagation方法，则会导致其他react事件失效，
+所以原生事件会先执行，然后执行react合成事件，最后执行真正在document上挂载的事件两者最好不要混用，原生事件中如果执行了stopPropagation方法，则会导致其他react事件失效。
 
 ### 虚拟dom比普通dom更快吗
-首次渲染时vdom不具有任何优势甚至要进行更多的计算，消耗更多的内存
+首次渲染时vdom不具有任何优势甚至要进行更多的计算，消耗更多的内存。
 
-vdom的优势在于react的diff算法和批处理策略，react在页面更新之前，提前计算好了如何进行更新和渲染dom。vdom主要是能在重复渲染时帮助我们计算如何实现更高效的更新，而不是说它比dom操作快
+vdom的优势在于react的diff算法和批处理策略，react在页面更新之前，提前计算好了如何进行更新和渲染dom。vdom主要是能在重复渲染时帮助我们计算如何实现更高效的更新，而不是说它比dom操作快。
 
 ### 虚拟dom中的$$typeof属性的作用是什么
 它被赋值为REACT_ELEMENT_TYPE，是一个symbol类型的变量，这个变量可以防止XSS。react渲染时会把没有$$typeof标识以及规则校验不通过的组件全都过滤掉。当你的环境不支持Symbol时，$$typeof被赋值为0xeac7，为什么采用0xeac7？
@@ -683,3 +681,21 @@ class Modal extends React.Component {
 ### react diff和vue diff的区别
 - vnode作为数据和视图的一种映射关系
 - 相同点：都是同层比较、不同点：vue使用双指针比较，react是key集合级比较
+
+### 常用UI库
+
+- 移动端
+[ant design mobile](https://mobile.ant.design/index-cn)
+
+- pc端
+[ant design](https://ant.design/)
+
+[reactstrap](https://reactstrap.github.io/)
+
+[patternfly-react](https://patternfly-react.surge.sh/)
+
+[semantic-ui](https://react.semantic-ui.com/)
+
+[material-ui](https://material-ui.com/)
+
+[elemental-ui](http://elemental-ui.com/home)

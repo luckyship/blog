@@ -113,4 +113,7 @@ unzip file.zip
 8、*.rar 用 unrar e解压
 
 9、*.zip 用 unzip 解压
+
+tar -zcvf 1.tar.gz xxx
+tar -zxvf 1.tar.gz
 ```
