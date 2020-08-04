@@ -3399,3 +3399,8 @@ for(const key in object) {
 - ![my github stats](https://github-readme-stats.vercel.app/api?username=cosyer&show_icons=true&hide_border=true&hide=contribs,prs)
 
 - ![主要使用语言](https://github-readme-stats.vercel.app/api/top-langs/?username=cosyer)
+
+## 微信分享 hash 路由填坑记录
+```js
+encodeURIComponent(window.location.href.split('#')[0])
+```
