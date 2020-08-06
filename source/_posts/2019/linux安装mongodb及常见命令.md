@@ -116,4 +116,3 @@ mongodump -h 127.0.0.1 -d book -o D:\iview-book-admin\static\js
 
 mongorestore -h dbhost -d book --dir D:\iview-book-admin\static\js\book
 ```
-admin 111.231.121.29 27017
