@@ -3404,3 +3404,9 @@ for(const key in object) {
 ```js
 encodeURIComponent(window.location.href.split('#')[0])
 ```
+
+## simple-icons
+
+![github](https://cdn.jsdelivr.net/npm/simple-icons@3.1.0/icons/github.svg)
+
+![github](http://simpleicons.p2hp.com/icons/github.svg)
