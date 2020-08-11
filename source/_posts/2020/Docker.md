@@ -141,7 +141,7 @@ Dockerfile来打包出一个镜像。
 - COPY ./index.html /usr/share/nginx/html/index.html：将宿主机中的./index.html文件复制进容器里的/usr/share/nginx/html/index.html
 - EXPOSE 80：容器对外暴露80端口
 
-> 注意！Docker 中的选项（Options）放的位置非常有讲究，docker —help image和docker image —help是完全不同的命令
+> 注意！Docker 中的选项（Options）放的位置非常有讲究，docker --help image和docker image --help是完全不同的命令
 
 #### 配置国内镜像源
 在 Linux 环境下，我们可以通过修改 /etc/docker/daemon.json ( 如果文件不存在，你可以直接创建它 ) 这个 Docker 服务的配置文件达到效果。
@@ -197,11 +197,68 @@ docker container exec -it xxx /bin/bash # xxx 为容器ID
 
 原理实际上是启动了容器内的/bin/bash，此时你就可以通过bash shell与容器内交互了。就像远程连接了SSH一样
 
+#### 退出容器
+```bash
+exit # 直接退出
+
+Ctrl + p + q # 退出不停止
+```
+
+#### 制作镜像
+```bash
+docker commit -m='message' -a='cosyer' containerId hello-docker:1.0.1
+```
+
+#### DockerFile
+- FROM：这个镜像依赖谁（基础镜像）
+- MAINTAINER：这个镜像是谁写的（维护者的信息）
+- RUN：构建镜像需要运行的命令
+- ADD：步骤：copu 文件，会自动解压
+- WORKDIR：设置当前工作目录
+- VOLUME：设置券，挂载主机目录
+- EXPOSE： 暴露端口
+- CMD：指定这个容器启动的时候要运行的命令 只有最后一个会生效，可被替代
+- ENTRYPOINT：指定这个容器启动的时候要运行的命令，可以追加命令
+- ONBUILD：当构建一个被继承 DockerFile 这个时候就会运行 ONBUILD 的命令，触发指令
+- COPY：类似 ADD 将我们的文件拷贝到镜像中
+- ENV：构建镜像的时候设置环境变量
+
+#### 发布镜像
+- docker login
+- docker tag imageId message
+- docker push imageId
+
 #### 总结
 1. 写一个 Dockerfile
 2. 使用docker image build来将Dockerfile打包成镜像
 3. 使用docker container create来根据镜像创建一个容器
 4. 使用docker container start来启动一个创建好的容器
+
+```bash
+# images
+docker pull image
+docker images # 查看所有镜像
+docker rmi imageId -f # 强制删除镜像
+docker rmi -f \$(docker images -aq) # 小技巧删除所有镜像
+
+# container
+docker ps # 查看运行容器
+-a 列出历史
+-n 列出最近
+-q 只显示编号
+docker rm containerId # 删除容器
+docker rmi -f \$(docker ps -aq) # 小技巧删除所有容器
+docker start id # 启动容器
+docker restart id #重启容器
+docker stop id # 停止当前运行的容器
+docker kill id # 强制停止当前运行容器
+docker inspect containerId # 查看容器基本信息
+docker logs containerId # 查看容器日志
+docker exec -it containerId /bin/bash # 进入容器
+docker attach # 本机输入到容器中
+docker cp 本机路径 容器id:文件路径 # 主机内容拷贝到容器
+docker cp 容器id:文件路径 本机路径 # 容器拷贝内容到主机
+```
 
 ![docker](http://cdn.mydearest.cn/blog/images/docker.png)
 
@@ -246,9 +303,18 @@ systemctl restart docker
 ```
 
 #### 三种网络模式
-- bridge
-- host
-- none
+- bridge(桥接)
+- host(主机模式与宿主机共享网络)
+- none(不配置网络)
+```bash
+# 自定义网络
+docker network create --driver bridge --subnet 192.168.3.0/16 --gateway 192.168.3.1 mynet
+
+# 查看网络列表
+docker network ls
+# 删除网络
+docker neteork rm id
+```
 
 ### SPA应用静态站点迁移
 之前的步骤：
