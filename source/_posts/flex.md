@@ -140,3 +140,7 @@ align-self: auto | flex-start | flex-end | center | baseline | stretch;
 [w3cplus指南](http://www.w3cplus.com/css3/a-guide-to-flexbox-new.html)
 [Flex 布局教程：语法篇](http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html)
 [思维图](http://blog.csdn.net/magneto7/article/details/70854472)
+[可视化练习1](https://buptsteve.github.io/flex-playground/)
+[可视化练习2](https://react-medellin.github.io/flexbox-playground/)
+[可视化练习3](https://www.flexbox.aweutist.dev/showcase.html)
+[可视化练习4](https://vikram-rajput.github.io/flexbox-playground/)
