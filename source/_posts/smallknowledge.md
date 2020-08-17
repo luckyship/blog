@@ -3215,10 +3215,10 @@ optimization:{
 }
 ```
 3. 动态导入：通过模块的内联函数调用来分离代码（懒加载）
-webpack4默认是允许import语法动态导入的，但是需要babel的插件支持，最新版babel的插件包为:@babel/plugin-syntax-dynamic-import,需要注意动态导入最大的好处就是实现了懒加载，用到那个模块才会
-加载那个模块，可以提高SPA应用程序的首屏加载速度，三大框架的路由懒加载原理一样
+webpack4默认是允许import语法动态导入的，但是需要babel的插件支持，最新版babel的插件包为:@babel/plugin-syntax-dynamic-import,需要注意动态
+导入最大的好处就是实现了懒加载，用到那个模块才会加载那个模块，可以提高SPA应用程序的首屏加载速度，三大框架的路由懒加载原理一样。
 
-### noParse
+### noParse(缩小文件搜索范围)
 在引入一些第三方模块时，如jq等，我们知道其内部肯定不会依赖其他模块，因为我们用到的只是一个单独的js或者css文件，所以此时如果webpack再去解析他们的内部依赖关系，其实是非常浪费时间的，就需要阻
 止webpack浪费精力去解析这些明知道没有依赖的库，可以在webpack的配置文件的module节点下加上noParse，并配置正则来确定不需要解析依赖关系的模块
 ```js
@@ -3226,18 +3226,19 @@ module:{
  noParse: /jquery|bootstrap/  // jquery|bootstrap 之间不能加空格变成 jquery | bootstrap， 会无效
 }
 ```
+- 通过 include 和 exclude 缩小命中范围
+- 优化 resolve.modules 配置，指明存放第三方模块的绝对路径，减少寻找时间。
+- 优化 resolve.alias/extensions配置
 
 ### DLLPlugin、DllReferencePlugin(预编译资源模块提高打包速度)
-在引入一些第三方模块时，例如Vue、React等，这些框架的文件一般都是不会修改的，而每次打包都需要去解析他们，也会影响打包速度，就算是做了拆分，也只是提高了上线后的用户访问速度，并不会提高构建速
-度，所以如果需要提高构建速度，应该使用动态链接库的方式，类似windows的dll文件借助DLLPlugin插件实现将这些框架作为一个个的动态链接库，只构建一次，以后的每次构建都只会生成自己的业务代码，可以
-很好的提高构建效率。
+在引入一些第三方模块时，例如Vue、React等，这些框架的文件一般都是不会修改的，而每次打包都需要去解析他们，也会影响打包速度，就算是做了拆分，也只是提高了上线后的用户访问速度，并不会提高构建速度，所以如果需要提高构建速度，应该使用动态链接库的方式，类似windows的dll文件借助DLLPlugin插件实现将这些框架作为一个个的动态链接库，只构建一次，以后的每次构建都只会生成自己的业务代码，可以很好的提高构建效率。
 
 > 将库和项目代码分离打包需要 dll 映射文件
 
 主要思想在于，将一些不做修改的依赖文件，提前打包，这样我们开发代码发布的时候就不需要再对这些代码进行打包，从而节省了打包时间，主要使用两个插件: DLLPlugin和DLLReferencePlugin
 需要注意的是，若是使用的DLLPlugin，CleanWebpackPlugin插件会存在冲突，需要移除CleanWebpackPlugin插件
 
-### 配置缓存（提高打包速度，插件自带 loader，不支持的可以用 cache-loader）
+### 配置缓存（提高打包速度，插件自带 babel-loader开启，不支持的可以用 cache-loader）
 
 ### 使用 HappyPack 开启多进程 Loader 转换（webpack4推荐thread-loader）
 ```js

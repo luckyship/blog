@@ -2540,9 +2540,9 @@ function square(n){
 ![ast](http://cdn.mydearest.cn/blog/images/ast.png)
 
 ## babel编译原理
-- babylon 将 ES6/ES7 代码解析成 AST
-- babel-traverse 对 AST 进行遍历转译，得到新的 AST
-- 新 AST 通过 babel-generator 转换成 ES5
+- babylon 将 ES6/ES7 代码解析成 AST (解析)
+- babel-traverse 对 AST 进行遍历转译，得到新的 AST (转换)
+- 新 AST 通过 babel-generator 转换成 ES5 (生成)
 
 ## 函数式编程
 函数式编程是一种 编程范式，你可以理解为一种软件架构的思维模式。它有着独立一套理论基础与边界法则，追求的是 更简洁、可预测、高复用、易测试。其实在现有的众多知名库中，都蕴含着丰富的函数式编程思想，如 React / Redux 等。

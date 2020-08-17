@@ -62,12 +62,12 @@ webpack是一个模块打包工具，可以使用它管理项目中的模块依�
 
 ## 什么是loader，plugins?
 - loader是用来告诉webpack如何转换某一类型的文件，并且引入到打包出的文件中
-- plugins(插件)作用更大，可以打包优化，资源管理和注入环境变量(plugin是一个含有 apply 方法的 类)
+- plugins(插件)作用更大，可以打包优化，资源管理和注入环境变量(plugin是一个含有 apply 方法的类)
 
 apply 方法中接收一个 compiler 参数，也就是 webpack实例。由于该参数的存在 plugin 可以很好的运用 webpack 的生命周期钩子，在不同的时间节点做一些操作。
 
 ### 手写一个loader
-loader就是一个node模块，它输出了一个函数。当某种资源需要用这个loader转换时，这个函数会被调用。并且，这个函数可以通过提供给它的this上下文访问Loader API。
+loader就是一个node模块(导出为函数的JS模块)，它输出了一个函数。当某种资源需要用这个loader转换时，这个函数会被调用。并且，这个函数可以通过提供给它的this上下文访问Loader API。传入上一个loader的结果或者资源文件。
 ```js
 // 定义 reverse-txt-loader.js
 module.exports = function(src) {
@@ -91,6 +91,13 @@ module.exports = function(src) {
     // }
 },
 ```
+注意点：
+- 编写 Loader 时要遵循单一职责，每个 Loader 只做一种"转义"工作。每个 Loader 的拿到的是源文件内容（source），可以通过返回值的方式将处理后的内容输出，也可以调用 this.callback()方法，将内容返回给 webpack。 还可以通过 this.async()生成一个 callback 函数，再用这个 callback 将处理后的内容输出出去。
+- Loader 运行在 Node.js 中，我们可以调用任意 Node.js 自带的 API 或者安装第三方模块进行调用
+- Webpack 传给 Loader 的源内容默认都是 UTF-8 格式编码的字符串，当某些场景下 Loader 处理二进制文件时，需要通过 exports.raw = true 告诉 Webpack 该 Loader 是否需要二进制数据
+- 尽可能的异步化 Loader，如果计算量很小，同步也可以
+- Loader 是无状态的，我们不应该在 Loader 中保留状态
+- 使用 loader-utils 和 schema-utils 为我们提供的实用工具
 
 ### 手写一个plugin
 ```js
@@ -106,7 +113,7 @@ module.exports = DemoWebpackPlugin
 ```
 
 ## 什么是bundle,chunk,module?
-bundle是webpack打包出来的文件，chunk是webpack在进行模块的依赖分析的时候，代码分割出来的代码块。module是开发中的单个模块
+bundle是webpack打包出来的文件，chunk是webpack在进行模块的依赖分析的时候，代码分割出来的代码块，module是开发中的单个模块。
 
 ## 如何自动生成webpack配置？
 可以用一些官方脚手架
