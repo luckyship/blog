@@ -452,7 +452,7 @@ hook和mixin在用法上有一定的相似之处，但是mixin引入的逻辑状
 大量使用hoc让我们的代码变得嵌套层级非常深，使用hooks我们可以实现扁平式的状态逻辑复用，而避免了大量的组件嵌套
 
 - 让组件变得更加容易理解
-相比函数，编写一个class可能需要更多的知识，hooks让你可以在classes之外使用更多的react的新特性
+相比函数，编写一个class可能需要更多的知识，hooks让你可以在class之外使用更多的react的新特性
 
 ### Fiber
 React 的核心流程可以分为两个部分:
@@ -470,10 +470,10 @@ React 的核心流程可以分为两个部分:
 - 问题: 随着应用变得越来越庞大，整个更新渲染的过程开始变得吃力，大量的组件渲染会导致主进程长时间被占用，导致一些动画或高频操作出现卡顿和掉帧的情况。而关键点，便是 同步阻塞。在之前的调度算法中，React 需要实例化每个类组件，生成一颗组件树，使用 同步递归 的方式进行遍历渲染，而这个过程最大的问题就是无法 暂停和恢复。
 
 
-- 解决方案: 解决同步阻塞的方法，通常有两种: 异步 与 任务分割。而 React Fiber 便是为了实现任务分割而诞生的。
+- 解决方案: 解决同步阻塞的方法，通常有两种: 异步与任务分割。而 React Fiber 便是为了实现任务分割而诞生的。
 
   - 在 React V16 将调度算法进行了重构， 将之前的 stack reconciler 重构成新版的 fiber reconciler，变成了具有链表和指针的`单链表树遍历算法`。通过指针映射，每个单元都记录着遍历当下的上一步与下一步，从而使遍历变得可以被暂停和重启。
-  - 这里我理解为是一种`任务分割调度算法`，主要是 将原先同步更新渲染的任务分割成一个个独立的`小任务单位`，根据不同的优先级，将小任务分散到浏览器的空闲时间执行，充分利用主进程的事件循环机制。
+  - 这里我理解为是一种`任务分割调度算法`，主要是将原先同步更新渲染的任务分割成一个个独立的`小任务单位`，根据不同的优先级，将小任务分散到浏览器的空闲时间执行，充分利用主进程的事件循环机制。
 
 ```js
 class Fiber {
@@ -558,6 +558,8 @@ componentDidUpdate(prevProps) {
 - 在componentDidUpdate使用setState时，必须加条件，否则将进入死循环；
 - getSnapshotBeforeUpdate(prevProps, prevState)可以在更新之前获取最新的渲染数据，它的调用是在 render 之后， update 之前；
 - shouldComponentUpdate: 默认每次调用setState，一定会最终走到 diff 阶段，但可以通过shouldComponentUpdate的生命钩子返回false来直接阻止后面的逻辑执行，通常是用于做条件渲染，优化渲染的性能。
+
+废弃的原因主要是因为 react 在 16 版本重构了调度算法，新的调度可能会导致一些生命周期被反复调用，所以在 16 中就不建议使用了，而改在其他时机中暴露出其他生命周期钩子用来替代。
 
 ### SSR
 SSR，俗称 服务端渲染 (Server Side Render)，讲人话就是: 直接在服务端层获取数据，渲染出完成的 HTML 文件，直接返回给用户浏览器访问。
@@ -676,7 +678,6 @@ class Modal extends React.Component {
 - react构建时通过webpack，关于webpack配置查看node_modules/react-scripts/config/webpack*
 - npm run eject暴露所有配置文件、(安装react-app-rewired包)建立新的配置文件覆盖部分默认的配置
 - HashRouter支持配置package-json homepage: '.'修改根目录路径，BrowerRouter修改无效还得修改服务端配置
-
 
 ### react diff和vue diff的区别
 - vnode作为数据和视图的一种映射关系
