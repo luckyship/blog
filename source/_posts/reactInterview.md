@@ -559,7 +559,8 @@ componentDidUpdate(prevProps) {
 - getSnapshotBeforeUpdate(prevProps, prevState)可以在更新之前获取最新的渲染数据，它的调用是在 render 之后， update 之前；
 - shouldComponentUpdate: 默认每次调用setState，一定会最终走到 diff 阶段，但可以通过shouldComponentUpdate的生命钩子返回false来直接阻止后面的逻辑执行，通常是用于做条件渲染，优化渲染的性能。
 
-废弃的原因主要是因为 react 在 16 版本重构了调度算法，新的调度可能会导致一些生命周期被反复调用，所以在 16 中就不建议使用了，而改在其他时机中暴露出其他生命周期钩子用来替代。
+废弃的原因主要是因为 react 在 16 版本重构了调度算法，新的调度可能会导致一些生命周期被反复调用，所以在 16 中就不建议使用了，而改在其他时机中暴露出其
+他生命周期钩子用来替代。
 
 ### SSR
 SSR，俗称 服务端渲染 (Server Side Render)，讲人话就是: 直接在服务端层获取数据，渲染出完成的 HTML 文件，直接返回给用户浏览器访问。
@@ -682,6 +683,22 @@ class Modal extends React.Component {
 ### react diff和vue diff的区别
 - vnode作为数据和视图的一种映射关系
 - 相同点：都是同层比较、不同点：vue使用双指针比较，react是key集合级比较
+
+### react StrictMode严格模式
+StrictMode是一种辅助组件，可以帮助编写更好的组件。
+1. 验证是否遵循推荐写法
+2. 验证是否使用了已经废弃的写法
+3. 通过识别一些潜在的风险预防副作用
+
+### react事件的合成机制
+1. div 或其他元素触发事件，该事件会冒泡到 document，然后被 React 的事件处理程序捕获
+2. 事件处理程序随后将事件传递给 SyntheticEvent 的实例，这是一个跨浏览器原生事件包装器。
+3. SyntheticEvent 触发 dispatchEvent，将 event 对象交由对应的处理器执行。
+
+- 为什么要合成事件机制
+  - 更好的兼容性和跨平台
+  - react事件机制采用了事件池，大大节省内存
+  - 方便事件的统一管理
 
 ### 常用UI库
 

@@ -270,29 +270,48 @@ class Promise(){
   }
 }
 ```
-**实现Promise.all**
+**实现Promise.all 以及 race**
 
 ```javascript
-Promise1.all = function(arr) {
-    // 存放结果集
-    let result = [];
-    return Promise1(function(resolve, reject) {
-        let i = 0;
-        // 进行迭代执行
-        function next() {
-            arr[i].then(function(res) {
-                // 存放每个方法的返回值
-                result.push(res);
-                i++;
-                // 若全部执行完
-                if (i === result.length) {
-                    // 执行then回调
-                    resolve(result);
+// 实现Promise.all 以及 race
+Promise.myall = function (arr) {
+    return new Promise((resolve, reject) => {
+        if (arr.length === 0) {
+            return resolve([])
+        } else {
+            let res = [],
+                count = 0
+            for (let i = 0; i < arr.length; i++) {
+                // 同时也能处理arr数组中非Promise对象
+                if (!(arr[i] instanceof Promise)) {
+                    res[i] = arr[i]
+                    if (++count === arr.length)
+                        resolve(res)
                 } else {
-                    // 继续迭代
-                    next();
+                    arr[i].then(data => {
+                        res[i] = data
+                        if (++count === arr.length)
+                            resolve(res)
+                    }, err => {
+                        reject(err)
+                    })
                 }
-            }, reject)
+
+            }
+        }
+    })
+}
+
+Promise.myrace = function (arr) {
+    return new Promise((resolve, reject) => {
+        for (let i = 0; i < arr.length; i++) {
+            // 同时也能处理arr数组中非Promise对象
+            if (!(arr[i] instanceof Promise)) {
+                Promise.resolve(arr[i]).then(resolve, reject)
+            } else {
+                arr[i].then(resolve, reject)
+            }
+
         }
     })
 }
