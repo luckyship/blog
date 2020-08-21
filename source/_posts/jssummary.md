@@ -1429,10 +1429,13 @@ const newObj = new resultBind3()
 // 将函数引用到对象里
 // 调用函数
 // 删除对象里的函数
-Function.prototype.call1 = function (context) {
-  context.fn = this // this 指向实例
-  context.fn() // ...args
-  delete context.fn
+Function.prototype.call1 = function (context, ...args) {
+  let key = Symbol('KEY')
+  // 把函数当成对象的某个成员,(成员名唯一:防止修改原始对象的结构值)
+  context[key] = this;
+  let result = context[key](...args) // ...args
+  delete context[key]
+  return result
 }
 
 const obj = {
