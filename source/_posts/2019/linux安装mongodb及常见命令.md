@@ -93,10 +93,14 @@ db.dropUser("testuser")
 db.addUser('testUser','111')
 
 db.changeUserPassword('tank2','test')
+
+## 修改用户权限
+db.updateUser("cosyer",{roles:[ {role:"root",db:"admin"} ]})
 ```
 
 ### mongoose账号密码连接
 ```js
+// mongodb://admin:123456@localhost:27017 //有用户名密码的情况
 mongoose.connect("mongodb://user:pwd@111.231.121.29/ticket", {
   authSource: "admin",
   useMongoClient: true
