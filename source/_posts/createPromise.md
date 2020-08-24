@@ -315,6 +315,18 @@ Promise.myrace = function (arr) {
         }
     })
 }
+
+Promise.prototype.finally = function (callback) {
+    return this.then((value) => {
+        return Promise.resolve(callback()).then(() => {
+            return value;
+        });
+    }, (err) => {
+        return Promise.resolve(callback()).then(() => {
+            throw err;
+        });
+    });
+}
 ```
 ### 嵌套使用
 Promise可以嵌套使用，这样可以是多个任务有条不紊地进行，假设p1是一个Promise对象而p2、p3都是能够产生Promise对象的方法(如果直接new那么Promise将会被直接执行)，那么你可以这样写，使得他们按照顺序执行，并且可以一次性处理他们产生的错误。
@@ -511,3 +523,5 @@ obj.abort("请求被拦截");
 4. 一般来说，不要在then方法里面定义`reject`状态的回调函数（即then的第二个参数），总是使用`catch`方法。
 
 5. 跟传统的`try/catch`代码块不同的是，如果没有使用`catch`方法指定错误处理的回调函数，`Promise`对象抛出的错误不会传递到外层代码，即不会有任何反应，`Promise`会吃掉错误。
+
+6. Promise 构造函数是同步执行，then方法是异步执行。

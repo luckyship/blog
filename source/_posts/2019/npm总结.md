@@ -86,6 +86,11 @@ photos:
 * 部分 npm 包在当前 node 版本下无法使用，必须使用建议版本
 * 安装报错时 install 肯定会出现 `npm-debug.log`  文件，`npm i`不一定
 
+npm install 步骤
+1. 查询node_modules目录之中是否已经存在指定模块
+2. 若存在，不再重新安装
+3. 若不存在npm 向 registry 查询模块压缩包的网址、下载压缩包，存放在根目录下的.npm目录里、解压压缩包到当前项目的node_modules目录
+
 ### 五. npm devDependencies 与 dependencies
 `--save-dev`
 

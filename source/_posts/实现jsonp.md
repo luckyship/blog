@@ -14,7 +14,7 @@ top: 112
 
 jsonp跨域其实也是JavaScript设计模式中的一种代理模式。
 在html页面中通过相应的标签从不同域名下加载静态资源文件是被浏览器允许的，所以我们可以通过这个“犯罪漏洞”来进行跨域。
-一般，我们可以动态的创建script标签，再去请求一个带参网址来实现跨域通信。
+一般，我们可以动态的创建script标签，再去请求一个带参网址来实现跨域通信。补充一点，JSONP不使用XMLHttpRequest对象加载资源，不属于真正意义上的AJAX。
 
 ```javascript
 // 实现目标
@@ -31,6 +31,7 @@ JSONP(url, {
 --- 
 <!-- more -->
 
+- 带参数
 ```javascript
 const JSONP = (url, jsonpObj) => {
   // 属性名 
@@ -62,10 +63,24 @@ const JSONP = (url, jsonpObj) => {
 JSONP.count = 0
 ```
 
+- easy模式
+```js
+function jsonp(url, jsonpCallback, success) {
+  const script = document.createElement('script')
+  script.src = url
+  script.async = true
+  script.type = 'text/javascript'
+  window[jsonpCallback] = function(data) {
+    success && success(data)
+  }
+  document.body.appendChild(script)
+}
+```
+
 - 简单的不传参数的jsonp实现
 ```js
 const jsonp = url => {
-  new Promise({resolve, reject} => {
+  new Promise((resolve, reject) => {
     // 创建标签
     const script = document.createElement('script')
     // 设置回调名

@@ -45,7 +45,7 @@ async function asyncPrint(value, ms) {
 asyncPrint('hello world', 50);
 ```
 
-### 错误处理(使用try-catch捕获)
+### 错误处理(使用try-catch捕获)可以给每个 await 后的 Promise 增加 catch 方法；也可以将 await 的代码放在 try...catch 中
 ```javascript
 async function f() {
     try {
@@ -105,6 +105,41 @@ let results = await Promise.all([
    fetch(url2),
    ...
 ])
+```
+
+## 简单实现async函数
+```js
+function spawn(genF) {
+    return new Promise(function(resolve, reject) {
+        const gen = genF();
+        function step(nextF) {
+            let next;
+            try {
+                next = nextF();
+            } catch (e) {
+                return reject(e);
+            }
+            if (next.done) {
+                return resolve(next.value);
+            }
+            Promise.resolve(next.value).then(
+                function(v) {
+                    step(function() {
+                        return gen.next(v);
+                    });
+                },
+                function(e) {
+                    step(function() {
+                        return gen.throw(e);
+                    });
+                }
+            );
+        }
+        step(function() {
+            return gen.next(undefined);
+        });
+    });
+}
 ```
 
 ## Promises 组合：Promise.all，Promise.allSettled， Promise.any

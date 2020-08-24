@@ -43,6 +43,8 @@ PWA是Progressive Web App的英文缩写，也就是渐进式增强WEB应用。�
 web worker
 web worker  是运行在后台的JavaScript，独立于其他脚本，不会影响页面的性能。
 
+应用场景：处理密集型数学计算、大数据集排序、数据处理(压缩、音频分析、图像处理等)、高流量网络通信
+
 浏览器一般有三类 web Worker
 
 - Dedicated Worker ：专用的 worker，只能被创建它的 JS 访问，创建它的页面关闭，它的生命周期就结束了。

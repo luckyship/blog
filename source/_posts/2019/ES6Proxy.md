@@ -188,3 +188,36 @@ proxy();
 
 Proxy 方法太多，这里只是将常用的简要介绍，更多请看阮一峰老师的 [《ECMAScript 6 入门》](https://link.juejin.im/?target=http%3A%2F%2Fes6.ruanyifeng.com%2F%23docs%2Fproxy)
 
+### 和Object.defineProperty()的对比
+defineProperty存在以下问题：
+1. 不能监听数组的变化
+2. 必须遍历对象的每个属性
+3. 必须深层遍历嵌套的对象(vue walk方法)
+
+也需要嵌套
+```js
+let obj = {
+  info: {
+    name: 'eason',
+    blogs: ['webpack', 'babel', 'cache']
+  }
+}
+let handler = {
+  get (target, key, receiver) {
+    console.log('get', key)
+    // 递归创建并返回
+    if (typeof target[key] === 'object' && target[key] !== null) {
+      return new Proxy(target[key], handler)
+    }
+    return Reflect.get(target, key, receiver)
+  },
+  set (target, key, value, receiver) {
+    console.log('set', key, value)
+    return Reflect.set(target, key, value, receiver)
+  }
+}
+let proxy = new Proxy(obj, handler)
+// 以下两句都能够进入 set
+proxy.info.name = 'Zoe'
+proxy.info.blogs.push('proxy')
+```
