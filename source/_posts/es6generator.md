@@ -111,3 +111,28 @@ async函数对 Generator 函数的改进，体现在以下四点：
 - 更好的语义
 - 更广的适用性
 - 返回值是Promise
+
+## 可迭代对象的特点
+1. 知道如何每次访问集合中的一项，并跟踪该序列中的当前位置
+2. 提供而next方法，来返回序列中的下一项(value, done)
+3. 迭代器一旦被创建，可以反复调用next
+
+```js
+function makeIterator(array){
+    var nextIndex = 0;
+    return {
+       next: function(){
+           return nextIndex < array.length ?
+               {value: array[nextIndex++], done: false} :
+               {done: true};
+       }
+    };
+}
+// 使用 next 方法依次访问对象中的键值
+var it = makeIterator(['step', 'by','step']);
+console.log(it.next().value); // 'step'
+console.log(it.next().value); // 'by'
+console.log(it.next().value); // 'step'
+console.log(it.next().value);  // undefined
+console.log(it.next().done); // true
+```

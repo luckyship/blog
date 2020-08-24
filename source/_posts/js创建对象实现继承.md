@@ -261,19 +261,6 @@ console.log(instance2.colors);//["red", "blue", "green", "black"]
 2. 来自原型对象的所有属性被所有实例共享（上诉例子中的color属性）
 3. 创建子类实例时，无法向父构造函数传参
 
-#### 圣杯模式
-```js
-var inherit = (function(c,p){
-	var F = function(){};
-	return function(c,p){
-		F.prototype = p.prototype;
-		c.prototype = new F();
-		c.uber = p.prototype;
-		c.prototype.constructor = c;
-	}
-})();
-```
-
 ### 组合继承(将原型链和借用构造函数的技术组合到一块。使用原型链实现对原型属性和方法的继承，而通过构造函数来实现对实例属性的继承)
 ```javascript
 function SuperType(name){  //父类（构造函数）
@@ -461,5 +448,26 @@ function createAnother(original){
 }
 ```
 缺点（同原型式继承）
+
+## ES5/ES6 的继承除了写法以外还有什么区别
+- ES5 的继承，实质是先创造子类的实例对象this，然后再将父类的方法添加到this上面（Parent.apply(this)）。
+```js
+function Super() {}
+function Sub() {}
+
+Sub.prototype = new Super();
+Sub.prototype.constructor = Sub;
+
+var sub = new Sub();
+
+Sub.__proto__ === Function.prototype;
+```
+
+- ES6 的继承机制完全不同，实质是先将父类实例对象的属性和方法，加到this上面（所以必须先调用super方法），然后再用子类的构造函数修改this。
+```js
+class A extends B{}
+A.__proto__ === B;  //继承属性
+A.prototype.__proto__ == B.prototype;//继承方法
+```
 
 `Happy Halloween!`

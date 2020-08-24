@@ -105,6 +105,16 @@ console.log(JSON.stringify(body)); // {"name":"ltaoo","skills":[null]}。
 > JSON.parse() 方法用来解析JSON字符串，构造由字符串描述的JavaScript值或对象。
 > 可以用来判断某个字符串是否符合JSON格式
 
+### 和XML的区别
+- 数据体积方面
+JSON相对于XML来讲，数据的体积小，传递的速度更快些。
+- 数据交互方面
+JSON与JavaScript的交互更加方便，更容易解析处理，更好的数据交互
+- 数据描述方面
+JSON对数据的描述性比XML较差
+- 传输速度方面
+JSON的速度要远远快于XML
+
 ## 总结
 
 JSON是日常开发中最常使用的，但仅限于“会用”，实际上JSON的用途已经不局限在“数据交换”，NoSQL、配置文件也有JSON的身影，深入了解是有必要的，毕竟看起来这么“简单”。

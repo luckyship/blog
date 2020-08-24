@@ -15,8 +15,7 @@ photos:
 {% endcenterquote %}
 
 每个对象都会在其内部初始化一个属性，就是prototype(原型)，当我们访问一个对象的属性时，
-如果这个对象内部不存在这个属性，那么它就会去prototype里找这个属性，这个prototype又会有自己的prototype，
-于是就这样一直找下去，也就是我们平时所说的原型链的概念
+如果这个对象内部不存在这个属性，那么它就会去prototype里找这个属性，这个prototype又会有自己的prototype，于是就这样一直找下去，也就是我们平时所说的原型链的概念
 
 - “prototype” 是什么？
 prototype 是所有公共方法和属性的宿主，从祖先派生的“子”对象可以从使用祖先的方法和属性。
@@ -108,7 +107,7 @@ var person = new Person();
 
 console.log(person.__proto__ == Person.prototype); // true
 console.log(Person.prototype.constructor == Person); // true
-// 顺便学习一个ES5的方法,可以获得对象的原型 实例原型的constructor指向构造函数,构造函数的prototype指向实例原型,实例对象的__proto__指向实例原型,实例原型也是对象,它也有原型 最后的一个环节是null。访问实例对象的constructor时,也能从实例原型上去找,从而指向到构造函数。
+// 顺便学习一个ES5的方法,可以获得对象的原型 实例原型的constructor指向构造函数,构造函数的prototype指向实例原型,实例对象的__proto__指向实例原型,实例原型也是对象,它也有原型 最后的一个环节是null。访问实例对象的constructor时,也能从实例原型上去找,从而指向到构造函数。是一个用来实现继承和共享属性的有限的对象链。
 console.log(Object.getPrototypeOf(person) === Person.prototype); // true
 ```
 
