@@ -10,7 +10,7 @@ top: 107
 photos:
 ---
  
-1. 正则(xxx?typeId=1)
+1. 正则(xxx?typeId=2)
 ```javascript
 function getQueryString(name) {
     var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');

@@ -2725,6 +2725,9 @@ Object.getProtorypeOf(p)
 - 如何搭建前端监控体系
 - 随机应变
 
+- 人才的定义，想招什么样的人
+过硬的技术基础外，还需要有良好的表达能力、处事能力等软实力。
+
 ### 工具
 短命令行工具、自动化上传部署、i18n词条翻译、eslint校验目录格式、chrome插件、模板编译、axios封装、基建
 
@@ -3103,3 +3106,43 @@ Immutable对象在修改数据时并不会复制一整份数据，而是将变�
 ### 100 * 100 的 Canvas 占内存多大
 我们在定义颜色的时候就是使用 rgba(r,g,b,a) 四个维度来表示，而且每个像素值就是用十六位 00-ff 表示，即每个维度的范围是 0~255，即 2^8 位，即 1 byte, 也就是 Uint8 能表示的范围。
 所以 100 * 100 canvas 占的内存是 100 * 100 * 4 bytes = 40,000 bytes
+
+### 实现Object.create
+```js
+function create(proto) {
+  function Fn() {}
+  Fn.prototype = proto
+  Fn.prototype.constructor = Fn
+  return new Fn()
+}
+```
+
+### 10进制转换
+```js
+function Conver(number, base = 2) {
+  let rem, res = '', digits = '0123456789ABCDEF', stack = [];
+
+  while (number) {
+    rem = number % base;
+    stack.push(rem);
+
+    number = Math.floor(number / base);
+  }
+
+  while (stack.length) {
+    res += digits[stack.pop()].toString();
+  }
+  
+  return res;
+}
+```
+
+### 相邻的两个inline-block节点出现间隔的原因以及解决方法
+原因：元素被当成行内元素排版的时候，原来HTML代码中的回车换行被转成一个空白符，在字体不为0的情况下，空白符占据一定宽度，所以inline-block的元素之间
+就出现了空隙。这些元素之间的间距会随着字体的大小而变化，当行内元素font-size:16px时，间距为8px。
+
+解决方案：
+1. 给父级元素设置font-size： 0；子元素设置相应的font-size
+2. 改变书写方式(去掉空格)
+3. margin负值和字体大小有关不推荐
+4. 设置父元素，display:table和word-spacing:0
