@@ -299,6 +299,12 @@ function addZ(num,len=2){
     } 
     return num 
 }
+
+function keepDecimal (num, len=2) {
+    let result = parseFloat(num)
+    result = Math.round(num * 10**len) / (10**len)
+    return result
+}
 ```
 
 ## 统计相同项(reduce)

@@ -2023,8 +2023,11 @@ function createAndDownloadFile(fileName, filePath) {
     const aTag = document.createElement('a');
     const blob = new Blob([filePath]);
     aTag.download = `${fileName}.json`;
+    aTag.style.display = "none";
     aTag.href = URL.createObjectURL(blob);
+    document.body.appendChild(aTag);
     aTag.click();
+    document.body.removeChild(aTag)
     URL.revokeObjectURL(blob);
 }
 ```
@@ -3411,3 +3414,9 @@ encodeURIComponent(window.location.href.split('#')[0])
 ![github](https://cdn.jsdelivr.net/npm/simple-icons@3.1.0/icons/github.svg)
 
 ![github](http://simpleicons.p2hp.com/icons/github.svg)
+
+## Promise题目
+```js
+Promise.resolve(1).then(2).then(Promise.resolve(3)).then(console.log)
+// 1 then的参数为回调函数 then(2)就断掉了 链式调用
+```
