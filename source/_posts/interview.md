@@ -3119,7 +3119,7 @@ function create(proto) {
 
 ### 10进制转换
 ```js
-function Conver(number, base = 2) {
+function convert(number, base = 2) {
   let rem, res = '', digits = '0123456789ABCDEF', stack = [];
 
   while (number) {

@@ -91,6 +91,15 @@ function getCookie3(name) {
   return v ? v[2] : null;
 }
 
+const cookie = (n, v) => {
+  if (typeof v !== 'undefined') {
+    window.document.cookie = [n, '=', encodeURIComponent(v)].join('')
+  } else {
+    v = window.document.cookie.match(new RegExp(`(?:\\s|^)${n}\\=([^;]*)`))
+    return v ? decodeURIComponent(v[1]) : null
+  }
+}
+
 // 检测cookie函数
 function checkCookie()
 {
