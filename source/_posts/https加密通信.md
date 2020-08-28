@@ -9,13 +9,15 @@ categories: 知识
 photos:
 ---
 
-https其实是有两部分组成：http + SSL / TLS，也就是在HTTP上又加了一层处理加密信息的模块。服务端和客户端的信息传输都会通过TLS进行加密，所以传输的数据都是加密后的数据。
+https其实是有两部分组成：http + SSL / TLS加密数据包，也就是在HTTP上又加了一层处理加密信息的模块。服务端和客户端的信息传输都会通过TLS进行加密，所以传输的数据都是加密后的数据。
 
 https比http要占用更多的资源，http使用TCP 三次握手建立连接，客户端和服务器需要交换3个包，https除了 TCP 的三个包，还要加上 ssl握手需要的9个包，所以一共是12个包。
 
 > SSL的全称是Secure Sockets Layer，即安全套接层协议，是为网络通信提供安全及数据完整性的一种安全协议。SSL最新的版本是3.0。TLS的全称是Transport Layer Security，即安全传输层协议，是建立在SSL 3.0协议规范之上，是SSL 3.0的后续版本。
 
 SSL/TLS = 非对称加密（如RSA、ECC） + 对称加密（如AES、DES） + 散列算法（如MD5）
+
+> 1.对数据加密 2.验证网站服务器身份
 ---
 
 <!-- more -->
