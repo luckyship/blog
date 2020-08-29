@@ -20,6 +20,13 @@ Vue中先遍历data选项中所有的属性（发布者）用Object.defineProper
 
 组件在挂载过程中都会new一个Watcher实例。这个实例就是依赖（订阅者）。Watcher第二参数是一个函数，此函数作用是更新且渲染节点。在首次渲染过程，会自动调用Dep方法来收集依赖，收集完成后组件中每个数据都绑定上该依赖。当数据变化时就会在setter中通知对应的依赖进行更新。在更新过程中要先读取数据，就会触发Wacther的第二个函数参数。一触发就再次自动调用Dep方法收集依赖，同时在此函数中运行patch（diff运算)来更新对应的DOM节点，完成了双向绑定。
 
+
+### Object.defineProperty()实现双向绑定的缺点
+1. 只能监听某个属性，不能监听整个对象
+2. 需要使用for in遍历对象属性绑定监听
+3. 不能监听数组，需要重写数组方法进行特异性操作
+4. 会污染原对象
+
 ---
 <!--more-->
 
@@ -76,7 +83,7 @@ style也可以通过对象语法和数组语法进行动态绑定
 - 但我们需要在数据变化时执行异步或开销较大的操作时应该使用watch，使用watch选项允许我们执行异步操作，限制我们执行该操作的频率，并在我们得到最终结果前，设置中间状态，这些都是计算属性无法做到的。
 
 ### 直接给一个数组项赋值，vue能检测到吗
-- 由于js的限制(引用类型)，vue不能检测到以下数组的变动(对象属性的提娜及和删除)：
+- 由于js的限制(引用类型)，vue不能检测到以下数组的变动(对象属性的添加和删除)：
 
 - 当你利用索引直接设置一个数组项时，例如vm.item[indexOfItem] = newValue
 - 当你修改数组的长度时，例如vm.items.length = newLength
@@ -86,6 +93,14 @@ style也可以通过对象语法和数组语法进行动态绑定
 Vue.set(vm.items, indexOfItem, newValue)
 
 Vue.$set(vm.items, indexOfItem, newValue)
+
+Vue.$set(this.data,”key”,value) // 动态添加单个属性
+
+// 动态添加多个属性 
+this.obj = Object.assign({}, this.obj, {
+  age: 18,
+  name: 'Chocolate',
+})
 
 Vue.items.splice(indexOfItem, 1, newValue)
 ```
@@ -111,6 +126,8 @@ mounted() {
     // Vue.delete
 },
 ```
+### delete和Vue.delete的区别
+delete 只是被删除的元素变成了empty/undefined，其他元素的键值还是不变的。而Vue.delete直接删除了数组，改变了数组的键值。
 
 ### vue生命周期的理解（10个）
 - 生命周期是什么
@@ -256,6 +273,8 @@ Vue.prototype.$destory = function() {
 
 - 能更快的获取到服务端数据，减少页面loading时间
 - ssr不支持beforeMount，mounted钩子函数，所以放在created中有助于一致性
+
+- mounted里能够操作dom
 
 ### 在什么阶段才能访问操作DOM
 在钩子函数mounted被调用之前，vue已经把编译好的模板挂载到页面上，所以在mounted中可以访问操作dom，vue具体的生命周期。
@@ -545,6 +564,15 @@ const router = new VueRouter({
 注册在router-link上事件无效解决方法:
 使用@click.native。原因：router-link会阻止click事件，.native指直接监听一个原生事件
 
+在ie和firefox无效：
+1. 使用a标签不用Button
+2. 使用Button和Router.navigate方法
+
+### params和query的区别
+query需要path引入，params需要name引入
+this.$route.query.name、this.$route.params.query
+注意点：query刷新不会丢失query数据，params刷新会丢失数据
+
 ### 组件内监听路由的变化
 只能用在包含<router-view />的组件内
 1. 
@@ -647,9 +675,9 @@ this.$router.push({ path:'home' })
 this.$router.replace({ path: '/home' })
 this.$router.push({name:'组件名')};
 ```
-router和route的区别
-> route为当前router跳转对象里面可以获取name、path、query、params等
-> router为VueRouter实例，想要导航到不同URL，则使用router.push方法
+$router和$route的区别
+> $route为当前router跳转对象，里面可以获取name、path、query、params等
+> $router为VueRouter实例，想要导航到不同URL，则使用router.push方法，返回上一个历史$router.to(-1)
 
 ### 打开新窗口
 ```js
@@ -1254,12 +1282,12 @@ inject:{
 
 > 建议：将图片等未处理的文件放在assets中，打包减少体积。而对于第三方引入的一些资源文件如iconfont.css等可以放在static中，因为这些文件已经经过处理了。
 
-### slot插槽
+### slot插槽分发
 很多时候，我们封装了一个子组件之后，在父组件使用的时候，想添加一些dom元素，这个时候就可以使用slot插槽了，但是这些dom是否显示以及在哪里显示，则是看子组件
 中slot组件的位置了。
 
 ### v-clock指令的作用
-- 解决页面闪烁问题
+- 解决页面闪烁问题(会显示插值表达式{{message}})
 如果网速慢，而该标签内容是变量没有请求响应回来的时候，页面上先不显示该标签（vue给该标
 签加了css样式），当响应回来的时候改标签默认将css样式去除。
 
@@ -1274,6 +1302,11 @@ style属性为display：none
     display: none;
 }
 ```
+
+### 封装vue组件的过程
+1. 建立组件模板、架子写写样式，考虑好组件的基本逻辑
+2. 准备好组件的数据输入，定好props里面的数据、类型
+3. 准备好组价的数据输出，定好暴露出来的方法
 
 ### 常用UI库
 #### 移动端
@@ -1299,6 +1332,18 @@ installation）
 
 ### 常用配置
 #### publicPath
+1. cli2 config/index.js
+```js
+build: {
+    assetsPublicPath: './'
+}
+```
+2. cli3 vue.config.js
+```js
+module.exports = {
+    publicPath: './'
+}
+```
 部署应用包时的基本 URL。默认情况下，Vue CLI会假设你的应用是被部署在一个域名的根路径
 上，例如https://www.my-app.com/。如果应用被部署在一个子路径上，
 你就需要用这个选项指定这个子路径。例如，如果你的应用被部署在https://www.my-app.

@@ -105,3 +105,22 @@ const jsonp = url => {
 
 jsonp('').then(console.log)
 ```
+
+## 服务端实现jsonp
+- express
+```js
+/* 服务端相关操作，以express为例 */
+let express = require('express')
+let app = express()
+const port = '3000'
+app.get('/',function(req,res){
+  let {a,b,callback} = req.query
+  console.log(a)
+  console.log(b)
+  // 注意，返回给script标签，浏览器直接把这部分字符串执行
+  res.send(`${callback}('数据包')`)
+})
+app;listen(port)
+```
+
+和CORS相比，JSONP 最大的优势在于兼容性好，IE 10以下低版本不能使用 CORS 但可以使用 JSONP，缺点也很明显，请求方法单一，只支持 GET 请求。

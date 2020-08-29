@@ -700,6 +700,14 @@ StrictMode是一种辅助组件，可以帮助编写更好的组件。
   - react事件机制采用了事件池，大大节省内存
   - 方便事件的统一管理
 
+- react处理阻止冒泡
+```js
+// 阻止事件冒泡，（阻止这个合成事件，往document上冒泡，因此不会触发click方法）
+e.stopPropagation();
+// 阻止合成事件间的冒泡，不会往最外层冒了
+e.nativeEvent.stopImmediatePropagation();
+```
+
 ### 常用UI库
 
 - 移动端
