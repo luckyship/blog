@@ -3419,4 +3419,6 @@ encodeURIComponent(window.location.href.split('#')[0])
 ```js
 Promise.resolve(1).then(2).then(Promise.resolve(3)).then(console.log)
 // 1 then的参数为回调函数 then(2)就断掉了 链式调用
+// 可选链
+a?.b?.c 
 ```

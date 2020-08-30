@@ -130,7 +130,7 @@ focus = () => {
 ### 怎么阻止组件的渲染
 在组件的 `render` 方法中返回 `null` 并不会影响触发组件的生命周期方法
 
-### eact 与 vue 数组中 key 的作用是什么
+### react 与 vue 数组中 key 的作用是什么
 diff算法需要比对虚拟dom的修改，然后异步的渲染到页面中，当出现大量相同的标签时，vnode会首先判断key和标签名是否一致，如果一致再去判断子节点一致，使用key可以帮助diff算法提升判断的速度，在页面
 重新渲染时更快消耗更少。
 
@@ -213,13 +213,53 @@ redux-promise：处理异步操作，actionCreator的返回值是promise
 * [React Spotify](https://github.com/Pau1fitz/react-spotify)
 * [React Soundcloud](https://github.com/andrewngu/sound-redux)
 
-### 虚拟dom 普通的js对象
+### 虚拟dom(虚拟节点)是用JS对象来模拟真实DOM中的节点
 虚拟dom相当于在js和真实dom中间加了一个缓存，利用dom diff算法避免了没有必要的dom操作，从而提高性能。具体实现步骤如下：用 JavaScript 对象结构表示 DOM 树的结构；然后用这个树构建一个真正的 DOM 树，插到文档当中当状态变更的时候，重新构造一棵新的对象树。然后用新的树和旧的树进行比较，记录两棵树差异把2所记录的差异应用到步骤1所构建的真正的DOM树上，视图就更新了。插入新组件有了key可以帮助react找到映射。
+
+- 真实的元素节点
+```html
+<div id="wrap">
+    <p class="title">Hello world!</p>
+</div>
+```
+
+- vnode
+```js
+{
+    tag:'div',
+    attrs:{
+        id:'wrap'
+    },
+    children:[
+        {
+            tag:'p',
+            text:'Hello world!',
+            attrs:{
+                class:'title',
+            }
+        }
+    ]
+}
+```
+
+### 为什么使用虚拟dom
+起初我们在使用JS/JQuery时，不可避免的会大量操作DOM，而DOM的变化又会引发回流或重绘，从而降低页面渲染性能。那么怎样来减少对DOM的操作呢？此时虚拟DOM
+应用而生，所以虚拟DOM出现的主要目的就是`为了减少频繁操作DOM而引起回流重绘所引发的性能问题的`
+
+### 虚拟dom的作用
+兼容性好。因为Vnode本质是JS对象，所以不管Node还是浏览器环境，都可以操作；
+减少了对Dom的操作。页面中的数据和状态变化，都通过Vnode对比，只需要在比对完之后更新DOM，不需要频繁操作，提高了页面性能。
 
 ### 事件委托
 每个setState重新渲染整个子树标记为dirty。 如果要压缩性能，请尽可能调用 setState，并使用shouldComponentUpdate 来防止重新渲染大型子树。把树形结构按照层级分解，只比较同级元素。给列表结构的每个单元添加唯一的key属性，方便比较。pureComponent(浅比较)+immutable 替换成preact
 
 ### diff算法 
+> 一开始会根据真实DOM生成虚拟DOM，当虚拟DOM某个节点的数据改变后会生成一个新的Vnode，然后VNode和oldVnode对比，把不同的地方修改在真实DOM上，最后再使得oldVnode的值为Vnode。
+
+`diff过程就是调用patch函数，比较新老节点，一边比较一边给真实DOM打补丁(patch)；`
+
+![patch](http://cdn.mydearest.cn/blog/images/patch.png)
+
 把树形结构按照层级分解，只比较同级元素。
 
 给列表结构的每个单元添加唯一的key属性，方便比较。

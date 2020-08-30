@@ -246,6 +246,12 @@ module.exports = {
 ### 热替换HMR 只支持inline模式
 > webpack-dev-server --inline --hot
 
+### 哈希值计算方式
+webpack给我们提供了三种哈希值计算方式，分别是 hash 、chunkhash 和 contenthash。
+- hash：跟整个项目的构建相关，构建生成的文件hash值都是一样的，只要项目里有文件更改，整个项目构建的hash值都会更改。
+- chunkhash：根据不同的入口文件(Entry)进行依赖文件解析、构建对应的chunk，生成对应的hash值。
+- contenthash：由文件内容产生的hash值，内容不同产生的contenthash值也不一样。
+
 ### devServer配置
 - devServer.compress， 启用gzip压缩。
 - devServer.contentBase，告诉服务器从哪里提供内容。 只有在你想要提供静态文件时才需要。
