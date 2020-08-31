@@ -264,3 +264,10 @@ this.httpClient.request(UserService.METHOD_POST, url, options).subscribe((data)=
 3、部分npm包在当前node版本下无法使用，必须使用建议版本
 
 4、安装报错时intall肯定会出现npm-debug.log 文件，npm i不一定
+
+## npm install 的执行过程
+1. 发出npm install命令
+2. 查询 node_modules 目录之中是否已经存在指定模块
+3. 若存在，不再重新安装
+4. 若不存在npm 向 registry 查询模块压缩包的网址下载压缩包，存放在根目录下的.npm目录里
+5. 解压压缩包到当前项目的 node_modules 目录
