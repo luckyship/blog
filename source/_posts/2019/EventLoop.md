@@ -83,17 +83,12 @@ Loop（事件循环）
 **精炼**事件循环是指: 执行一个宏任务，然后执行清空微任务列表，循环再执行宏任务，再清微任务列表。
 
 ### Node 的 Event Loop: 6个阶段
-- timer 阶段: 执行到期的setTimeout / setInterval队列回调
-- I/O 阶段: 执行上轮循环残留的callback
-- idle, prepare
-- poll: 等待回调
-  - 执行回调
-  - 执行定时器
-    - 如有到期的setTimeout / setInterval， 则返回 timer 阶段
-    - 如有setImmediate，则前往 check 阶段
-- check
-  - 执行setImmediate
-- close callbacks
+- Timers: 定时器 Interval Timoout 回调事件，将依次执行定时器回调函数
+- Pending: 一些系统级回调将会在此阶段执行
+- Idle,prepare: 此阶段"仅供内部使用"
+- Poll: IO回调函数，这个阶段较为重要也复杂些，
+- Check: 执行 setImmediate() 的回调
+- Close: 执行 socket 的 close 事件回调
 
 ### 区别总结
 ![eventloop-diff](http://cdn.mydearest.cn/blog/images/eventloop-diff.png)

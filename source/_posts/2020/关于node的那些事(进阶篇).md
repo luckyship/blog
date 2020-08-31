@@ -67,7 +67,11 @@ res.redirect(301, 'http://baidu.com');
 众所周知，nodejs是基于chrome浏览器的V8引擎构建的，一个nodejs进程只能使用一个CPU(一个CPU运行一个node实例)，举个例子：我们现在有一台8核的服务器，
 那么如果不利用多核CPU，是很一种浪费资源的行为，这个时候可以通过启动多个进程来利用多核CPU。
 
-Node.js给我们提供了cluster模块，用于nodejs多核处理，同时可以通过它来搭建一个用于负载均衡的node服务集群。
+Node.js给我们提供了cluster模块，用于nodejs多核处理，同时可以通过它来搭建一个用于负载均衡的node服务集群。创建多进程。
+
+> 本质还是通过 child_process.fork() 专门用于衍生新的 Node.js 进程,衍生的 Node.js 子进程独立于父进程，但两者之间建立的 IPC 通信通道除外， 每
+个进程都有自己的内存，带有自己的 V8 实例
+
 ```js
 const cluster = require('cluster')
 const os = require('os')
@@ -98,7 +102,30 @@ lsof -i -P -n | grep 3000
 ps -ef | grep pid
 ```
 
-Master 通过 cluster.fork() 这个方法创建的，本质上还是使用的 child_process.fork()
+## 开启多个子线程
+```js
+const {
+    Worker, isMainThread, parentPort, workerData
+} = require('worker_threads');
+const worker = new Worker(__filename, {
+    workerData: script
+});
+```
+
+- 线程间如何传输数据: parentPort postMessage on 发送监听消息
+- 共享内存： SharedArrayBuffer 通过这个共享内存
+
+- 在服务中若需要执行 shell 命令，那么就需要开启一个进程
+```js
+var exec = require('child_process').exec;
+exec('ls', function(error, stdout, stderr){
+    if(error) {
+        console.error('error: ' + error);
+        return;
+    }
+    console.log('stdout: ' + stdout);
+});
+```
 
 ## node是怎样支持https?
 https实现，离不开证书，通过openssl生成公钥私钥（不做详细介绍），然后基于 express的 https模块 实现，设置options配置, options有两个选项，一个是
@@ -125,3 +152,42 @@ app.all('*', function (req, res, next) {
 ## 两个node程序之间怎样交互?
 通过fork，原理是子程序用process.on来监听父程序的消息，用 process.send给子程序发消息，父程序里用child.on,child.send进行交互，来实现父进程和子
 进程互相发送消息。
+
+## 执行中间件（洋葱模型）
+我们通过 use 注册中间件，中间件函数有两个参数第一个是上下文，第二个是 next，在中间件函数执行过程中，若遇到 next() ，那么就会进入到下一个中间件中执
+行，下一个中间执行完成后，在返回上一个中间件执行 next() 后面的方法，这便是中间件的执行逻辑。
+
+## 介绍下 stream
+
+流在 nodejs 用的很广泛，但对于大部分开发者来说，更多的是使用流，比如说 HTTP 中的 request respond ，标准输入输出，文件读取
+（createReadStream）， gulp 构建工具等等。
+流，可以理解成是一个管道，比如读取一个文件，常用的方法是从硬盘读取到内存中，在从内存中读取，这种方式对于小文件没问题，但若是大文件，效率就非常低，还有
+可能内存不足，采用流的方式，就好像给大文件插上一根吸管，持续的一点点读取文件的内容，管道的另一端收到数据，就可以进行处理，了解 Linux 的朋友应该非常熟
+悉这个概念。
+
+
+- Node.js 中有四种基本的流类型：
+
+1. Writable - 可写入数据的流（例如 fs.createWriteStream()）。
+2. Readable - 可读取数据的流（例如 fs.createReadStream()）。
+3. Duplex - 可读又可写的流（例如 net.Socket）。
+4. Transform - 在读写过程中可以修改或转换数据的 Duplex 流（例如 zlib.createDeflate()）。接触比较多的还是第一二种pipe 来消费可读流
+
+```js
+const fs = require('fs');
+// 直接读取文件
+fs.open('./xxx.js', 'r', (err, data) => {
+    if (err) {
+        console.log(err)
+    }
+    console.log(data)
+})
+// 流的方式读取、写入
+let readStream = fs.createReadStream('./a.js');
+let writeStream = fs.createWriteStream('./b.js')
+readStream.pipe(writeStream).on('data', (chunk) => { // 可读流被可写流消费
+    console.log(chunk)
+    writeStream.write(chunk);
+}).on('finish', () => console.log('finish'))
+```
+

@@ -130,7 +130,7 @@ mounted() {
 delete 只是被删除的元素变成了empty/undefined，其他元素的键值还是不变的。而Vue.delete直接删除了数组，改变了数组的键值。
 
 ### vue生命周期的理解（10个）
-- 生命周期是什么
+- 生命周期是什么(创建到销毁的过程)
 vue实例有一个完整的生命周期，也就是从开始创建，初始化数据，编译模板，挂载dom->渲染更新->渲染卸载等一些过程，我们称这是vue的生命周期
 
 - 各个生命周期的作用
@@ -1393,3 +1393,76 @@ proxy: {
     }
 }
 ```
+
+### vue3
+1. createApp
+- vue2.x
+```js
+import Vue from "vue";
+import App from './App.vue'
+
+new Vue({
+  render: (h) => h(App)
+}).$mount("#app");
+```
+
+- vue3新特性
+> createApp 会产生一个 app 实例，该实例拥有全局的可配置上下文
+```js
+import { createApp } from 'vue'
+import App from './App.vue'
+
+createApp(App).mount('#app')
+```
+
+2. globalProperties
+```js
+app.config.globalProperties.foo = 'bar'
+
+app.component('child-component', {
+  mounted() {
+    console.log(this.foo) // 'bar'
+  }
+})
+```
+> 添加可在程序内的任何组件实例中访问的全局属性。当存在键冲突时，组件属性将优先替代掉Vue2.x的 Vue.prototype属性放到原型上的写法
+
+```js
+// Vue2.x
+Vue.prototype.$http = () => {}
+
+// Vue3
+const app = Vue.createApp({})
+app.config.globalProperties.$http = () => {}
+```
+
+3. 更快
+
+- 重写虚拟DOM (Virtual DOM Rewrite)
+
+随着虚拟 DOM 重写，我们可以期待更多的 编译时（compile-time）提示来减少 运行时（runtime）开销。重写将包括更有效的代码来创建虚拟节点。
+
+- 优化插槽生成(Optimized Slots Generation)
+
+在当前的 Vue 版本中，当父组件重新渲染时，其子组件也必须重新渲染。 使用 Vue 3 ，可以单独重新渲染父组件和子组件。
+
+- 静态树提升(Static Tree Hoisting)
+
+使用静态树提升，这意味着 Vue 3 的编译器将能够检测到什么是静态组件，然后将其提升，从而降低了渲染成本。它将能够跳过未整个树结构打补丁的过程。
+
+- 静态属性提升（Static Props Hoisting）
+
+此外，我们可以期待静态属性提升，其中 Vue 3 将跳过不会改变节点的打补丁过程。
+
+- 基于 Proxy 的观察者机制
+
+- 更小
+Vue已经非常小了，在运行时（runtime）压缩后大约 20kb 。 但我们可以期待它会变得更加小，新的核心运行时压缩后大概 10kb 。
+- 使其更具可维护性
+不仅会使用 TypeScript（允许在编辑器中进行高级的类型检查和有用的错误和警告） ，而且许多软件包将被解耦，使所有内容更加模块化。
+- 更多的原生支持
+运行时内核也将与平台无关，使得 Vue 可以更容易地与任何平台（例如Web，iOS或Android）一起使用。
+- 更易于开发使用
+当我们需要在 Vue 中共享两个组件之间的行为时，我们通常使用 Mixins 。然而，Evan 正在尝试使用 Hooks API 来避免来自 Mixins 的一些问题，并且更适合
+- 使用惯用的 Vue 代码。
+使用 Time Slicing，将 JS 的执行分解为几个部分，如果有用户交互需要处理，这些部分将提供给浏览器。
