@@ -1091,7 +1091,8 @@ obj.addEventListener("contextmenu",function(){})
 onabort // 用于img加载终止 alt title onerror发生错误
 onhashchange // 路由锚点变化
 onfocusin // 支持冒泡的onfocus
-oninput // input onchange失去焦点触发
+oninput // input onchange失去焦点触发 
+onpropertychange// input 会实时触发，会在元素的属性改变时就触发事件当元素disable=true时不会触发只在IE 下支持，其他浏览器不支持，用oninput来解决
 onreset // form表单被重置触发 input type="reset"
 onsearch // input type search 搜索事件
 onsubmnit // form 提交 action

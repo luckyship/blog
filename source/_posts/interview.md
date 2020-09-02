@@ -2407,6 +2407,7 @@ p {
 ```css
 p {
     transform: scaleY(0.5);
+    /* 设置基点 */
     transform-origin: 50% 100%;
 }
 ```
@@ -2417,7 +2418,10 @@ p {
 
 创建动画序列，需要使用animation属性或者其子属性，该属性允许配置动画时间、时长以及其他动画细节，但该属性不能配置动画的实际表现。动画的实际表现是由@keyframes规则实现
 
-transition也可以实现动画，transition强调过渡，是元素的一个或多个属性发生变化时产生的过渡效果，同一个元素通过两个不同途径获取样式，而第二个途径当某种改变发生时才能获取样式，这样就会产生过渡动画
+transition也可以实现动画，transition强调过渡，是元素的一个或多个属性发生变化时产生的过渡效果，同一个元素通过两个不同途径获取样式，而第二个途径当某种改变发生时才能获取样式，这样就会产生过渡动画。transition多个属性用逗号隔开。
+```css
+transition: transform 2s ease,border-radius 3s ease-out;
+```
 
 ## 关于js动画和css3动画的差异性
 渲染线程分为main thread和compositor thread。如果css动画只改变transform和opacity，这时候整个css动画在compositor thread得以完成（而js动画会在main thread执行然后compositor thread进行下一步操作），特别注意的是如果改变transform和opacity是不会layout和paint的.
