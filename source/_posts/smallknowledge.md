@@ -3423,3 +3423,13 @@ Promise.resolve(1).then(2).then(Promise.resolve(3)).then(console.log)
 // 可选链
 a?.b?.c 
 ```
+
+## mock总结
+### json-server
+mock文件夹配置db.json
+```js
+{
+  "rankList": []
+}
+// 访问localhost:port/api/rankList
+```

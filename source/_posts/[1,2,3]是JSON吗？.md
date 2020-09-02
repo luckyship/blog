@@ -52,7 +52,7 @@ B: “啊，是吗？”
 ```javascript
 {
     "person": {
-        "name": "ltaoo",
+        "name": "cosyer",
         "age": 18,
         "skills": ["javascript", "html", "css"]
     },
@@ -66,7 +66,7 @@ B: “啊，是吗？”
 ```javascript
 // 一个简单的 post 请求
 const body = {
-    name: 'ltaoo',
+    name: 'cosyer',
     age: 18
 };
 
@@ -81,24 +81,24 @@ fetch('https://easy-mock.com/mock/5a1d30028e6ddb24964c2d91/business/api/login', 
 ```
 
 > 但实际上并没有将参数传递过去，即Headers中并不存在Request Payload，需要将body使用JSON.stringify()方法转换为一个字符串后，才能成功传递。
-body:JSON.stringify(body) or '{"name": 'ltaoo',"age": 18}'
+body:JSON.stringify(body) or '{"name": 'cosyer',"age": 18}'
 
 但两者还是有区别的
 
 ```javascript
 const body = {
-    name: 'ltaoo',
+    name: 'cosyer',
     skills: undefined,
 };
-console.log(JSON.stringify(body)); // {"name":"ltaoo"}
+console.log(JSON.stringify(body)); // {"name":"cosyer"}
 ```
 
 ```javascript
 const body = {
-    name: 'ltaoo',
+    name: 'cosyer',
     skills: [undefined],
 };
-console.log(JSON.stringify(body)); // {"name":"ltaoo","skills":[null]}。
+console.log(JSON.stringify(body)); // {"name":"cosyer","skills":[null]}。
 ```
 
 ### JSON.parse
