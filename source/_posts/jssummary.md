@@ -1018,6 +1018,23 @@ new Promise((resolve) => {
 }).then((data) => {
     console.log(data)
 })
+
+function Promise(fn) {
+  var value = null,
+      callbacks = [];  //callbacks为数组，因为可能同时有很多个回调
+
+  this.then = function (onFulfilled) {
+      callbacks.push(onFulfilled);
+  };
+
+  function resolve(value) {
+      callbacks.forEach(function (callback) {
+          callback(value);
+      });
+  }
+
+  fn(resolve);
+}
 ```
 - 简单版
 ```js
