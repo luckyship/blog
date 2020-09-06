@@ -3433,3 +3433,24 @@ mock文件夹配置db.json
 }
 // 访问localhost:port/api/rankList
 ```
+
+## 点击input事件触发的顺序
+```js
+const text = document.getElementById('text');
+text.onclick = function (e) {
+  console.log('onclick')
+}
+text.onfocus = function (e) {
+  console.log('onfocus')
+}
+text.onmousedown = function (e) {
+  console.log('onmousedown')
+}
+text.onmouseenter = function (e) {
+  console.log('onmouseenter')
+}
+// onmouseenter
+// onmousedown
+// onfocus
+// onclick
+```

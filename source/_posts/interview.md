@@ -590,6 +590,7 @@ CommonJS 不一样。JS 引擎对脚本静态分析的时候，遇到模块加�
 ## null和undefined
 - null         表示一个对象是“没有值”的值，也就是值为“空”；
 - undefined     表示一个变量声明了没有初始化(赋值)；
+> Number(null)为0，而undefined为NaN
 
 ## json的理解？
 - JSON（轻量级的数据交换格式），基于JS的子集，数据格式简单，易于读写，占用带宽小。
