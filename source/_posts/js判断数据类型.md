@@ -15,7 +15,7 @@ top: 115
 
 > 对于Array,null等特殊对象使用typeof一律返回object，这正是typeof的局限性。
 
-> 在判断除Object类型的对象(基本类型)时比较方便。
+> typeof表示是对某个变量类型的检测，基本数据类型除了null都能正常的显示为对应的类型，引用类型除了函数会显示为'function'，其它都显示为object。
 
 ```javascript
 var fn = new Function ('a', 'b', 'return a + b')

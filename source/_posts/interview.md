@@ -115,6 +115,12 @@ console.log(typeof Date);          //function
 事件捕获是不太具体的元素应该更早接受到事件，而最具体的节点应该最后接收到事件。他们的用意是在事件到达目标之前就捕获它。
 事件冒泡：事件开始时由最具体的元素接收，然后逐级向上传播到较为不具体的节点（文档）。
 
+> 并不是所有的事件都能冒泡
+- onblur
+- onfocus
+- onmouseenter
+- onmouseleave
+
 ![boardcast](http://cdn.mydearest.cn/blog/images/boardcast.png)
 
 ```html
@@ -358,6 +364,14 @@ Person.prototype.age = 18;
 - 将空对象的__proto__指向构造函数的 prototype：obj.__proto__ = Person().prototype
 
 - 使用空对象作为上下文调用构造函数： Person.call(obj)
+
+```js
+function myNew (fn, ...args) {
+  let instance = Object.create(fn.prototype);
+  let result = fn.call(instance, ...args)
+  return typeof result === 'object' ? result : instance;
+}
+```
 
 ## 事件委托的好处都有啥？说对了都给它=3=
 - 利用冒泡的原理，把事件加到父级上，触发执行效果  
