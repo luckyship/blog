@@ -191,11 +191,21 @@ async function middleware(ctx, next) {
 - express 中间件：是通过 next 的机制，即上一个中间件会通过 next 触发下一个中间件
 - koa2 中间件：是通过 async await 实现的，中间件执行顺序是“洋葱圈”模型（推荐）
 
-1. express大而全有路由，而koa2小而精通过中间件
-2. koa2使用async await，express next
-3. koa2有洋葱模型和ctx上下文，express没有
+1. 语法区别
+experss 异步使用 回调
+koa1 异步使用 generator + yield
+koa2 异步使用 await/async
 
-koa2和egg的区别
+2. 中间件区别
+koa采用洋葱模型，进行顺序执行，出去反向执行，支持context传递数据
+express本身无洋葱模型，需要引入插件，不支持context
+express的中间件中执行异步函数，执行顺序不会按照洋葱模型，异步的执行结果有可能被放到最后，response之前。
+
+3. 集成度区别
+express 内置了很多中间件，集成度高，使用省心，
+koa 轻量简洁，容易定制
+
+## koa2和egg的区别
 - egg是在koa2上的封装
 - egg有controller、service、router
 - egg约定了文件目录结构

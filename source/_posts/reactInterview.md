@@ -145,7 +145,7 @@ diff算法需要比对虚拟dom的修改，然后异步的渲染到页面中，�
 在 `super()` 被调用之前，子类是不能使用 `this` 的，在 ES2015 中，子类必须在 `constructor` 中调用 `super()`。传递 `props` 给 `super()` 的原因则是便于(在子类中)能在 `constructor` 访问 `this.props`。
 
 ### 何为 JSX
-JSX 是 JavaScript 语法的一种语法扩展，并拥有 JavaScript 的全部功能。JSX 生产 React "元素"，你可以将任何的 JavaScript 表达式封装在花括号里，然后将其嵌入到 JSX 中。在编译完成之后，JSX 表达式就编程了常规的 JavaScript 对象，这意味着你可以在 `if` 语句和 `for` 循环内部使用 JSX，将它赋值给变量，接受它作为参数，并从函数中返回它。
+JSX 是 JavaScript 语法的一种语法扩展，并拥有 JavaScript 的全部功能。JSX 生产 React "元素"，你可以将任何的 JavaScript 表达式封装在花括号里，然后将其嵌入到 JSX 中。在编译完成之后，JSX 表达式就变成了常规的 JavaScript 对象，这意味着你可以在 `if` 语句和 `for` 循环内部使用 JSX，将它赋值给变量，接受它作为参数，并从函数中返回它。
 
 缺点：b&& 强转成boolean类型 否则如果b=0渲染出0
 
@@ -257,7 +257,6 @@ redux-promise：处理异步操作，actionCreator的返回值是promise
 兼容性好。因为Vnode本质是JS对象，所以不管Node还是浏览器环境，都可以操作；
 减少了对Dom的操作。页面中的数据和状态变化，都通过Vnode对比，只需要在比对完之后更新DOM，不需要频繁操作，提高了页面性能。
 
-### 事件委托
 每个setState重新渲染整个子树标记为dirty。 如果要压缩性能，请尽可能调用 setState，并使用shouldComponentUpdate 来防止重新渲染大型子树。把树形结构按照层级分解，只比较同级元素。给列表结构的每个单元添加唯一的key属性，方便比较。pureComponent(浅比较)+immutable 替换成preact
 
 ### diff算法 
@@ -351,6 +350,12 @@ state：
 - getInitialState
 
 2. 挂载阶段
+```js
+组件实例化。
+组件的props发生变化。
+父组件重新渲染。
+this.setState()不会触发getDerivedStateFromProps()，但是this.forceUpdate()会。
+```
 - getDerivedStateFromProps:传入nextProps和prevState，根据需要将props映射到state，否则返回null
 - render
 - componentDidMount
@@ -587,7 +592,7 @@ public static getDerivedStateFromProps(nextProps, prevState) {
 			data: nextProps.data
 		}
 	} else {
-		return null1
+		return null
 	}
 }
 ```
@@ -711,7 +716,7 @@ class Modal extends React.Component {
 获取参数： this.props.location.query.name
 ```
 
-3. state传参( 刷新页面后参数不消失，state传的参数是加密的，比query传参好用)
+3. state传参(刷新页面后参数不消失，state传的参数是加密的，比query传参好用)
 ```
 路由页面：<Route path='/demo' component={Demo}></Route>  //无需配置
 路由跳转并传递参数：
@@ -754,6 +759,12 @@ e.stopPropagation();
 // 阻止合成事件间的冒泡，不会往最外层冒了
 e.nativeEvent.stopImmediatePropagation();
 ```
+
+### redux存在的问题 => 重
+- 一份store树，离开页面再次进入，数据不会初始化
+- reducer拆分造成汇总困难
+- action的type管理混乱，重复问题
+- 繁杂的使用规则，index页面action和store引入，纯函数reducer大量case仅仅为了改变一个值
 
 ### 常用UI库
 

@@ -543,7 +543,7 @@ const useProfile = () => {
       })
   }, [])
 
-  return { profile, loading,isError }
+  return { profile, loading, isError }
 }
 ```
 使用 `useProfile` Hooks：
@@ -690,7 +690,7 @@ const CountApp = () => {
 
   return <p>count {count}</p>
 }
-// render 1
+// render 2
 ```
 原因在于 function 组件的更新机制，当引入 hooks 以后，function 组件也拥有了 state 的功能，当我们 setState 时，UI 会重新渲染，但在这个过程中**function 组件中，state 以及 props 都是静态值，不存在引用，或者也可以理解为 state 和 props 是一个 capture value，每次渲染的 state 和 props 都是独立的。**
 

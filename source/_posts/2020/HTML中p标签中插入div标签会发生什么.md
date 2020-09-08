@@ -15,7 +15,7 @@ photos:
 
 ![div1](http://cdn.mydearest.cn/blog/images/div1.png)
 
-我们可以看到, <div>把<p>分成了两段, 并且div外字段并不在<p>内。把div变成行内块级元素也不行。
+> 我们可以看到,<div>把<p>分成了两段, 并且div外字段并不在<p>内。把div变成行内块级元素也不行。
 
 ![div2](http://cdn.mydearest.cn/blog/images/div2.png)
 

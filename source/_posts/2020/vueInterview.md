@@ -142,7 +142,7 @@ vue实例有一个完整的生命周期，也就是从开始创建，初始化�
   - mounted：el被新创建的vm.$el替换，并挂载到实例上去后调用该钩子
   - beforeUpdate：组件数据更新之前调用，发生在虚拟dom打补丁之前 
   - updated：组件数据更新之后
-  - activited：keep-alive专属，组件被激活时调用
+  - activated：keep-alive专属，组件被激活时调用
   - deactivated：keep-alive专属，组件被销毁时调用
   - beforeDestroy：组件被销毁前
   - destroyed：组件被销毁后调用
