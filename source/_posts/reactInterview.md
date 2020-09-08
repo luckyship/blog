@@ -105,16 +105,23 @@ focus = () => {
 ### 何为高阶组件(higher order component)
 高阶组件是一个以组件为参数并返回一个新组件的函数。HOC 运行你重用代码、逻辑和引导抽象。最常见的可能是 Redux 的 `connect` 函数。除了简单分享工具库和简单的组合，HOC最好的方式是共享 React 组件之间的行为。如果你发现你在不同的地方写了大量代码来做同一件事时，就应该考虑将代码重构为可重用的 HOC。
 装饰器@decoration
-练习
+优点:
+- 逻辑复用
+- 不影响被包裹组件的逻辑
 
-### 高阶函数就是接受函数作为参数并且/或者返回函数作为输出的函数
+缺点:
+- 传递的props和包裹组件的props发生重名会覆盖
+- 组件嵌套导致层级过深
 
-<hr />
+### 渲染属性(render props)
+Render prop 是一个告知组件需要渲染什么内容的函数 prop
+优点:
+- 逻辑复用
+- 数据共享
 
-* 写一个反转其输入的 HOC
-* 写一个从 API 提供数据给传入的组件的 HOC
-* 写一个实现 shouldComponentUpdate 来避免 reconciliation 的 HOC
-* 写一个通过 `React.Children.toArray` 对传入组件的子组件进行排序的 HOC
+缺点:
+- 嵌套
+- 无法在return语句外访问数据
 
 ### 使用箭头函数(arrow functions)的优点是什么
 * 作用域安全：在箭头函数之前，每一个新创建的函数都有定义自身的 `this` 值(在构造函数中是新对象；在严格模式下，函数调用中的 `this` 是未定义的；如果函数被称为“对象方法”，则为基础对象等)，但箭头函数不会，它会使用封闭执行上下文的 `this` 值。
@@ -631,11 +638,11 @@ React的设计思想是单向数据流，我觉得可以这样理解为什么没
 子组件的数据传递给父组件。
 
 ### react和vue的对比
-react 函数式思想 纯组件传入状态和逻辑，所以单项数据流结合immutable setState 触发重新render 单项数据流设计成不可变数据 purecomponent对shouldconponentupdate是否触发重新渲染
+react 函数式思想 纯组件传入状态和逻辑，所以单项数据流结合immutable setState 触发重新render 单项数据流设计成不可变数据 purecomponent对shouldconponentupdate是否触发重新渲染。不可变数据返回新的state，计算虚拟dom的差异。数据流props/callback，context
 
-vue 响应式的思想 监听数据的变化 初始化时对数据的每一个属性添加watcher基于数据可变 数据变化时触发watcher回调 更新虚拟dom
+vue 响应式的思想 监听数据的变化 初始化时对数据的每一个属性添加watcher基于数据可变 数据变化时触发watcher回调 更新虚拟dom。可变数据直接修改，setter能精确监听数据变化。数据流props/event，inject/provide
 
-react的性能优化需要手动去判断 vue是自动的应为要给每个属性添加 watcher所以大型项目state不比较多的时候watcher也会比较多容易造成卡顿的情况
+react的性能优化需要手动去判断 vue是自动的应为要给每个属性添加 watcher所以大型项目state不比较多的时候watcher也会比较多容易造成卡顿的情况。redux不能直接调用reducer进行修改。而vuex有dispatch和commit
 
 ### React 中，cloneElement 与 createElement 各是什么，有什么区别
 ```js

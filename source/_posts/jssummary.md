@@ -1053,14 +1053,14 @@ function myPromise(constructor) {
         if(self.status === 'pending') {
             self.value = value;
             self.status = "resolved";
-            self.onResolveCallbacks.forEach(cb => cd(self.value))
+            self.onResolveCallbacks.forEach(cb => cb(self.value))
         }
     }
     function reject(reason) {
         if(self.status === 'pending') {
             self.reason = reason;
             self.status = "rejected";
-            self.onRejectedCallbacks.forEach(cb => cd(self.value))
+            self.onRejectedCallbacks.forEach(cb => cb(self.value))
         }
     }
     // 捕获构造异常
@@ -1123,16 +1123,16 @@ myPromise.prototype.then = function(onFulfilled, onRejected) {
           }
         })
       })
-    })
-    self.onRejectCallbacks.push(){
-      setTimeout(function(){
-        try{
-          onRejected(self.reason)
-        } catch(e){
-          reject(e)
-        }
+      self.onRejectCallbacks.push(function(){
+        setTimeout(function(){
+          try{
+            onRejected(self.reason)
+          } catch(e){
+            reject(e)
+          }
+        })
       })
-    }
+    })
   }
 }
 ```

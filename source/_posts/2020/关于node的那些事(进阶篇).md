@@ -150,8 +150,10 @@ app.all('*', function (req, res, next) {
 - cors模块
 
 ## 两个node程序之间怎样交互?
-通过fork，原理是子程序用process.on来监听父程序的消息，用 process.send给子程序发消息，父程序里用child.on,child.send进行交互，来实现父进程和子
+通过fork，原理是子程序用process.on来监听父程序的消息，用 process.send给父程序发消息，父程序里用child.on,child.send进行交互，来实现父进程和子
 进程互相发送消息。
+
+> child-process和process的stdin,stdout,stderror是一样的吗?概念都是一样的，输入，输出，错误，都是流．区别是在父程序眼里，子程序的stdout是输入流，stdin是输出流
 
 ## 执行中间件（洋葱模型）
 我们通过 use 注册中间件，中间件函数有两个参数第一个是上下文，第二个是 next，在中间件函数执行过程中，若遇到 next() ，那么就会进入到下一个中间件中执

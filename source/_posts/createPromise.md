@@ -296,13 +296,12 @@ Promise.myall = function (arr) {
                         reject(err)
                     })
                 }
-
             }
         }
     })
 }
 
-Promise.myrace = function (arr) {
+Promise.prototype.race = function (arr) {
     return new Promise((resolve, reject) => {
         for (let i = 0; i < arr.length; i++) {
             // 同时也能处理arr数组中非Promise对象

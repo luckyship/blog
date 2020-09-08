@@ -166,22 +166,6 @@ export default withUser(UserPage);
 `withUser`函数就是一个高阶组件，它返回了一个新的组件，这个组件具有了它提供的获取用户信息的功能。
 但是这两种模式会增加代码的层级关系，而hooks简洁多了，没有多余的层级嵌套，把各种想要的功能写成一个一个可复用的自定义hook，当你的组件想用什么功能时，直接在组件里调用这个hook即可。
 
-***生命周期钩子函数里的逻辑太乱了吧！***
-我们通常希望一个函数只做一件事情，但我们的生命周期钩子函数里通常同时做了很多事情。比如我们需要在componentDidMount中发起ajax请求获取数据，绑定一些事件监听等等。同时，有时候我们还需要在componentDidUpdate做一遍同样的事情。当项目变复杂后，这一块的代码也变得不那么直观。
-
-***class真的太让人困惑了！***
-我们用class来创建react组件时，还有一件很麻烦的事情，就是this的指向问题。为了保证this的指向正确，我们要经常写这样的代码：`this.handleClick = this.handleClick.bind(this)`，或者是这样的代码：`<button onClick={() => this.handleClick(e)}>`。一旦我们不小心忘了绑定this，各种bug就随之而来，很麻烦。
-
-还有就是无状态组件因为需求的变动需要有自己的state，又得很麻烦的改成class组件。
-
-在 React 16.8 之前 function 有两个问题：
-
-- function 组件不得不返回一些 UI 信息，即 JSX 代码
-- function 组件内部不能拥有 state
-
-- Hooks 让函数式组件拥有类组件一样的功能，state ，lifecycle 以及 context。
-- Hooks 不是 React 的新功能，可以将它理解为一个“钩子”，可以让你在不写类组件的情况下“勾住”React 的所有功能。
-
 ```js
 // withGithubProfile
 const withGithubProfile = (WrappedComponent:any) => {
@@ -234,6 +218,22 @@ export default WithGithubProfile(GithubProfileHoc)
 - 使用多个高阶组件时，无法确定 props 来源
 - 相同的 props 会存在覆盖的情况
 - 增加调试难度
+
+***生命周期钩子函数里的逻辑太乱了吧！***
+我们通常希望一个函数只做一件事情，但我们的生命周期钩子函数里通常同时做了很多事情。比如我们需要在componentDidMount中发起ajax请求获取数据，绑定一些事件监听等等。同时，有时候我们还需要在componentDidUpdate做一遍同样的事情。当项目变复杂后，这一块的代码也变得不那么直观。
+
+***class真的太让人困惑了！***
+我们用class来创建react组件时，还有一件很麻烦的事情，就是this的指向问题。为了保证this的指向正确，我们要经常写这样的代码：`this.handleClick = this.handleClick.bind(this)`，或者是这样的代码：`<button onClick={() => this.handleClick(e)}>`。一旦我们不小心忘了绑定this，各种bug就随之而来，很麻烦。
+
+还有就是无状态组件因为需求的变动需要有自己的state，又得很麻烦的改成class组件。
+
+在 React 16.8 之前 function 有两个问题：
+
+- function 组件不得不返回一些 UI 信息，即 JSX 代码
+- function 组件内部不能拥有 state
+
+- Hooks 让函数式组件拥有类组件一样的功能，state ，lifecycle 以及 context。
+- Hooks 不是 React 的新功能，可以将它理解为一个“钩子”，可以让你在不写类组件的情况下“勾住”React 的所有功能。
 
 ## State Hooks
 ### 状态组件
@@ -589,7 +589,7 @@ const useInput = (initialValue:string) => {
 ```
 ```js
 const useInputDemo = () => {
-  const value = useInput('KuangPF')
+  const value = useInput('cosyer')
 
   return (
     <div className="use-input">
