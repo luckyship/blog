@@ -157,7 +157,7 @@ console.log(Enum[0]) // 输出：A
 ### Any
 在 TypeScript 中，任何类型都可以被归为 any 类型。这让 any 类型成为了类型系统的顶级类型（也被称作全局超级类型）。
 ```js
-l et notSure: any = 666;
+let notSure: any = 666;
 notSure = "cosyer";
 notSure = false;
 ```
@@ -722,7 +722,7 @@ myGenericNumber.add = function (x, y) {
 
 ### 泛型工具类型(6种)
 为了方便开发者 TypeScript 内置了一些常用的工具类型，比如 Partial、Required、Readonly、Record 和 ReturnType 等。
-#### type
+#### typeof
 typeof 操作符可以用来获取一个变量声明或对象的类型。
 ```js
 interface Person {

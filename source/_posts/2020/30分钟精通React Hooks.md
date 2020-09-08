@@ -1062,6 +1062,8 @@ useLayoutEffect里面的callback函数会在DOM更新完成后立即执行，但
 2. 传入一个空数组 [], 只会调用一次，相当于 componentDidMount 和 componentWillUnmount。
 3. 传入一个数组，其中包括变量，只有这些变量变动时，useEffect 才会执行。
 
+React中判断是否需要执行useEffect内代码是通过Object.is进行判断的，而这个判断方法对于对象和数组之间的判断永远返回false。
+
 ## hooks实现计时器
 注意第一个计时器错误的写法，在useEffect里面重复定义setInterval，正确写法是setInterval只定义一次，它的回调函数保存状态的更新，重点是把count更新和
 setInterval定义分开。
@@ -1118,6 +1120,14 @@ const CountTimer = () => {
 
 export default CountTimer
 ```
+
+## useMemo、useCallback、useEffect的区别
+useMemo和useEffect的执行时机是不一致的：useEffect执行的是副作用，所以一定是在渲染之后执行的，useMemo是需要有返回值的，而返回值可以直接参与渲染的，所以
+useMemo是在渲染期间完成的，有这样一个一前一后的区别。
+
+useMemo返回的是计算的结果值，用于缓存计算后的状态
+useCallback返回的是函数，主要用来缓存函数，因为函数式组件中的state的变化都会导致整个组件被重新刷新（即使一些函数没有必要被刷新），此时用useCallback就会将
+函数进行缓存，减少渲染时的性能损耗​；
 
 ## 仓库代码
 
