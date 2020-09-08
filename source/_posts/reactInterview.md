@@ -79,6 +79,12 @@ focus = () => {
   this.refs.inputRef.focus()
 }
 <input ref="inputRef"/>
+
+// 获取子组件的div
+// 父组件
+<Child myRef={this.state.myDiv}/>
+// 子组件
+ <div ref={this.props.myRef}>我是子组件</div>
 ```
 
 2. react.CreateRef()
@@ -100,6 +106,38 @@ focus = () => {
 }
 <input ref={(el)=>this.inputRef=el}/>
 ```
+
+4. useRef
+```js
+function UseRefDemo() {
+  const inputRef = useRef(null as any)
+
+  const handleFocusInput = () => {
+    inputRef.current.focus()
+  }
+
+  return (
+    <div>
+      <input ref={inputRef} />
+      <button onClick={handleFocusInput}>click focus</button>
+    </div>
+  )
+}
+```
+
+5. forwardRef(获取组件内的引用)
+```js
+// 子组件
+const Child = forwardRef((props, ref)=>{
+  return (
+  	<div ref={ref}>{props.txt}</div>
+  )
+})
+
+// 父组件
+<Child ref={this.state.myDiv} txt="parent props txt"/>
+```
+
 注意: react并不推荐过度使用ref，如果能通过state做到的事情，就不应该使用 refs 在你的 app 中“让事情发生”。过度使用ref并不符合数据驱动的思想。
 
 ### 何为高阶组件(higher order component)
@@ -397,6 +435,7 @@ vdom的优势在于react的diff算法和批处理策略，react在页面更新�
 
 - 组合渲染(属性代理)
 ```js
+// 更改 props
 function proxyHoc(Comp) {
 	return class extends React.Component {
 		render() {
@@ -412,6 +451,7 @@ function proxyHoc(Comp) {
 很方便将`Input`组件转化为受控组件
 - 条件渲染
 ```js
+// 反向继承传递过来的组件
 function withLoading(Comp) {
     return class extends Comp {
         render() {
@@ -431,7 +471,6 @@ function withLoading(Comp) {
 - 渲染劫持
 
 实际应用场景：
-
 - 日志打点
 ```js
 // 性能监控埋点
@@ -496,15 +535,17 @@ function withAdminAuth(WrappedComponent) {
  - 高阶组件也有可能造成冲突，但我们可以在遵守约定的情况下避免这些情况
  - 高阶组件并不关心数据使用的方式和原因，而被包裹的组件也不关心数据来自何处。高阶组件的增加不会为原组件增加负担
 
-#### hooks有哪些优势
-- 减少状态逻辑复用的风险
-hook和mixin在用法上有一定的相似之处，但是mixin引入的逻辑状态是可以互相覆盖的，而多个hooks之间互不影响，hoc也可能带来一定冲突，比如props覆盖等等，使用hooks则可以避免这些问题
+#### hooks有哪些优势(react提供的api,hoc和render props开发模式)
+- 组件逻辑越来越复杂(componentDidMount, componentDidUpdate)
+尤其是生命周期函数中常常包含一些不相关的逻辑，完全不相关的代码却在同一个方法中组合在一起。如此很容易产生 bug，并且导致逻辑不一致。
 
-- 避免地狱嵌套
-大量使用hoc让我们的代码变得嵌套层级非常深，使用hooks我们可以实现扁平式的状态逻辑复用，而避免了大量的组件嵌套
+- 组件之间复用状态逻辑很难，避免地狱嵌套
+hook和mixin在用法上有一定的相似之处，但是mixin引入的逻辑状态是可以互相覆盖的，而多个hooks之间互不影响，hoc也可能带来一定冲突，比如props覆盖等等，使用hooks则可以避免这些问题。大量使用hoc让我们的代码变得嵌套层级非常深，使用hooks我们可以实现扁平式的状态逻辑复用，而避免了大量的组件嵌套。
 
-- 让组件变得更加容易理解
+- 让组件变得更加容易理解 class组件this钩子函数
 相比函数，编写一个class可能需要更多的知识，hooks让你可以在class之外使用更多的react的新特性
+
+后续中展示组件需要改造成类组件需要有自己的状态管理和生命周期方法将复用逻辑提升到代码顶部。
 
 ### Fiber
 React 的核心流程可以分为两个部分:

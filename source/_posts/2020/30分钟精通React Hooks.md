@@ -411,8 +411,8 @@ function FriendStatus(props) {
   return isOnline ? 'Online' : 'Offline';
 }
 ```
-这里有一个点需要重视！这种解绑的模式跟`componentWillUnmount`不一样。`componentWillUnmount`只会在组件被销毁前执行一次而已，而useEffect里的函数，每次组件渲染后都会执行一遍，包括副作用函数
-返回的这个清理函数也会重新执行一遍。所以我们一起来看一下面这个问题：
+这里有一个点需要重视！这种解绑的模式跟`componentWillUnmount`不一样。`componentWillUnmount`只会在组件被销毁前执行一次而已，而useEffect里的
+函数，每次组件渲染后都会执行一遍，包括副作用函数返回的这个清理函数也会重新执行一遍。每次视图更新之后，并不是只有组件卸载的时候执行。所以我们一起来看一下面这个问题：
 
 ### 为什么要让副作用函数每次组件更新都执行一遍？
 我们先看以前的模式：
@@ -902,7 +902,12 @@ componentDidUpdate() {
   }, 3000);
 }
 ```
-在 class 组件中，我们在 3s 内多次点击 button，最后在控制台输出的结果是最后一次 count 更新的值。而在 function 组件中，我们使用 `useRef`实现这个效果 
+在 class 组件中，我们在 3s 内多次点击 button，最后在控制台输出的结果是最后一次 count 更新的值。
+解释说明下：
+> state 是 Immutable 的，setState 后一定会生成一个全新的 state 引用。但 Class Component 通过 this.state 方式读取 state，这导致了每次代码执行都会拿到最新的 state 引用，所以快速点击4次的结果是 4 4 4 4。
+
+
+而在 function 组件中，我们使用 `useRef` 实现这个效果 
 ```js
 function useRefDemo() {
   const [count, setCount] = useState(0)
@@ -931,6 +936,11 @@ function useRefDemo() {
 ```
 useRef 返回的对象在组件的整个生命周期内保持不变，每次渲染时返回的是同一个ref对象，因此 countRef.current 始终是最新的 count 值。
 
+> 闭包带来的坑:
+因为每次 render 都有一份新的状态，因此上述代码中的 setTimeout 使用产生了一个闭包，捕获了每次 render 后的 count，也就导致了输出了 0、1、2。如果你希望输出的内容是最新的 state 的话，可以通过 useRef 来保存 state。前文讲过 ref 在组件中只存在一份，无论何时使用它的引用都不会产生变化，因此可以来解决闭包引发的问题。
+
+**但由于对 state 的读取没有通过 this. 的方式，使得每次 setTimeout 都读取了当时渲染闭包环境的数据，虽然最新的值跟着最新的渲染变了，但旧的渲染里，状态依然是旧值。**
+
 ## useImperativeHandle
 `useImperativeHandle` 可以让你在使用 ref 时，自定义暴露给父组件的实例值，在大多数情况下，应当避免使用 ref 这样的命令式代码。`useImperativeHandle` 应当与 `forwardRef` 一起使用：
 ```js
@@ -958,8 +968,7 @@ const useImperativeHandleDemo = () => {
 ```
 
 ## useLayoutEffect
-其函数签名 与 `useEffect` 相同，但它会在所有的 DOM 变更之后同步调用 effect。可以使用它来读取 DOM 布局并同步触发重渲染。在浏览器执行绘制之前，`useLayoutEffect` 内部的更新计划将被同步刷
-新。
+其函数签名 与 `useEffect` 相同，但它会在所有的 DOM 变更之后同步调用 effect。可以使用它来读取 DOM 布局并同步触发重渲染。在浏览器执行绘制之前完成。
 ```js
 const BlinkyRender = () => {
   const [value, setValue] = useState(0);
@@ -1005,6 +1014,109 @@ const App = () => {
 例如， 一个返回 Date 值的自定义 Hook 可以通过格式化函数来避免不必要的 toDateString 函数调用:
 ```js
 useDebugValue(date, date => date.toDateString());
+```
+
+## hooks中的坑
+1. 不要在循环，条件或嵌套函数中调用Hook，必须始终在React函数的顶层使用Hook。这是因为React需要利用调用顺序来正确更新相应的状态，以及调用相应的钩子
+函数。一旦在循环或条件分支语句中调用Hook，就容易导致调用顺序的不一致性，从而产生难以预料到的后果。
+
+2. 使用useState时候，使用push，pop，splice等直接更改数组对象的坑，使用push直接更改数组无法获取到新值，应该采用析构方式，但是在class里面
+不会有这个问题。
+```js
+let [num,setNums] = useState([0,1,2,3])
+const test = () => {
+    // 这里坑是直接采用push去更新num，setNums(num)是无法更新num的，必须使用num = [...num ,1]
+    num.push(1)
+    // num = [...num ,1]
+    setNums(num)
+}
+
+// class采用同样的方式是没有问题的
+this.state.nums.push(1)
+this.setState({
+    nums: this.state.nums
+})
+```
+
+比对`eagerState`和`currentState`，引用类型当然是同一个引用所以当然不会重新渲染，和`pureComponent`只进行浅比较的逻辑差不多。(setNum,依赖数组)
+因为本身我们就是修改的 state 的 obj.name，因此在这次闭包中，认为传过来的新的 state 其实和之前对比是相同的（之前的 state 是我们人工修改的值），这种情况下，
+就不会出发渲染。
+
+3. useState设置状态的时候，只有第一次生效，后期需要更新状态，必须通过useEffect。useEffect使用set一定要加条件判断否则会出现死循环。
+
+4. useEffect是render结束后，callback函数执行，但是不会阻断浏览器的渲染，算是某种异步的方式吧。但是class的componentDidMount 和componentDidUpdate是同步的,在render结束后就运行,useEffect在大部分场景下都比class的方式性能更好.
+
+useLayoutEffect里面的callback函数会在DOM更新完成后立即执行，但是会在浏览器进行任何绘制之前运行完成，阻塞了浏览器的绘制.
+
+## useEffect依赖数组深入
+```js
+// <React.Fragment></React.Fragment>
+// <></>
+```
+空数组副作用回调函数只运行一次，并不代表 useEffect 只运行一次。在每次更新中，useEffect 依然会每次都执行，只不过因为传递给它的数组依赖项是空的，导致 React 
+每次检查的时候，都没有发现依赖的变化，所以不会重新执行回调。
+
+> 检查依赖，只是简单的比较了一下值或者引用是否相等。
+
+1. 什么都不传，组件每次 render 之后 useEffect 都会调用，相当于 componentDidMount 和 componentDidUpdate。
+2. 传入一个空数组 [], 只会调用一次，相当于 componentDidMount 和 componentWillUnmount。
+3. 传入一个数组，其中包括变量，只有这些变量变动时，useEffect 才会执行。
+
+## hooks实现计时器
+注意第一个计时器错误的写法，在useEffect里面重复定义setInterval，正确写法是setInterval只定义一次，它的回调函数保存状态的更新，重点是把count更新和
+setInterval定义分开。
+```js
+import React from 'react'
+import { useState,useRef,useEffect } from 'react'
+
+// 错误的写法
+// const CountTimer = () => {
+//     let [count, setCount] = useState(0)
+//     let CountTimer
+//     useEffect(() => {
+//         setInterval(() => {
+//             setCount(count+1)   
+//         })
+//         return () => window.clearInterval(CountTimer)
+//     }, [count])
+//     return (
+//         <React.Fragment>
+//             <div> {count} </div>
+//         </React.Fragment>
+//     )
+// }
+
+//正确的写法
+const CountTimer = () => {
+    let [count, setCount] = useState(0)
+    let intervalCb = useRef(null)
+    let CountTimer
+    useEffect(() => {
+        intervalCb.current = () => {
+            setCount(count+1)   
+        }
+    }, [count])
+
+    useEffect(() => {
+        function itvFn() {
+            intervalCb.current()
+        }
+        CountTimer = window.setInterval(itvFn, 1000)
+        return () => window.clearInterval(CountTimer)
+    }, [])
+
+    const handleStop = () => {
+        window.clearInterval(CountTimer)
+    }
+    return (
+        <React.Fragment>
+            <div >{count}</div>
+            <div onClick={() => {handleStop()}}>停止计时</div>
+        </React.Fragment>
+    )
+}
+
+export default CountTimer
 ```
 
 ## 仓库代码
