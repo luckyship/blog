@@ -106,6 +106,9 @@ class DemoWebpackPlugin {
         console.log('初始化 插件')
     }
     apply (compiler) {
+            compiler.hooks.run.tap('pluginName', compilation => {
+            console.log('webpack 构建过程开始！');
+        });
     }
 }
 

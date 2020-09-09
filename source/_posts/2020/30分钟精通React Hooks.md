@@ -968,7 +968,7 @@ const useImperativeHandleDemo = () => {
 ```
 
 ## useLayoutEffect
-其函数签名 与 `useEffect` 相同，但它会在所有的 DOM 变更之后同步调用 effect。可以使用它来读取 DOM 布局并同步触发重渲染。在浏览器执行绘制之前完成。
+其函数签名 与 `useEffect` 相同，但它会在所有的 DOM 变更之后同步调用 effect。可以使用它来读取 DOM 布局并同步触发渲染。在浏览器执行绘制之前完成。
 ```js
 const BlinkyRender = () => {
   const [value, setValue] = useState(0);
@@ -1128,6 +1128,10 @@ useMemo是在渲染期间完成的，有这样一个一前一后的区别。
 useMemo返回的是计算的结果值，用于缓存计算后的状态
 useCallback返回的是函数，主要用来缓存函数，因为函数式组件中的state的变化都会导致整个组件被重新刷新（即使一些函数没有必要被刷新），此时用useCallback就会将
 函数进行缓存，减少渲染时的性能损耗​；
+
+React Hooks只能用于函数组件，而每一次函数组件被渲染，都是一个全新的开始；
+每一个全新的开始，所有的局部变量全都重来，全体失忆；
+每一次全新的开始，只有Hooks函数（比如useEffect）具有上一次渲染的“记忆”；
 
 ## 仓库代码
 
