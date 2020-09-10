@@ -1391,7 +1391,10 @@ components:{
 ```
 
 ## OSI七层协议
+TCP传输控制协议(Transmission Control Protocol)
+IP网际协议(Internet Protocol)
 ![tcp](http://cdn.mydearest.cn/blog/images/tcp.png)
+> TCP/IP五层协议 物理层--数据链路层--网络层--传输层--应用层
 
 - 应用层
 - 表示层
@@ -1974,7 +1977,9 @@ flex
 
 - static：默认定位。也就是没有特殊定位，元素出现在正常的流中，忽略top，bottom，left或者z-index声明
 
-- inherit： 继承定位。规定应该从父元素继承position的值
+- inherit：继承定位。规定应该从父元素继承position的值
+
+- initial: 设置该属性为默认值，
 
 `float`元素的display为block。
 

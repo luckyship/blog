@@ -597,6 +597,19 @@ class Fiber {
 > 核心思想是 任务拆分和协同，主动把执行权交给主线程，使主线程有时间空挡处理其他高优先级任务。
 > 当遇到进程阻塞的问题时，任务分割、异步调用 和 缓存策略 是三个显著的解决思路。
 
+- 任务优先级(7种)
+```js
+{  
+  NoWork: 0, // No work is pending.
+  SynchronousPriority: 1, // 文本输入框
+  TaskPriority: 2, // 当前调度正执行的任务
+  AnimationPriority: 3, // 动画过渡
+  HighPriority: 4, // 用户交互反馈
+  LowPriority: 5, // 数据的更新
+  OffscreenPriority: 6, // 预估未来需要显示的任务
+}
+```
+
 ### 为什么生命周期有了变动
 在 Fiber 中，reconciliation 阶段进行了任务分割，涉及到 暂停 和 重启，因此可能会导致 reconciliation 中的生命周期函数在一次更新渲染循环中被`多次调用`的情况，产生一些意外错误。
 

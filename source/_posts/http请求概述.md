@@ -216,6 +216,7 @@ PATCH方法出现的较晚，它在2010年的RFC 5789标准中被定义。PATCH�
       <summary>未找到请求的资源</summary>
       该状态码表明服务器上无法找到请求的资源。除此之外，也可以在服务器端拒绝请求且不想说明理由时使用。
     </details>
+  * 409 Conflict 与被请求资源的状态存在冲突
   * 415 Unsupported media type：不支持的媒体类型
 * 5XX
   * 500 Internal Server Error
