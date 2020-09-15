@@ -3197,6 +3197,7 @@ scope hositing实现原理:分析出模块之间的依赖关系，尽可能的�
 - tree shaking
 - scope hoisting
 - 代码压缩混淆(UglifyJsPlugin)
+- 图片压缩： imagemin、image-webpack-loader
 ### css优化
 - css提取到独立文件(mini-css-extract-plugin)
 - postcss添加前缀
