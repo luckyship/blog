@@ -355,6 +355,12 @@ if ( foo in { 'bar':'', 'foobar':'', 'foo':'' } )
 ```shell
 tar -zcvf newfilename.tar.gz filename
 tar -zxvf newfilename.tar.gz
+
+# jar包解压
+jar xvf skywalking-webapp.jar
+
+# jar包压缩
+jar uf skywalking-webapp.jar BOOT-INF/classes/public/
 ```
 
 ## banana
