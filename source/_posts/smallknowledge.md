@@ -3469,3 +3469,13 @@ text.onmouseenter = function (e) {
 
 ## 兼容性查看
 可以到Can I use上去查看，官网地址为：[caniuse.com](https://caniuse.com/)
+
+## github访问量计数
+- https://visitor-badge.glitch.me/badge?page_id=cosyer
+
+- https://profile-counter.glitch.me/cosyer/count.svg
+```html
+<p align="center"> Visitor count </p> 
+<img src="https://profile-counter.glitch.me/cosyer/count.svg" />
+</a>
+```
