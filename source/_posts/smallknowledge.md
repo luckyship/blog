@@ -3090,6 +3090,19 @@ r.keys().forEach(r);
 })(require.context('./', true, /reducer.js/));
 ```
 
+```js
+// 简化vuex module index.js
+const files = require.context('.', false, /\.js$/)
+const modules = {}
+
+files.keys().forEach((key) => {
+  if (key === './index.js') return
+  modules[key.replace(/(\.\/|\.js)/g, '')] = files(key).default
+})
+
+export default modules
+```
+
 ## img标签之间的间距问题原理
 众所周知，多个img并列显示时会有几像素间距，但是这并不是img标签特有的特性。
 
@@ -3478,4 +3491,10 @@ text.onmouseenter = function (e) {
 <p align="center"> Visitor count </p> 
 <img src="https://profile-counter.glitch.me/cosyer/count.svg" />
 </a>
+```
+
+## 手动触发event
+```js
+// 阻塞视图渲染会引发高度错误
+window.dispatchEvent(new Event('resize'))
 ```
