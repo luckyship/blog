@@ -3498,3 +3498,9 @@ text.onmouseenter = function (e) {
 // 阻塞视图渲染会引发高度错误
 window.dispatchEvent(new Event('resize'))
 ```
+
+## 状态判断简化
+```js
+v-if="scope.row.reason === 'Error' || scope.row.reason === 'Completed'"
+v-if="['Error', 'Completed'].includes(scope.row.reason)"
+```
