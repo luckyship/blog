@@ -178,7 +178,7 @@ a:hover {
   -->
 
    <!-- UV、PV统计 不蒜子
-   <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+   <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
   -->
   <script type="text/javascript" src="https://cdn.lishaoy.net/js/all-min-d98fa596b6.js"></script>
    <!-- 自己的脚本
