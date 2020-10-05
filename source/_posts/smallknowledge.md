@@ -3493,6 +3493,9 @@ text.onmouseenter = function (e) {
 </a>
 ```
 
+## 萌萌计数器
+![cosyer](https://count.getloli.com/get/@:cosyer)
+
 ## 手动触发event
 ```js
 // 阻塞视图渲染会引发高度错误
