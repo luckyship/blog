@@ -3507,3 +3507,28 @@ window.dispatchEvent(new Event('resize'))
 v-if="scope.row.reason === 'Error' || scope.row.reason === 'Completed'"
 v-if="['Error', 'Completed'].includes(scope.row.reason)"
 ```
+
+## 多个tab页监听localstorage变化
+```js
+// 非己页面
+window.addEventListener("storage", function(e) {
+    if (e.key === 'projectName') {
+      window.location.href = './?project=' + e.newValue
+    } 
+});
+// 当前tab页监听
+let orignalSetItem = localStorage.setItem;
+localStorage.setItem = function(key, newValue){
+    var setItemEvent = new Event("setItemEvent");
+    setItemEvent.key = key;
+    setItemEvent.value = newValue;
+    window.lastProjectName = localStorage.getItem('projectName');
+    window.dispatchEvent(setItemEvent);
+    orignalSetItem.apply(this, arguments);
+};
+window.addEventListener("setItemEvent", function (e) {
+    if(e.key === 'projectName' && window.lastProjectName !== e.value){
+      window.location.href = './?project=' + e.value
+    }
+});
+```
