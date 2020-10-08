@@ -120,3 +120,37 @@ mongodump -h 127.0.0.1 -d book -o D:\iview-book-admin\static\js
 
 mongorestore -h dbhost -d book --dir D:\iview-book-admin\static\js\book
 ```
+
+## homebrew安装go
+- [mac 使用brew 安装Python](https://www.jianshu.com/p/b821a8d1d8dc)
+
+### 安装
+```bash
+brew install go 
+```
+
+### 配置golang的相关环境变量
+***默认go 安装的文件地址是 /usr/local/Cellar/go/***
+然后看一下自己的libexec在什么地方然后记录下整体的地址 我的地址是`/usr/local/Cellar/go/1.11.4/libexec`
+
+### 将go的配置写入环境
+```bash
+cd ~
+vim ./bash_profile
+
+#GO
+#GOROOT
+export GOROOT=/usr/local/Cellar/go/1.11.4/libexec
+#GOPATH
+export GOPATH=$HOME/treasure/go
+#Bin
+export PATH=${PATH}:$GOPATH/bin
+
+source ~/.bash_profile
+```
+
+### 检查环境变量和版本
+```bash
+go env
+go version
+```

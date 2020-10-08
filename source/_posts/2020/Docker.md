@@ -246,8 +246,11 @@ docker tag busybox:latest mybusybox:latest
 # images
 docker pull image
 docker images # 查看所有镜像
+docker image ls
+docker images | grep busybox
 docker rmi imageId -f # 强制删除镜像
 docker rmi -f \$(docker images -aq) # 小技巧删除所有镜像
+docker image rm
 
 # container
 docker ps # 查看运行容器
