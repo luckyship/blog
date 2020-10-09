@@ -3532,3 +3532,12 @@ window.addEventListener("setItemEvent", function (e) {
     }
 });
 ```
+
+## mac启动台没有应用程序图标
+```bash
+mv ~/L*/Application\ Support/Dock/*.db ~/Desktop; killall Dock; exit;
+
+# or
+defaults write com.apple.dock ResetLaunchPad -bool true
+killall Dock
+```
