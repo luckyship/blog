@@ -3541,3 +3541,25 @@ mv ~/L*/Application\ Support/Dock/*.db ~/Desktop; killall Dock; exit;
 defaults write com.apple.dock ResetLaunchPad -bool true
 killall Dock
 ```
+
+## nodejs JavaScript heap out of memory
+默认nodejs 使用的V8引擎官方默认配置是在64位的系统重视1.4g的内存，也正好和上面的提示用量一样，并且内存大小最大为4g，官方还建议如果使用较
+大内存的话则需要分成多个子worker这样来规避大内存的使用。
+
+1. --max_old_space_size=4096 这个参数，设置最大4gb的内存
+
+2. 全局直接安装 一个npm包 `increase-memory-limit`这个包会自动为命令增加 --max_old_space_size=4096 参数
+
+## 超链接 target="_blank" 要增加 rel="noopener noreferrer"
+当你浏览一个页面点击一个a标签连接 <a href="www.baidu.com" target="_blank"> 跳转到另一个页面时，
+
+在新打开的页面（baidu）中可以通过 window.opener获取到源页面的部分控制权， 即使新打开的页面是跨域的也照样可以（例如 location 就不存在
+跨域问题）。
+
+在chrome 49+，Opera 36+，打开添加了rel=noopener的链接， window.opener 会为null。在老的浏览器中，可以使用 rel=noreferrer 禁用
+HTTP头部的Referer属性，使用下面JavaScript代替target='_blank' 的解决此问题：
+```js
+var otherWindow = window.open('https://mydearest.cn');
+otherWindow.opener = null;
+otherWindow.location = url;
+```
