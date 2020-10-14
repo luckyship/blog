@@ -1340,6 +1340,23 @@ style属性为display：none
 2. 准备好组件的数据输入，定好props里面的数据、类型
 3. 准备好组价的数据输出，定好暴露出来的方法
 
+### 常用组件库
+- [文本比对:vue-code-diff](https://github.com/ddchef/vue-code-diff)
+- [代码编辑器:vue-codemirror](https://github.com/surmon-china/vue-codemirror)
+- [国际化:vue-i18n](https://github.com/kazupon/vue-i18n)
+- [富文本编辑器:wangEditor](https://github.com/wangeditor-team/wangEditor)
+- [编辑器:vue-monaco](https://github.com/egoist/vue-monaco)
+- [剪切板:vue-clipboard2](https://github.com/Inndy/vue-clipboard2)
+- [操作cookie:vue-cookies](https://github.com/cmp-cc/vue-cookies)
+- [fragment元素:vue-fragment](https://github.com/Thunberg087/vue-fragment)
+- [代码高亮:vue-highlightjs](https://github.com/metachris/vue-highlightjs)
+- [command界面:xterm.js](https://github.com/xtermjs/xterm.js)
+- [处理yaml:yaml.js](https://github.com/jeremyfa/yaml.js)
+- [yaml:js-yaml](https://github.com/nodeca/js-yaml)
+- [vue的echarts封装:v-charts](https://github.com/ElemeFE/v-charts)
+- [mock:mockjs](https://github.com/nuysoft/Mock)
+- [判断是否是黑色:is-dark-color](https://github.com/gion/is-dark-color)
+
 ### 常用UI库
 #### 移动端
 - [mint-ui](http://mint-ui.github.io/#!/zh-cn)

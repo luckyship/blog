@@ -29,3 +29,5 @@ This page will collect some useful websets.
 
 ## build sites
 - [netlify](https://www.netlify.com/)
+- [vercel](https://vercel.com/)
+  - https://zhuanlan.zhihu.com/p/164585697

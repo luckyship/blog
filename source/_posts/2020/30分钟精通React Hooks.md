@@ -1051,7 +1051,7 @@ useLayoutEffect里面的callback函数会在DOM更新完成后立即执行，但
 ## useEffect依赖数组深入
 ```js
 // <React.Fragment></React.Fragment>
-// <></>
+// 简洁语法<></>
 ```
 空数组副作用回调函数只运行一次，并不代表 useEffect 只运行一次。在每次更新中，useEffect 依然会每次都执行，只不过因为传递给它的数组依赖项是空的，导致 React 
 每次检查的时候，都没有发现依赖的变化，所以不会重新执行回调。

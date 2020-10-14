@@ -3493,6 +3493,14 @@ text.onmouseenter = function (e) {
 </a>
 ```
 
+## github profile统计
+![my github stats](https://github-readme-stats.vercel.app/api?username=cosyer&show_icons=true&hide_border=true&
+hide=contribs,prs)
+
+```html
+<img src="https://github-profile-trophy.vercel.app/?username=cosyer&theme=flat&column=3&margin-w=10&title=Stars,Commit,Issues" alt="logo" height="160" align="center" />
+```
+
 ## 萌萌计数器
 ![cosyer](https://count.getloli.com/get/@:cosyer)
 
