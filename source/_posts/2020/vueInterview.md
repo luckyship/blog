@@ -1345,7 +1345,8 @@ style属性为display：none
 - [代码编辑器:vue-codemirror](https://github.com/surmon-china/vue-codemirror)
 - [国际化:vue-i18n](https://github.com/kazupon/vue-i18n)
 - [富文本编辑器:wangEditor](https://github.com/wangeditor-team/wangEditor)
-- [编辑器:vue-monaco](https://github.com/egoist/vue-monaco)
+- [monaco编辑器:vue-monaco](https://github.com/egoist/vue-monaco)
+- [ace编辑器:vue2-ace-editor](https://github.com/chairuosen/vue2-ace-editor)
 - [剪切板:vue-clipboard2](https://github.com/Inndy/vue-clipboard2)
 - [操作cookie:vue-cookies](https://github.com/cmp-cc/vue-cookies)
 - [fragment元素:vue-fragment](https://github.com/Thunberg087/vue-fragment)
@@ -1356,6 +1357,7 @@ style属性为display：none
 - [vue的echarts封装:v-charts](https://github.com/ElemeFE/v-charts)
 - [mock:mockjs](https://github.com/nuysoft/Mock)
 - [判断是否是黑色:is-dark-color](https://github.com/gion/is-dark-color)
+- [XSS过滤:DOMPurify](https://github.com/cure53/DOMPurify)
 
 ### 常用UI库
 #### 移动端

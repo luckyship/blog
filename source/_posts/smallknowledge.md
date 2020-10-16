@@ -3558,6 +3558,10 @@ killall Dock
 
 2. 全局直接安装 一个npm包 `increase-memory-limit`这个包会自动为命令增加 --max_old_space_size=4096 参数
 
+安装`increase-memory-limit`导致git commit失败解决方案：**删除node_modules->.bin->lint-staged 里面的--max-old-space-size=XXX**
+
+https://github.com/endel/increase-memory-limit/issues/30
+
 ## 超链接 target="_blank" 要增加 rel="noopener noreferrer"
 当你浏览一个页面点击一个a标签连接 <a href="www.baidu.com" target="_blank"> 跳转到另一个页面时，
 

@@ -126,6 +126,7 @@ function insertSort(arr) {
 - 递归继续排序 left 与 right
 
 ```js
+// let mid = arr[arr.length >>> 1]
 function quickSort(arr) {
     if(arr.length <= 1) {
         return arr;  //递归出口
