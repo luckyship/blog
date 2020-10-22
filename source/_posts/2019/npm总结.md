@@ -244,7 +244,7 @@ git repository:
 keywords: hello an
 author: sisterAn
 license: (ISC) MIT
-About to write to /Users/lianran777/Study/node/chejianer_node/module/package.json:
+About to write to /Users/chenyu/Study/node/chejianer_node/module/package.json:
 
 {
   "name": "hello-an",
@@ -314,4 +314,37 @@ npm install -g cnpm --registry=https://registry.npm.taobao.org
 
 // 还原
 npm config set registry https://registry.npmjs.org
+```
+
+### mac更新node版本
+```bash
+# 查看本机版本
+ndoe -v
+
+# 清除cache
+sudo npm cache clean -f
+
+# 安装n工具管理node版本
+sudo npm install -g n
+
+# 安装最新版本的node
+sudo n stable
+
+# 安装指定版本或者0.10.26
+sudo n v0.10.26
+
+# 切换版本
+sudo n 7.10.0
+
+# 删除指定版本
+sudo n rm 7.10.0
+
+# 用指定的版本执行脚本
+sudo use 7.10.0 demo.js
+
+# 查看所有已安装的版本
+sudo n
+
+# 更新node到最新版本
+sudo npm install npm@latest -g
 ```

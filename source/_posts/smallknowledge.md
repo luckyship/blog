@@ -3575,3 +3575,5 @@ var otherWindow = window.open('https://mydearest.cn');
 otherWindow.opener = null;
 otherWindow.location = url;
 ```
+
+## query参数里含有#需要encode
