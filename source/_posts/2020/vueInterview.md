@@ -1342,9 +1342,10 @@ style属性为display：none
 
 ### 常用组件库
 - [文本比对:vue-code-diff](https://github.com/ddchef/vue-code-diff)
-- [代码编辑器:vue-codemirror](https://github.com/surmon-china/vue-codemirror)
+- [JSON代码编辑器:vue-codemirror](https://github.com/surmon-china/vue-codemirror)
 - [国际化:vue-i18n](https://github.com/kazupon/vue-i18n)
 - [富文本编辑器:wangEditor](https://github.com/wangeditor-team/wangEditor)
+- [富文本编辑器:tinymce](https://github.com/tinymce/tinymce)
 - [monaco编辑器:vue-monaco](https://github.com/egoist/vue-monaco)
 - [ace编辑器:vue2-ace-editor](https://github.com/chairuosen/vue2-ace-editor)
 - [剪切板:vue-clipboard2](https://github.com/Inndy/vue-clipboard2)
