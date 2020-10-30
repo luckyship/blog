@@ -3551,7 +3551,7 @@ killall Dock
 ```
 
 ## nodejs JavaScript heap out of memory
-默认nodejs 使用的V8引擎官方默认配置是在64位的系统重视1.4g的内存，也正好和上面的提示用量一样，并且内存大小最大为4g，官方还建议如果使用较
+默认nodejs 使用的V8引擎官方默认配置是在64位的系统重视1.4g的内存，并且内存大小最大为4g，官方还建议如果使用较
 大内存的话则需要分成多个子worker这样来规避大内存的使用。
 
 1. --max_old_space_size=4096 这个参数，设置最大4gb的内存
@@ -3561,6 +3561,8 @@ killall Dock
 安装`increase-memory-limit`导致git commit失败解决方案：**删除node_modules->.bin->lint-staged 里面的--max-old-space-size=XXX**
 
 https://github.com/endel/increase-memory-limit/issues/30
+
+3. export NODE_OPTIONS=--max_old_space_size=4096
 
 ## 超链接 target="_blank" 要增加 rel="noopener noreferrer"
 当你浏览一个页面点击一个a标签连接 <a href="www.baidu.com" target="_blank"> 跳转到另一个页面时，
