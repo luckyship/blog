@@ -1353,6 +1353,7 @@ style属性为display：none
 - [fragment元素:vue-fragment](https://github.com/Thunberg087/vue-fragment)
 - [代码高亮:vue-highlightjs](https://github.com/metachris/vue-highlightjs)
 - [command界面:xterm.js](https://github.com/xtermjs/xterm.js)
+- [command界面:hterm](https://github.com/chromium/hterm)
 - [处理yaml:yaml.js](https://github.com/jeremyfa/yaml.js)
 - [yaml:js-yaml](https://github.com/nodeca/js-yaml)
 - [vue的echarts封装:v-charts](https://github.com/ElemeFE/v-charts)

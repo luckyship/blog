@@ -2928,6 +2928,10 @@ console.log(fomatFloat(3.12645,2)); // 3.13
 ## H5 语音合成 SpeechSynthesisUtterance API
 ```js
 var utterance = new SpeechSynthesisUtterance('cosyer');
+utterance.lang = 'Google 普通话（中国大陆）';
+utterance.rate = 1;
+// 语音合成结束时候的回调
+utterance.onend = (event) => {}
 window.speechSynthesis.speak(utterance);
 ```
 
@@ -2946,10 +2950,14 @@ function speckText(str){
 　　 n.src = url;
 
 　　 n.play();
+
+    // n.addEventListener('ended', function () {  
+    //     alert('over');
+    // }, false);
     　　
 　　 // $("...").play();
-　　// var sound = new Sound(request);
-　　// sound.play();
+　　 // var sound = new Sound(request);
+　　 // sound.play();
 }
 speckText("收到付款10元。");
 ```
