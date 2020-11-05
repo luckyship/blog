@@ -41,3 +41,9 @@ This page will collect some useful websets.
 - [docusaurus](https://docusaurus.io/)
 - [docz](https://www.docz.site/)
 - [vuepress](https://vuepress.vuejs.org/zh/)
+
+## chrome插件
+- [extfans](https://www.extfans.com/)
+
+## ps
+- [3d66](https://www.3d66.com/)
