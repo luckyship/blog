@@ -1137,6 +1137,82 @@ React Hooks只能用于函数组件，而每一次函数组件被渲染，都是
 
 [react-hooks-demo](https://github.com/cosyer/react-hooks-demo)
 
+## 源码解析
+```js
+// React.js
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useImperativeMethods,
+  useLayoutEffect,
+  useMemo,
+  useReducer,
+  useRef,
+  useState,
+} from './ReactHooks';
+```
+
+```js
+function resolveDispatcher() {
+  // 只管定义 不管实现 这个currentDispatcher是啥呢 我们会在renderRoot渲染的时候设置这个值
+  // 离开的时候renderRoot设置为null
+  const dispatcher = ReactCurrentOwner.currentDispatcher;
+  return dispatcher;
+}
+
+export function useState<S>(initialState: (() => S) | S) {
+  const dispatcher = resolveDispatcher();
+  return dispatcher.useState(initialState);
+}
+
+export function useEffect(
+  create: () => mixed,
+  inputs: Array<mixed> | void | null,
+) {
+  const dispatcher = resolveDispatcher();
+  return dispatcher.useEffect(create, inputs);
+}
+
+export function useContext<T>(
+  Context: ReactContext<T>,
+  observedBits: number | boolean | void,
+) {
+  const dispatcher = resolveDispatcher();
+  // dev code
+  return dispatcher.useContext(Context, observedBits);
+}
+```
+- dispatcher释义
+```js
+// ReactFiberDispatcher.js
+import {readContext} from './ReactFiberNewContext';
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useImperativeMethods,
+  useLayoutEffect,
+  useMemo,
+  useReducer,
+  useRef,
+  useState,
+} from './ReactFiberHooks';
+
+export const Dispatcher = {
+  readContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useImperativeMethods,
+  useLayoutEffect,
+  useMemo,
+  useReducer,
+  useRef,
+  useState,
+};
+```
+
 ## 总结
 
 这篇文章将 React Hooks 语法进行了简单介绍，Hooks 功能十分强大，如果看完文章还不是很理解的话，建议把这些 demo 自己再手动实现一遍，这样收获会更多。

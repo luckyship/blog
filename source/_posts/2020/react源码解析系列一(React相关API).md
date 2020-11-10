@@ -613,3 +613,147 @@ export function lazy<T, R>(ctor: () => Thenable<T, R>): LazyComponent<T> {
 ```
 
 ㊗️💐恭喜初中毕业了😃❀❀❀
+
+## Children详解
+children由`map`, `forEach`, `count`, `toArray`, `only`组成。看起来和数组的方法很类似，用于处理`this.props.children`这种不透
+明数据结构的应用程序。由于children几个方法的核心都是`mapIntoArray`，因此这里只对map做分析，其他的可以自己去查看。
+
+React.Children 提供了用于处理 props.children 不透明数据结构的实用方法。
+
+- React.Children.map
+- React.Children.forEach
+- React.Children.count
+- React.Children.only: 验证 children 是否只有一个子节点（一个 React 元素），如果有则返回它，否则此方法会抛出错误。
+- React.Children.toArray: 将 children 这个复杂的数据结构以数组的方式扁平展开并返回，并为每个子节点分配一个 key。
+
+### react.children.map
+map的使用实例，虽然处理函数给的是多维数组，但是通过map处理后，返回的结果其实被处理成为了一维数组。
+- 如果是fragment，将会被视为一个子组件，不会被遍历。
+```js
+class Child extends React.Component {
+  render() {
+    console.log(React.Children.map(this.props.children, c => [[c],[c],[c]]));
+    return (
+      <div>{
+        React.Children.map(this.props.children, c => [[c],[c],[c]])
+      }</div>
+    )
+  }
+}
+class App extends React.Component {
+  render() {
+    return(
+      <div>
+        <Child><p>hello1</p><p>hello2</p></Child>
+      </div>
+    )
+  }
+}
+// 渲染结果：
+<p>hello1</p>  
+<p>hello1</p> 
+<p>hello1</p>
+<p>hello2</p>
+<p>hello2</p>
+<p>hello2</p>
+```
+
+![map流程两个递归](http://cdn.mydearest.cn/blog/images/react-children-map.png)
+
+打印dom结构，发现每个节点都各自生成了一个key，下面会解析生成该key的步骤。
+![源码1](http://cdn.mydearest.cn/blog/images/react-origin.png)
+
+
+## memo
+
+与 React.PureComponent 非常相似，适用于函数组件，但不适用于 class 组件。
+
+since React 16.6
+
+**memo用法**
+
+```jsx
+function MyComponent(props) {
+  /* 使用 props 渲染 */
+}
+function areEqual(prevProps, nextProps) {
+  /*
+  如果把 nextProps 传入 render 方法的返回结果与
+  将 prevProps 传入 render 方法的返回结果一致则返回 true，
+  否则返回 false
+  */
+}
+export default React.memo(MyComponent, areEqual);
+```
+
+**memo源码**
+
+```jsx
+// * react/packages/react/src/memo.js
+export default function memo<Props>(
+  type: React$ElementType,
+  compare?: (oldProps: Props, newProps: Props) => boolean,
+) {
+  if (__DEV__) {
+    ...
+  }
+  return {
+    $$typeof: REACT_MEMO_TYPE,
+    type,
+    compare: compare === undefined ? null : compare,
+  };
+}
+```
+
+##  Fragment
+> 不额外创建 DOM 元素的情况下，让 render() 方法中返回多个元素。
+
+```jsx
+// * react/packages/react/src/React.js
+const React = {
+  ...,
+  Fragment: REACT_FRAGMENT_TYPE,
+  ...
+}
+
+// * react/packages/shared/ReactSymbols.js
+export const REACT_FRAGMENT_TYPE = hasSymbol
+  ? Symbol.for('react.fragment')
+  : 0xeacb;
+```
+
+## StrictMode
+
+用于检查子节点有没有潜在的问题。严格模式检查仅在开发模式下运行；它们不会影响生产构建。
+
+```jsx
+// * 不会对 Header 和 Footer 组件运行严格模式检查。但是，ComponentOne 和 ComponentTwo 以及它们的所有后代元素都将进行检查。
+function ExampleApplication() {
+  return (
+    <div>
+      <Header />
+      <React.StrictMode>
+        <div>
+          <ComponentOne />
+          <ComponentTwo />
+        </div>
+      </React.StrictMode>
+      <Footer />
+    </div>
+  );
+}
+```
+
+```jsx
+// * react/packages/react/src/React.js
+const React = {
+  ...,
+  StrictMode: REACT_STRICT_MODE_TYPE,
+  ...
+}
+
+// * react/packages/shared/ReactSymbols.js
+export const REACT_STRICT_MODE_TYPE = hasSymbol
+  ? Symbol.for('react.strict_mode')
+  : 0xeacc;
+```
