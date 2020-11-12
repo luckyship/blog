@@ -3633,3 +3633,9 @@ function  formatSecond(second: number) {
 }
 console.log(formatSecond(90)) // 0天0小时1分30秒
 ```
+
+## 文本区域textarea出现滚动条
+```html
+<!-- 此时除非遇到换行符，否则内容将一直向右 -->
+<textarea wrap="off" style="overflow:scroll;"></textarea>
+```

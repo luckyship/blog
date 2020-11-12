@@ -1226,3 +1226,14 @@ cosyer.#name;
 
 ## 相关问题
 [TypeScript 中，interface 和 type 的区别](https://mydearest.cn/2020/TypeScript%20%E4%B8%AD%EF%BC%8Cinterface%20%E5%92%8C%20type%20%E7%9A%84%E5%8C%BA%E5%88%AB.html)
+
+## 问题记录
+1. Element implicitly has an 'any' type because expression of type 'string' can't be used to index
+```js
+const formData = new FormData();
+Object.keys(newCategory).map((k,i)=>{  
+    var d =Object.values(newCategory)[i];
+    formData.append(k,d) 
+})
+```
+> tsconfig.json中配置suppressImplicitAnyIndexErrors为true
