@@ -9,6 +9,9 @@ categories: JS
 photos:
 ---
 
+> interface是接口，type是类型，本身就是两个概念。只是碰巧表现上比较相似。希望定义一个变量类型，就用type，如果希望是能够继承并约束的，就
+用interface。如果你不知道该用哪个，说明你只是想定义一个类型而非接口，所以应该用type。
+
 在 `TypeScript` 中，`interface` 和 `type` 主要用于类型的声明，它们的相同点以及区别如下：
 
 ---

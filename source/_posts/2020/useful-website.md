@@ -47,3 +47,12 @@ This page will collect some useful websets.
 
 ## ps
 - [3d66](https://www.3d66.com/)
+
+## 神曲
+- 拔剑神曲 GC-βίος
+- 核爆神曲 AZ-aLIEz MKAlieZ
+- 变身神曲 巨人-at’aek ON taitn
+- 爆衣神曲 kill la kill-Before my body is dry
+- 断剑神曲 Perfect Time
+- 反击神曲 AZ-Keep on keeping on
+- 窒息神曲 AZ-BRE@TH//LESS
