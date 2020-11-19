@@ -780,7 +780,7 @@ const CountApp = () => {
 ```
 `useReducer` 和 `useState` 相比，优势在于可以将使用 reducer 将一些逻辑进行抽离，进行集中化管理。
 
-## useCallback
+## useCallback(useMemo返回函数)
 
 `useCallback` 可以理解为将函数进行了缓存，它接收一个回调函数和一个依赖数组，只有当依赖数组中的值发生改变时，该回调函数才会更新。
 ```js

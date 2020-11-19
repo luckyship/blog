@@ -3639,3 +3639,32 @@ console.log(formatSecond(90)) // 0天0小时1分30秒
 <!-- 此时除非遇到换行符，否则内容将一直向右 -->
 <textarea wrap="off" style="overflow:scroll;"></textarea>
 ```
+
+## case 里let声明
+Unexpected lexical declaration in case block  no-case-declarations
+
+```js
+// 要求case 加上{}
+case "cosyer": {
+  let flag = false;
+}
+```
+
+## every数组为空时返回true
+```js
+[].every(i => i === 1); // true
+```
+
+## 判断base64
+```js
+isBase64(str){
+if(str === '' || str.trim() === ''){
+      return false;
+  }
+  try{
+      return btoa(atob(str)) == str;
+  } catch(err){
+      return false;
+  }
+},
+```

@@ -107,7 +107,7 @@ focus = () => {
 <input ref={(el)=>this.inputRef=el}/>
 ```
 
-4. useRef
+4. useRef(实例属性)
 ```js
 function UseRefDemo() {
   const inputRef = useRef(null as any)
