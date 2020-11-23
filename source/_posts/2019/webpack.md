@@ -295,3 +295,169 @@ HotModulePlugin 将会对新旧模块进行对比，决定是否更新模块，�
 工具的使用是分场景的，Rollup的使用场景是，你的代码基于 ES6 模块编写，并且你做的东西是准备给他人使用的。
 
 有一句经验之谈：在开发应用时使用 Webpack，开发库时使用 Rollup。
+
+## html模板配置cdn
+```html
+<% for (var i in htmlWebpackPlugin.options.cdn && htmlWebpackPlugin.options.cdn.css) { %>
+    <link href="<%= htmlWebpackPlugin.options.cdn.css[i] %>" rel="preload" as="style" />
+    <link href="<%= htmlWebpackPlugin.options.cdn.css[i] %>" rel="stylesheet" />
+<% } %>
+
+<% for (var i in htmlWebpackPlugin.options.cdn && htmlWebpackPlugin.options.cdn.js) { %>
+    <script src="<%= htmlWebpackPlugin.options.cdn.js[i] %>"></script>
+<% } %>
+```
+
+```js
+// cdn预加载使用
+const externals = {
+    'vue': 'Vue',
+    'vue-router': 'VueRouter'
+}
+const cdn = {
+    // 开发环境
+    dev: {
+        css: [
+            'https://unpkg.com/element-ui/lib/theme-chalk/index.css'
+        ],
+        js: []
+    },
+    // 生产环境
+    build: {
+        css: [
+            'https://unpkg.com/element-ui/lib/theme-chalk/index.css'
+        ],
+        js: [
+            'https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js',
+            'https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js'
+        ]
+    }
+}
+chainWebpack: config => {
+    config.plugin('html').tap(args => {
+        if (process.env.NODE_ENV === 'production') {
+            args[0].cdn = cdn.build
+        }
+        if (process.env.NODE_ENV === 'development') {
+            args[0].cdn = cdn.dev
+        }
+        return args
+    })
+}
+```
+
+## 开启Gzip，包含js/css
+```js
+new CompressionWebpackPlugin({
+    algorithm: 'gzip', // 算法
+    test: /\.(js|css)$/, // 匹配文件名 
+    threshold: 10000, // 对超过10k的数据进行压缩
+    deleteOriginalAssets: false, // 是否删除源文件
+    minRatio: 0.8, //压缩比
+})
+```
+
+## 去除注释、去掉console.log
+安装 `uglifyjs-webpack-plugin`
+```js
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+new UglifyJsPlugin({
+	uglifyOptions: {
+		output: {
+			comments: false, // 去掉注释
+		},
+		warnings: false,
+		compress: {
+			drop_console: true,
+			drop_debugger: false,
+			pure_funcs: ['console.log'] // 移除console
+		}
+	}
+})
+```
+
+## 压缩图片
+```js
+chainWebpack: config => {
+	// 压缩图片
+	config.module
+		.rule('images')
+		.test(/\.(png|jpe?g|gif|svg)(\?.*)?$/)
+		.use('image-webpack-loader')
+		.loader('image-webpack-loader')
+		.options({ bypassOnDebug: true })
+}
+```
+
+## 本地代理
+```js
+devServer: {
+	open: false, // 自动启动浏览器
+	host: '0.0.0.0', // localhost
+	port: 6060, // 端口号
+	https: false,
+	hotOnly: false, // 热更新
+	proxy: {
+		'^/sso': {
+			target: process.env.VUE_APP_SSO, // 重写路径
+			ws: true, //开启WebSocket
+			secure: false, // 如果是https接口，需要配置这个参数
+			changeOrigin: true
+		}
+	}
+}
+```
+
+## 设置vscode识别别名
+在vscode中插件安装栏搜索 `Path Intellisense` 插件，打开settings.json文件添加 以下代码 "@": "${workspaceRoot}/src"，按以下添加
+
+```js
+{
+	"workbench.iconTheme": "material-icon-theme",
+	"editor.fontSize": 16,
+	"editor.detectIndentation": false,
+	"guides.enabled": false,
+	"workbench.colorTheme": "Monokai",
+	"path-intellisense.mappings": {
+			"@": "${workspaceRoot}/src"
+	}
+}
+```
+在项目package.json所在同级目录下创建文件jsconfig.json
+```js
+{
+	"compilerOptions": {
+			"target": "ES6",
+			"module": "commonjs",
+			"allowSyntheticDefaultImports": true,
+			"baseUrl": "./",
+			"paths": {
+				"@/*": ["src/*"]
+			}
+	},
+	"exclude": [
+			"node_modules"
+	]
+}
+```
+
+## 只打包改变的文件
+```js
+const { HashedModuleIdsPlugin } = require('webpack');
+configureWebpack: config => {	
+	const plugins = [];
+	plugins.push(
+		new HashedModuleIdsPlugin()
+	)
+}
+```
+
+## 分析打包日志
+```js
+// webpack-bundle-analyzer
+chainWebpack: config => {
+	config
+		.plugin('webpack-bundle-analyzer')
+		.use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin)
+}
+```

@@ -757,3 +757,10 @@ export const REACT_STRICT_MODE_TYPE = hasSymbol
   ? Symbol.for('react.strict_mode')
   : 0xeacc;
 ```
+
+## 参考文档
+https://juejin.im/post/6855129007852109837
+
+https://react.jokcy.me/book/api/react.html
+
+http://muyunyun.cn/blog/#/README

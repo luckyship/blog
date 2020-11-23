@@ -1295,7 +1295,7 @@ provide() {
 inject: ['elForm']
 
 
-provide:{
+provide: {
     name: 'cosyer'
 }
 

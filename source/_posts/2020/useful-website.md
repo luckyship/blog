@@ -48,6 +48,12 @@ This page will collect some useful websets.
 ## ps
 - [3d66](https://www.3d66.com/)
 
+### ps2020破解
+https://justcode.ikeepstudying.com/2020/09/photoshop-2020-for-mac-%E5%AE%89%E8%A3%85%E7%A0%B4%E8%A7%A3%E7%89%88%EF%BC%81%EF%BC%882020-09-14-%E4%BA%B2%E6%B5%8B%E5%8F%AF%E7%94%A8%EF%BC%89/
+
+## 命名function
+[I don't know how to name my function](https://namingmyfunction.vercel.app/)
+
 ## 神曲
 - 拔剑神曲 GC-βίος
 - 核爆神曲 AZ-aLIEz MKAlieZ
