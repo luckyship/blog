@@ -2108,6 +2108,8 @@ function foo() {
 function downFile(content, filename) {
     // 创建隐藏的可下载链接
     var eleLink = document.createElement('a');
+    // eleLink.setAttribute("href", "data:text/plain;charset=utf-8," + str);
+    // eleLink.setAttribute("download", +new Date() + ".txt");
     eleLink.download = filename;
     eleLink.style.display = 'none';
     // 字符内容转变成blob地址
@@ -3455,12 +3457,6 @@ for(const key in object) {
 encodeURIComponent(window.location.href.split('#')[0])
 ```
 
-## simple-icons
-
-![github](https://cdn.jsdelivr.net/npm/simple-icons@3.1.0/icons/github.svg)
-
-![github](http://simpleicons.p2hp.com/icons/github.svg)
-
 ## Promise题目
 ```js
 Promise.resolve(1).then(2).then(Promise.resolve(3)).then(console.log)
@@ -3531,6 +3527,17 @@ hide=contribs,prs)
 ```html
 <img src="https://github-profile-trophy.vercel.app/?username=cosyer&theme=flat&column=3&margin-w=10&title=Stars,Commit,Issues" alt="logo" height="160" align="center" />
 ```
+
+## simple-icons
+![github](https://cdn.jsdelivr.net/npm/simple-icons@3.1.0/icons/github.svg)
+
+![github](http://simpleicons.p2hp.com/icons/github.svg)
+
+## github emoji
+[slackmojis](https://slackmojis.com/)
+
+## github badge
+![](https://img.shields.io/badge/github-cosyer-brightgreen.svg)
 
 ## 萌萌计数器
 ![cosyer](https://count.getloli.com/get/@:cosyer)
