@@ -67,6 +67,7 @@ $$('*').map(x => x.style.border = '1px solid')
 ```javascript
 Math.random().toString(16).substring(2)  // 0e7a48ca4bec3
 Math.random().toString(36).substring(2)  // s2ue8xvgu7a
+Math.random().toString(36).slice(-4) // 69ax
 ```
 
 ### 这样的判断你能做对吗
