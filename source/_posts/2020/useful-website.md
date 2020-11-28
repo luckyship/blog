@@ -57,6 +57,18 @@ https://justcode.ikeepstudying.com/2020/09/photoshop-2020-for-mac-%E5%AE%89%E8%A
 ## 命名function
 [I don't know how to name my function](https://namingmyfunction.vercel.app/)
 
+## 在线生成ascii字符画
+### 根据文字生成字符画：
+- http://patorjk.com/software/taag
+- http://www.network-science.de/ascii/
+
+### 根据图片生成字符画：
+- http://www.degraeve.com/img2txt.php
+http://life.chacuo.net/convertphoto2char
+
+### 根据流程图生成字符画：
+- http://asciiflow.com/
+
 ## 神曲
 - 拔剑神曲 GC-βίος
 - 核爆神曲 AZ-aLIEz MKAlieZ
