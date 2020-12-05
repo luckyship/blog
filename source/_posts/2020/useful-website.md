@@ -69,6 +69,12 @@ http://life.chacuo.net/convertphoto2char
 ### 根据流程图生成字符画：
 - http://asciiflow.com/
 
+## github中文区排行榜
+[github中文区排行榜](https://jaywcjlove.gitee.io/github-rank/users.china.html)
+
+## idea 中相见恨晚的技巧
+[idea 中相见恨晚的技巧](https://atips.cn/idea/)
+
 ## 神曲
 - 拔剑神曲 GC-βίος
 - 核爆神曲 AZ-aLIEz MKAlieZ

@@ -70,6 +70,14 @@ Math.random().toString(36).substring(2)  // s2ue8xvgu7a
 Math.random().toString(36).slice(-4) // 69ax
 ```
 
+```js
+function generateRandomAlphaNum(len) {
+    var rdmString = "";
+    for (; rdmString.length < len; rdmString += Math.random().toString(36).substr(2));
+    return rdmString.substr(0, len);
+}
+```
+
 ### 这样的判断你能做对吗
 ```javascript
 (10)["toString"]() === "10" // true

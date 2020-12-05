@@ -13,7 +13,7 @@ photos:
 
 ##  预安装JDK
 
-[Linux系统（Centos）下安装Java环境](https://www.cnblogs.com/cosyer/p/7827995.html)
+[Linux系统（Centos yum）下安装Java环境](https://www.cnblogs.com/cosyer/p/7827995.html)
 
 ## elasticsearch
 

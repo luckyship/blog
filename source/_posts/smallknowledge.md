@@ -2583,6 +2583,33 @@ filter 是滤镜的意思，filter:gray 的意思就是说给页面加上一个�
 ![黑白色](http://cdn.mydearest.cn/blog/images/grayFilter.png)
 
 
+## 文字模糊
+```css
+color: transparent;
+text-shadow: #111 0 0 5px;
+```
+
+## 毛玻璃
+```css
+.blur {
+    display: block;
+    width: 300px;
+    height: 300px;
+    margin: 100px auto;
+    filter: blur(10px);
+}
+```
+
+## 多重边框
+```css
+div {
+    box-shadow: 0 0 0 6px rgba(0, 0, 0, 0.2), 0 0 0 12px rgba(0, 0, 0, 0.2), 0 0 0 18px rgba(0, 0, 0, 0.2), 0 0 0 24px rgba(0, 0, 0, 0.2);
+    height: 200px;
+    margin: 50px auto;
+    width: 400px
+}
+```
+
 ## 黑幕效果
 ```css
 .heimu, .heimu a, a .heimu, .heimu a.new {
