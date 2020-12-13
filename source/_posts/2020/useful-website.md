@@ -75,6 +75,9 @@ http://life.chacuo.net/convertphoto2char
 ## idea 中相见恨晚的技巧
 [idea 中相见恨晚的技巧](https://atips.cn/idea/)
 
+## 沙雕
+[沙雕](https://shadiao.app/)
+
 ## 神曲
 - 拔剑神曲 GC-βίος
 - 核爆神曲 AZ-aLIEz MKAlieZ
