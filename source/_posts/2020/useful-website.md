@@ -21,7 +21,10 @@ This page will collect some useful websets.
   * [Auto-comment](https://probot.github.io/apps/auto-comment/)
   * [pull](https://probot.github.io/apps/pull/)
   * [delete-merged-branch](https://github.com/svanboxel/delete-merged-branch)
-  * [stale](https://probot.github.io/apps/stale/): use
+  * [stale](https://probot.github.io/apps/stale/)
+
+---
+<!--more-->
 
 ## 办公工具
 - [wiki](https://www.atlassian.com/software/confluence)

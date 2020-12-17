@@ -3702,3 +3702,15 @@ if(str === '' || str.trim() === ''){
   }
 },
 ```
+
+## 带分隔线的button
+```css
+.pl-textbtn {
+  font-size: 10px !important;
+  -webkit-box-shadow: 1px 0 0 #DCDFE6;
+  box-shadow: 1px 0 0 #DCDFE6;
+  border-radius: 0 !important;
+  padding: 3px 5px !important;
+  margin-left: 0 !important;
+}
+```
