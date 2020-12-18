@@ -107,15 +107,15 @@ copyright: true
             </a>
         </li>
         <li class="per-links-item">
-            <a href="https://jwchan.cn/" class="group-picture" title="我爱盐酥鸡" target="_blank">
-                <img class="per-links-icon" src="https://jwchan.cn/images/avatar.jpg" alt="">
-                <h3 class="per-links-title">我爱盐酥鸡</h3>
-                <p class="per-links-des">最喜欢小肥柴了嘻嘻</p>
+            <a href="https://jwchan.cn/" class="group-picture" title="飘香豆腐の博客" target="_blank">
+                <img class="per-links-icon" src="https://jwchan.cn/logo.png" alt="">
+                <h3 class="per-links-title">飘香豆腐の博客</h3>
+                <p class="per-links-des">我爱盐酥鸡</p>
             </a>
         </li>
          <li class="per-links-item">
             <a href="http://www.zeee.vip/app/home/index/index.html" class="group-picture" title="首页_蒋金泽_蒋金泽的博客" target="_blank">
-                <img class="per-links-icon" 
+                <img class="per-links-icon"
                 src="http://www.zeee.vip/app/application/public/home/img/duo.jpg" alt="">
                 <h3 class="per-links-title">蒋金泽</h3>
                 <p class="per-links-des">家住海邊，喜歡浪。</p>

@@ -1516,6 +1516,12 @@ Vue已经非常小了，在运行时（runtime）压缩后大约 20kb 。 但我
 使用 Time Slicing，将 JS 的执行分解为几个部分，如果有用户交互需要处理，这些部分将提供给浏览器。
 
 ### element-ui使用中遇到的坑
-1. 不支持v-model修饰符导致如果使用.trim当数据拼接了' '后，第一次点击数据中间编辑，光标会调到末尾
+1. 不支持v-model修饰符导致如果使用.trim当数据拼接了' '后，第一次点击数据中间编辑，光标会跳到末尾
 
 2. el-table当注入的data经过过滤，所对应的$index还是原来的，导致删除splice对应的index不准确
+
+3. 在disabled的button上使用Tooltip失效， el-tooltip不显示(disable属性)
+
+4. input-number 输入精度precision 既要编辑又要显示超出最小值
+
+5. 页面刷新、局部刷新
