@@ -3714,3 +3714,9 @@ if(str === '' || str.trim() === ''){
   margin-left: 0 !important;
 }
 ```
+
+## mysql varchar字段过长被截断
+mysql在配置文件my.cnf中有一个配置项
+[mysqld]
+sql-mode = "xx_mode" sql-mode中有STRICT_TRANS_TABLES是在数据超长的情况下会插入失败，当删除这个限制时，插入超长会MySQL会
+自动截断超长的字段
