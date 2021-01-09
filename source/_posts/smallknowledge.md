@@ -3720,3 +3720,85 @@ mysql在配置文件my.cnf中有一个配置项
 [mysqld]
 sql-mode = "xx_mode" sql-mode中有STRICT_TRANS_TABLES是在数据超长的情况下会插入失败，当删除这个限制时，插入超长会MySQL会
 自动截断超长的字段
+
+## 浏览器发送通知
+```js
+function notifyMe() {
+  // 先检查浏览器是否支持
+  if (!("Notification" in window)) {
+    alert("This browser does not support desktop notification");
+  }
+
+  // 检查用户是否同意接受通知
+  else if (Notification.permission === "granted") {
+    // If it's okay let's create a notification
+    var notification = new Notification("Hi there!");
+  }
+
+  // 否则我们需要向用户获取权限
+  else if (Notification.permission !== "denied") {
+    Notification.requestPermission().then(function (permission) {
+      // 如果用户接受权限，我们就可以发起一条消息
+      if (permission === "granted") {
+        var notification = new Notification("Hi there!");
+      }
+    });
+  }
+  // 最后，如果执行到这里，说明用户已经拒绝对相关通知进行授权
+  // 出于尊重，我们不应该再打扰他们了
+}
+```
+
+## 文件大小转化
+```js
+function binaryFormatter(input) {
+  const unitArr = [
+    ['B', 'BYTE'],
+    ['KB', 'KI', 'KIB', 'K'],
+    ['MB', 'MI', 'MIB', 'M'],
+    ['GB', 'GI', 'GIB', 'G'],
+    ['TB', 'TI', 'TIB', 'T'],
+    ['PB', 'PI', 'PIB', 'P'],
+    ['EB', 'EI', 'EIB', 'E'],
+    ['ZB', 'ZI', 'ZIB', 'Z'],
+    ['YB', 'YI', 'YIB', 'Y']
+  ]
+  const k = 1024
+  const dm = 2
+  const pattern = /^(-?)(\d+(\.\d+)?)([A-Z]*)$/
+  const exponentialPattern = /[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)/
+
+  const inputStr = String(input).toUpperCase().replace(/\s+/g, '')
+
+  if (exponentialPattern.test(inputStr)) { // 如果是科学计数法数字
+    return cleverToFixed(input)
+  }
+
+  if (!pattern.test(inputStr)) {
+    return input
+  }
+
+  const splitOperator = pattern.exec(inputStr)[1]
+  const splitNumber = pattern.exec(inputStr)[2]
+  const splitUnit = pattern.exec(inputStr)[4]
+
+  let inputBytes
+  if (splitUnit === '') {
+    inputBytes = Math.round(parseFloat(splitNumber))
+  } else {
+    const unitIndex = findIndex(unitArr, (o) => {
+      if (indexOf(o, splitUnit) > -1) {
+        return o
+      }
+    })
+    if (unitIndex === -1) {
+      return inputStr
+    }
+    inputBytes = Math.round(parseFloat(splitNumber)) * Math.pow(k, unitIndex)
+  }
+
+  const i = inputBytes === 0 ? 0 : Math.floor(Math.log(inputBytes) / Math.log(k))
+  const op = splitOperator === '-' ? -1 : 1
+  return op * parseFloat((inputBytes / Math.pow(k, i)).toFixed(dm)) + unitArr[i][0]
+}
+```
