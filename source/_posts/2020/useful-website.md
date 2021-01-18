@@ -73,6 +73,7 @@ http://life.chacuo.net/convertphoto2char
 - http://asciiflow.com/
 
 ## github中文区排行榜
+[代码仓库](https://github.com/jaywcjlove/github-rank)
 [github中文区排行榜](https://jaywcjlove.gitee.io/github-rank/users.china.html)
 
 ## idea 中相见恨晚的技巧
