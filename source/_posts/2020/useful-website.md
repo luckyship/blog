@@ -82,6 +82,10 @@ http://life.chacuo.net/convertphoto2char
 ## 沙雕
 [沙雕](https://shadiao.app/)
 
+## PPT
+- [优品PPT](http://www.ypppt.com/)
+- [第一PPT](http://www.1ppt.com/)
+
 ## 神曲
 - 拔剑神曲 GC-βίος
 - 核爆神曲 AZ-aLIEz MKAlieZ
