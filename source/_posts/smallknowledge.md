@@ -3802,3 +3802,8 @@ function binaryFormatter(input) {
   return op * parseFloat((inputBytes / Math.pow(k, i)).toFixed(dm)) + unitArr[i][0]
 }
 ```
+
+## 每隔12个字符插入换行符
+```js
+''.replace(/.{12}/gm,"$&\r\n")
+```
