@@ -3807,3 +3807,8 @@ function binaryFormatter(input) {
 ```js
 ''.replace(/.{12}/gm,"$&\r\n")
 ```
+
+## 修复移动硬盘
+```bash
+chkdsk F: /f
+```
