@@ -88,6 +88,9 @@ http://life.chacuo.net/convertphoto2char
 - [优品PPT](http://www.ypppt.com/)
 - [第一PPT](http://www.1ppt.com/)
 
+## 终端比较
+- https://www.v2ex.com/t/642177
+
 ## 神曲
 - 拔剑神曲 GC-βίος
 - 核爆神曲 AZ-aLIEz MKAlieZ
