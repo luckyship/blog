@@ -91,6 +91,9 @@ http://life.chacuo.net/convertphoto2char
 ## 终端比较
 - https://www.v2ex.com/t/642177
 
+## mac软件下载
+- https://www.softpedia.com/
+
 ## 神曲
 - 拔剑神曲 GC-βίος
 - 核爆神曲 AZ-aLIEz MKAlieZ

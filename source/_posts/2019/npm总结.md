@@ -348,3 +348,29 @@ sudo n
 # 更新node到最新版本
 sudo npm install npm@latest -g
 ```
+
+### yarn link
+两个或多个项目之间相互依赖时，可以使用yarn link将一个项目链接到另一个项目
+
+```bash
+# 进入B项目，创建链接对象
+yarn link
+# 进入A项目，建立B项目的链接
+yarn link B
+# 解除链接
+yarn unlink B
+```
+
+### yalc
+yalc是一个比 `npm | yarn link` 更加先进的解决方法，能够避免相关依赖的问题。
+- yalc在本地环境中创建了一个共享的本地开发包的本地存储库
+- 当在指定包目录中运行 `yalc publish` 时，会将本来发布到npm上的相关文件放到本地一个共享的全局存储中
+- 当在需要引用的项目中运行 `yarn add my-package`时，它会将包内容拉入根目录的.yalc文件夹中，并将文件`"file:./yalc/my-package"`注入package-json。如果使用`yalc link my-package`的话，会创建项目软链接，不会修改package.json
+- yalc会在项目中创建一个特殊的yalc.lock文件，用于确保执行yalc例程时的一致性
+
+```bash
+yarn global add yalc
+yalc publish
+yalc add my-package
+yalc install
+```
