@@ -94,6 +94,9 @@ http://life.chacuo.net/convertphoto2char
 ## mac软件下载
 - https://www.softpedia.com/
 
+## emoji
+- https://emoji.svend.cc/
+
 ## 神曲
 - 拔剑神曲 GC-βίος
 - 核爆神曲 AZ-aLIEz MKAlieZ

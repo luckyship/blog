@@ -2106,21 +2106,48 @@ function foo() {
 ## 前端h5 download属性下载文件(appendChild兼容firefox)
 ```js
 function downFile(content, filename) {
-    // 创建隐藏的可下载链接
-    var eleLink = document.createElement('a');
-    // eleLink.setAttribute("href", "data:text/plain;charset=utf-8," + str);
-    // eleLink.setAttribute("download", +new Date() + ".txt");
-    eleLink.download = filename;
-    eleLink.style.display = 'none';
-    // 字符内容转变成blob地址
-    var blob = new Blob([content]);
-    eleLink.href = URL.createObjectURL(blob);
-    // 触发点击
-    document.body.appendChild(eleLink);
-    eleLink.click();
-    // 然后移除
-    document.body.removeChild(eleLink);
+  // 创建隐藏的可下载链接
+  var eleLink = document.createElement('a');
+  // eleLink.setAttribute("href", "data:text/plain;charset=utf-8," + str);
+  // eleLink.setAttribute("download", +new Date() + ".txt");
+  eleLink.download = filename;
+  eleLink.style.display = 'none';
+  // 字符内容转变成blob地址
+  var blob = new Blob([content]);
+  eleLink.href = URL.createObjectURL(blob);
+  // 触发点击
+  document.body.appendChild(eleLink);
+  eleLink.click();
+  // 然后移除
+  document.body.removeChild(eleLink);
 };
+```
+```js
+// 模拟点击 a 链接
+const triggerClick = (node: HTMLElement) => {
+  try {
+    if (document.createEvent) {
+      const evt = document.createEvent('MouseEvents')
+      evt.initEvent('click', true, false)
+      node.dispatchEvent(evt)
+    } else if ((document as any).createEventObject) {
+      (node as any).fireEvent('onclick')
+    }
+  } catch (e) {
+    node.click()
+  } 
+}
+// 多url批量下载
+const download = (url) => {
+  var iframe = document.createElement('iframe') //  先创建一个iframe 标签
+  iframe.style.display = 'none' // 不能在页面中被看到
+  iframe.style.height = '0px'  // 给个0的高度
+  iframe.src = url  // 关联上下载地址
+  document.body.appendChild(iframe) // 绑定在body上才能发挥作用
+  setTimeout(() => { 
+    iframe.remove() // iframe 没有onload事件，只能放在setTimeout里清除了，时间稍微大一点，免得zip包太大还没有下载完。
+  }, 5000)
+}
 ```
 
 ## 禁止滚动条滚动

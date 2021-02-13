@@ -1531,3 +1531,7 @@ Vue已经非常小了，在运行时（runtime）压缩后大约 20kb 。 但我
 7. 分页删除
 
 8. abort上个页面的接口
+
+9. Input Number计数器触控板点击bug https://github.com/ElemeFE/element/issues/19088
+
+10. hterm火狐浏览器发生嵌套 https://github.com/dbkaplun/hterm-umdjs/issues/6
