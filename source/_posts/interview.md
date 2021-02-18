@@ -2461,8 +2461,9 @@ transition: transform 2s ease,border-radius 3s ease-out;
 
 `calc属性使用户可以动态计算长度值。任何长度值都可以使用calc()函数来计算`
 
-## 快速下载git
+## 快速下载git、nodejs
 https://npm.taobao.org/mirrors/git-for-windows/
+https://npm.taobao.org/mirrors/node/
 科学计数法 1e3 === 1000
 
 ## 双边距重叠问题（外边距折叠）

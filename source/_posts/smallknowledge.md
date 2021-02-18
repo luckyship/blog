@@ -3839,3 +3839,8 @@ function binaryFormatter(input) {
 ```bash
 chkdsk F: /f
 ```
+
+## 解决 primordials is not defined 问题
+> 在安装npm依赖的时候碰到了ReferenceError: primordials is not defined的问题
+原因`安装gulp版本与node版本不兼容`
+[stackoverflow给出的方法是回退node版本或升级gulp版本](https://stackoverflow.com/q/55921442/6304805)

@@ -374,3 +374,59 @@ yalc publish
 yalc add my-package
 yalc install
 ```
+
+### nvm安装和使用
+- 安装
+```bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
+```
+
+or
+
+```bash
+wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
+```
+
+- 修改`.bash_profile`
+```bash
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+```
+
+- 保存生效
+```bash
+source .bash_profile
+```
+
+- 使用
+```bash
+nvm install stable # 安装最新稳定版 node，现在是 5.0.0
+nvm install 4.2.2 # 安装 4.2.2 版本
+nvm install 0.12.7 # 安装 0.12.7 版本
+
+# 特别说明：以下模块安装仅供演示说明，并非必须安装模块
+nvm use 4 # 切换至 4.2.2 版本
+npm install -g mz-fis # 安装 mz-fis 模块至全局目录，安装完成的路径是 /Users/<你的用户名>/.nvm/versions/node/v0.12.7/lib/mz-fis
+nvm use 0 # 切换至 0.12.7 版本
+npm install -g react-native-cli #安装 react-native-cli 模块至全局目录，安装完成的路径是 /Users/<你的用户名>/.nvm/versions/node/v4.2.2/lib/react-native-cli
+
+nvm alias default 0.12.7 #设置默认 node 版本为 0.12.7
+
+nvm ls #列出已安装实例
+nvm ls-remote #列出远程服务器上所有的可用版本
+nvm ls available #windows
+```
+
+### npx 运行文件夹下的module(npm 从v5.2开始，增加了 npx 命令)
+npx 想要解决的主要问题，就是调用项目内部安装的模块。一般来说，调用 Mocha ，只能在项目脚本和 package.json 的scripts字段里面， 如果
+想在命令行下调用，必须像下面这样。
+
+```bash
+# 项目的根目录下执行
+node-modules/.bin/mocha --version
+
+# 使用npx
+npx mocha --version
+```
+
+`npx 的原理很简单，就是运行的时候，会到node_modules/.bin路径和环境变量$PATH里面，检查命令是否存在。`
