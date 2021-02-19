@@ -97,6 +97,10 @@ http://life.chacuo.net/convertphoto2char
 ## emoji
 - https://emoji.svend.cc/
 
+## 取名
+- https://github.com/yincunvhun/entityRecognition/tree/67db6a55c70604d6c965f7b6ce5f22794fac8e4e/EntityRecognition/
+Data
+
 ## 神曲
 - 拔剑神曲 GC-βίος
 - 核爆神曲 AZ-aLIEz MKAlieZ
