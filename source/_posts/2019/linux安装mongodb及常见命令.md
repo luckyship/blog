@@ -67,6 +67,9 @@ nohup mongod -f /usr/local/mongodb/mongodb.conf > myLog.log 2>&1 &
 
 ### 设置用户和命令
 ```shell
+## 权限登录
+mongo admin -u cosyer -p xxx
+
 ## 创建管理员
 mongo
 
