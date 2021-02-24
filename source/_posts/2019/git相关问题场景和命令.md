@@ -368,7 +368,9 @@ git push
 
 #### 基本步骤
 - 1. git log查看所有commit的情况，找到自己想要合并的commit之前的那个commit的ssh码(前7位)；
-- 2. git rebase -i 43jk2l3，这样会弹出一个文本编辑器；git reset --soft  
+- 2. git rebase -i 43jk2l3，这样会弹出一个文本编辑器；
+撤销commit
+git reset --soft  
 HEAD^ 上个commit 
 ^^上上个commit
 HEAD~2 最近2次的提交
