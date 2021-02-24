@@ -368,7 +368,10 @@ git push
 
 #### 基本步骤
 - 1. git log查看所有commit的情况，找到自己想要合并的commit之前的那个commit的ssh码(前7位)；
-- 2. git rebase -i 43jk2l3ba343，这样会弹出一个文本编辑器；git reset --soft  HEAD^ 上个commit ^^上上个commit HEAD~6；
+- 2. git rebase -i 43jk2l3，这样会弹出一个文本编辑器；git reset --soft  
+HEAD^ 上个commit 
+^^上上个commit
+HEAD~2 最近2次的提交
 - 3. 修改pick为squash会将这个commit合并到前一个commit中，保存退出；
 - 4. 提示写下新的commit message，之前的message可以用#注释掉，保存退出；
 - 5. 此时再git log就会发现，两个commit被合并到一个commit中。
