@@ -401,6 +401,14 @@ export NVM_DIR="$HOME/.nvm"
 source ~/.bash_profile
 ```
 
+- 常见问题(Mac 每次都要执行source ~/.bash_profile 后，配置的环境变量才生效)
+  - 原因没有使用默认shell，比如zsh echo $SHELL
+  - 解决办法
+1. 进入主目录     cd ~
+2. 显示隐藏文件，找到.zshrc文件夹  ls -a(如果没有可以只直接创建)
+3. 编辑文件   vi .zshrc
+4. 按i进入编辑模式，加入source ~/.bash_profile后，esc，再输入：wq保存退出
+
 - 使用
 ```bash
 nvm install stable # 安装最新稳定版 node，现在是 5.0.0
@@ -418,6 +426,14 @@ nvm alias default 0.12.7 #设置默认 node 版本为 0.12.7
 nvm ls #列出已安装实例
 nvm ls-remote #列出远程服务器上所有的可用版本
 nvm ls available #windows
+```
+
+- 卸载
+```bash
+# 删除nvm
+cd ~
+rm -rf .nvm
+# 移除掉~/.profile, ~/.bash_profile, ~/.zshrc, ~/.bashrc文件中关于nvm的配置
 ```
 
 ### npx 运行文件夹下的module(npm 从v5.2开始，增加了 npx 命令)
