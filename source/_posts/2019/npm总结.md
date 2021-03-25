@@ -314,6 +314,11 @@ npm install -g cnpm --registry=https://registry.npm.taobao.org
 
 // 还原
 npm config set registry https://registry.npmjs.org
+
+// 处理一些包下载
+npm install chromedriver --chromedriver_cdnurl=http://cdn.npm.taobao.org/dist/chromedriver
+npm config set sass_binary_site=https://npm.taobao.org/mirrors/node-sass/
+
 ```
 
 ### mac更新node版本
