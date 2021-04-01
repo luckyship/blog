@@ -101,14 +101,14 @@ ls ~/.oh-my-zsh/themes
 
 ## 安装 Powerline
 ```bash
+# 若显示没有 pip,先安装pip
+sudo easy_install pip
+
 # 1、检测是否已经安装，若有版本信息则已安装
 pip show powerline-status
 
 # 2、将 powerline-status 安装在/usr/根目录中
 pip install --user powerline-status
-
-# 上一步若显示没有 pip,先安装pip
-sudo easy_install pip
 
 # 卸载
 pip uninstall powerline-status
@@ -183,3 +183,10 @@ http://mimosa-pudica.net/src/incr-0.2.zsh
 vim .zshrc
 source ~/.oh-my-zsh/plugins/incr/incr*.zsh
 ```
+
+## homebrew安装
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+- https://github.com/oldj/SwitchHosts
