@@ -49,7 +49,7 @@ This page will collect some useful websets.
 - [extfans](https://www.extfans.com/)
 
 ## 动画特效
-[Mars Player](https://render.alipay.com/p/s/mars-editor/)
+- [Mars Player](https://render.alipay.com/p/s/mars-editor/)
 
 ## ps
 - [3d66](https://www.3d66.com/)
@@ -67,22 +67,24 @@ https://justcode.ikeepstudying.com/2020/09/photoshop-2020-for-mac-%E5%AE%89%E8%A
 
 ### 根据图片生成字符画：
 - http://www.degraeve.com/img2txt.php
-http://life.chacuo.net/convertphoto2char
-
+- http://life.chacuo.net/convertphoto2char
 - https://css-doodle.com/
 
 ### 根据流程图生成字符画：
 - http://asciiflow.com/
 
 ## github中文区排行榜
-[代码仓库](https://github.com/jaywcjlove/github-rank)
-[github中文区排行榜](https://jaywcjlove.gitee.io/github-rank/users.china.html)
+- [代码仓库](https://github.com/jaywcjlove/github-rank)
+- [github中文区排行榜](https://jaywcjlove.gitee.io/github-rank/users.china.html)
 
-## idea 中相见恨晚的技巧
-[idea 中相见恨晚的技巧](https://atips.cn/idea/)
+## idea中相见恨晚的技巧
+- [idea中相见恨晚的技巧](https://atips.cn/idea/)
+- [idea破解](https://www.yht7.com/idea)
+- [idea插件IDE-Eval-Reset重置试用期30天](https://zhile.io/2020/11/18/jetbrains-eval-reset-da33a93d.html)
+- [github](https://github.com/osvax/ide-eval-resetter)
 
 ## 沙雕
-[沙雕](https://shadiao.app/)
+- [沙雕](https://shadiao.app/)
 
 ## PPT
 - [优品PPT](http://www.ypppt.com/)
@@ -93,13 +95,21 @@ http://life.chacuo.net/convertphoto2char
 
 ## mac软件下载
 - https://www.softpedia.com/
+- https://en.softonic.com/
+- http://www.sdifen.com/
+- https://www.macwk.com/
+
+## 判断是否支持苹果M1芯片
+- https://isapplesiliconready.com/zh/app/Tower
 
 ## emoji
 - https://emoji.svend.cc/
 
 ## 取名
 - https://github.com/yincunvhun/entityRecognition/tree/67db6a55c70604d6c965f7b6ce5f22794fac8e4e/EntityRecognition/
-Data
+
+## 变量命名
+- https://unbug.github.io/codelf/
 
 ## 神曲
 - 拔剑神曲 GC-βίος
