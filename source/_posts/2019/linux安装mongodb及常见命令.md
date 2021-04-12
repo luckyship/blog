@@ -25,7 +25,7 @@ curl -O https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-3.6.5.tgz
 tar -zxvf mongodb-linux-x86_64-3.6.5.tgz 
 
 ## 移动到指定目录
-mv  mongodb-linux-x86_64-3.6.5/ /usr/local/mongodb
+mv mongodb-linux-x86_64-3.6.5/ /usr/local/mongodb
 
 ## MongoDB 的可执行文件位于 bin 目录下，所以可以将其添加到 PATH 路径中：当前终端有效(可跳过)
 export PATH=/usr/local/mongodb/bin:$PATH
@@ -158,3 +158,6 @@ go env
 go version
 ```
 - [Go系列](https://eddycjy.com/go-categories/)
+
+## 安装java
+- https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html

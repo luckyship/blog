@@ -1,5 +1,5 @@
 ---
-title: windows安装mysql
+title: 安装mysql
 tags:
   - mysql
 copyright: true
@@ -9,6 +9,7 @@ categories: 工具
 top: 104
 photos:
 ---
+# windows
 
 ## 安装包下载
 
@@ -127,3 +128,32 @@ quit;
 ```
 
 9. 关闭上面打开的两个cmd窗口，重新启动MySQL服务。
+
+# mac
+
+## 环境变量
+
+```bash
+vim ~/.bash_profile
+
+export PATH=$PATH:/usr/local/mysql/bin
+export PATH=$PATH:/usr/local/mysql/support-files
+
+source ~/.bash_profile 
+echo $PATH
+```
+
+## MySQL服务的启停和状态的查看
+```bash
+# 启动
+sudo mysql.server start
+
+# 停止
+sudo mysql.server stop
+
+# 重启
+sudo mysql.server restart
+
+# 服务状态
+sudo mysql.server status
+```

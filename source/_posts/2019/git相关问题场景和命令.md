@@ -380,9 +380,9 @@ HEAD~2 最近2次的提交
 
 ### 修改push到远程的commit
 - git log
-- git rebase -i 
+- git rebase -i Head~8
 - pick修改为edit
-- git commit --amend 修改新的commit message保存
+- git commit --amend 修改新的commit message保存 (修改作者信息 --author "cosyer <xxx@xxx.com>")
 - git rebase --continue // 处理完合并后 然后git push -f
 - git push -f
 
