@@ -383,7 +383,7 @@ HEAD~2 最近2次的提交
 - git rebase -i Head~8
 - pick修改为edit
 - git commit --amend 修改新的commit message保存 (修改作者信息 --author "cosyer <xxx@xxx.com>")
-- git rebase --continue // 处理完合并后 然后git push -f
+- git rebase --continue // 处理完合并后 然后git push -f 同理git merge --continue
 - git push -f
 
 ### Commit message 前缀规范提要
@@ -467,3 +467,6 @@ git log --oneline | wc -l
 - [gitkraken](https://www.gitkraken.com/)
 - [git-fork](https://www.git-fork.com/)
 - [gitup](https://gitup.co/)
+
+### 练习
+- [Git 命令可视化学习](https://github.com/pcottle/learnGitBranching)
